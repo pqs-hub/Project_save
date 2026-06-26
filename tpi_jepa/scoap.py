@@ -56,37 +56,48 @@ def _other_fanin_cost(gate: str, fin: list[int], skip: int, cc0: torch.Tensor, c
     return float(torch.minimum(cc0[others], cc1[others]).sum().item())
 
 
+def _topological_order(graph: GraphData) -> list[int]:
+    """Return a fanin-before-fanout order when the graph is acyclic."""
+
+    indegree = [len(fanins) for fanins in graph.fanin_lists]
+    queue = [idx for idx, degree in enumerate(indegree) if degree == 0]
+    order: list[int] = []
+    cursor = 0
+    while cursor < len(queue):
+        node = queue[cursor]
+        cursor += 1
+        order.append(node)
+        for dst in graph.fanout_lists[node]:
+            indegree[dst] -= 1
+            if indegree[dst] == 0:
+                queue.append(dst)
+    if len(order) == graph.num_nodes:
+        return order
+    return list(range(graph.num_nodes))
+
+
 def compute_scoap_proxy(graph: GraphData) -> torch.Tensor:
     """Return normalized `[cc0, cc1, co]` features."""
 
     n = graph.num_nodes
     cc0 = torch.ones(n, dtype=torch.float32)
     cc1 = torch.ones(n, dtype=torch.float32)
+    order = _topological_order(graph)
 
-    for _ in range(max(1, min(64, n))):
-        new0 = cc0.clone()
-        new1 = cc1.clone()
-        for node in range(n):
-            gate = _gate_name(graph, node)
-            v0, v1 = _cc_update(gate, graph.fanin_lists[node], cc0, cc1)
-            new0[node] = min(v0, 1_000.0)
-            new1[node] = min(v1, 1_000.0)
-        if torch.equal(new0, cc0) and torch.equal(new1, cc1):
-            break
-        cc0, cc1 = new0, new1
+    for node in order:
+        gate = _gate_name(graph, node)
+        v0, v1 = _cc_update(gate, graph.fanin_lists[node], cc0, cc1)
+        cc0[node] = min(v0, 1_000.0)
+        cc1[node] = min(v1, 1_000.0)
 
     co = torch.full((n,), 1_000.0, dtype=torch.float32)
     co[graph.output_mask] = 0.0
-    for _ in range(max(1, min(64, n))):
-        new_co = co.clone()
-        for src in range(n):
-            for dst in graph.fanout_lists[src]:
-                gate = _gate_name(graph, dst)
-                side = _other_fanin_cost(gate, graph.fanin_lists[dst], src, cc0, cc1)
-                new_co[src] = min(float(new_co[src].item()), float(co[dst].item()) + side + 1.0)
-        if torch.equal(new_co, co):
-            break
-        co = new_co
+    for dst in reversed(order):
+        gate = _gate_name(graph, dst)
+        dst_co = float(co[dst].item())
+        for src in graph.fanin_lists[dst]:
+            side = _other_fanin_cost(gate, graph.fanin_lists[dst], src, cc0, cc1)
+            co[src] = min(float(co[src].item()), dst_co + side + 1.0)
 
     raw = torch.stack(
         [

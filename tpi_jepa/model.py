@@ -310,6 +310,7 @@ class TPIWorldModel(nn.Module):
         action_node_id: int,
         action_type_id: int | torch.Tensor,
         relation_features: torch.Tensor,
+        include_aux_heads: bool = True,
     ) -> dict[str, torch.Tensor]:
         """Predict the next latent state from an already-encoded current state."""
 
@@ -328,19 +329,25 @@ class TPIWorldModel(nn.Module):
             z_pred = z_update
         summary = self._summary(z_pred, action_node_id, relation_features)
         reward_pred = self.reward_head(summary).view(())
-        return {
+        out = {
             "z_pred": z_pred,
-            "scoap_pred": self.scoap_head(z_pred),
             "reward_pred": reward_pred,
             "fc_pred": reward_pred,
             "pattern_pred": self.pattern_head(summary).view(()),
             "score_pred": reward_pred,
             "return_pred": self.return_head(summary).view(()),
             "hard_reduction_pred": self.hard_reduction_head(summary),
-            "delta_scoap_pred": self.delta_scoap_head(z_pred),
-            "hard_logits": self._hard_logits(z_pred, relation_features),
-            "hard_count_pred": self._hard_count(z_pred, relation_features),
         }
+        if include_aux_heads:
+            out.update(
+                {
+                    "scoap_pred": self.scoap_head(z_pred),
+                    "delta_scoap_pred": self.delta_scoap_head(z_pred),
+                    "hard_logits": self._hard_logits(z_pred, relation_features),
+                    "hard_count_pred": self._hard_count(z_pred, relation_features),
+                }
+            )
+        return out
 
     def _hard_logits(self, z: torch.Tensor, relation_features: torch.Tensor) -> torch.Tensor:
         if isinstance(self.hard_head, ResidualHardHead):

@@ -20,6 +20,7 @@ LOWTC_LABEL_ROOT = DEFAULT_DFT_ROOT / "Dataset/atalanta_bist_lowtc_subckt_100k_l
 BENCH_ROOTS = [
     *(Path(root) for root in os.environ.get("TPI_BENCH_ROOT", "").split(os.pathsep) if root),
     LOWTC_LABEL_ROOT / "subcircuits",
+    DEFAULT_DFT_ROOT / "Dataset/deeptpi_official_aig_bench_standard",
 ]
 RAW_TO_ACTION = {"CP0": "control0", "CP1": "control1", "OP": "observe"}
 

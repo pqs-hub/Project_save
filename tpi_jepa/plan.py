@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import json
 import os
 from collections import deque
 from dataclasses import dataclass
@@ -36,6 +38,7 @@ PLAN_FIELDNAMES = [
     "fc_pred",
     "pattern_pred",
     "return_pred",
+    "guarded_reward",
     "step_value",
     "sequence_score",
     "lookahead_score",
@@ -141,11 +144,24 @@ def enumerate_candidates(
     real_fault_benchmark_id: str | None = None,
     real_fault_prior_path: str | Path | None = None,
     activation_prior_path: str | Path | None = None,
+    candidate_cache_dir: str | Path | None = None,
+    candidate_sample_seed: int = 0,
 ) -> list[tuple[str, str]]:
     """List candidate `(node, action_type)` pairs not already selected."""
 
     used = set(inserted_actions)
     strategy = (strategy or "testability").lower()
+    if strategy.startswith("cached_"):
+        return _cached_candidate_slice(
+            graph,
+            used,
+            max_candidates,
+            strategy,
+            real_fault_benchmark_id or _REAL_FAULT_BENCHMARK_ID,
+            candidate_cache_dir,
+            candidate_sample_seed,
+            len(inserted_actions),
+        )
     if strategy != "netlist":
         ranked = _ranked_candidates(
             graph,
@@ -173,6 +189,149 @@ def enumerate_candidates(
             if max_candidates is not None and len(candidates) >= max_candidates:
                 return candidates
     return candidates
+
+
+def _load_candidate_cache(
+    benchmark_id: str | None,
+    candidate_cache_dir: str | Path | None,
+) -> list[str]:
+    """Load cached backend-valid insertable TP net names for one benchmark."""
+
+    return [str(item["net"]) for item in _load_candidate_cache_items(benchmark_id, candidate_cache_dir) if item.get("net")]
+
+
+def _load_candidate_cache_items(
+    benchmark_id: str | None,
+    candidate_cache_dir: str | Path | None,
+) -> list[dict]:
+    """Load cached backend-valid insertable TP candidate records for one benchmark."""
+
+    if not benchmark_id:
+        raise ValueError("cached candidate strategies require benchmark_id context")
+    if not candidate_cache_dir:
+        raise ValueError("cached candidate strategies require --candidate-cache-dir")
+    path = Path(candidate_cache_dir) / f"{benchmark_id}.json"
+    payload = json.loads(path.read_text())
+    items = [item for item in payload.get("candidates", []) if item.get("net")]
+    if not items:
+        raise ValueError(f"candidate cache is empty: {path}")
+    return items
+
+
+def _stable_seed(*parts: object) -> int:
+    """Return a reproducible integer seed from structured parts."""
+
+    text = "::".join(str(part) for part in parts)
+    return int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:16], 16)
+
+
+def _stride_sample(items: list[str], count: int) -> list[str]:
+    """Select `count` items spread across the full input order."""
+
+    if count >= len(items):
+        return list(items)
+    if count <= 0:
+        return []
+    if count == 1:
+        return [items[0]]
+    last = len(items) - 1
+    indices = sorted({round(index * last / (count - 1)) for index in range(count)})
+    selected = [items[index] for index in indices]
+    cursor = 0
+    while len(selected) < count and cursor < len(items):
+        item = items[cursor]
+        if item not in selected:
+            selected.append(item)
+        cursor += 1
+    return selected[:count]
+
+
+def _cached_candidate_slice(
+    graph: GraphData,
+    used: set[tuple[str, str]],
+    max_candidates: int | None,
+    strategy: str,
+    benchmark_id: str | None,
+    candidate_cache_dir: str | Path | None,
+    candidate_sample_seed: int,
+    selection_step: int,
+) -> list[tuple[str, str]]:
+    """Sample candidate actions from cached backend-valid insertable TP nets."""
+
+    node_to_id = _node_id_map(graph)
+    if strategy == "cached_hard_cone":
+        return _cached_hard_cone_candidate_slice(
+            graph,
+            used,
+            max_candidates,
+            benchmark_id,
+            candidate_cache_dir,
+        )
+    cache_nets = _load_candidate_cache(benchmark_id, candidate_cache_dir)
+    valid_nets = [net for net in cache_nets if net in node_to_id and not is_internal_lut_node(net)]
+    if not valid_nets:
+        raise ValueError(f"no cached candidate nets are present in graph for benchmark_id={benchmark_id!r}")
+    if max_candidates is None:
+        net_count = len(valid_nets)
+    else:
+        net_count = max(1, (int(max_candidates) + len(ACTION_TYPES) - 1) // len(ACTION_TYPES))
+
+    if strategy == "cached_stride":
+        selected_nets = _stride_sample(valid_nets, net_count)
+    elif strategy == "cached_random":
+        import random
+
+        seed = _stable_seed(benchmark_id, candidate_sample_seed, selection_step, len(valid_nets))
+        generator = random.Random(seed)
+        if net_count >= len(valid_nets):
+            selected_nets = list(valid_nets)
+            generator.shuffle(selected_nets)
+        else:
+            selected_nets = generator.sample(valid_nets, net_count)
+    else:
+        selected_nets = valid_nets[:net_count]
+
+    candidates: list[tuple[str, str]] = []
+    for net in selected_nets:
+        for action_type in ACTION_TYPES:
+            candidate = (net, action_type)
+            if candidate in used:
+                continue
+            candidates.append(candidate)
+            if max_candidates is not None and len(candidates) >= int(max_candidates):
+                return candidates
+    return candidates
+
+
+def _cached_hard_cone_candidate_slice(
+    graph: GraphData,
+    used: set[tuple[str, str]],
+    max_candidates: int | None,
+    benchmark_id: str | None,
+    candidate_cache_dir: str | Path | None,
+) -> list[tuple[str, str]]:
+    """Select actions from a cache pre-ranked by current hard-fault cone evidence."""
+
+    node_to_id = _node_id_map(graph)
+    items = _load_candidate_cache_items(benchmark_id, candidate_cache_dir)
+    ranked: list[tuple[str, str, float]] = []
+    for item in items:
+        net = str(item.get("net") or "")
+        if net not in node_to_id or is_internal_lut_node(net):
+            continue
+        action_scores = item.get("action_scores")
+        if not isinstance(action_scores, dict):
+            base_score = float(item.get("score") or item.get("priority") or 0.0)
+            action_scores = {action_type: base_score for action_type in ACTION_TYPES}
+        for action_type in ACTION_TYPES:
+            candidate = (net, action_type)
+            if candidate in used:
+                continue
+            ranked.append((net, action_type, float(action_scores.get(action_type, 0.0))))
+    ranked.sort(key=lambda item: item[2], reverse=True)
+    if max_candidates is None:
+        return [(node, action_type) for node, action_type, _ in ranked]
+    return _balanced_candidate_slice(graph, ranked, int(max_candidates))
 
 
 def _node_id_map(graph: GraphData) -> dict[str, int]:
@@ -703,9 +862,11 @@ def score_candidate_from_latent(
         action_node_id,
         action_type_to_id(action_type),
         relation,
+        include_aux_heads=False,
     )
     coverage_scale = float(getattr(model, "coverage_scale", 100.0))
     reward_pred = float(out["reward_pred"].detach().cpu().item())
+    return_pred = float(out["return_pred"].detach().cpu().item())
     distance = _undirected_distance_to_selected(
         graph,
         action_node_id,
@@ -722,7 +883,8 @@ def score_candidate_from_latent(
         "reward_pred": reward_pred,
         "fc_pred": reward_pred / coverage_scale,
         "pattern_pred": float(out["pattern_pred"].detach().cpu().item()),
-        "return_pred": float(out["return_pred"].detach().cpu().item()),
+        "return_pred": return_pred,
+        "guarded_reward": min(reward_pred, return_pred),
         "diversity_penalty": diversity_penalty,
         "_z_pred": out["z_pred"].detach(),
     }
@@ -750,6 +912,8 @@ def greedy_plan(
     candidate_strategy: str = "testability",
     candidate_diversity_penalty: float = 0.0,
     candidate_diversity_depth: int = 4,
+    candidate_cache_dir: str | Path | None = None,
+    candidate_sample_seed: int = 0,
 ) -> list[dict]:
     """Select actions greedily by rolling the latent state forward."""
 
@@ -768,7 +932,14 @@ def greedy_plan(
     z_state = model.online_encoder(x_state, edge_src, edge_dst)
 
     for step in range(1, budget + 1):
-        candidates = enumerate_candidates(graph, selected, max_candidates, candidate_strategy)
+        candidates = enumerate_candidates(
+            graph,
+            selected,
+            max_candidates,
+            candidate_strategy,
+            candidate_cache_dir=candidate_cache_dir,
+            candidate_sample_seed=candidate_sample_seed,
+        )
         if not candidates:
             break
         scored = []
@@ -826,13 +997,22 @@ def _expand_beam_paths(
     candidate_strategy: str,
     candidate_diversity_penalty: float,
     candidate_diversity_depth: int,
+    candidate_cache_dir: str | Path | None,
+    candidate_sample_seed: int,
 ) -> list[BeamPath]:
     """Expand beam paths by one action and keep the strongest suffixes."""
 
     expanded: list[BeamPath] = []
     for beam in beams:
         selected_so_far = prefix_selected + beam.selected
-        candidates = enumerate_candidates(graph, selected_so_far, max_candidates, candidate_strategy)
+        candidates = enumerate_candidates(
+            graph,
+            selected_so_far,
+            max_candidates,
+            candidate_strategy,
+            candidate_cache_dir=candidate_cache_dir,
+            candidate_sample_seed=candidate_sample_seed,
+        )
         for candidate in candidates:
             scored = score_candidate_from_latent(
                 model,
@@ -890,6 +1070,8 @@ def beam_rollout_plan(
     candidate_strategy: str = "testability",
     candidate_diversity_penalty: float = 0.0,
     candidate_diversity_depth: int = 4,
+    candidate_cache_dir: str | Path | None = None,
+    candidate_sample_seed: int = 0,
 ) -> list[dict]:
     """Plan with receding-horizon beam search over latent rollout states."""
 
@@ -936,6 +1118,8 @@ def beam_rollout_plan(
                 candidate_strategy,
                 candidate_diversity_penalty,
                 candidate_diversity_depth,
+                candidate_cache_dir,
+                candidate_sample_seed,
             )
             if not beams:
                 break
@@ -986,6 +1170,8 @@ def beam_full_sequence_plan(
     candidate_strategy: str = "testability",
     candidate_diversity_penalty: float = 0.0,
     candidate_diversity_depth: int = 4,
+    candidate_cache_dir: str | Path | None = None,
+    candidate_sample_seed: int = 0,
 ) -> list[dict]:
     """Select a full action sequence once with beam search."""
 
@@ -1028,6 +1214,8 @@ def beam_full_sequence_plan(
             candidate_strategy,
             candidate_diversity_penalty,
             candidate_diversity_depth,
+            candidate_cache_dir,
+            candidate_sample_seed,
         )
         if not beams:
             break
@@ -1088,7 +1276,7 @@ def main() -> None:
     parser.add_argument("--lookahead-depth", type=int, default=3)
     parser.add_argument(
         "--score-field",
-        choices=["reward_pred", "fc_pred", "score_pred", "pattern_pred", "return_pred"],
+        choices=["reward_pred", "fc_pred", "score_pred", "pattern_pred", "return_pred", "guarded_reward"],
         default="reward_pred",
     )
     parser.add_argument(
@@ -1113,11 +1301,17 @@ def main() -> None:
             "ffr",
             "ffr_hier",
             "mixed",
+            "cached_netlist",
+            "cached_hard_cone",
+            "cached_stride",
+            "cached_random",
         ],
         default=None,
     )
     parser.add_argument("--candidate-diversity-penalty", type=float, default=None)
     parser.add_argument("--candidate-diversity-depth", type=int, default=None)
+    parser.add_argument("--candidate-cache-dir", default=None)
+    parser.add_argument("--candidate-sample-seed", type=int, default=0)
     parser.add_argument("--torch-threads", type=int, default=int(os.environ.get("TPI_PLAN_THREADS", "1")))
     args = parser.parse_args()
 
@@ -1162,6 +1356,8 @@ def main() -> None:
             candidate_strategy,
             candidate_diversity_penalty,
             candidate_diversity_depth,
+            args.candidate_cache_dir,
+            args.candidate_sample_seed,
         )
     elif args.planner == "beam_full":
         rows = beam_full_sequence_plan(
@@ -1180,6 +1376,8 @@ def main() -> None:
             candidate_strategy,
             candidate_diversity_penalty,
             candidate_diversity_depth,
+            args.candidate_cache_dir,
+            args.candidate_sample_seed,
         )
     else:
         rows = greedy_plan(
@@ -1195,6 +1393,8 @@ def main() -> None:
             candidate_strategy,
             candidate_diversity_penalty,
             candidate_diversity_depth,
+            args.candidate_cache_dir,
+            args.candidate_sample_seed,
         )
     out = Path(args.out) if args.out else Path(args.checkpoint).parent / "plans" / f"{args.benchmark_id}_plan.csv"
     write_plan_csv(out, rows)

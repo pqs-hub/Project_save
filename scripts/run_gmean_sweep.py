@@ -49,6 +49,7 @@ RESULT_FIELDS = [
     "candidate_strategy",
     "candidate_diversity_penalty",
     "candidate_diversity_depth",
+    "candidate_sample_seed",
     "patterns",
     "seed",
     "plan_score_sum",
@@ -80,6 +81,7 @@ GROUPED_FIELDS = [
     "candidate_strategy",
     "candidate_diversity_penalty",
     "candidate_diversity_depth",
+    "candidate_sample_seed",
     "patterns",
     "seed",
     "benchmark_count",
@@ -306,7 +308,17 @@ def variant_grid(args: argparse.Namespace) -> list[dict[str, Any]]:
     variants = []
     for planner in parse_csv_values(args.planners):
         depth_values = [0] if planner == "beam_full" else parse_int_values(args.lookahead_depths)
-        for beam_objective, score_field, beam_width, depth, max_candidates, candidate_strategy, diversity_penalty, diversity_depth in itertools.product(
+        for (
+            beam_objective,
+            score_field,
+            beam_width,
+            depth,
+            max_candidates,
+            candidate_strategy,
+            diversity_penalty,
+            diversity_depth,
+            candidate_sample_seed,
+        ) in itertools.product(
             parse_csv_values(args.beam_objectives),
             parse_csv_values(args.score_fields),
             parse_int_values(args.beam_widths),
@@ -315,6 +327,7 @@ def variant_grid(args: argparse.Namespace) -> list[dict[str, Any]]:
             parse_csv_values(args.candidate_strategies),
             parse_float_values(args.candidate_diversity_penalties),
             parse_int_values(args.candidate_diversity_depths),
+            parse_int_values(args.candidate_sample_seeds),
         ):
             gammas = parse_float_values(args.discount_gammas) if beam_objective == "discounted" else [1.0]
             for discount_gamma in gammas:
@@ -329,6 +342,7 @@ def variant_grid(args: argparse.Namespace) -> list[dict[str, Any]]:
                     "candidate_strategy": candidate_strategy,
                     "candidate_diversity_penalty": diversity_penalty,
                     "candidate_diversity_depth": diversity_depth,
+                    "candidate_sample_seed": candidate_sample_seed,
                     "patterns": args.patterns,
                     "seed": args.seed,
                 }
@@ -336,6 +350,7 @@ def variant_grid(args: argparse.Namespace) -> list[dict[str, Any]]:
                     f"{planner}__{beam_objective}__{score_field}__bw{beam_width}"
                     f"__d{depth}__c{max_candidates}__g{sanitize(str(discount_gamma))}"
                     f"__cand{sanitize(candidate_strategy)}__div{sanitize(str(diversity_penalty))}"
+                    f"__s{candidate_sample_seed}"
                 )
                 variants.append({"variant_id": variant_id, **variant})
     return variants
@@ -358,6 +373,8 @@ def main() -> None:
     parser.add_argument("--candidate-strategies", default="checkpoint")
     parser.add_argument("--candidate-diversity-penalties", default="0.0")
     parser.add_argument("--candidate-diversity-depths", default="4")
+    parser.add_argument("--candidate-cache-dir", default=None)
+    parser.add_argument("--candidate-sample-seeds", default="0")
     parser.add_argument("--real-fault-priors", default=None)
     parser.add_argument("--activation-priors", default=None)
     parser.add_argument("--plan-device", default="cpu")
@@ -462,6 +479,9 @@ def main() -> None:
             ]
             if variant["candidate_strategy"] != "checkpoint":
                 plan_cmd.extend(["--candidate-strategy", variant["candidate_strategy"]])
+            if args.candidate_cache_dir:
+                plan_cmd.extend(["--candidate-cache-dir", args.candidate_cache_dir])
+            plan_cmd.extend(["--candidate-sample-seed", str(variant["candidate_sample_seed"])])
             if args.real_fault_priors:
                 plan_cmd.extend(["--real-fault-priors", args.real_fault_priors])
             if args.activation_priors:
