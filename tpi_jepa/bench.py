@@ -1,0 +1,355 @@
+"""Parse a small, explicit subset of the BENCH netlist format."""
+
+from __future__ import annotations
+
+from collections import Counter
+from dataclasses import dataclass
+import re
+from pathlib import Path
+
+
+INPUT_RE = re.compile(r"^INPUT\(([^)]+)\)$", re.IGNORECASE)
+OUTPUT_RE = re.compile(r"^OUTPUT\(([^)]+)\)$", re.IGNORECASE)
+GATE_CALL_RE = re.compile(r"^([A-Za-z0-9_]+)(?:\s+([^()]*))?\((.*)\)$")
+MAX_LUT_SOP_INPUTS = 10
+
+
+@dataclass
+class Circuit:
+    """A direct BENCH representation before tensor graph construction."""
+
+    node_names: list[str]
+    gate_types: dict[str, str]
+    fanins: dict[str, list[str]]
+    inputs: list[str]
+    outputs: list[str]
+
+
+def _strip_comment(line: str) -> str:
+    """Remove BENCH comments and surrounding whitespace from one line."""
+
+    return line.split("#", 1)[0].strip()
+
+
+def _split_args(text: str) -> list[str]:
+    """Split a comma-separated gate argument list into node names."""
+
+    text = text.strip()
+    if not text:
+        return []
+    return [part.strip() for part in text.split(",") if part.strip()]
+
+
+def _lut_mask(params: str | None) -> int | None:
+    """Read the hexadecimal truth-table mask from a LUT parameter string."""
+
+    if not params:
+        return None
+    m = re.search(r"0x[0-9a-fA-F]+|\d+", params)
+    if not m:
+        return None
+    token = m.group(0)
+    return int(token, 16) if token.lower().startswith("0x") else int(token)
+
+
+def _lut_var_mask(num_inputs: int, arg_index: int) -> int:
+    """Return the truth-table mask for one LUT input variable."""
+
+    mask = 0
+    for row in range(1 << num_inputs):
+        if (row >> arg_index) & 1:
+            mask |= 1 << row
+    return mask
+
+
+def _lut_parity_mask(num_inputs: int, odd: bool) -> int:
+    """Return the XOR/XNOR truth-table mask for all LUT inputs."""
+
+    mask = 0
+    for row in range(1 << num_inputs):
+        if bool(bin(row).count("1") % 2) == odd:
+            mask |= 1 << row
+    return mask
+
+
+def _decode_lut(params: str | None, args: list[str]) -> tuple[str, list[str], int | None]:
+    """Convert recognizable LUT truth tables into ordinary gate names."""
+
+    mask = _lut_mask(params)
+    if mask is None:
+        return "LUT", args, None
+
+    num_inputs = len(args)
+    if num_inputs > MAX_LUT_SOP_INPUTS:
+        return "LUT", args, mask
+
+    table_width = 1 << num_inputs
+    full_mask = (1 << table_width) - 1
+    table = mask & full_mask
+
+    if table == 0:
+        return "CONST0", [], None
+    if table == full_mask:
+        return "CONST1", [], None
+
+    for arg_index, arg in enumerate(args):
+        var_mask = _lut_var_mask(num_inputs, arg_index)
+        if table == var_mask:
+            return "BUF", [arg], None
+        if table == (full_mask ^ var_mask):
+            return "NOT", [arg], None
+
+    if num_inputs >= 2:
+        and_mask = 1 << (table_width - 1)
+        if table == and_mask:
+            return "AND", args, None
+        if table == (full_mask ^ and_mask):
+            return "NAND", args, None
+        if table == (full_mask ^ 1):
+            return "OR", args, None
+        if table == 1:
+            return "NOR", args, None
+        if table == _lut_parity_mask(num_inputs, odd=True):
+            return "XOR", args, None
+        if table == _lut_parity_mask(num_inputs, odd=False):
+            return "XNOR", args, None
+
+    return "LUT", args, table
+
+
+def _parse_assignment(line: str) -> tuple[str, str, list[str], int | None] | None:
+    """Parse gate calls, constants, and direct aliases on assignment lines."""
+
+    if "=" not in line:
+        return None
+    lhs, rhs = line.split("=", 1)
+    lhs = lhs.strip()
+    rhs = rhs.strip()
+    if not lhs:
+        return None
+    call_m = GATE_CALL_RE.match(rhs)
+    if not call_m:
+        rhs_key = rhs.lower()
+        if rhs_key in {"gnd", "0", "const0", "false"}:
+            return lhs, "CONST0", [], None
+        if rhs_key in {"vdd", "1", "const1", "true"}:
+            return lhs, "CONST1", [], None
+        if rhs and " " not in rhs and "(" not in rhs and ")" not in rhs:
+            return lhs, "BUF", [rhs], None
+        return None
+    gate = call_m.group(1).upper()
+    params = call_m.group(2)
+    args = _split_args(call_m.group(3))
+    lut_mask = None
+    if gate == "LUT":
+        gate, args, lut_mask = _decode_lut(params, args)
+    return lhs, gate, args, lut_mask
+
+
+def _ensure_node(
+    name: str,
+    node_names: list[str],
+    gate_types: dict[str, str],
+    fanins: dict[str, list[str]],
+    gate_type: str = "WIRE",
+) -> None:
+    """Create a placeholder node if a referenced net has not appeared yet."""
+
+    if name in gate_types:
+        return
+    node_names.append(name)
+    gate_types[name] = gate_type
+    fanins[name] = []
+
+
+def _set_node(
+    name: str,
+    gate: str,
+    args: list[str],
+    node_names: list[str],
+    gate_types: dict[str, str],
+    fanins: dict[str, list[str]],
+) -> None:
+    """Create or overwrite one node with a concrete gate assignment."""
+
+    _ensure_node(name, node_names, gate_types, fanins, gate)
+    gate_types[name] = gate
+    fanins[name] = args
+
+
+def _lut_temp_name(lhs: str, role: str, index: int, gate_types: dict[str, str]) -> str:
+    """Build a unique internal node name for synthesized LUT logic."""
+
+    stem = re.sub(r"[^A-Za-z0-9_]+", "_", lhs).strip("_") or "lut"
+    base = f"{stem}__lut_{role}_{index}"
+    name = base
+    suffix = 1
+    while name in gate_types:
+        suffix += 1
+        name = f"{base}_{suffix}"
+    return name
+
+
+def _expand_two_input_lut_minimal(
+    lhs: str,
+    args: list[str],
+    table: int,
+    node_names: list[str],
+    gate_types: dict[str, str],
+    fanins: dict[str, list[str]],
+) -> bool:
+    """Expand common two-input LUTs with inverted inputs into minimal gates."""
+
+    if len(args) != 2:
+        return False
+
+    specs = {
+        0x2: ("AND", args[0], 1),  # a & ~b
+        0x4: ("AND", args[1], 0),  # ~a & b
+        0xB: ("OR", args[0], 1),  # a | ~b
+        0xD: ("OR", args[1], 0),  # ~a | b
+    }
+    if table not in specs:
+        return False
+
+    gate, positive_arg, inverted_index = specs[table]
+    not_name = _lut_temp_name(lhs, f"not_{inverted_index}", 0, gate_types)
+    _set_node(not_name, "NOT", [args[inverted_index]], node_names, gate_types, fanins)
+    _set_node(lhs, gate, [positive_arg, not_name], node_names, gate_types, fanins)
+    return True
+
+
+def _expand_lut_to_sop(
+    lhs: str,
+    args: list[str],
+    mask: int,
+    node_names: list[str],
+    gate_types: dict[str, str],
+    fanins: dict[str, list[str]],
+) -> bool:
+    """Expand an arbitrary LUT truth table into NOT/AND/OR nodes."""
+
+    num_inputs = len(args)
+    if num_inputs > MAX_LUT_SOP_INPUTS:
+        return False
+
+    for arg in args:
+        _ensure_node(arg, node_names, gate_types, fanins)
+    _ensure_node(lhs, node_names, gate_types, fanins, "LUT")
+
+    table_width = 1 << num_inputs
+    full_mask = (1 << table_width) - 1
+    table = mask & full_mask
+    if table == 0:
+        _set_node(lhs, "CONST0", [], node_names, gate_types, fanins)
+        return True
+    if table == full_mask:
+        _set_node(lhs, "CONST1", [], node_names, gate_types, fanins)
+        return True
+    if _expand_two_input_lut_minimal(lhs, args, table, node_names, gate_types, fanins):
+        return True
+
+    inverted_args: dict[int, str] = {}
+    term_nodes: list[str] = []
+    for row in range(table_width):
+        if not ((table >> row) & 1):
+            continue
+
+        literals: list[str] = []
+        for arg_index, arg in enumerate(args):
+            if (row >> arg_index) & 1:
+                literals.append(arg)
+                continue
+            if arg_index not in inverted_args:
+                not_name = _lut_temp_name(lhs, f"not_{arg_index}", row, gate_types)
+                _set_node(not_name, "NOT", [arg], node_names, gate_types, fanins)
+                inverted_args[arg_index] = not_name
+            literals.append(inverted_args[arg_index])
+
+        if len(literals) == 1:
+            term_nodes.append(literals[0])
+        else:
+            term_name = _lut_temp_name(lhs, "and", row, gate_types)
+            _set_node(term_name, "AND", literals, node_names, gate_types, fanins)
+            term_nodes.append(term_name)
+
+    if len(term_nodes) == 1:
+        _set_node(lhs, "BUF", [term_nodes[0]], node_names, gate_types, fanins)
+    else:
+        _set_node(lhs, "OR", term_nodes, node_names, gate_types, fanins)
+    return True
+
+
+def parse_bench(path: str | Path) -> Circuit:
+    """Parse INPUT, OUTPUT, and assignment lines from a BENCH file."""
+
+    path = Path(path)
+    node_names: list[str] = []
+    gate_types: dict[str, str] = {}
+    fanins: dict[str, list[str]] = {}
+    inputs: list[str] = []
+    outputs: list[str] = []
+
+    for raw in path.read_text(errors="ignore").splitlines():
+        line = _strip_comment(raw)
+        if not line:
+            continue
+
+        input_m = INPUT_RE.match(line)
+        if input_m:
+            name = input_m.group(1).strip()
+            _ensure_node(name, node_names, gate_types, fanins, "PI")
+            gate_types[name] = "PI"
+            if name not in inputs:
+                inputs.append(name)
+            continue
+
+        output_m = OUTPUT_RE.match(line)
+        if output_m:
+            name = output_m.group(1).strip()
+            _ensure_node(name, node_names, gate_types, fanins)
+            if name not in outputs:
+                outputs.append(name)
+            continue
+
+        assign = _parse_assignment(line)
+        if assign:
+            lhs, gate, args, lut_mask = assign
+            if gate == "LUT" and lut_mask is not None:
+                if _expand_lut_to_sop(lhs, args, lut_mask, node_names, gate_types, fanins):
+                    continue
+            _set_node(lhs, gate, args, node_names, gate_types, fanins)
+            for arg in args:
+                _ensure_node(arg, node_names, gate_types, fanins)
+            continue
+
+        raise ValueError(f"Unsupported BENCH line in {path}: {raw!r}")
+
+    return Circuit(
+        node_names=node_names,
+        gate_types=gate_types,
+        fanins=fanins,
+        inputs=inputs,
+        outputs=outputs,
+    )
+
+
+def _main() -> None:
+    """CLI summary used by the step-by-step validation plan."""
+
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("bench")
+    args = parser.parse_args()
+
+    circuit = parse_bench(args.bench)
+    counts = Counter(circuit.gate_types[name] for name in circuit.node_names)
+    print(f"nodes={len(circuit.node_names)}")
+    print(f"inputs={len(circuit.inputs)}")
+    print(f"outputs={len(circuit.outputs)}")
+    print("gate_types=" + ",".join(f"{k}:{v}" for k, v in sorted(counts.items())))
+
+
+if __name__ == "__main__":
+    _main()

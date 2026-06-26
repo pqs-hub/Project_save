@@ -1,0 +1,70 @@
+{
+  "name": "coverage_only_fixed_v3_table8",
+  "description": "Fixed 8-circuit evaluation protocol matching the user-provided benchmark table.",
+  "benchmarks": [
+    "iscas99__b15_1",
+    "iscas99__b20",
+    "iscas99__b21",
+    "iscas99__b22",
+    "epfl__random_control__i2c__i2c",
+    "epfl__arithmetic__max__max",
+    "iscas99__b17",
+    "openabcd__mem_ctrl_orig"
+  ],
+  "benchmark_aliases": {
+    "b15_C": "iscas99__b15_1",
+    "b20_C": "iscas99__b20",
+    "b21_C": "iscas99__b21",
+    "b22_C": "iscas99__b22",
+    "i2c": "epfl__random_control__i2c__i2c",
+    "max": "epfl__arithmetic__max__max",
+    "b17_C": "iscas99__b17",
+    "mem_ctrl": "openabcd__mem_ctrl_orig"
+  },
+  "table_rows": [
+    {"id": "D1", "circuit": "b15_C", "benchmark_id": "iscas99__b15_1", "paper_reference_tc": 0.9061},
+    {"id": "D2", "circuit": "b20_C", "benchmark_id": "iscas99__b20", "paper_reference_tc": 0.9060},
+    {"id": "D3", "circuit": "b21_C", "benchmark_id": "iscas99__b21", "paper_reference_tc": 0.8973},
+    {"id": "D4", "circuit": "b22_C", "benchmark_id": "iscas99__b22", "paper_reference_tc": 0.9170},
+    {"id": "D5", "circuit": "i2c", "benchmark_id": "epfl__random_control__i2c__i2c", "paper_reference_tc": 0.8611},
+    {"id": "D6", "circuit": "max", "benchmark_id": "epfl__arithmetic__max__max", "paper_reference_tc": 0.5265},
+    {"id": "D7", "circuit": "b17_C", "benchmark_id": "iscas99__b17", "paper_reference_tc": 0.8684},
+    {"id": "D8", "circuit": "mem_ctrl", "benchmark_id": "openabcd__mem_ctrl_orig", "paper_reference_tc": 0.6995}
+  ],
+  "patterns": 300000,
+  "seed": 2026,
+  "budget_mode": "floor1pct",
+  "fixed_budget": null,
+  "max_tp_ratio": 0.01,
+  "tp_budget_rule": "budget = max(1, floor(logic_gate_count * 0.01)); never exceed one percent of logic gates.",
+  "timeout_sec": 14400,
+  "safety_benchmark": "epfl__random_control__router__router",
+  "safety_min_delta": -0.005,
+  "primary_metric": "macro_mean_delta_tc",
+  "selection_rule": [
+    "prefer safe == true",
+    "maximize macro_mean_delta_tc",
+    "break ties by min_delta_tc",
+    "break ties by router_delta_tc",
+    "break ties by lower negative_count"
+  ],
+  "reported_metrics": [
+    "macro_mean_delta_tc",
+    "min_delta_tc",
+    "router_delta_tc",
+    "positive_count",
+    "negative_count",
+    "per_benchmark_delta_test_coverage",
+    "per_benchmark_delta_fault_coverage",
+    "elapsed_sec"
+  ],
+  "development_benchmark": "iscas89__s838",
+  "notes": [
+    "Use this protocol for final planner and method comparisons.",
+    "Training/framework sweeps may use a single development benchmark, but final claims should use this full protocol.",
+    "The TP budget uses floor rounding so it is capped at one percent of logic gates, with a minimum budget of one TPI.",
+    "This protocol follows the user-provided benchmark table.",
+    "Baseline TC must be measured by the local TMAX flow on the local BENCH files; paper_reference_tc is only for traceability.",
+    "Local standardized BENCH files may have different gate counts from the table because they come from a different synthesis or mapping flow."
+  ]
+}
