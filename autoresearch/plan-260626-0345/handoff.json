@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-06-26T03:45:00+08:00",
+  "subcommand": "plan",
+  "plan_file": "autoresearch/plan-260626-0345/plan.md",
+  "verify_config": "autoresearch/plan-260626-0345/verify_config.json",
+  "based_on": [
+    "autoresearch/diagnostics-calibration-action-260626/calibration_action_diagnostics.md",
+    "autoresearch/diagnostics-calibration-action-260626/handoff.json",
+    "docs/hard_f1_autoresearch_report.md"
+  ],
+  "next_mode": "$autoresearch",
+  "next_goal": "Implement calibration policy comparison in evaluator and produce calibration_mode_report.md without training.",
+  "verify_command": "python scripts/evaluate_hard_checkpoints.py --help",
+  "priority": "calibration_before_action_ranking",
+  "do_not_do": [
+    "Do not train a new model",
+    "Do not implement action-ranking loss yet",
+    "Do not modify model/train/dataset unless absolutely necessary"
+  ]
+}

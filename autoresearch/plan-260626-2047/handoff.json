@@ -1,0 +1,119 @@
+{
+  "goal": "Use cached backend-valid insertable TP nodes for planner candidate sampling, then recover macro gain while keeping the b17_C safety gate.",
+  "mode": "plan",
+  "based_on": [
+    "autoresearch/plan-260626-2002/",
+    "autoresearch/safe-rollout-b17-candidates-260626-2002-par/ranked_summary.tsv",
+    "autoresearch/safe-rollout-smoke-260626-2002-par/runs/*/results.tsv"
+  ],
+  "current_evidence": {
+    "netlist_b17_delta_tc": 0.00002999999999997449,
+    "netlist_four_benchmark_deltas": {
+      "b15_C": 0.000060000000000060005,
+      "b17_C": 0.00002999999999997449,
+      "i2c_aig": 0.00005999999999994898,
+      "max_aig": 0.00020999999999993246
+    },
+    "interpretation": "Current netlist strategy is safe but nearly zero-gain because it takes the first legal graph nodes rather than sampling all backend-valid insertable TP nodes."
+  },
+  "scope": [
+    "scripts/build_tp_candidate_cache.py",
+    "tpi_jepa/plan.py",
+    "scripts/run_gmean_sweep.py",
+    "autoresearch/plan-260626-2047/",
+    "autoresearch/tp-candidates-260626-2047/"
+  ],
+  "metric": {
+    "primary": "macro_mean_delta_tc on b15_C,b17_C,i2c_aig,max_aig at 50k patterns",
+    "safety": [
+      "min_delta_tc >= -0.005",
+      "b17_C delta_tc >= -0.005",
+      "no plan_error rows"
+    ],
+    "secondary": [
+      "positive_count",
+      "negative_count",
+      "candidate_cache coverage",
+      "candidate node position spread",
+      "elapsed_sec"
+    ]
+  },
+  "verify": [
+    "python -m py_compile tpi_jepa/model.py tpi_jepa/plan.py tpi_jepa/scoap.py scripts/run_gmean_sweep.py scripts/build_tp_candidate_cache.py",
+    "python -m tpi_jepa.plan --help",
+    "python scripts/run_gmean_sweep.py --help",
+    "python scripts/build_tp_candidate_cache.py --help",
+    "build candidate caches for the 8 official AIG benchmarks",
+    "cache sanity check: nonempty, unique nets, valid JSON",
+    "b17 cached-stride planner probe",
+    "four-benchmark 50k cached sampling sweep"
+  ],
+  "success_criteria": [
+    "status ok on b15_C,b17_C,i2c_aig,max_aig",
+    "macro_mean_delta_tc > +0.005",
+    "min_delta_tc >= -0.005",
+    "b17_C delta_tc >= -0.005",
+    "negative_count <= 1",
+    "no planner OOM or plan_error rows"
+  ],
+  "implementation_notes": [
+    "Use /data4/pengqingsong/DFT/Dataset/tpi_eval/candidates.py generate_candidates as the source of insertable TP rules.",
+    "Do not use graph.node_names as the source of insertable points for cached strategies.",
+    "cached_stride should deterministically cover the full cached net order.",
+    "cached_random should be reproducible from candidate_sample_seed and benchmark_id.",
+    "run_gmean_sweep.py must pass candidate cache options to tpi_jepa.plan.",
+    "Preserve previous include_aux_heads=False and fast SCOAP changes."
+  ],
+  "dirty_worktree_note": "At plan creation time, tpi_jepa/model.py, tpi_jepa/plan.py, and tpi_jepa/scoap.py contain previous uncommitted OOM/SCOAP/guarded_reward changes that should be preserved.",
+  "latest_iteration": {
+    "timestamp": "2026-06-26T21:05:00+08:00",
+    "changes": [
+      "Added scripts/build_tp_candidate_cache.py using tpi_eval.candidates.generate_candidates.",
+      "Added tpi_jepa.plan cached candidate strategies: cached_netlist, cached_stride, cached_random.",
+      "Added --candidate-cache-dir and --candidate-sample-seed to tpi_jepa.plan.",
+      "Added candidate cache and sample seed pass-through to scripts/run_gmean_sweep.py and the posweight30 rollout shell script."
+    ],
+    "verification": [
+      "python -m py_compile tpi_jepa/model.py tpi_jepa/plan.py tpi_jepa/scoap.py scripts/run_gmean_sweep.py scripts/build_tp_candidate_cache.py",
+      "python -m tpi_jepa.plan --help",
+      "python scripts/run_gmean_sweep.py --help",
+      "python scripts/build_tp_candidate_cache.py --help",
+      "built caches for b15_C,b17_C,i2c_aig,max_aig,b20_C,b21_C,b22_C,mem_ctrl_aig under autoresearch/tp-candidates-260626-2047/",
+      "cache sanity check passed: nonempty unique nets",
+      "b17 cached_stride planner probe passed and wrote autoresearch/plan-260626-2047/probe_b17_cached_stride.csv",
+      "four-benchmark cached_stride/cached_random 50k smoke completed under autoresearch/safe-rollout-cached-tp-260626-2047-par/"
+    ],
+    "cache_counts": {
+      "b15_C": 38028,
+      "b17_C": 135685,
+      "i2c_aig": 4599,
+      "max_aig": 12165,
+      "b20_C": 83798,
+      "b21_C": 85351,
+      "b22_C": 124445,
+      "mem_ctrl_aig": 178481
+    },
+    "gate_results": [
+      {
+        "variant_id": "beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026",
+        "macro_mean_delta_tc": 0.00026249999999994333,
+        "min_delta_tc": -0.026570000000000094,
+        "b17_C_delta_tc": -0.008760000000000101,
+        "positive_count": 2,
+        "negative_count": 2,
+        "safe": false
+      },
+      {
+        "variant_id": "beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_random__div0p0__s2026",
+        "macro_mean_delta_tc": -0.00012250000000002537,
+        "min_delta_tc": -0.025680000000000147,
+        "b17_C_delta_tc": -0.011050000000000004,
+        "positive_count": 2,
+        "negative_count": 2,
+        "safe": false
+      }
+    ],
+    "decision": "Do not promote cached_stride/cached_random to full 300k. The implementation works, but the sampled candidates are unsafe on i2c_aig and still below the b17_C threshold."
+  },
+  "next_step": "Add a cheap per-benchmark safety filter or fallback: keep cached sampling for coverage, but reject sampled plans when model/heuristic risk is high on i2c_aig and b17_C, falling back to the safe netlist candidate pool."
+}

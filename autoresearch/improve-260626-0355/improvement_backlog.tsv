@@ -1,0 +1,16 @@
+priority	item	type	expected_gain	cost	risk	decision
+P0	Full calibration diagnostic across more benchmarks	diagnostic	Validate whether high ECE and 0.5 threshold failure are stable	low	low	do_now
+P0	Temperature scaling evaluator for SA0/SA1	diagnostic	Quantify post-hoc calibration headroom	low	low	do_now
+P1	Train-time hard Brier auxiliary loss	training	Improve probability boundary and reduce threshold sensitivity	medium	medium	do_next
+P1	Soft-F1 or Dice auxiliary loss	training	Optimize F1-like hard boundary directly	medium	medium	do_next
+P1	ASL gamma_neg/clip local sweep	training	Keep ASL benefits while reducing calibration distortion	low	medium	do_next
+P1	SA0/SA1 per-class loss balancing	training	Address asymmetric SA1 ECE/F1 behavior	low	medium	do_next
+P1	Hard-positive-rate stratified validation report	diagnostic	Find failure buckets hidden by aggregate F1	low	low	do_now
+P1	Label audit for near-zero hard-positive samples	diagnostic	Detect noisy or uninformative samples	low	low	do_now
+P2	Action candidate group reconstruction	data	Enable reliable action-ranking diagnostics	medium	low	do_before_ranking_loss
+P2	Offline action-ranking evaluator with oracle upper bound	evaluator	Decide whether action-ranking loss is justified	medium	low	do_before_ranking_loss
+P3	High-margin pairwise action-ranking loss	training	Align node representation to planner action value	medium	medium	later
+P3	Planner-level NDCG/top-k hit in objective	evaluator	Prevent F1-only overfitting	medium	low	later
+P3	Seed-aware autoresearch runner	runner	Reduce false positives from seed variance	medium	low	later
+P4	Sparse global attention / long-range module	model	Capture long fault propagation dependencies	high	medium	defer
+excluded	Multi-view AIG/PM netlist	model	May improve industrial generalization	high	high	excluded_this_phase

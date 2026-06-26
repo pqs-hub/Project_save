@@ -1,0 +1,39 @@
+{
+  "command": "$autoresearch plan",
+  "generated_at": "2026-06-26 03:59 Asia/Shanghai",
+  "status": "completed",
+  "goal": "实现 hard-head calibration loss 与 evaluator temperature/Brier 诊断，围绕 frozen mean/global/no-rank 主线设计下一轮可输出进度的训练命令。",
+  "plan": "autoresearch/plan-260626-0359/plan.md",
+  "source": "autoresearch/improve-260626-0355/handoff.json",
+  "scope": [
+    "tpi_jepa/train.py",
+    "scripts/evaluate_hard_checkpoints.py",
+    "scripts/run_predictive_autoresearch.py",
+    "docs/hard_f1_autoresearch_report.md"
+  ],
+  "out_of_scope": [
+    "model architecture rewrite",
+    "dataset structure rewrite",
+    "gate_dir/cone/rank re-sweep",
+    "multi-view representation",
+    "direct action-ranking loss"
+  ],
+  "primary_metric": "hard_macro_f1_tuned",
+  "guardrails": [
+    "predictive_score",
+    "hard_recall_at_top_10pct",
+    "hard_macro_f1_at_0p5",
+    "ece_sa0",
+    "ece_sa1",
+    "temperature_scaled_ece_sa0",
+    "temperature_scaled_ece_sa1"
+  ],
+  "verify": [
+    "python -m py_compile tpi_jepa/train.py scripts/evaluate_hard_checkpoints.py scripts/run_predictive_autoresearch.py",
+    "python scripts/evaluate_hard_checkpoints.py --help",
+    "python scripts/run_predictive_autoresearch.py --help"
+  ],
+  "promotion_rule": "Promote if hard_macro_f1_tuned improves by >= 0.03, or mean ECE drops by >= 20% with hard_macro_f1_tuned loss <= 0.01.",
+  "reject_rule": "Reject if predictive_score drops by > 0.03, hard_recall_at_top_10pct drops by > 0.05, or @0.5 F1 remains unusable while only tuned F1 improves.",
+  "next_command": "$autoresearch"
+}

@@ -1,0 +1,75 @@
+{
+  "goal": "Improve checkpoint-driven TPI planner rollout safety and stability before another full 300k-pattern evaluation.",
+  "mode": "plan",
+  "scope": [
+    "tpi_jepa/plan.py",
+    "scripts/run_gmean_sweep.py",
+    "autoresearch/plan-260626-1633/"
+  ],
+  "metric": {
+    "primary": "macro_mean_delta_tc",
+    "safety": [
+      "min_delta_tc >= -0.005",
+      "b17_C delta_tc >= -0.005",
+      "no plan_error rows"
+    ],
+    "secondary": [
+      "positive_count",
+      "negative_count",
+      "elapsed_sec"
+    ]
+  },
+  "verify": [
+    "python -m py_compile tpi_jepa/plan.py scripts/run_gmean_sweep.py",
+    "python -m tpi_jepa.plan --help",
+    "python scripts/run_gmean_sweep.py --help",
+    "planner-only b22_C smoke with reduced candidates",
+    "50k-pattern low-cost rollout gate"
+  ],
+  "latest_failed_run": "autoresearch/posweight30-world-rollout-260626-run-260626-140347",
+  "success_criteria": [
+    "macro_mean_delta_tc > 0.0",
+    "min_delta_tc >= -0.005",
+    "b17_C delta_tc >= -0.005",
+    "negative_count <= 1",
+    "no planner OOM"
+  ],
+  "latest_iteration": {
+    "timestamp": "2026-06-26T19:58:33+08:00",
+    "changes": [
+      "Planner scoring now calls predict_from_latent(include_aux_heads=False) to avoid unused hard_logits/hard_count/scoap heads during rollout selection.",
+      "Added score_field=guarded_reward, defined as min(reward_pred, return_pred), for conservative action selection.",
+      "compute_scoap_proxy now uses topological forward/backward propagation instead of up to 64 full-graph fixed-point scans."
+    ],
+    "verification": [
+      "python -m py_compile tpi_jepa/model.py tpi_jepa/plan.py tpi_jepa/scoap.py scripts/run_gmean_sweep.py",
+      "python -m tpi_jepa.plan --help",
+      "python scripts/run_gmean_sweep.py --help",
+      "b22_C planner-only CUDA smoke passed and wrote autoresearch/plan-260626-1633/smoke_b22_plan.csv",
+      "mem_ctrl_aig planner-only CUDA smoke passed and wrote autoresearch/plan-260626-1633/smoke_mem_ctrl_plan.csv",
+      "50k-pattern gate completed at autoresearch/safe-rollout-smoke-260626-1633/"
+    ],
+    "gate_results": [
+      {
+        "score_field": "reward_pred",
+        "macro_mean_delta_tc": 0.01665249999999993,
+        "min_delta_tc": -0.011660000000000115,
+        "b17_C_delta_tc": -0.011660000000000115,
+        "positive_count": 3,
+        "negative_count": 1,
+        "safe": false
+      },
+      {
+        "score_field": "guarded_reward",
+        "macro_mean_delta_tc": 0.019277499999999975,
+        "min_delta_tc": -0.01153000000000004,
+        "b17_C_delta_tc": -0.01153000000000004,
+        "positive_count": 3,
+        "negative_count": 1,
+        "safe": false
+      }
+    ],
+    "decision": "Do not promote to the full 300k rerun yet; both 50k gate variants fail the b17_C safety threshold of -0.005."
+  },
+  "next_step": "Revise selection safety specifically for b17_C before another full run; candidate next iterations are stronger b17_C guardrails, diversity/region penalties, or alternative candidate_strategy/beam objective sweeps."
+}

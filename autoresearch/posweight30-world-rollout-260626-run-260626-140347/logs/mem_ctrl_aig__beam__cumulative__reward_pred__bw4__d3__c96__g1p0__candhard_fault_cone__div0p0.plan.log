@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1205, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1148, in main
+    rows = beam_rollout_plan(
+        model,
+    ...<14 lines>...
+        candidate_diversity_depth,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 923, in beam_rollout_plan
+    beams = _expand_beam_paths(
+        model,
+    ...<13 lines>...
+        candidate_diversity_depth,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 837, in _expand_beam_paths
+    scored = score_candidate_from_latent(
+        model,
+    ...<8 lines>...
+        candidate_diversity_depth,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 701, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<2 lines>...
+        relation,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 341, in predict_from_latent
+    "hard_logits": self._hard_logits(z_pred, relation_features),
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 347, in _hard_logits
+    return self.hard_head(z, relation_features)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 185, in forward
+    hidden = base + self.gate(inputs) * self.block(base)
+                                        ~~~~~~~~~~^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py", line 734, in forward
+    return F.gelu(input, approximate=self.approximate)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 46.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 18.75 MiB is free. Process 1522243 has 38.39 GiB memory in use. Including non-PyTorch memory, this process has 8.96 GiB memory in use. Of the allocated memory 8.06 GiB is allocated by PyTorch, and 419.29 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-26T03:25:00+08:00",
+  "subcommand": "autoresearch",
+  "source_plan": "autoresearch/plan-260626-0325/plan.md",
+  "goal": "Produce calibration/action-ranking diagnostic report without training.",
+  "verify_command": "python scripts/evaluate_hard_checkpoints.py --help",
+  "diagnostics_dir": "autoresearch/diagnostics-calibration-action-260626",
+  "inputs": {
+    "config": "autoresearch/stability-hardf1-seeds-2026-2030/configs/seed2026__lh0p5__lhc0p1__lhr0p5__lhrk0p0__encmean__sumglobal__hlasl__hhresidual_context__pw20__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0.json",
+    "run_dir": "autoresearch/stability-hardf1-seeds-2026-2030/runs/seed2026__lh0p5__lhc0p1__lhr0p5__lhrk0p0__encmean__sumglobal__hlasl__hhresidual_context__pw20__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0",
+    "max_val_samples": 512,
+    "max_steps": 128,
+    "device": "cpu"
+  },
+  "outputs": [
+    "target_metrics.csv",
+    "target_metrics.png",
+    "thresholds_by_class.tsv",
+    "threshold_sweep.tsv",
+    "calibration_bins.tsv",
+    "per_benchmark_metrics.tsv",
+    "bucket_metrics.tsv",
+    "action_ranking_metrics.tsv",
+    "action_group_examples.tsv",
+    "calibration_action_diagnostics.md"
+  ],
+  "headline_findings": {
+    "best_hard_macro_f1_tuned_on_limited_eval": 0.26655997154796834,
+    "mean_ece_sa0": 0.182724,
+    "mean_ece_sa1": 0.45779,
+    "comparable_action_groups": 6,
+    "mean_action_pairwise_acc": 0.433333,
+    "mean_action_ndcg_at_10": 0.0,
+    "mean_action_top1_hit": 0.0
+  },
+  "decision": {
+    "prioritize_calibration": true,
+    "implement_action_ranking_loss_now": false,
+    "reason": "Current hard_reduction_pred action ordering is weak on the diagnostic subset; calibration error, especially SA1 ECE, is high."
+  },
+  "code_changes": [
+    "tpi_jepa/dataset.py: added action/state metadata to TransitionSample",
+    "scripts/evaluate_hard_checkpoints.py: added diagnostics CLI and calibration/action-ranking outputs",
+    "docs/hard_f1_autoresearch_report.md: updated with this diagnostics phase"
+  ]
+}

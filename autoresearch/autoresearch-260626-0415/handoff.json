@@ -1,0 +1,21 @@
+{
+  "command": "$autoresearch",
+  "generated_at": "2026-06-26 04:15 Asia/Shanghai",
+  "status": "ready_for_user_training",
+  "reason": "No new calibration-loss training results were found after the implementation smoke run. User preference is to run training commands directly and watch progress.",
+  "latest_completed_handoff": "autoresearch/calibration-loss-smoke-260626/handoff.json",
+  "run_script": "autoresearch/autoresearch-260626-0415/run_calibration_loss_sweep.sh",
+  "command_doc": "autoresearch/autoresearch-260626-0415/command.md",
+  "primary_metric": "hard_macro_f1_tuned",
+  "guardrails": [
+    "hard_macro_f1_at_0p5",
+    "ece_sa0",
+    "ece_sa1",
+    "temperature_scaled_ece_sa0",
+    "temperature_scaled_ece_sa1",
+    "predictive_score",
+    "hard_recall_at_top_10pct"
+  ],
+  "expected_output_dir_pattern": "autoresearch/predictive-<timestamp>/",
+  "next_step_after_training": "Run $autoresearch evals or paste the final summary/results.tsv path for analysis."
+}

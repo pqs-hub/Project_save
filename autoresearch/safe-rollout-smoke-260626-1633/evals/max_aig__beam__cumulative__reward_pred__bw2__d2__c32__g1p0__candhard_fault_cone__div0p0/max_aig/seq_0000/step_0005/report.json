@@ -1,0 +1,71 @@
+{
+  "benchmark_id": "max_aig",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "max_aig",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 50000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 4899,
+    "effective_pattern_count": 184,
+    "fault_coverage": 0.63018,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 2875
+    },
+    "hard_fault_count": 2875,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 50000,
+    "random_pattern_budget": 50000,
+    "test_coverage": 0.63018,
+    "total_faults": 7774,
+    "undetected_fault_count": 2875,
+    "undetected_input_edge_fault_count": 1,
+    "undetected_node_count": 2752,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/undetected_nodes.csv",
+    "undetected_output_fault_count": 2874,
+    "undetected_sa0_count": 126,
+    "undetected_sa1_count": 2749,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__reward_pred__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0/max_aig/seq_0000/step_0005/inserted.bench",
+  "inserted_bench_sha256": "6bde1cbf606becc5b4eb1c209c61dd49614f56758ec7075f2f47edfe425d7e44",
+  "inserted_count": 5,
+  "insertion_sequence": [
+    {
+      "candidate_id": 11075,
+      "net": "N4259",
+      "score": 0.17508628964424133,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 10899,
+      "net": "__buf_split_3101",
+      "score": 0.16136352717876434,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 10845,
+      "net": "N4001",
+      "score": 0.16033349931240082,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 10904,
+      "net": "N8606",
+      "score": 0.1509050875902176,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 10798,
+      "net": "N8546",
+      "score": 0.14275287091732025,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/max_aig.bench",
+  "source_bench_sha256": "9dd322be7ce0c94e8113ad14481a9c4c2aaf7dbc64227ce983b69ba9ae25be44",
+  "status": "ok"
+}

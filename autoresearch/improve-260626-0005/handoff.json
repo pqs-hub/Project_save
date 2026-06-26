@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-06-26T00:05:00+08:00",
+  "subcommand": "improve",
+  "project": "TPI-JEPA hard-fault-aware world model",
+  "current_baseline": {
+    "route": "ASL + residual_context + topk mining + hard_weighted sampling",
+    "lambda_hard": 0.5,
+    "lambda_hard_count": 0.1,
+    "lambda_hard_reduction": 0.5,
+    "lambda_hard_rank": 0.0,
+    "encoder_type": "mean",
+    "summary_mode": "global",
+    "edge_weight_mode": "fault_path",
+    "edge_keep_ratio": 0.6
+  },
+  "latest_evidence": {
+    "results": "autoresearch/stability-hardf1-seeds-2026-2030/results.tsv",
+    "hc_0_10_mean_hard_f1": 0.6468,
+    "hc_0_10_std_hard_f1": 0.1636,
+    "hc_0_12_mean_hard_f1": 0.6453,
+    "hc_0_12_std_hard_f1": 0.1554,
+    "best_checkpoint": "autoresearch/stability-hardf1-seeds-2026-2030/best.pt",
+    "best_hard_f1": 0.7963,
+    "best_predictive_score": 0.8197
+  },
+  "main_bottlenecks": [
+    "seed/split instability",
+    "node-level metric is not yet aligned with action-level TPI decisions",
+    "gate_dir/cone/rank technology bundle needs clean ablation",
+    "threshold calibration is fragile"
+  ],
+  "recommended_next_experiment": {
+    "name": "clean_gate_cone_rank_ablation",
+    "prd": "autoresearch/improve-260626-0005/prd_clean_tech_ablation.md",
+    "out_dir": "autoresearch/predictive-tech-ablation-260626",
+    "command_contains_stream_logs": true
+  },
+  "prd_files": [
+    "autoresearch/improve-260626-0005/prd_action_ranking.md",
+    "autoresearch/improve-260626-0005/prd_stability_calibration.md",
+    "autoresearch/improve-260626-0005/prd_clean_tech_ablation.md"
+  ],
+  "do_not_prioritize": [
+    "more lambda_hard_count 0.10 vs 0.12 sweeps",
+    "large multiview implementation",
+    "large transformer implementation before ablation"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-06-26T00:20:00+08:00",
+  "subcommand": "reason",
+  "iterations": 8,
+  "question": "What should TPI-JEPA do next to most reliably improve hard-fault-aware test point insertion?",
+  "decision": "Run clean gate/cone/rank ablation next, then implement calibration diagnostics, then implement action-level ranking.",
+  "evidence": {
+    "main_report": "docs/hard_f1_autoresearch_report.md",
+    "improve_report": "autoresearch/improve-260626-0005/improve_report.md",
+    "stability_results": "autoresearch/stability-hardf1-seeds-2026-2030/results.tsv",
+    "hc_0_10_mean_hard_f1": 0.6468,
+    "hc_0_10_std_hard_f1": 0.1636,
+    "hc_0_12_mean_hard_f1": 0.6453,
+    "hc_0_12_std_hard_f1": 0.1554
+  },
+  "rejected_priorities": [
+    "more lambda_hard_count 0.10 vs 0.12 sweeps",
+    "large transformer or sparse attention before ablation",
+    "multi-view implementation",
+    "claiming single-seed best as final result"
+  ],
+  "next_command": "python scripts/run_predictive_autoresearch.py --base-config configs/aig_lowtc_100k_hard_pretrain.json --objective hard_f1 --max-variants 12 --out-dir autoresearch/predictive-tech-ablation-260626 --lambda-hards 0.5 --lambda-hard-counts 0.1 --lambda-hard-reductions 0.5 --lambda-hard-ranks 0.0,0.03,0.05 --encoder-types mean,gate_dir --summary-modes global,cone --hard-losses asl --hard-head-types residual_context --hard-pos-weight-maxes 20 --hard-negative-sample-ratios 5 --hard-negative-minings topk --train-sample-strategies hard_weighted --feature-modes testability --edge-weight-modes fault_path --edge-keep-ratios 0.6 --lambda-fcs 0.0 --center-lambda-hard 0.5 --center-lambda-hard-count 0.1 --center-lambda-hard-reduction 0.5 --center-lambda-hard-rank 0.03 --center-edge-keep-ratio 0.6 --stream-logs",
+  "stop_rule": "Keep a component only if matched-seed hard F1 or predictive_score improves by at least 0.03; otherwise freeze architecture and move to calibration plus action ranking.",
+  "next_coding_tasks": [
+    "Add summary_by_seed.tsv to autoresearch output",
+    "Add thresholds_by_class.tsv and per_benchmark_metrics.tsv to evaluator",
+    "Add action-level ranking metrics and action scorer head"
+  ]
+}

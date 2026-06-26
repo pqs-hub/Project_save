@@ -1,0 +1,18 @@
+{
+  "base_config": "configs/aig_lowtc_100k_hard_pretrain.json",
+  "device": null,
+  "dry_run": true,
+  "edge_keep_ratios": "0.6,0.8,1.0",
+  "edge_weight_modes": "fault_path,mean",
+  "feature_modes": "testability,region",
+  "hard_negative_sample_ratios": "3,5,10",
+  "hard_pos_weight_maxes": "10,20,40",
+  "lambda_fcs": "0.0",
+  "lambda_hard_counts": "0.0,0.05,0.1,0.2",
+  "lambda_hard_reductions": "0.2,0.5,0.8",
+  "lambda_hards": "0.5,0.7,1.0,1.5",
+  "max_steps": 512,
+  "max_val_samples": 2048,
+  "max_variants": 3,
+  "out_dir": "autoresearch/predictive-smoke"
+}

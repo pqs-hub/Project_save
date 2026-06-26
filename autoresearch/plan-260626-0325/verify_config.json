@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-06-26T03:25:00+08:00",
+  "subcommand": "plan",
+  "goal": "基于 predictive-tech-ablation-260626 的 stop rule，冻结 mean/global/no-rank 主线，设计 calibration diagnostics 和 action-level ranking 下一轮实验计划。",
+  "frozen_baseline": {
+    "encoder_type": "mean",
+    "summary_mode": "global",
+    "lambda_hard_rank": 0.0,
+    "reason": "predictive-tech-ablation-260626 did not clear the +0.03 keep rule for gate_dir, cone, or hard_rank."
+  },
+  "scope": {
+    "files": [
+      "scripts/evaluate_hard_checkpoints.py",
+      "tpi_jepa/train.py",
+      "tpi_jepa/model.py",
+      "tpi_jepa/dataset.py",
+      "docs/hard_f1_autoresearch_report.md"
+    ],
+    "in_scope": [
+      "calibration diagnostics",
+      "action-level ranking diagnostics",
+      "dataset metadata needed for action grouping",
+      "documentation update"
+    ],
+    "out_of_scope": [
+      "training a new model",
+      "adding action-ranking loss in this phase",
+      "adding new model heads in this phase",
+      "multi-view graph work",
+      "large transformer or sparse attention"
+    ]
+  },
+  "metric": {
+    "primary_deliverable": "calibration_action_diagnostics.md",
+    "required_outputs": [
+      "target_metrics.csv",
+      "thresholds_by_class.tsv",
+      "threshold_sweep.tsv",
+      "calibration_bins.tsv",
+      "per_benchmark_metrics.tsv",
+      "bucket_metrics.tsv",
+      "action_ranking_metrics.tsv",
+      "action_group_examples.tsv"
+    ],
+    "calibration_metrics": [
+      "hard_macro_f1_tuned",
+      "hard_sa0_f1_tuned",
+      "hard_sa1_f1_tuned",
+      "hard_threshold_sa0",
+      "hard_threshold_sa1",
+      "brier_sa0",
+      "brier_sa1",
+      "ece_sa0",
+      "ece_sa1",
+      "positive_rate_sa0",
+      "positive_rate_sa1",
+      "fp_rate",
+      "fn_rate"
+    ],
+    "action_ranking_metrics": [
+      "action_pairwise_acc",
+      "action_spearman",
+      "action_ndcg_at_5",
+      "action_ndcg_at_10",
+      "action_top1_hit",
+      "action_group_count",
+      "mean_group_size"
+    ]
+  },
+  "verify": {
+    "command": [
+      "python",
+      "scripts/evaluate_hard_checkpoints.py",
+      "--help"
+    ],
+    "current_status": "passed before planning; current evaluator help exists but does not yet expose diagnostics flags",
+    "expected_new_help_flags": [
+      "--diagnostics-dir",
+      "--write-calibration-diagnostics",
+      "--write-action-ranking-diagnostics",
+      "--calibration-bins",
+      "--action-score-field",
+      "--min-action-group-size"
+    ]
+  },
+  "acceptance": {
+    "diagnostic_completeness": "Evaluator writes all required diagnostic TSV/MD files.",
+    "interpretability": "Report identifies poorly calibrated classes, weak benchmark buckets, and whether hard_reduction_pred has action-ranking signal.",
+    "no_training_constraint": "No training command is run and no checkpoint is modified."
+  }
+}

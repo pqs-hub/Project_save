@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1205, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1148, in main
+    rows = beam_rollout_plan(
+        model,
+    ...<14 lines>...
+        candidate_diversity_depth,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 898, in beam_rollout_plan
+    base_features = make_base_node_features(
+        graph,
+    ...<3 lines>...
+        activation_prior_path=_ACTIVATION_PRIOR_PATH,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/features.py", line 161, in make_base_node_features
+    scoap = compute_scoap_proxy(graph)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/scoap.py", line 84, in compute_scoap_proxy
+    gate = _gate_name(graph, dst)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/scoap.py", line 16, in _gate_name
+    return GATE_TYPES[int(graph.gate_type_ids[node].item())]
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+KeyboardInterrupt

@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-06-26T00:23:00+08:00",
+  "subcommand": "plan",
+  "plan_file": "autoresearch/plan-260626-0023/plan.md",
+  "verify_config": "autoresearch/plan-260626-0023/verify_config.json",
+  "based_on": [
+    "autoresearch/reason-260626-0020/reason_report.md",
+    "autoresearch/improve-260626-0005/improve_report.md",
+    "docs/hard_f1_autoresearch_report.md"
+  ],
+  "next_run": {
+    "name": "clean_gate_cone_rank_ablation",
+    "out_dir": "autoresearch/predictive-tech-ablation-260626",
+    "objective": "hard_f1",
+    "max_variants": 12,
+    "stream_logs": true
+  },
+  "decision_after_run": [
+    "If a component improves hard F1 or predictive by >=0.03, run 5-seed validation.",
+    "If no component clears the threshold, freeze architecture and implement calibration/action ranking."
+  ]
+}

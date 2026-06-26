@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-06-26T03:45:00+08:00",
+  "subcommand": "plan",
+  "goal": "基于 diagnostics-calibration-action-260626，优先设计 calibration / threshold / benchmark-bucket 深化实验；暂不实现 action-ranking loss。",
+  "frozen_mainline": {
+    "encoder_type": "mean",
+    "summary_mode": "global",
+    "lambda_hard_rank": 0.0
+  },
+  "scope": {
+    "primary_files": [
+      "scripts/evaluate_hard_checkpoints.py",
+      "docs/hard_f1_autoresearch_report.md"
+    ],
+    "optional_files": [
+      "scripts/run_predictive_autoresearch.py"
+    ],
+    "out_of_scope": [
+      "tpi_jepa/train.py",
+      "tpi_jepa/model.py",
+      "tpi_jepa/dataset.py",
+      "new training",
+      "new loss",
+      "new head"
+    ]
+  },
+  "metric": {
+    "primary_deliverable": "calibration_mode_report.md",
+    "required_outputs": [
+      "calibration_mode_metrics.tsv",
+      "per_benchmark_calibrated_metrics.tsv",
+      "threshold_policy_comparison.tsv",
+      "calibration_mode_report.md"
+    ],
+    "policy_candidates": [
+      "global_0p5",
+      "class_tuned",
+      "benchmark_tuned",
+      "benchmark_shrinkage_alpha_0p25",
+      "benchmark_shrinkage_alpha_0p50",
+      "benchmark_shrinkage_alpha_0p75"
+    ],
+    "success_metrics": [
+      "hard_macro_f1",
+      "hard_sa0_f1",
+      "hard_sa1_f1",
+      "worst_benchmark_f1",
+      "ece_sa0",
+      "ece_sa1",
+      "fp_rate",
+      "fn_rate"
+    ]
+  },
+  "verify": {
+    "command": [
+      "python",
+      "scripts/evaluate_hard_checkpoints.py",
+      "--help"
+    ],
+    "expected_new_flags": [
+      "--write-calibration-policy-report",
+      "--calibration-policy",
+      "--benchmark-threshold-shrinkage"
+    ]
+  },
+  "acceptance": {
+    "interface": "Help output exposes calibration policy flags.",
+    "outputs": "Evaluator writes calibration_mode_metrics.tsv, per_benchmark_calibrated_metrics.tsv, threshold_policy_comparison.tsv, calibration_mode_report.md.",
+    "decision_quality": "Report decides whether class-wise or benchmark-shrinkage calibration is worth full 5-seed evaluation."
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "benchmarks": [
+    {
+      "benchmark_id": "b15_C",
+      "budget": 5,
+      "delta_test_coverage": "0.04753000000000007",
+      "eval_dir": "autoresearch/safe-rollout-smoke-260626-1633/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0",
+      "logic_gates": 38477,
+      "plan_csv": "autoresearch/safe-rollout-smoke-260626-1633/plans/b15_C__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0.csv"
+    },
+    {
+      "benchmark_id": "b17_C",
+      "budget": 5,
+      "delta_test_coverage": "-0.01153000000000004",
+      "eval_dir": "autoresearch/safe-rollout-smoke-260626-1633/evals/b17_C__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0",
+      "logic_gates": 137128,
+      "plan_csv": "autoresearch/safe-rollout-smoke-260626-1633/plans/b17_C__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0.csv"
+    },
+    {
+      "benchmark_id": "i2c_aig",
+      "budget": 5,
+      "delta_test_coverage": "0.008889999999999953",
+      "eval_dir": "autoresearch/safe-rollout-smoke-260626-1633/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0",
+      "logic_gates": 4726,
+      "plan_csv": "autoresearch/safe-rollout-smoke-260626-1633/plans/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0.csv"
+    },
+    {
+      "benchmark_id": "max_aig",
+      "budget": 5,
+      "delta_test_coverage": "0.032219999999999915",
+      "eval_dir": "autoresearch/safe-rollout-smoke-260626-1633/evals/max_aig__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0",
+      "logic_gates": 12294,
+      "plan_csv": "autoresearch/safe-rollout-smoke-260626-1633/plans/max_aig__beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0.csv"
+    }
+  ],
+  "variant": {
+    "beam_objective": "cumulative",
+    "beam_width": 2,
+    "benchmark_count": 4,
+    "candidate_diversity_depth": 4,
+    "candidate_diversity_penalty": 0.0,
+    "candidate_strategy": "hard_fault_cone",
+    "discount_gamma": 1.0,
+    "elapsed_sec": 409.046,
+    "lookahead_depth": 2,
+    "macro_mean_delta_tc": 0.019277499999999975,
+    "max_candidates": 32,
+    "min_delta_tc": -0.01153000000000004,
+    "negative_count": 1,
+    "patterns": 50000,
+    "planner": "beam",
+    "positive_count": 3,
+    "router_delta_tc": -0.01153000000000004,
+    "safe": false,
+    "score_field": "guarded_reward",
+    "seed": 2026,
+    "status": "ok",
+    "timestamp": "2026-06-26T19:58:33",
+    "variant_id": "beam__cumulative__guarded_reward__bw2__d2__c32__g1p0__candhard_fault_cone__div0p0"
+  }
+}

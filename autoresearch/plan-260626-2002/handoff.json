@@ -1,0 +1,48 @@
+{
+  "goal": "Pass the b17_C safety threshold on the 50k-pattern held-out gate before any full 300k rollout.",
+  "mode": "plan",
+  "based_on": [
+    "autoresearch/plan-260626-1633/handoff.json",
+    "autoresearch/safe-rollout-smoke-260626-1633/grouped_results.tsv"
+  ],
+  "current_blocker": "Both reward_pred and guarded_reward pass macro_mean_delta_tc > 0 but fail b17_C safety at about -0.0115, below the -0.005 threshold.",
+  "scope": [
+    "tpi_jepa/plan.py",
+    "scripts/run_gmean_sweep.py",
+    "autoresearch/plan-260626-2002/",
+    "autoresearch/safe-rollout-b17-260626-2002/"
+  ],
+  "metric": {
+    "primary": "b17_C delta_test_coverage at 50k patterns",
+    "safety": [
+      "b17_C delta_tc >= -0.005",
+      "min_delta_tc >= -0.005 on b15_C,b17_C,i2c_aig,max_aig",
+      "no plan_error rows"
+    ],
+    "secondary": [
+      "macro_mean_delta_tc",
+      "positive_count",
+      "negative_count",
+      "elapsed_sec",
+      "plan node diversity on b17_C"
+    ]
+  },
+  "verify": [
+    "python -m py_compile tpi_jepa/model.py tpi_jepa/plan.py tpi_jepa/scoap.py scripts/run_gmean_sweep.py",
+    "python -m tpi_jepa.plan --help",
+    "python scripts/run_gmean_sweep.py --help",
+    "b17 targeted planner probe with guarded_reward and diversity penalty",
+    "b17-only 50k sweep",
+    "four-benchmark 50k promotion gate for the winning b17-safe variant"
+  ],
+  "success_criteria": [
+    "50k four-benchmark gate status is ok",
+    "macro_mean_delta_tc > 0.0",
+    "min_delta_tc >= -0.005",
+    "b17_C delta_tc >= -0.005",
+    "negative_count <= 1",
+    "no planner OOM or plan_error rows"
+  ],
+  "dirty_worktree_note": "At plan creation time, tpi_jepa/model.py, tpi_jepa/plan.py, and tpi_jepa/scoap.py contain previous uncommitted OOM/SCOAP/guarded_reward changes that should be preserved.",
+  "next_step": "Run static checks and the b17 targeted planner probe from autoresearch/plan-260626-2002/command.md."
+}

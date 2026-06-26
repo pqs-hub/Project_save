@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-06-26T00:23:00+08:00",
+  "subcommand": "plan",
+  "scope": {
+    "name": "clean_gate_cone_rank_ablation",
+    "in_scope": [
+      "encoder_type in {mean, gate_dir}",
+      "summary_mode in {global, cone}",
+      "lambda_hard_rank in {0.0, 0.03, 0.05}"
+    ],
+    "out_of_scope": [
+      "more lambda_hard_count 0.10 vs 0.12 sweeps",
+      "multi-view netlist work",
+      "large transformer or sparse attention implementation",
+      "action-level ranking implementation",
+      "masked testability pretraining"
+    ]
+  },
+  "metric": {
+    "objective": "hard_f1",
+    "primary": "hard_macro_f1_tuned",
+    "guardrails": [
+      "predictive_score",
+      "hard_recall_at_top_10pct",
+      "hard_count_top10_overlap",
+      "hard_reduction_score",
+      "hard_sa0_pr_auc",
+      "hard_sa1_pr_auc"
+    ]
+  },
+  "verify": {
+    "command": [
+      "python",
+      "scripts/run_predictive_autoresearch.py",
+      "--base-config",
+      "configs/aig_lowtc_100k_hard_pretrain.json",
+      "--objective",
+      "hard_f1",
+      "--max-variants",
+      "12",
+      "--out-dir",
+      "autoresearch/predictive-tech-ablation-260626",
+      "--lambda-hards",
+      "0.5",
+      "--lambda-hard-counts",
+      "0.1",
+      "--lambda-hard-reductions",
+      "0.5",
+      "--lambda-hard-ranks",
+      "0.0,0.03,0.05",
+      "--encoder-types",
+      "mean,gate_dir",
+      "--summary-modes",
+      "global,cone",
+      "--hard-losses",
+      "asl",
+      "--hard-head-types",
+      "residual_context",
+      "--hard-pos-weight-maxes",
+      "20",
+      "--hard-negative-sample-ratios",
+      "5",
+      "--hard-negative-minings",
+      "topk",
+      "--train-sample-strategies",
+      "hard_weighted",
+      "--feature-modes",
+      "testability",
+      "--edge-weight-modes",
+      "fault_path",
+      "--edge-keep-ratios",
+      "0.6",
+      "--lambda-fcs",
+      "0.0",
+      "--center-lambda-hard",
+      "0.5",
+      "--center-lambda-hard-count",
+      "0.1",
+      "--center-lambda-hard-reduction",
+      "0.5",
+      "--center-lambda-hard-rank",
+      "0.03",
+      "--center-edge-keep-ratio",
+      "0.6",
+      "--stream-logs"
+    ],
+    "expected_outputs": [
+      "autoresearch/predictive-tech-ablation-260626/results.tsv",
+      "autoresearch/predictive-tech-ablation-260626/summary.md",
+      "autoresearch/predictive-tech-ablation-260626/best.pt",
+      "autoresearch/predictive-tech-ablation-260626/logs"
+    ]
+  },
+  "acceptance": {
+    "component_keep_rule": "Keep a component only if matched-seed hard_macro_f1_tuned or predictive_score improves by at least 0.03 without a hard_recall_at_top_10pct drop above 0.05.",
+    "architecture_freeze_rule": "If no component clears the keep rule, freeze encoder_type=mean, summary_mode=global, lambda_hard_rank=0.0 and move to calibration/action ranking.",
+    "followup_validation_rule": "Any winner must be rerun on seeds 2026,2027,2028,2029,2030 before becoming the new baseline."
+  }
+}

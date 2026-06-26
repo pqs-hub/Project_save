@@ -1,0 +1,87 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	elapsed_sec	error
+2026-06-26T14:03:48	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	b15_C	38477	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	1.729537770152092	1.729537770152092	0.01729537770152092	1.415702760219574	5.553881868720055	4.7219290137290955	0.0863600000000001	0.0863600000000001	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/b15_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/b15_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	336.053	
+2026-06-26T14:09:25	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	b17_C	137128	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	2.357452094554901	2.357452094554901	0.023574520945549012	1.6353004574775696	7.1052316427230835	6.742414832115173	-0.010880000000000112	-0.010880000000000112	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/b17_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/b17_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	1363.188	
+2026-06-26T14:32:08	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	b20_C	84305	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	1.6595791578292847	1.6595791578292847	0.016595791578292846	-0.34639255702495575	4.770108759403229	5.263945698738098	0.005699999999999927	0.005699999999999927	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/b20_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/b20_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	628.352	
+2026-06-26T14:42:36	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	b21_C	85858	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	1.6741586327552795	1.6741586327552795	0.016741586327552797	-0.4286295622587204	4.794367730617523	5.312564432621002	0.0010699999999999044	0.0010699999999999044	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/b21_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/b21_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	660.798	
+2026-06-26T14:53:37	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	plan_error	b22_C	125195	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026										autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/b22_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/b22_C__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	892.25	"candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 701, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<2 lines>...
+        relation,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 341, in predict_from_latent
+    ""hard_logits"": self._hard_logits(z_pred, relation_features),
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 347, in _hard_logits
+    return self.hard_head(z, relation_features)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 185, in forward
+    hidden = base + self.gate(inputs) * self.block(base)
+                                        ~~~~~~~~~~^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/linear.py"", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 768.00 KiB is free. Including non-PyTorch memory, this process has 9.08 GiB memory in use. Process 1522243 has 38.30 GiB memory in use. Of the allocated memory 8.21 GiB is allocated by PyTorch, and 382.49 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+2026-06-26T15:08:29	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	i2c_aig	4726	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	1.2652525827288628	1.2652525827288628	0.012652525827288628	1.3778620064258575	4.443902470171452	3.007605068385601	-0.03161000000000003	-0.03161000000000003	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	38.451	
+2026-06-26T15:09:08	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	ok	max_aig	12294	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026	0.8094491362571716	0.8094491362571716	0.008094491362571716	1.06227445602417	2.521230459213257	2.2704848647117615	0.0048199999999999354	0.0048199999999999354	0	autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/max_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/max_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	98.511	
+2026-06-26T15:10:46	beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	plan_error	mem_ctrl_aig	179448	fixed	5	beam	cumulative	reward_pred	4	3	96	1.0	hard_fault_cone	0.0	4	300000	2026										autoresearch/posweight30-world-rollout-260626-run-260626-140347/plans/mem_ctrl_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0.csv	autoresearch/posweight30-world-rollout-260626-run-260626-140347/evals/mem_ctrl_aig__beam__cumulative__reward_pred__bw4__d3__c96__g1p0__candhard_fault_cone__div0p0	1530.779	"candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 701, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<2 lines>...
+        relation,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 341, in predict_from_latent
+    ""hard_logits"": self._hard_logits(z_pred, relation_features),
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 347, in _hard_logits
+    return self.hard_head(z, relation_features)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 185, in forward
+    hidden = base + self.gate(inputs) * self.block(base)
+                                        ~~~~~~~~~~^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py"", line 734, in forward
+    return F.gelu(input, approximate=self.approximate)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 46.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 18.75 MiB is free. Process 1522243 has 38.39 GiB memory in use. Including non-PyTorch memory, this process has 8.96 GiB memory in use. Of the allocated memory 8.06 GiB is allocated by PyTorch, and 419.29 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"

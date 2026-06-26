@@ -1,0 +1,59 @@
+{
+  "benchmark_id": "b15_C",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "b15_C",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 50000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 19698,
+    "effective_pattern_count": 686,
+    "fault_coverage": 0.8481000000000001,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 3528
+    },
+    "hard_fault_count": 3528,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 50000,
+    "random_pattern_budget": 50000,
+    "test_coverage": 0.8481000000000001,
+    "total_faults": 23226,
+    "undetected_fault_count": 3528,
+    "undetected_input_edge_fault_count": 3,
+    "undetected_node_count": 3447,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/undetected_nodes.csv",
+    "undetected_output_fault_count": 3525,
+    "undetected_sa0_count": 260,
+    "undetected_sa1_count": 3268,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/safe-rollout-hardcone-cache-260626-2210-gpu/b15_C/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p0__s0/b15_C/seq_0000/step_0003/inserted.bench",
+  "inserted_bench_sha256": "092e64ad99d56c1589b333cce9f30587b8ee59bc4396a90b7452b7fdaa0b59d5",
+  "inserted_count": 3,
+  "insertion_sequence": [
+    {
+      "candidate_id": 32460,
+      "net": "N6532",
+      "score": 0.3715709447860718,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 33456,
+      "net": "N6534",
+      "score": 0.4341079592704773,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 33455,
+      "net": "N6533",
+      "score": 0.3721204400062561,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b15_C.bench",
+  "source_bench_sha256": "3e2646ef1fda8ac89ea99bfaef525127d0df0b46b7263d1e7be204bfd1eb2df0",
+  "status": "ok"
+}

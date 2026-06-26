@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/data3/pengqingsong/software/miniconda3/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/data3/pengqingsong/software/miniconda3/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py", line 736, in <module>
+    main()
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py", line 688, in main
+    train_metrics = train_one_epoch(
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py", line 458, in train_one_epoch
+    indices = _training_indices(dataset, config, max_steps)
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py", line 315, in _training_indices
+    weights = [_sample_hardness(dataset[idx]) for idx in indices]
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py", line 315, in <listcomp>
+    weights = [_sample_hardness(dataset[idx]) for idx in indices]
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/dataset.py", line 243, in __getitem__
+    hard_targets, hard_count, hard_reduction, has_hard = self._hard_targets_for(spec, graph)
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/dataset.py", line 191, in _hard_targets_for
+    hard, count, has_hard = _hard_node_tensors(
+  File "/data3/pengqingsong/DFT/TPI-my.3/tpi_jepa/dataset.py", line 109, in _hard_node_tensors
+    count[idx] = value
+KeyboardInterrupt
+[train] disabling pattern loss
+[train] rows=100000 train_rows=85510 val_rows=14490 train_samples=20000 val_samples=4096 rollout_training=False feature_dim=38 relation_dim=12
+[train] epoch=1 horizon=1 train_loss=0.713452 val_loss=1.077581 train_steps=500
+[train] epoch=2 horizon=1 train_loss=0.542921 val_loss=1.386859 train_steps=500
+[train] epoch=3 horizon=1 train_loss=0.445231 val_loss=1.125360 train_steps=500

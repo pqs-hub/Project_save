@@ -1,0 +1,51 @@
+{
+  "command": "$autoresearch",
+  "generated_at": "2026-06-26 04:06 Asia/Shanghai",
+  "status": "completed",
+  "source_plan": "autoresearch/plan-260626-0359/plan.md",
+  "implemented": [
+    "Added train-time hard Brier auxiliary loss controlled by lambda_hard_brier.",
+    "Added train-time hard soft-F1 auxiliary loss controlled by lambda_hard_soft_f1.",
+    "Added evaluator hard F1@0.5 and temperature-scaled ECE/Brier fields.",
+    "Added hard_calibration_temperature.tsv and hard_calibration_report.md outputs.",
+    "Extended predictive autoresearch runner with calibration-loss and ASL gamma/clip sweep arguments.",
+    "Runner eval now includes --temperature-scale-hard so results.tsv can carry calibration guardrails."
+  ],
+  "modified_files": [
+    "tpi_jepa/train.py",
+    "scripts/evaluate_hard_checkpoints.py",
+    "scripts/run_predictive_autoresearch.py",
+    "docs/hard_f1_autoresearch_report.md"
+  ],
+  "verification": [
+    "python -m py_compile tpi_jepa/train.py scripts/evaluate_hard_checkpoints.py scripts/run_predictive_autoresearch.py",
+    "python scripts/evaluate_hard_checkpoints.py --help",
+    "python scripts/run_predictive_autoresearch.py --help",
+    "python scripts/run_predictive_autoresearch.py ... --dry-run",
+    "python scripts/evaluate_hard_checkpoints.py ... --write-hard-calibration-report --temperature-scale-hard --device cpu"
+  ],
+  "smoke_outputs": {
+    "target_metrics": "autoresearch/calibration-loss-smoke-260626/target_metrics.csv",
+    "target_plot": "autoresearch/calibration-loss-smoke-260626/target_metrics.png",
+    "hard_calibration_report": "autoresearch/calibration-loss-smoke-260626/hard_calibration_report.md",
+    "temperature_table": "autoresearch/calibration-loss-smoke-260626/hard_calibration_temperature.tsv"
+  },
+  "smoke_findings": {
+    "best_limited_hard_macro_f1_tuned": 0.26655997154796834,
+    "mean_raw_ece_sa0": 0.182724,
+    "mean_temperature_scaled_ece_sa0": 0.085107,
+    "mean_sa0_ece_drop_ratio": 0.534234,
+    "mean_raw_ece_sa1": 0.45779,
+    "mean_temperature_scaled_ece_sa1": 0.442401,
+    "mean_sa1_ece_drop_ratio": 0.033616,
+    "mean_raw_f1_at_0p5": 0.038129,
+    "mean_scaled_f1_at_0p5": 0.038129
+  },
+  "interpretation": [
+    "Temperature scaling shows meaningful SA0 calibration headroom.",
+    "SA1 remains poorly calibrated after temperature scaling, suggesting class-boundary or label-distribution issues.",
+    "Temperature scaling does not change F1@0.5 because the 0.5 sigmoid threshold is equivalent to logit >= 0 for any positive temperature.",
+    "The next training sweep should test lambda_hard_brier, lambda_hard_soft_f1, hard_asl_gamma_neg, and hard_asl_clip around the frozen mean/global/no-rank mainline."
+  ],
+  "next_user_command": "python scripts/run_predictive_autoresearch.py --base-config configs/aig_lowtc_100k_hard_pretrain.json --objective hard_f1 --max-variants 12 --seeds 2026 --lambda-hards 0.5 --lambda-hard-counts 0.1 --lambda-hard-reductions 0.5 --lambda-hard-ranks 0.0 --lambda-hard-briers 0.0,0.02,0.05,0.1 --lambda-hard-soft-f1s 0.0,0.02 --encoder-types mean --summary-modes global --hard-losses asl --hard-asl-gamma-negs 2.0,3.0,4.0 --hard-asl-clips 0.02,0.05 --hard-head-types residual_context --hard-pos-weight-maxes 20 --hard-negative-sample-ratios 5 --hard-negative-minings topk --train-sample-strategies hard_weighted --feature-modes testability --edge-weight-modes fault_path --edge-keep-ratios 0.6 --lambda-fcs 0.0 --center-lambda-hard 0.5 --center-lambda-hard-count 0.1 --center-lambda-hard-reduction 0.5 --center-lambda-hard-rank 0.0 --center-lambda-hard-brier 0.02 --center-lambda-hard-soft-f1 0.0 --center-edge-keep-ratio 0.6 --stream-logs"
+}

@@ -1,0 +1,35 @@
+{
+  "goal": "Compare post-hoc hard-node calibration/threshold policies without training a new model.",
+  "status": "completed",
+  "source_plan": "autoresearch/plan-260626-0345",
+  "primary_outputs": {
+    "report": "autoresearch/calibration-policy-260626/calibration_mode_report.md",
+    "mode_metrics": "autoresearch/calibration-policy-260626/calibration_mode_metrics.tsv",
+    "per_benchmark_metrics": "autoresearch/calibration-policy-260626/per_benchmark_calibrated_metrics.tsv",
+    "policy_comparison": "autoresearch/calibration-policy-260626/threshold_policy_comparison.tsv",
+    "target_metrics": "autoresearch/calibration-policy-260626/target_metrics.csv"
+  },
+  "verification": [
+    "python -m py_compile scripts/evaluate_hard_checkpoints.py",
+    "python scripts/evaluate_hard_checkpoints.py --help"
+  ],
+  "run_command": "python scripts/evaluate_hard_checkpoints.py --config autoresearch/stability-hardf1-seeds-2026-2030/configs/seed2026__lh0p5__lhc0p1__lhr0p5__lhrk0p0__encmean__sumglobal__hlasl__hhresidual_context__pw20__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0.json --run-dir autoresearch/stability-hardf1-seeds-2026-2030/runs/seed2026__lh0p5__lhc0p1__lhr0p5__lhrk0p0__encmean__sumglobal__hlasl__hhresidual_context__pw20__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0 --out-csv autoresearch/calibration-policy-260626/target_metrics.csv --out-png autoresearch/calibration-policy-260626/target_metrics.png --diagnostics-dir autoresearch/calibration-policy-260626 --write-calibration-policy-report --calibration-bins 10 --max-val-samples 512 --max-steps 128 --device cpu",
+  "headline": {
+    "best_policy": "class_tuned",
+    "best_hard_macro_f1": 0.26655997154796834,
+    "global_0p5_hard_macro_f1": 0.034436008029578635,
+    "delta_vs_class_tuned": 0.0,
+    "decision": "Do not promote benchmark-tuned or shrinkage threshold policies based on this limited diagnostic run."
+  },
+  "interpretation": [
+    "Fixed 0.5 threshold is clearly invalid for the current hard head probabilities.",
+    "Class-tuned validation thresholds remain the correct evaluation policy.",
+    "Benchmark-tuned and benchmark-shrinkage thresholds did not improve hard F1 in the limited run.",
+    "Next useful work should focus on probability calibration, class-boundary training, and wider benchmark coverage before adding action-ranking loss."
+  ],
+  "limitations": [
+    "This was a CPU diagnostic run with max_val_samples=512 and max_steps=128.",
+    "The sampled validation subset had limited benchmark coverage, so results are diagnostic and not a full 5-seed validation claim."
+  ],
+  "next_recommended_autoresearch_goal": "Design and run a wider calibration diagnostic across more validation benchmarks, then decide whether to add calibration loss or temperature scaling."
+}

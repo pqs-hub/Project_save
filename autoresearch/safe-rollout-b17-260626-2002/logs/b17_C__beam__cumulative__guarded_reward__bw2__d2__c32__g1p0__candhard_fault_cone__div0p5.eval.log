@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 344, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 317, in main
+    rows = evaluate_plan(
+        benchmark_id=args.benchmark_id,
+    ...<10 lines>...
+        cleanup_workdir=args.cleanup_workdir,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 251, in evaluate_plan
+    report = evaluate_points(
+        circuit_path=bench_path,
+    ...<10 lines>...
+        dry_run=dry_run,
+    )
+  File "/data4/pengqingsong/DFT/Dataset/tpi_eval/random_labels.py", line 161, in evaluate_points
+    fault_report = fault_backend.evaluate(
+        inserted_bench,
+    ...<3 lines>...
+        inserted_count=len(selected),
+    )
+  File "/data4/pengqingsong/DFT/Dataset/tpi_eval/backends.py", line 836, in evaluate
+    completed = subprocess.run(
+        command,
+    ...<4 lines>...
+        timeout=self.timeout_sec,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/subprocess.py", line 1222, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/subprocess.py", line 2154, in _communicate
+    ready = selector.select(timeout)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/selectors.py", line 398, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt

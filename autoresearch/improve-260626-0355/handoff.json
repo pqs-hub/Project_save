@@ -1,0 +1,60 @@
+{
+  "command": "$autoresearch improve",
+  "generated_at": "2026-06-26 03:55 Asia/Shanghai",
+  "status": "completed",
+  "inputs": [
+    "docs/hard_f1_autoresearch_report.md",
+    "autoresearch/stability-hardf1-seeds-2026-2030/summary.md",
+    "autoresearch/predictive-tech-ablation-260626/results.tsv",
+    "autoresearch/diagnostics-calibration-action-260626/calibration_action_diagnostics.md",
+    "autoresearch/calibration-policy-260626/calibration_mode_report.md"
+  ],
+  "outputs": {
+    "prd": "autoresearch/improve-260626-0355/improvement_prd.md",
+    "backlog": "autoresearch/improve-260626-0355/improvement_backlog.tsv"
+  },
+  "main_decision": "Prioritize training-time hard-head calibration and boundary stability before action-ranking loss or new GNN architecture.",
+  "frozen_mainline": {
+    "encoder_type": "mean",
+    "summary_mode": "global",
+    "lambda_hard_rank": 0.0,
+    "hard_loss": "asl",
+    "hard_head_type": "residual_context",
+    "hard_negative_mining": "topk",
+    "train_sample_strategy": "hard_weighted",
+    "edge_weight_mode": "fault_path",
+    "edge_keep_ratio": 0.6
+  },
+  "do_now": [
+    "Run wider calibration diagnostics across more validation benchmarks/seeds.",
+    "Add temperature scaling evaluator for SA0/SA1 hard logits.",
+    "Add hard-positive-rate stratified validation and label audit reports."
+  ],
+  "do_next": [
+    "Add lambda_hard_brier training loss.",
+    "Add optional soft-F1/Dice auxiliary loss.",
+    "Run a small ASL gamma_neg/clip local sweep."
+  ],
+  "defer": [
+    "Direct action-ranking loss until enough comparable action groups exist.",
+    "Sparse global attention until calibration route has been tested.",
+    "Multi-view representation for this phase, per user constraint."
+  ],
+  "recommended_next_autoresearch_goal": "实现 hard-head calibration loss 与 evaluator temperature/Brier 诊断，围绕 frozen mean/global/no-rank 主线设计下一轮可输出进度的训练命令。",
+  "primary_metric": "hard_macro_f1_tuned",
+  "guardrails": [
+    "predictive_score",
+    "hard_recall_at_top_10pct",
+    "ece_sa0",
+    "ece_sa1",
+    "hard_macro_f1@0.5"
+  ],
+  "sources": [
+    "https://arxiv.org/abs/2206.06975",
+    "https://arxiv.org/abs/2305.16373",
+    "https://arxiv.org/abs/2407.11095",
+    "https://arxiv.org/abs/2502.01681",
+    "https://arxiv.org/abs/2009.14119",
+    "https://arxiv.org/abs/2410.09570"
+  ]
+}

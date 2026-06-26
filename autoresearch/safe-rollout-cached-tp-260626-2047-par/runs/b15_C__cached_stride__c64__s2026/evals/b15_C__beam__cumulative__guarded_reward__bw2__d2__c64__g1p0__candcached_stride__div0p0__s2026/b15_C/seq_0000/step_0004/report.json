@@ -1,0 +1,65 @@
+{
+  "benchmark_id": "b15_C",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "b15_C",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 50000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 19630,
+    "effective_pattern_count": 805,
+    "fault_coverage": 0.8451000000000001,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 3598
+    },
+    "hard_fault_count": 3598,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 50000,
+    "random_pattern_budget": 50000,
+    "test_coverage": 0.8451000000000001,
+    "total_faults": 23228,
+    "undetected_fault_count": 3598,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 3521,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/undetected_nodes.csv",
+    "undetected_output_fault_count": 3598,
+    "undetected_sa0_count": 251,
+    "undetected_sa1_count": 3347,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/safe-rollout-cached-tp-260626-2047-par/runs/b15_C__cached_stride__c64__s2026/evals/b15_C__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_stride__div0p0__s2026/b15_C/seq_0000/step_0004/inserted.bench",
+  "inserted_bench_sha256": "6e514ae1b42d456f9df0450db1d30fd06ae3e08b014218971c5f29f62b6dfc57",
+  "inserted_count": 4,
+  "insertion_sequence": [
+    {
+      "candidate_id": 27162,
+      "net": "N19975",
+      "score": 0.39362090826034546,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 5432,
+      "net": "N5995",
+      "score": 0.4126206636428833,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 14486,
+      "net": "N11157",
+      "score": 0.34624427556991577,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 14486,
+      "net": "N11157",
+      "score": 0.23697762191295624,
+      "type": "CP0"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b15_C.bench",
+  "source_bench_sha256": "3e2646ef1fda8ac89ea99bfaef525127d0df0b46b7263d1e7be204bfd1eb2df0",
+  "status": "ok"
+}

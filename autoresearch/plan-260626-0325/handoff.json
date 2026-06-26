@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-06-26T03:25:00+08:00",
+  "subcommand": "plan",
+  "plan_file": "autoresearch/plan-260626-0325/plan.md",
+  "verify_config": "autoresearch/plan-260626-0325/verify_config.json",
+  "based_on": [
+    "autoresearch/predictive-tech-ablation-260626/handoff.json",
+    "autoresearch/predictive-tech-ablation-260626/results.tsv",
+    "docs/hard_f1_autoresearch_report.md"
+  ],
+  "next_mode": "$autoresearch",
+  "next_goal": "Implement calibration/action-ranking diagnostic report without training a new model.",
+  "verify_command": "python scripts/evaluate_hard_checkpoints.py --help",
+  "frozen_mainline": {
+    "encoder_type": "mean",
+    "summary_mode": "global",
+    "lambda_hard_rank": 0.0
+  },
+  "implementation_priority": [
+    "Add dataset metadata/state_key in tpi_jepa/dataset.py",
+    "Add calibration diagnostics output in scripts/evaluate_hard_checkpoints.py",
+    "Add action-ranking diagnostics output in scripts/evaluate_hard_checkpoints.py",
+    "Update docs/hard_f1_autoresearch_report.md"
+  ],
+  "do_not_do": [
+    "Do not train new models in this phase",
+    "Do not add action-ranking loss yet",
+    "Do not continue gate_dir/cone/rank search"
+  ]
+}

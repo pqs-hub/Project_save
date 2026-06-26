@@ -1,0 +1,59 @@
+{
+  "benchmark_id": "i2c_aig",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "i2c_aig",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 50000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 2991,
+    "effective_pattern_count": 258,
+    "fault_coverage": 0.93352,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 213
+    },
+    "hard_fault_count": 213,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 50000,
+    "random_pattern_budget": 50000,
+    "test_coverage": 0.93352,
+    "total_faults": 3204,
+    "undetected_fault_count": 213,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 209,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/undetected_nodes.csv",
+    "undetected_output_fault_count": 213,
+    "undetected_sa0_count": 19,
+    "undetected_sa1_count": 194,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/safe-rollout-hardcone-div-260626-2210/i2c_div0p5/evals/i2c_aig__beam__cumulative__guarded_reward__bw2__d2__c64__g1p0__candcached_hard_cone__div0p5__s0/i2c_aig/seq_0000/step_0003/inserted.bench",
+  "inserted_bench_sha256": "38d5fd475b2005deba93b9a86c94dee26037295b2469b680bf1f4850b43d09b3",
+  "inserted_count": 3,
+  "insertion_sequence": [
+    {
+      "candidate_id": 1885,
+      "net": "N339",
+      "score": 0.3390609622001648,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3069,
+      "net": "N336",
+      "score": 0.34141629934310913,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4051,
+      "net": "N1139",
+      "score": 0.3238823413848877,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/i2c_aig.bench",
+  "source_bench_sha256": "e783e4d0c147cb6145a684637239a1711fdf1bb2c62e37da7768a37a9b4724e7",
+  "status": "ok"
+}
