@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import csv
 from datetime import datetime
 import json
@@ -104,6 +105,20 @@ def run(cmd: list[str], log_path: Path) -> None:
         raise subprocess.CalledProcessError(proc.returncode, cmd)
 
 
+def completed_checkpoint(variant: str, out_dir: Path) -> bool:
+    checkpoint = out_dir / "runs" / variant / "best.pt"
+    history = out_dir / "runs" / variant / "history.csv"
+    if not checkpoint.exists() or not history.exists():
+        return False
+    rows = read_csv(history)
+    return any(row.get("epoch") == "4" for row in rows)
+
+
+def read_csv(path: Path) -> list[dict[str, str]]:
+    with path.open(newline="") as f:
+        return list(csv.DictReader(f))
+
+
 def build_config(variant: str, out_dir: Path, device: str) -> Path:
     spec = VARIANTS[variant]
     config = read_json(REPO_ROOT / spec["base_config"])
@@ -135,16 +150,40 @@ def build_config(variant: str, out_dir: Path, device: str) -> Path:
     return path
 
 
-def train_variant(variant: str, out_dir: Path, device: str) -> Path:
+def train_variant(variant: str, out_dir: Path, device: str, force: bool = False) -> Path:
     config_path = build_config(variant, out_dir, device)
+    checkpoint = out_dir / "runs" / variant / "best.pt"
+    if not force and completed_checkpoint(variant, out_dir):
+        return checkpoint
     run(
         [sys.executable, "-m", "tpi_jepa.train", "--config", str(config_path)],
         out_dir / "logs" / f"{variant}.train.log",
     )
-    checkpoint = out_dir / "runs" / variant / "best.pt"
     if not checkpoint.exists():
         raise FileNotFoundError(checkpoint)
     return checkpoint
+
+
+def train_variants(
+    variants: list[str],
+    out_dir: Path,
+    devices: list[str],
+    force: bool,
+) -> None:
+    if not devices:
+        raise ValueError("at least one device is required")
+    if len(devices) == 1:
+        for variant in variants:
+            train_variant(variant, out_dir, devices[0], force=force)
+        return
+    assignments = {variant: devices[index % len(devices)] for index, variant in enumerate(variants)}
+    with ThreadPoolExecutor(max_workers=min(len(devices), len(variants))) as executor:
+        futures = {
+            executor.submit(train_variant, variant, out_dir, device, force): variant
+            for variant, device in assignments.items()
+        }
+        for future in as_completed(futures):
+            future.result()
 
 
 def checkpoint_specs(variants: list[str], out_dir: Path) -> str:
@@ -158,10 +197,13 @@ def checkpoint_specs(variants: list[str], out_dir: Path) -> str:
     return ",".join(specs)
 
 
-def run_oracle_gates(variants: list[str], out_dir: Path, device: str) -> None:
+def run_oracle_gates(variants: list[str], out_dir: Path, device: str, force: bool = False) -> None:
     specs = checkpoint_specs(variants, out_dir)
     score_fields = "hard_reduction_total_pred,hybrid_pred,derived_hard_reduction_total_pred,derived_hard_reduction_hybrid_pred"
     for split, oracle in [("expanded_val", VAL_ORACLE), ("transfer", TRANSFER_ORACLE)]:
+        summary_path = out_dir / "gates" / split / "oracle_action_value_summary.tsv"
+        if summary_path.exists() and not force:
+            continue
         run(
             [
                 sys.executable,
@@ -187,28 +229,45 @@ def run_oracle_gates(variants: list[str], out_dir: Path, device: str) -> None:
         )
 
 
-def run_hard_gates(variants: list[str], out_dir: Path, device: str) -> None:
-    for variant in variants:
-        run(
-            [
-                sys.executable,
-                "scripts/evaluate_hard_checkpoints.py",
-                "--config",
-                str(out_dir / "configs" / f"{variant}.json"),
-                "--run-dir",
-                str(out_dir / "runs" / variant),
-                "--out-csv",
-                str(out_dir / "gates" / "hard" / f"{variant}.csv"),
-                "--max-val-samples",
-                "4096",
-                "--max-steps",
-                "256",
-                "--device",
-                device,
-                "--temperature-scale-hard",
-            ],
-            out_dir / "logs" / f"gate_hard_{variant}.log",
-        )
+def run_hard_gate(variant: str, out_dir: Path, device: str, force: bool = False) -> None:
+    out_csv = out_dir / "gates" / "hard" / f"{variant}.csv"
+    if out_csv.exists() and not force:
+        return
+    run(
+        [
+            sys.executable,
+            "scripts/evaluate_hard_checkpoints.py",
+            "--config",
+            str(out_dir / "configs" / f"{variant}.json"),
+            "--run-dir",
+            str(out_dir / "runs" / variant),
+            "--out-csv",
+            str(out_csv),
+            "--max-val-samples",
+            "4096",
+            "--max-steps",
+            "256",
+            "--device",
+            device,
+            "--temperature-scale-hard",
+        ],
+        out_dir / "logs" / f"gate_hard_{variant}.log",
+    )
+
+
+def run_hard_gates(variants: list[str], out_dir: Path, devices: list[str], force: bool = False) -> None:
+    if len(devices) <= 1:
+        for variant in variants:
+            run_hard_gate(variant, out_dir, devices[0], force=force)
+        return
+    assignments = {variant: devices[index % len(devices)] for index, variant in enumerate(variants)}
+    with ThreadPoolExecutor(max_workers=min(len(devices), len(variants))) as executor:
+        futures = {
+            executor.submit(run_hard_gate, variant, out_dir, device, force): variant
+            for variant, device in assignments.items()
+        }
+        for future in as_completed(futures):
+            future.result()
 
 
 def best_row(rows: list[dict[str, str]], checkpoint: str, score_field: str) -> dict[str, str] | None:
@@ -329,11 +388,15 @@ def main() -> None:
     parser.add_argument("--out-dir", type=Path, default=Path("autoresearch/train-ab-oracle-rank-260629"))
     parser.add_argument("--variants", default="A_oracle_0p03,B_oracle_0p03")
     parser.add_argument("--device", default="cuda:4")
+    parser.add_argument("--parallel-devices", default=None)
+    parser.add_argument("--force-train", action="store_true")
+    parser.add_argument("--force-gates", action="store_true")
     parser.add_argument("--skip-train", action="store_true")
     parser.add_argument("--skip-gates", action="store_true")
     args = parser.parse_args()
 
     variants = parse_csv_values(args.variants)
+    devices = parse_csv_values(args.parallel_devices) if args.parallel_devices else [args.device]
     unknown = [variant for variant in variants if variant not in VARIANTS]
     if unknown:
         raise ValueError(f"unknown variants: {unknown}; valid={sorted(VARIANTS)}")
@@ -344,17 +407,17 @@ def main() -> None:
             "generated_at": datetime.now().isoformat(timespec="seconds"),
             "variants": variants,
             "device": args.device,
+            "parallel_devices": devices,
             "train_oracle": TRAIN_ORACLE,
             "val_oracle": VAL_ORACLE,
             "transfer_oracle": TRANSFER_ORACLE,
         },
     )
     if not args.skip_train:
-        for variant in variants:
-            train_variant(variant, args.out_dir, args.device)
+        train_variants(variants, args.out_dir, devices, force=args.force_train)
     if not args.skip_gates:
-        run_hard_gates(variants, args.out_dir, args.device)
-        run_oracle_gates(variants, args.out_dir, args.device)
+        run_hard_gates(variants, args.out_dir, devices, force=args.force_gates)
+        run_oracle_gates(variants, args.out_dir, devices[0], force=args.force_gates)
     rows = summarize(variants, args.out_dir)
     incumbent = next(row for row in rows if row["variant"] == "incumbent")
     for row in rows:
@@ -381,4 +444,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
