@@ -1,0 +1,53 @@
+{
+  "baseline": "incumbent",
+  "checkpoints": [
+    {
+      "checkpoint_id": "0a30e730990c065e",
+      "name": "incumbent",
+      "path": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt"
+    },
+    {
+      "checkpoint_id": "46f22701350f0859",
+      "name": "A_no_oracle",
+      "path": "autoresearch/ablate-scoap-version-a-260629-1806/runs/A_only_scoap/best.pt"
+    },
+    {
+      "checkpoint_id": "0d515991726cf6e8",
+      "name": "B_no_oracle",
+      "path": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap/best.pt"
+    },
+    {
+      "checkpoint_id": "bb1b826289a281a1",
+      "name": "A_oracle_0p03",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p03/best.pt"
+    },
+    {
+      "checkpoint_id": "8690c26d5157df28",
+      "name": "B_oracle_0p03",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03/best.pt"
+    }
+  ],
+  "mode": "fix",
+  "objective": "fixed oracle action-value checkpoint comparison gate",
+  "oracle_actions": "autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_val_oracle_actions.tsv",
+  "out_dir": "autoresearch/train-ab-oracle-rank-260629/gates/expanded_val",
+  "outputs": {
+    "oracle_action_value_metrics": "autoresearch/train-ab-oracle-rank-260629/gates/expanded_val/oracle_action_value_metrics.tsv",
+    "oracle_action_value_report": "autoresearch/train-ab-oracle-rank-260629/gates/expanded_val/oracle_action_value_report.md",
+    "oracle_action_value_summary": "autoresearch/train-ab-oracle-rank-260629/gates/expanded_val/oracle_action_value_summary.tsv",
+    "rescored_oracle_actions": "autoresearch/train-ab-oracle-rank-260629/gates/expanded_val/rescored_oracle_actions.tsv"
+  },
+  "records": {
+    "oracle_action_value_metrics": 740,
+    "oracle_action_value_summary": 20,
+    "rescored_oracle_actions": 3330
+  },
+  "status": "progressed",
+  "verdicts": {
+    "A_no_oracle": "INCONCLUSIVE",
+    "A_oracle_0p03": "INCONCLUSIVE",
+    "B_no_oracle": "PROMOTE",
+    "B_oracle_0p03": "PROMOTE",
+    "incumbent": "INCONCLUSIVE"
+  }
+}

@@ -1,0 +1,9 @@
+$ /data1/pengqingsong/tools/miniconda3/bin/python scripts/evaluate_hard_checkpoints.py --config autoresearch/train-ab-oracle-rank-260629/configs/B_oracle_0p03.json --run-dir autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03 --out-csv autoresearch/train-ab-oracle-rank-260629/gates/hard/B_oracle_0p03.csv --max-val-samples 4096 --max-steps 256 --device cuda:4 --temperature-scale-hard
+wrote_csv=autoresearch/train-ab-oracle-rank-260629/gates/hard/B_oracle_0p03.csv
+wrote_png=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03/target_metrics.png
+[eval] epoch=1 latent=0.066529 scoap_mae=0.407477 hard_bce=0.220818 hard_macro_f1_tuned=0.760110 hard_recall_top10=0.996921 predictive_score=0.618864
+[eval] epoch=2 latent=0.063754 scoap_mae=0.430029 hard_bce=0.112070 hard_macro_f1_tuned=0.811467 hard_recall_top10=0.995537 predictive_score=0.618509
+[eval] epoch=3 latent=0.051759 scoap_mae=0.408232 hard_bce=0.113554 hard_macro_f1_tuned=0.805229 hard_recall_top10=0.999011 predictive_score=0.641043
+[eval] epoch=4 latent=0.048663 scoap_mae=0.397890 hard_bce=0.107031 hard_macro_f1_tuned=0.783477 hard_recall_top10=0.998806 predictive_score=0.665876
+[eval] epoch=-2 latent=0.051759 scoap_mae=0.408232 hard_bce=0.113554 hard_macro_f1_tuned=0.805229 hard_recall_top10=0.999011 predictive_score=0.641043
+[eval] epoch=-1 latent=0.048663 scoap_mae=0.397890 hard_bce=0.107031 hard_macro_f1_tuned=0.783477 hard_recall_top10=0.998806 predictive_score=0.665876
