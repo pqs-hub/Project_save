@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 344, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 317, in main
+    rows = evaluate_plan(
+        benchmark_id=args.benchmark_id,
+    ...<10 lines>...
+        cleanup_workdir=args.cleanup_workdir,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/evaluate_plan_tmax.py", line 202, in evaluate_plan
+    baseline_report = evaluate_points(
+        circuit_path=bench_path,
+    ...<10 lines>...
+        dry_run=dry_run,
+    )
+  File "/data4/pengqingsong/DFT/Dataset/tpi_eval/random_labels.py", line 161, in evaluate_points
+    fault_report = fault_backend.evaluate(
+        inserted_bench,
+    ...<3 lines>...
+        inserted_count=len(selected),
+    )
+  File "/data4/pengqingsong/DFT/Dataset/tpi_eval/backends.py", line 1003, in evaluate
+    raise RuntimeError(
+        f"TMAX failed with exit code {completed.returncode}. Logs: {log_dir}"
+    )
+RuntimeError: TMAX failed with exit code 127. Logs: /data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-smoke/evals/subckt_0001__beam__cumulative__hybrid_pred__bw4__d3__c256__g1p0__candrecall_pool__div0p02__s0/subckt_0001/baseline/tmax_logs

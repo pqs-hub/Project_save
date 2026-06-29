@@ -1,0 +1,53 @@
+{
+  "benchmark_id": "i2c_aig",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "i2c_aig",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 2965,
+    "effective_pattern_count": 246,
+    "fault_coverage": 0.92598,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 237
+    },
+    "hard_fault_count": 237,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.92598,
+    "total_faults": 3202,
+    "undetected_fault_count": 237,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 231,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/undetected_nodes.csv",
+    "undetected_output_fault_count": 237,
+    "undetected_sa0_count": 26,
+    "undetected_sa1_count": 211,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0/i2c_aig/seq_0000/step_0002/inserted.bench",
+  "inserted_bench_sha256": "9d0e0068327392f0117e48c82594ee243e6dd1a9cc22bc64cfcbb1576952a2d7",
+  "inserted_count": 2,
+  "insertion_sequence": [
+    {
+      "candidate_id": 4004,
+      "net": "__buf_split_1371",
+      "score": 0.3181261122226715,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3904,
+      "net": "N298",
+      "score": 0.3044638931751251,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/i2c_aig.bench",
+  "source_bench_sha256": "e783e4d0c147cb6145a684637239a1711fdf1bb2c62e37da7768a37a9b4724e7",
+  "status": "ok"
+}

@@ -1,0 +1,56 @@
+{
+  "objective": "Collect negative-rich oracle action groups from sampled subckts with control-heavy candidate pools, then rebuild balanced train data.",
+  "mode": "fix",
+  "status": "completed_ready_for_backend_collection",
+  "generated_at": "2026-06-29 19:03 Asia/Shanghai",
+  "source_plan": "autoresearch/plan-260629-1853/plan.md",
+  "user_override": "Prefer more groups and more training rows; do not stop at the old conservative 120-group target if more backend budget is available.",
+  "code_changes": [
+    "Added scripts/sample_negative_rich_oracle_subckts.py",
+    "Added scripts/merge_oracle_action_tsv.py",
+    "Updated scripts/build_balanced_oracle_action_subset.py so --max-actions-per-group 0 keeps full groups"
+  ],
+  "artifacts": {
+    "fix_report": "autoresearch/fix-260629-1903/fix_report.md",
+    "sample_manifest": "autoresearch/oracle-negative-rich-260629/sample/sample_manifest.json",
+    "pool_report": "autoresearch/oracle-negative-rich-260629/sample/pool_report.md",
+    "pilot_subckts": "autoresearch/oracle-negative-rich-260629/sample/pilot_subckts.txt",
+    "topup_subckts": "autoresearch/oracle-negative-rich-260629/sample/topup_subckts.txt",
+    "all_eligible_subckts": "autoresearch/oracle-negative-rich-260629/sample/all_eligible_subckts.txt",
+    "run_pilot": "autoresearch/oracle-negative-rich-260629/run_pilot.sh",
+    "run_topup": "autoresearch/oracle-negative-rich-260629/run_topup.sh",
+    "rebuild_balanced": "autoresearch/oracle-negative-rich-260629/rebuild_balanced_after_collection.sh",
+    "existing_only_balanced_report": "autoresearch/oracle-balanced-negative-rich-260629/balance_report.md"
+  },
+  "sampling_counts": {
+    "all_subckt_bench_files": 400,
+    "excluded_expanded_val_subckts": 16,
+    "eligible_train_pool_subckts": 384,
+    "existing_train_oracle_subckts": 96,
+    "fresh_eligible_subckts": 288,
+    "pilot_subckts": 96,
+    "topup_subckts": 192,
+    "remaining_after_topup": 96
+  },
+  "expected_raw_scale_after_pilot_and_topup": {
+    "new_fresh_groups": 864,
+    "new_fresh_rows": 31104,
+    "merged_with_existing_train_groups_upper_bound": 1152,
+    "merged_with_existing_train_rows_upper_bound": 36288
+  },
+  "existing_only_rebuild": {
+    "train_kept_groups": 71,
+    "train_kept_rows": 1278,
+    "train_negative_rate": 0.5007824726134585,
+    "needs_more_oracle_collection": true
+  },
+  "backend_collection_started": false,
+  "reason_backend_not_started": "Pilot alone is 10368 backend action evals and topup is 20736; scripts are ready and resumable but the long backend job was not launched inside this fix verification step.",
+  "next_recommended_commands": [
+    "./autoresearch/oracle-negative-rich-260629/run_pilot.sh",
+    "./autoresearch/oracle-negative-rich-260629/rebuild_balanced_after_collection.sh",
+    "./autoresearch/oracle-negative-rich-260629/run_topup.sh",
+    "./autoresearch/oracle-negative-rich-260629/rebuild_balanced_after_collection.sh"
+  ]
+}
+

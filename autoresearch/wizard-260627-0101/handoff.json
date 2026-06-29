@@ -1,0 +1,36 @@
+{
+  "mode": "wizard",
+  "objective": "Advance the no-oracle candidate recall gate by adding high-recall candidate slicing and richer diagnostics.",
+  "status": "progressed",
+  "findings": {
+    "errors": 0,
+    "incumbent_candidate_strategy": "hard_fault_ranked",
+    "mixed_action_recall_at_64": 0.283203,
+    "hard_fault_ranked_action_recall_at_64": 0.342773,
+    "hard_fault_ranked_action_recall_at_128": 0.583008,
+    "hard_fault_ranked_action_recall_at_256": 0.816406,
+    "hard_fault_ranked_node_recall_at_128": 0.716797,
+    "recall_pool_action_recall_at_128": 0.582031,
+    "recall_pool_node_recall_at_256": 0.886719,
+    "main_bottleneck": "Action-level Recall@64 remains far below 0.70; per-action diagnostics show control0/control1 recall is much weaker than observe recall.",
+    "interpretation": "No-oracle structural ranking can reach useful action recall at K=128/256, but the Stage-1 Recall@64 target is not yet satisfied under the current action-level K definition."
+  },
+  "changes": [
+    "Added *_ranked candidate strategies that keep raw score order without balanced diversity pruning.",
+    "Added recall_pool strategy that interleaves hard_fault, ffr, reconvergence, mixed, and testability rankings.",
+    "Extended candidate_recall_diagnostics with action recall, node recall, per-benchmark recall, and per-action-type recall."
+  ],
+  "verify": [
+    "python -m py_compile tpi_jepa/*.py scripts/*.py",
+    "python scripts/candidate_recall_diagnostics.py --candidate-strategy mixed --top-k 32,64,128,256 --max-sequences 1024",
+    "python scripts/candidate_recall_diagnostics.py --candidate-strategy hard_fault_ranked --top-k 32,64,128,256 --max-sequences 1024 --details",
+    "python scripts/candidate_recall_diagnostics.py --candidate-strategy recall_pool --top-k 32,64,128,256 --max-sequences 1024 --details",
+    "python scripts/planner_encoder_matrix.py --encoders mean --planners greedy --relations basic --device cpu",
+    "python -m tpi_jepa.smoke_test"
+  ],
+  "next": [
+    "Treat hard_fault_ranked as the current no-oracle candidate-recall incumbent.",
+    "Investigate control0/control1-specific ranking, because observe recall is already high while control recalls dominate the miss rate.",
+    "Consider changing the Stage-1 gate to Recall@128 or node Recall@64 if planner can score all actions for retained nodes; otherwise continue optimizing action Recall@64."
+  ]
+}

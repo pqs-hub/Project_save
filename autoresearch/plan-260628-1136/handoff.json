@@ -1,0 +1,66 @@
+{
+  "mode": "plan",
+  "objective": "Improve test-coverage lift on the 8 fixed evaluation circuits.",
+  "status": "planned",
+  "plan": "autoresearch/plan-260628-1136/plan.md",
+  "recommendation": "Prioritize per-circuit safe planner routing before more hard-F1 training.",
+  "evidence": {
+    "best_hard_macro_f1_tuned": 0.7980429023392821,
+    "best_predictive_score": 0.8218421546846536,
+    "hard_fault_cone_4ckt_macro_mean_delta_tc": 0.019277499999999975,
+    "hard_fault_cone_4ckt_min_delta_tc": -0.01153000000000004,
+    "cached_hard_cone_b15_delta_tc": 0.0303500000000001,
+    "cached_hard_cone_b17_delta_tc": -0.011369999999999991,
+    "cached_hard_cone_i2c_delta_tc": -0.011340000000000017,
+    "cached_hard_cone_max_delta_tc": 0.04237999999999997,
+    "hard_fault_recall_union_partial_macro_mean_delta_tc": 0.017133999999999917,
+    "hard_fault_recall_union_partial_min_delta_tc": -0.011850000000000027,
+    "hard_fault_recall_union_plan_error_circuits": [
+      "b17_C",
+      "b22_C",
+      "mem_ctrl_aig"
+    ]
+  },
+  "scope": [
+    "scripts/run_gmean_sweep.py",
+    "tpi_jepa/plan.py",
+    "scripts/candidate_recall_diagnostics.py",
+    "scripts/plan_candidate_baseline.py",
+    "autoresearch/plan-260628-1136/",
+    "autoresearch/tp-candidates-260626-2047/"
+  ],
+  "metric": {
+    "primary": "macro_mean_delta_tc across all 8 circuits at patterns=300000",
+    "promotion_gate": [
+      "status=ok on all 8 circuits",
+      "macro_mean_delta_tc improves over fallback baseline",
+      "min_delta_tc >= -0.005",
+      "negative_count <= 1",
+      "no plan_error rows"
+    ],
+    "smoke_gate": [
+      "delta_test_coverage >= -0.005",
+      "plan completes within timeout",
+      "plan has exactly budget inserted points"
+    ]
+  },
+  "verify": [
+    "python -m py_compile tpi_jepa/*.py scripts/*.py",
+    "python -m tpi_jepa.plan --help",
+    "python scripts/run_gmean_sweep.py --help",
+    "python scripts/candidate_recall_diagnostics.py --help",
+    "run candidate recall diagnostics for netlist/testability/hard_fault_cone/hard_fault_recall_union/recall_pool",
+    "add candidate-cache-dir support before using candidate_recall_diagnostics on cached strategies",
+    "run 50k unstable-circuit gate on b17_C,b22_C,i2c_aig,mem_ctrl_aig",
+    "run 50k upside gate on b15_C,max_aig,b20_C,b21_C",
+    "run 300k 8-circuit fallback baseline",
+    "after route-table support exists, run 300k 8-circuit routed evaluation"
+  ],
+  "next": [
+    "Run the static checks in the plan.",
+    "Run candidate recall diagnostics and save outputs under autoresearch/plan-260628-1136/.",
+    "Execute the 50k unstable-circuit gate before spending time on a full 8-circuit run.",
+    "Build a per-circuit route table from routes that pass delta >= -0.005 and status=ok.",
+    "Add first-class per-benchmark planner configuration if manual route stitching becomes the bottleneck."
+  ]
+}

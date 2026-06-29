@@ -1,0 +1,26 @@
+{
+  "status": "progressed",
+  "kept_variant": "hard_fault_recall_union",
+  "metric": {
+    "checked": 256,
+    "candidate_action_recall_at_256": 0.824219,
+    "candidate_node_recall_at_256": 0.878906
+  },
+  "baselines": {
+    "hard_fault_ranked": {
+      "candidate_action_recall_at_256": 0.820312,
+      "candidate_node_recall_at_256": 0.867188
+    },
+    "recall_pool": {
+      "candidate_action_recall_at_256": 0.777344,
+      "candidate_node_recall_at_256": 0.878906
+    }
+  },
+  "verification": [
+    "python -m py_compile tpi_jepa/plan.py",
+    "python scripts/candidate_recall_diagnostics.py --candidate-strategy hard_fault_recall_union --top-k 64,128,256 --max-sequences 256 --details",
+    "python scripts/return_target_diagnostics.py --labels /data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/labels.csv --gamma 0.9 --scale 100.0 --max-samples 256",
+    "python -m tpi_jepa.plan --checkpoint runs/aig_lowtc_100k_hard_pretrain/best.pt --benchmark-id subckt_0001 --budget 1 --max-candidates 32 --device cpu --planner greedy --score-field hybrid_pred --candidate-strategy hard_fault_recall_union"
+  ],
+  "next": "Run fixed-protocol rollout sweep with --candidate-strategies hard_fault_recall_union and --score-fields hybrid_pred,return_pred,guarded_reward,reward_pred."
+}

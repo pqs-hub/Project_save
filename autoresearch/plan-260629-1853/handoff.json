@@ -1,0 +1,25 @@
+{
+  "objective": "Collect negative-rich oracle action groups from sampled subckts with control-heavy candidate pools, then rebuild balanced train data.",
+  "mode": "plan",
+  "status": "ready_for_fix",
+  "generated_at": "2026-06-29 18:53 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-1853/plan.md",
+  "validated_config": "autoresearch/plan-260629-1853/validated_config.json",
+  "key_findings": {
+    "subckt_bench_files": 400,
+    "labels_csv_unique_benchmark_ids": 131,
+    "existing_train_groups": 288,
+    "existing_train_negative_rate": 0.1381172839506173,
+    "existing_balanced_train_groups": 71,
+    "existing_balanced_train_target": 80,
+    "new_balanced_train_target": 120
+  },
+  "planned_code_changes": [
+    "Add scripts/sample_negative_rich_oracle_subckts.py",
+    "Add scripts/merge_oracle_action_tsv.py",
+    "Use existing scripts/oracle_action_value_probe.py for backend labeling",
+    "Use existing scripts/build_balanced_oracle_action_subset.py for final balanced train/val rebuild"
+  ],
+  "next_recommended_command": "$autoresearch fix autoresearch/plan-260629-1853/plan.md"
+}
+

@@ -1,0 +1,80 @@
+{
+  "objective": "Train and evaluate both Scheme A and Scheme B with small-weight oracle pairwise ranking loss.",
+  "created_at": "2026-06-29 21:05 Asia/Shanghai",
+  "output_dir": "autoresearch/train-ab-oracle-rank-260629",
+  "oracle_data": {
+    "train": "autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_train_oracle_actions.tsv",
+    "expanded_val": "autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_val_oracle_actions.tsv",
+    "transfer": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "train_groups": 180,
+    "train_rows": 4320,
+    "val_groups": 37,
+    "val_rows": 666
+  },
+  "base_configs": {
+    "scheme_A": "autoresearch/ablate-scoap-version-a-260629-1806/configs/A_only_scoap.json",
+    "scheme_B": "autoresearch/ablate-scoap-version-b-260629-1705/configs/B_only_delta_scoap.json"
+  },
+  "sweep": [
+    {
+      "variant": "A_oracle_0p01",
+      "scheme": "A",
+      "lambda_oracle_rank": 0.01,
+      "oracle_ranking_score_field": "hard_reduction_total_pred"
+    },
+    {
+      "variant": "A_oracle_0p03",
+      "scheme": "A",
+      "lambda_oracle_rank": 0.03,
+      "oracle_ranking_score_field": "hard_reduction_total_pred"
+    },
+    {
+      "variant": "A_oracle_0p05",
+      "scheme": "A",
+      "lambda_oracle_rank": 0.05,
+      "oracle_ranking_score_field": "hard_reduction_total_pred"
+    },
+    {
+      "variant": "B_oracle_0p01",
+      "scheme": "B",
+      "lambda_oracle_rank": 0.01,
+      "oracle_ranking_score_field": "derived_hard_reduction_hybrid_pred"
+    },
+    {
+      "variant": "B_oracle_0p03",
+      "scheme": "B",
+      "lambda_oracle_rank": 0.03,
+      "oracle_ranking_score_field": "derived_hard_reduction_hybrid_pred"
+    },
+    {
+      "variant": "B_oracle_0p05",
+      "scheme": "B",
+      "lambda_oracle_rank": 0.05,
+      "oracle_ranking_score_field": "derived_hard_reduction_hybrid_pred"
+    }
+  ],
+  "oracle_training": {
+    "oracle_batch_groups": 4,
+    "oracle_every_n_steps": 4,
+    "oracle_warmup_epochs": 1,
+    "oracle_ramp_epochs": 2,
+    "oracle_pairwise_min_delta": 0.001,
+    "oracle_pairwise_temperature": 1.0,
+    "oracle_max_actions_per_group": 0
+  },
+  "training": {
+    "epochs": 4,
+    "max_train_samples": 20000,
+    "max_val_samples": 4096,
+    "max_train_steps_per_epoch": 500,
+    "max_val_steps": 256,
+    "seed": 2030
+  },
+  "promotion": {
+    "hard_f1_max_drop": 0.03,
+    "transfer_top1_real_delta_must_be_nonnegative": true,
+    "transfer_negative_top1_must_not_worsen": true,
+    "transfer_top1_regret_slack_vs_incumbent": 0.005
+  }
+}
+

@@ -1,0 +1,28 @@
+{
+  "objective": "Fix missing candidate cache handling in negative-rich oracle runners.",
+  "mode": "fix",
+  "status": "completed",
+  "generated_at": "2026-06-29 19:09 Asia/Shanghai",
+  "error": "ValueError: cached candidate strategies require --candidate-cache-dir",
+  "root_cause": "run_pilot.sh and run_topup.sh used cached candidate strategies without building/passing a matching candidate cache directory for the newly sampled subckts.",
+  "code_changes": [
+    "Added scripts/list_missing_candidate_cache.py",
+    "Updated autoresearch/oracle-negative-rich-260629/run_pilot.sh to build missing caches and pass --candidate-cache-dir",
+    "Updated autoresearch/oracle-negative-rich-260629/run_topup.sh to build missing caches and pass --candidate-cache-dir"
+  ],
+  "candidate_cache_dir": "autoresearch/tp-candidates-negative-rich-260629",
+  "verification": {
+    "py_compile": "passed",
+    "bash_n": "passed",
+    "smoke_cache_benchmark": "subckt_0057",
+    "smoke_oracle_probe_dry_run": "passed"
+  },
+  "cache_state_after_smoke": {
+    "pilot_cached": 0,
+    "pilot_total": 96,
+    "topup_cached": 1,
+    "topup_total": 192
+  },
+  "next_recommended_command": "./autoresearch/oracle-negative-rich-260629/run_topup.sh"
+}
+

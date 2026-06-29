@@ -1,0 +1,126 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	candidate_sample_seed	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	elapsed_sec	error
+2026-06-27T10:32:26	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	ok	b15_C	38477	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026	1.04660102725029	1.04660102725029	0.0104660102725029	0.9889762103557587	3.23298516869545	2.9490838050842285	0.07069000000000003	0.07069000000000003	0	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/b15_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/b15_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	210.973	
+2026-06-27T10:35:57	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	ok	b20_C	84305	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026	1.9388176202774048	1.9388176202774048	0.019388176202774048	2.328448712825775	6.2784024477005005	5.212404489517212	0.0004299999999998194	0.0004299999999998194	0	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/b20_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/b20_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	407.802	
+2026-06-27T10:42:45	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	ok	b21_C	85858	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026	1.8880670368671417	1.8880670368671417	0.01888067036867142	2.274317353963852	5.999493986368179	5.22366538643837	0.00019999999999986695	0.00019999999999986695	0	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/b21_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/b21_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	409.589	
+2026-06-27T10:49:34	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	plan_error	b22_C	125195	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026										autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/b22_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/b22_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	457.374	"model,
+    ...<8 lines>...
+        candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 987, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<3 lines>...
+        include_aux_heads=False,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 318, in predict_from_latent
+    z_update = self.dynamics(z_t, action_emb, relation_features)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 148, in forward
+    return self.mlp(torch.cat([z, action_broadcast, relation_features], dim=1))
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py"", line 133, in forward
+    return F.relu(input, inplace=self.inplace)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py"", line 1704, in relu
+    result = torch.relu(input)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 20.06 MiB is free. Including non-PyTorch memory, this process has 47.36 GiB memory in use. Of the allocated memory 45.00 GiB is allocated by PyTorch, and 1.87 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+2026-06-27T10:57:12	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	ok	i2c_aig	4726	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026	1.280916541814804	1.280916541814804	0.012809165418148041	1.8792555928230286	4.204737037420273	3.1639784798026085	-0.011850000000000027	-0.011850000000000027	0	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/i2c_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	36.017	
+2026-06-27T10:57:48	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	ok	max_aig	12294	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026	0.9153624773025513	0.9153624773025513	0.009153624773025512	2.1987510919570923	2.923509329557419	2.511987306177616	0.02619999999999989	0.02619999999999989	0	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/max_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/max_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	67.005	
+2026-06-27T10:58:55	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	plan_error	b17_C	137128	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026										autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/b17_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/b17_C__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	545.953	"model,
+    ...<8 lines>...
+        candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 987, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<3 lines>...
+        include_aux_heads=False,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 318, in predict_from_latent
+    z_update = self.dynamics(z_t, action_emb, relation_features)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 148, in forward
+    return self.mlp(torch.cat([z, action_broadcast, relation_features], dim=1))
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py"", line 133, in forward
+    return F.relu(input, inplace=self.inplace)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py"", line 1704, in relu
+    result = torch.relu(input)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 34.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 6.06 MiB is free. Including non-PyTorch memory, this process has 47.37 GiB memory in use. Of the allocated memory 46.83 GiB is allocated by PyTorch, and 56.96 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+2026-06-27T11:08:00	beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	plan_error	mem_ctrl_aig	179448	fixed	5	beam	cumulative	reward_pred	4	3	256	1.0	hard_fault_recall_union	0.0	4	0	300000	2026										autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/plans/mem_ctrl_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0.csv	autoresearch/new-candidate-pool-insertion-atalanta-best8-fixed5-gpu-host/evals/mem_ctrl_aig__beam__cumulative__reward_pred__bw4__d3__c256__g1p0__candhard_fault_recall_union__div0p0__s0	701.998	"model,
+    ...<8 lines>...
+        candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 987, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<3 lines>...
+        include_aux_heads=False,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 318, in predict_from_latent
+    z_update = self.dynamics(z_t, action_emb, relation_features)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 148, in forward
+    return self.mlp(torch.cat([z, action_broadcast, relation_features], dim=1))
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py"", line 133, in forward
+    return F.relu(input, inplace=self.inplace)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py"", line 1704, in relu
+    result = torch.relu(input)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 46.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 10.06 MiB is free. Including non-PyTorch memory, this process has 47.37 GiB memory in use. Of the allocated memory 44.85 GiB is allocated by PyTorch, and 2.03 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"

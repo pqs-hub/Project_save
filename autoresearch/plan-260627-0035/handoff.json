@@ -1,0 +1,43 @@
+{
+  "mode": "orchestrator-plan",
+  "objective": "Define a no-oracle TPI research plan whose final metric is frozen-protocol macro mean delta TC, with candidate recall as the first gate.",
+  "status": "planned",
+  "archetype": "optimize-metric",
+  "primary_metric": "macro_mean_delta_tc",
+  "protocol": "configs/eval_protocol_coverage_only.json",
+  "gates": [
+    {
+      "name": "candidate_recall",
+      "predicate": "candidate_recall_at_64 >= 0.70 on non-final held-out labels",
+      "verify": "python scripts/candidate_recall_diagnostics.py --candidate-strategy <strategy> --top-k 32,64,128 --max-sequences 4096"
+    },
+    {
+      "name": "fixed_candidate_ranking",
+      "predicate": "model planner regret and top-K action accuracy beat heuristic ranking under identical candidate sets",
+      "verify": "add ranking diagnostics with oracle-in-candidate delta TC labels"
+    },
+    {
+      "name": "final_coverage",
+      "predicate": "safe no-oracle model row beats best no-oracle baseline on macro_mean_delta_tc without worse negative_count or min_delta_tc",
+      "verify": "python scripts/run_gmean_sweep.py --eval-protocol configs/eval_protocol_coverage_only.json --real-fault-priors \"\" --activation-priors \"\" ..."
+    }
+  ],
+  "leakage_rules": {
+    "allowed": [
+      "final BENCH graph structure",
+      "SCOAP and structural proxies from final BENCH files",
+      "fixed protocol circuit IDs, pattern count, and budget rule"
+    ],
+    "forbidden": [
+      "final circuit TMAX fault logs as model input",
+      "final circuit real_fault_priors",
+      "final circuit undetected-node CSVs in candidate ranking",
+      "claims selected on final 8 results without labeling them as final-selection biased"
+    ]
+  },
+  "next": [
+    "Extend candidate_recall_diagnostics with per-benchmark and per-action recall.",
+    "Implement no-oracle candidate strategies targeting Recall@64 >= 0.70.",
+    "Only after candidate recall improves, add fixed-candidate ranking diagnostics and gate_dir ablation."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "mode": "fix",
+  "needs_more_oracle_collection": true,
+  "objective": "balanced oracle action subsets",
+  "out_dir": "autoresearch/oracle-balanced-negative-rich-260629-existing-only",
+  "outputs": {
+    "balance_report": "autoresearch/oracle-balanced-negative-rich-260629-existing-only/balance_report.md",
+    "balanced_train": "autoresearch/oracle-balanced-negative-rich-260629-existing-only/balanced_train_oracle_actions.tsv",
+    "balanced_val": "autoresearch/oracle-balanced-negative-rich-260629-existing-only/balanced_val_oracle_actions.tsv",
+    "manifest": "autoresearch/oracle-balanced-negative-rich-260629-existing-only/balanced_manifest.json"
+  },
+  "status": "completed_needs_more_oracle",
+  "summary": [
+    {
+      "control_negative_groups": 71,
+      "dropped_groups": 217,
+      "input_groups": 288,
+      "input_rows": 5184,
+      "kept_groups": 71,
+      "kept_rows": 1278,
+      "meets_group_target": 0,
+      "meets_negative_rate_target": 1,
+      "negative": 640,
+      "negative_rate": 0.5007824726134585,
+      "observe_negative_groups": 11,
+      "positive": 638,
+      "split": "train",
+      "zero": 0
+    },
+    {
+      "control_negative_groups": 34,
+      "dropped_groups": 14,
+      "input_groups": 48,
+      "input_rows": 864,
+      "kept_groups": 34,
+      "kept_rows": 612,
+      "meets_group_target": 1,
+      "meets_negative_rate_target": 1,
+      "negative": 355,
+      "negative_rate": 0.5800653594771242,
+      "observe_negative_groups": 7,
+      "positive": 257,
+      "split": "expanded_val",
+      "zero": 0
+    },
+    {
+      "control_negative_groups": 3,
+      "dropped_groups": 0,
+      "input_groups": 6,
+      "input_rows": 288,
+      "kept_groups": 0,
+      "kept_rows": 0,
+      "meets_group_target": "eval_only",
+      "meets_negative_rate_target": "eval_only",
+      "negative": 98,
+      "negative_rate": 0.3402777777777778,
+      "observe_negative_groups": 1,
+      "positive": 190,
+      "split": "transfer_eval_only",
+      "zero": 0
+    }
+  ]
+}

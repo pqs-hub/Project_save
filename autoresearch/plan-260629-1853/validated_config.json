@@ -1,0 +1,47 @@
+{
+  "objective": "Collect negative-rich oracle action groups from 400 sampled subckts and rebuild balanced train data.",
+  "created_at": "2026-06-29 18:53 Asia/Shanghai",
+  "subckt_dir": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits",
+  "available_subckt_bench_files": 400,
+  "labels_csv_unique_benchmark_ids": 131,
+  "existing_train_oracle": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+  "existing_expanded_val_oracle": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+  "transfer_oracle": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+  "incumbent_checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "candidate_strategies": [
+    "cached_hard_cone",
+    "cached_random",
+    "cached_stride"
+  ],
+  "action_types": [
+    "CP0",
+    "CP1",
+    "OP"
+  ],
+  "max_nets": 12,
+  "pilot_count": 48,
+  "topup_count": 64,
+  "backend": "atalanta-bist",
+  "patterns": 300000,
+  "balanced_selection": {
+    "min_negatives_per_group": 3,
+    "min_positives_per_group": 3,
+    "prefer_negative_types": [
+      "control0",
+      "control1"
+    ],
+    "max_actions_per_group": 24,
+    "min_train_groups": 120,
+    "min_val_groups": 24,
+    "target_train_negative_rate_low": 0.25,
+    "target_train_negative_rate_high": 0.6,
+    "target_control_negative_groups": 80
+  },
+  "output_dirs": {
+    "sample": "autoresearch/oracle-negative-rich-260629/sample",
+    "pilot": "autoresearch/oracle-negative-rich-260629/pilot",
+    "topup": "autoresearch/oracle-negative-rich-260629/topup",
+    "balanced": "autoresearch/oracle-balanced-negative-rich-260629"
+  }
+}
+

@@ -1,0 +1,27 @@
+{
+  "best_variant": "linear_l2",
+  "inputs": {
+    "train_rescored": "autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_train_oracle_actions.tsv",
+    "transfer_rescored": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "val_rescored": "autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_val_oracle_actions.tsv"
+  },
+  "mode": "fix",
+  "objective": "fixed-checkpoint action-value ranker",
+  "out_dir": "autoresearch/action-value-ranker-wide-260629",
+  "outputs": {
+    "handoff": "autoresearch/action-value-ranker-wide-260629/handoff.json",
+    "ranker_metrics": "autoresearch/action-value-ranker-wide-260629/ranker_metrics.tsv",
+    "ranker_report": "autoresearch/action-value-ranker-wide-260629/ranker_report.md"
+  },
+  "reasons": [
+    "transfer mean_top1_real_delta_tc became negative while baseline is positive"
+  ],
+  "records": {
+    "train_pair_groups": 180,
+    "train_rows": 4320,
+    "transfer_rows": 288,
+    "val_rows": 666
+  },
+  "status": "completed",
+  "verdict": "REJECT"
+}

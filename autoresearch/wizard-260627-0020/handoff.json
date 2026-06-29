@@ -1,0 +1,26 @@
+{
+  "mode": "wizard",
+  "objective": "Implement the first mechanical checks and low-risk fixes from the TPI-JEPA technical plan.",
+  "status": "progressed",
+  "findings": {
+    "errors": 0,
+    "candidate_recall_risk": "mixed candidate generation retained the labeled next action in only 14.0625% of 256 samples at K=32",
+    "state_update": "proxy state_update_mode creates nonzero delta_scoap targets while static mode remains unchanged",
+    "return_target": "rollout return targets now use discounted cumulative future delta coverage",
+    "planner_gate_dir": "greedy and beam planner initialization pass gate_type_ids to the encoder"
+  },
+  "verify": [
+    "python -m py_compile tpi_jepa/*.py scripts/*.py",
+    "python scripts/state_update_diagnostics.py --max-samples 256 --expect-nonzero-delta-scoap-rate 0.20",
+    "python scripts/return_target_diagnostics.py --gamma 1.0 --max-samples 256",
+    "python -c '<rollout loss smoke with TPIRolloutDataset state_update_mode=proxy>'",
+    "python scripts/planner_encoder_matrix.py --encoders mean,gate_dir --planners greedy,beam --relations basic,cone --device cpu",
+    "python scripts/candidate_recall_diagnostics.py --top-k 8,16,32 --max-sequences 256",
+    "python -m tpi_jepa.smoke_test"
+  ],
+  "next": [
+    "Enable state_update_mode=proxy in a smoke training config and compare validation losses against static mode.",
+    "Use candidate_recall_diagnostics to tune or replace mixed candidate slicing before attributing planner failures to the world model.",
+    "Add a backend-backed patched BENCH state update once the proxy mode has a measured benefit."
+  ]
+}

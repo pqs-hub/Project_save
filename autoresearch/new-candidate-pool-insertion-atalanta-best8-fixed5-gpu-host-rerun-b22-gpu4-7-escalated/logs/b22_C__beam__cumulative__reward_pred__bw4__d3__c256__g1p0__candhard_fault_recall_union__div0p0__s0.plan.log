@@ -1,0 +1,62 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1564, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1501, in main
+    rows = beam_rollout_plan(
+        model,
+    ...<16 lines>...
+        args.candidate_sample_seed,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1247, in beam_rollout_plan
+    beams = _expand_beam_paths(
+        model,
+    ...<15 lines>...
+        candidate_sample_seed,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1158, in _expand_beam_paths
+    scored = score_candidate_from_latent(
+        model,
+    ...<8 lines>...
+        candidate_diversity_depth,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 987, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<3 lines>...
+        include_aux_heads=False,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 318, in predict_from_latent
+    z_update = self.dynamics(z_t, action_emb, relation_features)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 148, in forward
+    return self.mlp(torch.cat([z, action_broadcast, relation_features], dim=1))
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py", line 133, in forward
+    return F.relu(input, inplace=self.inplace)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py", line 1704, in relu
+    result = torch.relu(input)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 30.06 MiB is free. Including non-PyTorch memory, this process has 47.35 GiB memory in use. Of the allocated memory 46.83 GiB is allocated by PyTorch, and 29.77 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
