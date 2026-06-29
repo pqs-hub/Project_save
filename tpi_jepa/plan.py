@@ -43,6 +43,7 @@ PLAN_FIELDNAMES = [
     "hard_reduction_sa0_pred",
     "hard_reduction_sa1_pred",
     "hybrid_pred",
+    "bounded_residual_hybrid_pred",
     "step_value",
     "sequence_score",
     "lookahead_score",
@@ -66,6 +67,14 @@ _CANDIDATE_CACHE: dict[
 _NODE_ID_CACHE: dict[int, dict[str, int]] = {}
 _RELATION_CACHE: dict[tuple[int, int, str, int], torch.Tensor] = {}
 _HARD_CONE_CACHE: dict[tuple[int, str | None, str | None, str | None, int], dict[str, torch.Tensor]] = {}
+
+
+def clear_planner_caches() -> None:
+    """Clear per-graph planner caches before long multi-circuit batches."""
+
+    _NODE_ID_CACHE.clear()
+    _RELATION_CACHE.clear()
+    _HARD_CONE_CACHE.clear()
 
 
 @dataclass
@@ -136,6 +145,8 @@ def load_checkpoint(path: str | Path, device: torch.device) -> tuple[TPIWorldMod
     ).to(device)
     model.load_state_dict(ckpt["model_state"], strict=False)
     model.coverage_scale = float(config.get("coverage_scale", 100.0))
+    model.bounded_residual_alpha = float(config.get("bounded_residual_alpha", 1.0))
+    model.bounded_residual_alpha_bound = float(config.get("bounded_residual_alpha_bound", 0.25))
     model.eval()
     return model, config
 
@@ -1012,6 +1023,11 @@ def score_candidate_from_latent(
         + reward_pred
         + hard_reduction_total * coverage_scale
     )
+    residual_alpha = max(
+        -float(getattr(model, "bounded_residual_alpha_bound", 0.25)),
+        min(float(getattr(model, "bounded_residual_alpha", 1.0)), float(getattr(model, "bounded_residual_alpha_bound", 0.25))),
+    )
+    bounded_residual_hybrid_pred = hard_reduction_total * coverage_scale + residual_alpha * (reward_pred + return_pred)
     return {
         "node": node,
         "type": action_type,
@@ -1025,6 +1041,7 @@ def score_candidate_from_latent(
         "hard_reduction_sa0_pred": hard_reduction_sa0,
         "hard_reduction_sa1_pred": hard_reduction_sa1,
         "hybrid_pred": hybrid_pred,
+        "bounded_residual_hybrid_pred": bounded_residual_hybrid_pred,
         "diversity_penalty": diversity_penalty,
         "_z_pred": out["z_pred"].detach(),
     }

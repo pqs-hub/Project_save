@@ -25,6 +25,7 @@ from tpi_jepa.graph import build_graph  # noqa: E402
 from tpi_jepa.labels import find_bench_path  # noqa: E402
 from tpi_jepa.plan import (  # noqa: E402
     PLAN_FIELDNAMES,
+    clear_planner_caches,
     enumerate_candidates,
     load_checkpoint,
     score_candidate_from_latent,
@@ -50,6 +51,7 @@ SCORE_FIELDS = [
     "return_pred",
     "hard_reduction_total_pred",
     "hybrid_pred",
+    "bounded_residual_hybrid_pred",
 ]
 ORACLE_FIELDS = [
     "benchmark_id",
@@ -667,6 +669,7 @@ def main() -> None:
     evaluated_oracle_rows = 0
 
     for benchmark_id in parse_csv_values(args.benchmarks):
+        clear_planner_caches()
         set_real_fault_context(benchmark_id, args.real_fault_priors, args.activation_priors)
         graph = build_graph(parse_bench(find_bench_path(benchmark_id)))
         selected: list[tuple[str, str]] = []

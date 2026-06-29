@@ -4,21 +4,86 @@ from __future__ import annotations
 
 import argparse
 import csv
+from collections import defaultdict
 import json
+import math
 from pathlib import Path
 import random
+from typing import Any
 
 import torch
 import torch.nn.functional as F
 
+from .bench import parse_bench
 from .dataset import RolloutSample, TPIDataset, TPIRolloutDataset, TransitionSample, split_by_benchmark
-from .features import SCOAP_END, SCOAP_START
-from .labels import load_labels
+from .features import (
+    SCOAP_END,
+    SCOAP_START,
+    action_type_to_id,
+    make_action_relation_features,
+    make_base_node_features,
+    make_state_features,
+)
+from .graph import build_graph
+from .labels import find_bench_path, load_labels
 from .model import TPIWorldModel, update_ema
+from .plan import set_real_fault_context
 from .protocol import excluded_benchmarks_from_config, filter_rows_by_excluded_benchmarks
 
 
 REGION_START = SCOAP_END
+
+
+def _safe_float(value: Any, default: float = float("nan")) -> float:
+    """Parse TSV numeric fields while preserving missing values as NaN."""
+
+    if value in (None, "", "NA"):
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _read_tsv(path: str | Path) -> list[dict[str, str]]:
+    """Read a tab-separated oracle action file."""
+
+    with Path(path).open(newline="") as f:
+        return list(csv.DictReader(f, delimiter="\t"))
+
+
+def _oracle_group_key(row: dict[str, Any]) -> tuple[str, str, str]:
+    """Group candidate actions by benchmark, state, and candidate generator."""
+
+    return (
+        str(row.get("benchmark_id", "")),
+        str(row.get("state_id", "")),
+        str(row.get("candidate_strategy", "")),
+    )
+
+
+def load_oracle_groups(path: str | Path, max_actions_per_group: int | None = None) -> list[list[dict[str, str]]]:
+    """Load backend-labeled oracle action groups for ranking supervision."""
+
+    grouped: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in _read_tsv(path):
+        if row.get("state_id") != "initial":
+            raise ValueError("main training oracle ranking currently supports only state_id=initial")
+        delta = _safe_float(row.get("oracle_delta_tc"))
+        if not math.isfinite(delta):
+            continue
+        grouped[_oracle_group_key(row)].append(row)
+
+    groups: list[list[dict[str, str]]] = []
+    for _, group in sorted(grouped.items()):
+        group = sorted(group, key=lambda row: int(float(row.get("candidate_rank") or 0)))
+        if max_actions_per_group is not None and max_actions_per_group > 0:
+            group = group[:max_actions_per_group]
+        if group:
+            groups.append(group)
+    if not groups:
+        raise ValueError(f"no oracle groups with finite actions in {path}")
+    return groups
 
 
 def load_config(path: str | Path) -> dict:
@@ -547,6 +612,204 @@ def rollout_horizon_for_epoch(epoch: int, config: dict) -> int:
     return min(max_horizon, 2 + (epoch - start_epoch) // increase_every)
 
 
+def _oracle_graph_and_base_for(
+    benchmark_id: str,
+    graph_cache: dict[str, Any],
+    base_cache: dict[str, torch.Tensor],
+    config: dict,
+) -> tuple[Any, torch.Tensor]:
+    """Build and cache graph/base features for oracle action groups."""
+
+    if benchmark_id not in graph_cache:
+        set_real_fault_context(benchmark_id, config.get("real_fault_priors"), config.get("activation_priors"))
+        graph_cache[benchmark_id] = build_graph(parse_bench(find_bench_path(benchmark_id)))
+    if benchmark_id not in base_cache:
+        graph = graph_cache[benchmark_id]
+        base_cache[benchmark_id] = make_base_node_features(
+            graph,
+            str(config.get("feature_mode", "basic")),
+            benchmark_id=benchmark_id,
+            real_fault_prior_path=config.get("real_fault_priors") or config.get("real_fault_prior_path"),
+            activation_prior_path=config.get("activation_priors") or config.get("activation_prior_path"),
+        )
+    return graph_cache[benchmark_id], base_cache[benchmark_id]
+
+
+def _predict_oracle_group_scores(
+    model: TPIWorldModel,
+    config: dict,
+    group: list[dict[str, str]],
+    graph_cache: dict[str, Any],
+    base_cache: dict[str, torch.Tensor],
+    device: torch.device,
+) -> dict[str, torch.Tensor]:
+    """Score all candidate actions in one oracle group from the initial state."""
+
+    benchmark_id = str(group[0]["benchmark_id"])
+    graph, base_features = _oracle_graph_and_base_for(benchmark_id, graph_cache, base_cache, config)
+    x_state = make_state_features(graph, [], base_features).to(device)
+    z_state = model.online_encoder(
+        x_state,
+        graph.edge_src.to(device),
+        graph.edge_dst.to(device),
+        graph.gate_type_ids.to(device),
+    )
+    relation_mode = str(config.get("relation_mode", "basic"))
+    relation_depth = int(config.get("relation_depth", 8))
+    node_ids = {name: idx for idx, name in enumerate(graph.node_names)}
+    coverage_scale = float(config.get("coverage_scale", 100.0))
+    score_lists: dict[str, list[torch.Tensor]] = {
+        "reward_pred": [],
+        "return_pred": [],
+        "guarded_reward": [],
+        "hard_reduction_total_pred": [],
+        "hybrid_pred": [],
+    }
+    for row in group:
+        node = row["node"]
+        action_type = row["type"]
+        if node not in node_ids:
+            raise ValueError(f"node {node!r} from oracle TSV not found in {benchmark_id}")
+        action_node_id = node_ids[node]
+        relation = make_action_relation_features(graph, action_node_id, relation_mode, relation_depth).to(device)
+        pred = model.predict_from_latent(
+            z_state,
+            action_node_id,
+            action_type_to_id(action_type),
+            relation,
+            include_aux_heads=False,
+        )
+        reward_pred = pred["reward_pred"]
+        return_pred = pred["return_pred"]
+        hard_reduction_pred = pred["hard_reduction_pred"].view(-1)
+        hard_reduction_total = hard_reduction_pred[0] if hard_reduction_pred.numel() > 0 else reward_pred.new_zeros(())
+        score_lists["reward_pred"].append(reward_pred)
+        score_lists["return_pred"].append(return_pred)
+        score_lists["guarded_reward"].append(torch.minimum(reward_pred, return_pred))
+        score_lists["hard_reduction_total_pred"].append(hard_reduction_total)
+        score_lists["hybrid_pred"].append(return_pred + reward_pred + hard_reduction_total * coverage_scale)
+    return {field: torch.stack(values) for field, values in score_lists.items()}
+
+
+def _oracle_score(scores: dict[str, torch.Tensor], field: str) -> torch.Tensor:
+    """Select the configured score tensor for oracle ranking."""
+
+    if field not in scores:
+        valid = ", ".join(sorted(scores))
+        raise ValueError(f"unsupported oracle_ranking_score_field {field!r}; valid fields: {valid}")
+    return scores[field]
+
+
+def _oracle_pairwise_rank_loss(
+    preds: torch.Tensor,
+    targets: torch.Tensor,
+    min_delta: float,
+    temperature: float,
+) -> tuple[torch.Tensor, int]:
+    """Pairwise logistic ranking loss against backend-labeled delta-TC order."""
+
+    losses = []
+    count = 0
+    temp = max(1e-6, float(temperature))
+    for i in range(targets.numel()):
+        for j in range(i + 1, targets.numel()):
+            diff = targets[i] - targets[j]
+            if diff.abs().item() < float(min_delta):
+                continue
+            order = diff.sign().detach()
+            losses.append(F.softplus(-order * (preds[i] - preds[j]) / temp))
+            count += 1
+    if not losses:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
+    return torch.stack(losses).mean(), count
+
+
+def _oracle_rank_weight(config: dict, epoch: int) -> float:
+    """Return the current oracle weight after warmup and linear ramp."""
+
+    target = float(config.get("lambda_oracle_rank", 0.0))
+    if target <= 0.0:
+        return 0.0
+    warmup = max(0, int(config.get("oracle_warmup_epochs", 0) or 0))
+    ramp = max(0, int(config.get("oracle_ramp_epochs", 0) or 0))
+    if epoch <= warmup:
+        return 0.0
+    if ramp <= 0:
+        return target
+    ramp_step = min(ramp, max(1, epoch - warmup))
+    return target * float(ramp_step) / float(ramp)
+
+
+def train_oracle_ranking_step(
+    model: TPIWorldModel,
+    oracle_groups: list[list[dict[str, str]]],
+    optimizer: torch.optim.Optimizer,
+    config: dict,
+    device: torch.device,
+    graph_cache: dict[str, Any],
+    base_cache: dict[str, torch.Tensor],
+    epoch: int,
+) -> dict[str, float]:
+    """Run one auxiliary oracle pairwise-ranking optimizer step."""
+
+    weight = _oracle_rank_weight(config, epoch)
+    if weight <= 0.0 or not oracle_groups:
+        return {
+            "oracle_loss": 0.0,
+            "oracle_rank_loss": 0.0,
+            "oracle_pairs": 0.0,
+            "oracle_groups": 0.0,
+            "oracle_weight": weight,
+        }
+    group_count = max(1, int(config.get("oracle_batch_groups", 1) or 1))
+    if len(oracle_groups) <= group_count:
+        groups = random.sample(oracle_groups, k=len(oracle_groups))
+    else:
+        groups = random.sample(oracle_groups, k=group_count)
+    score_field = str(config.get("oracle_ranking_score_field", "hybrid_pred"))
+    coverage_scale = float(config.get("coverage_scale", 100.0))
+    min_delta = float(config.get("oracle_pairwise_min_delta", 0.001)) * coverage_scale
+    temperature = float(config.get("oracle_pairwise_temperature", 1.0))
+
+    rank_losses: list[torch.Tensor] = []
+    pair_total = 0
+    for group in groups:
+        scores = _predict_oracle_group_scores(model, config, group, graph_cache, base_cache, device)
+        preds = _oracle_score(scores, score_field)
+        targets = torch.tensor(
+            [coverage_scale * _safe_float(row.get("oracle_delta_tc")) for row in group],
+            dtype=preds.dtype,
+            device=device,
+        )
+        rank_loss, pair_count = _oracle_pairwise_rank_loss(preds, targets, min_delta, temperature)
+        if pair_count > 0:
+            rank_losses.append(rank_loss)
+            pair_total += int(pair_count)
+
+    if not rank_losses:
+        return {
+            "oracle_loss": 0.0,
+            "oracle_rank_loss": 0.0,
+            "oracle_pairs": 0.0,
+            "oracle_groups": float(len(groups)),
+            "oracle_weight": weight,
+        }
+    rank_loss = torch.stack(rank_losses).mean()
+    loss = weight * rank_loss
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    optimizer.step()
+    update_ema(model.target_encoder, model.online_encoder, float(config["ema_decay"]))
+    return {
+        "oracle_loss": float(loss.detach().cpu().item()),
+        "oracle_rank_loss": float(rank_loss.detach().cpu().item()),
+        "oracle_pairs": float(pair_total),
+        "oracle_groups": float(len(rank_losses)),
+        "oracle_weight": weight,
+    }
+
+
 def train_one_epoch(
     model: TPIWorldModel,
     dataset: TPIDataset,
@@ -556,6 +819,10 @@ def train_one_epoch(
     pattern_enabled: bool,
     max_steps: int | None = None,
     horizon: int = 1,
+    epoch: int = 1,
+    oracle_groups: list[list[dict[str, str]]] | None = None,
+    oracle_graph_cache: dict[str, Any] | None = None,
+    oracle_base_cache: dict[str, torch.Tensor] | None = None,
 ) -> dict:
     """Train for one shuffled pass or until `max_steps` is reached."""
 
@@ -563,6 +830,10 @@ def train_one_epoch(
     indices = _training_indices(dataset, config, max_steps)
     totals: dict[str, float] = {}
     steps = 0
+    oracle_steps = 0
+    oracle_every = max(1, int(config.get("oracle_every_n_steps", 4) or 4))
+    oracle_graph_cache = oracle_graph_cache if oracle_graph_cache is not None else {}
+    oracle_base_cache = oracle_base_cache if oracle_base_cache is not None else {}
     for idx in indices:
         sample = dataset[idx]
         is_rollout = isinstance(sample, RolloutSample)
@@ -579,9 +850,27 @@ def train_one_epoch(
         for key, value in metrics.items():
             totals[key] = totals.get(key, 0.0) + value
         steps += 1
+        if oracle_groups and steps % oracle_every == 0:
+            oracle_metrics = train_oracle_ranking_step(
+                model,
+                oracle_groups,
+                optimizer,
+                config,
+                device,
+                oracle_graph_cache,
+                oracle_base_cache,
+                epoch,
+            )
+            oracle_steps += 1
+            for key, value in oracle_metrics.items():
+                totals[key] = totals.get(key, 0.0) + value
         if max_steps is not None and steps >= max_steps:
             break
-    return {key: value / max(1, steps) for key, value in totals.items()} | {"steps": float(steps)}
+    averaged = {}
+    for key, value in totals.items():
+        denom = max(1, oracle_steps) if key.startswith("oracle_") else max(1, steps)
+        averaged[key] = value / denom
+    return averaged | {"steps": float(steps), "oracle_steps": float(oracle_steps)}
 
 
 @torch.no_grad()
@@ -692,6 +981,15 @@ def main() -> None:
     config.setdefault("lambda_hard_rank", 0.0)
     config.setdefault("lambda_hard_brier", 0.0)
     config.setdefault("lambda_hard_soft_f1", 0.0)
+    config.setdefault("lambda_oracle_rank", 0.0)
+    config.setdefault("lambda_oracle_value", 0.0)
+    config.setdefault("oracle_ranking_score_field", "hybrid_pred")
+    config.setdefault("oracle_every_n_steps", 4)
+    config.setdefault("oracle_batch_groups", 4)
+    config.setdefault("oracle_warmup_epochs", 1)
+    config.setdefault("oracle_ramp_epochs", 2)
+    config.setdefault("oracle_pairwise_min_delta", 0.001)
+    config.setdefault("oracle_pairwise_temperature", 1.0)
     config.setdefault("hard_soft_f1_eps", 1e-6)
     config.setdefault("hard_rank_margin", 0.2)
     config.setdefault("hard_negative_sample_ratio", 0)
@@ -708,6 +1006,17 @@ def main() -> None:
         print(
             "[train] note: delta_test_coverage is retained as a weak objective; "
             "the main hard-fault target is hard_reduction"
+        )
+    oracle_groups = None
+    if config.get("oracle_actions") and float(config.get("lambda_oracle_rank", 0.0)) > 0.0:
+        oracle_groups = load_oracle_groups(
+            config["oracle_actions"],
+            max_actions_per_group=int(config.get("oracle_max_actions_per_group", 0)) or None,
+        )
+        print(
+            f"[train] oracle_ranking enabled groups={len(oracle_groups)} "
+            f"score_field={config['oracle_ranking_score_field']} "
+            f"lambda_oracle_rank={float(config['lambda_oracle_rank'])}"
         )
 
     rollout_training = bool(config.get("rollout_training", True))
@@ -794,6 +1103,8 @@ def main() -> None:
         summary_mode=str(config.get("summary_mode", "global")),
     ).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=float(config["lr"]))
+    oracle_graph_cache: dict[str, Any] = {}
+    oracle_base_cache: dict[str, torch.Tensor] = {}
 
     history: list[dict] = []
     best_val = float("inf")
@@ -814,6 +1125,10 @@ def main() -> None:
             pattern_enabled,
             epoch_max_steps,
             horizon=horizon,
+            epoch=epoch,
+            oracle_groups=oracle_groups,
+            oracle_graph_cache=oracle_graph_cache,
+            oracle_base_cache=oracle_base_cache,
         )
         val_metrics = evaluate(
             model,
