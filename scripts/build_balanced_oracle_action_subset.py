@@ -73,6 +73,18 @@ def write_tsv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> 
             writer.writerow({field: row.get(field, "") for field in fieldnames})
 
 
+def merge_fieldnames(*field_lists: list[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for fields in field_lists:
+        for field in fields:
+            if field in seen:
+                continue
+            merged.append(field)
+            seen.add(field)
+    return merged
+
+
 def write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
@@ -125,7 +137,7 @@ def select_rows(
     max_actions_per_group: int,
     preferred_types: set[str],
 ) -> list[dict[str, str]]:
-    if len(rows) <= max_actions_per_group:
+    if max_actions_per_group <= 0 or len(rows) <= max_actions_per_group:
         return list(rows)
     negatives = [row for row in rows if safe_float(row.get("oracle_delta_tc")) < 0.0]
     positives = [row for row in rows if safe_float(row.get("oracle_delta_tc")) > 0.0]
@@ -342,7 +354,7 @@ def main() -> None:
     parser.add_argument("--min-negatives-per-group", type=int, default=3)
     parser.add_argument("--min-positives-per-group", type=int, default=3)
     parser.add_argument("--prefer-negative-types", default="control0,control1")
-    parser.add_argument("--max-actions-per-group", type=int, default=18)
+    parser.add_argument("--max-actions-per-group", type=int, default=18, help="Use 0 to keep every action in each kept group.")
     parser.add_argument("--min-train-groups", type=int, default=80)
     parser.add_argument("--min-val-groups", type=int, default=24)
     parser.add_argument("--out-dir", required=True)
@@ -355,8 +367,7 @@ def main() -> None:
     train_fields, train_rows = read_tsv(Path(args.train_oracle))
     val_fields, val_rows = read_tsv(Path(args.val_oracle))
     _, transfer_rows = read_tsv(Path(args.transfer_oracle))
-    if train_fields != val_fields:
-        raise ValueError("train and val fieldnames differ; refusing to write mixed-schema balanced TSVs")
+    output_fields = merge_fieldnames(train_fields, val_fields)
 
     train_kept, train_decisions, train_summary = build_subset(
         split="train",
@@ -383,8 +394,8 @@ def main() -> None:
     val_summary = annotate_targets(val_summary, args.min_val_groups, 0.25, 0.60)
     summaries = [train_summary, val_summary, transfer_summary]
 
-    write_tsv(out_dir / "balanced_train_oracle_actions.tsv", train_kept, train_fields)
-    write_tsv(out_dir / "balanced_val_oracle_actions.tsv", val_kept, val_fields)
+    write_tsv(out_dir / "balanced_train_oracle_actions.tsv", train_kept, output_fields)
+    write_tsv(out_dir / "balanced_val_oracle_actions.tsv", val_kept, output_fields)
     write_tsv(out_dir / "group_decisions.tsv", [*train_decisions, *val_decisions, *transfer_decisions], GROUP_DECISION_FIELDS)
     write_tsv(out_dir / "balance_summary.tsv", summaries, SUMMARY_FIELDS)
     (out_dir / "balance_report.md").write_text(markdown_report(summaries, args.min_train_groups, args.min_val_groups))
@@ -404,6 +415,13 @@ def main() -> None:
             "train_oracle": args.train_oracle,
             "val_oracle": args.val_oracle,
             "transfer_oracle": args.transfer_oracle,
+        },
+        "fieldnames": {
+            "train_fields": train_fields,
+            "val_fields": val_fields,
+            "output_fields": output_fields,
+            "train_only": [field for field in train_fields if field not in val_fields],
+            "val_only": [field for field in val_fields if field not in train_fields],
         },
         "summary": summaries,
         "needs_more_oracle_collection": needs_more,
