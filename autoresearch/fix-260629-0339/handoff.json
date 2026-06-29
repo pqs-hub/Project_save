@@ -1,0 +1,43 @@
+{
+  "objective": "Implement oracle action-value dataset export and checkpoint comparison gate.",
+  "mode": "fix",
+  "status": "completed",
+  "generated_at": "2026-06-29 03:39 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0311/plan.md",
+  "report": "autoresearch/fix-260629-0339/fix_report.md",
+  "changed_files": [
+    "scripts/oracle_action_value_probe.py",
+    "scripts/evaluate_oracle_action_values.py"
+  ],
+  "validation": {
+    "py_compile": "passed",
+    "oracle_action_value_probe_help": "passed",
+    "evaluate_oracle_action_values_help": "passed",
+    "gate_smoke": {
+      "status": "passed",
+      "out_dir": "autoresearch/oracle-action-value-gate-260629-smoke",
+      "rescored_oracle_actions": 288,
+      "oracle_action_value_metrics": 24,
+      "oracle_action_value_summary": 4,
+      "verdicts": {
+        "incumbent": "INCONCLUSIVE"
+      }
+    },
+    "resume_smoke": {
+      "status": "passed",
+      "out_dir": "autoresearch/oracle-action-probe-260629-resume-smoke",
+      "first_run_evaluated_oracle_actions": 1,
+      "second_run_reused_oracle_actions": 1,
+      "second_run_evaluated_oracle_actions": 0
+    }
+  },
+  "outputs": {
+    "gate_handoff": "autoresearch/oracle-action-value-gate-260629-smoke/handoff.json",
+    "gate_summary": "autoresearch/oracle-action-value-gate-260629-smoke/oracle_action_value_summary.tsv",
+    "gate_report": "autoresearch/oracle-action-value-gate-260629-smoke/oracle_action_value_report.md",
+    "resume_manifest": "autoresearch/oracle-action-probe-260629-resume-smoke/manifest.json",
+    "resume_groups": "autoresearch/oracle-action-probe-260629-resume-smoke/oracle_groups.tsv"
+  },
+  "next_autoresearch_target": "evals",
+  "next_goal": "Review the fixed oracle gate outputs and decide whether to implement action-value training loss."
+}

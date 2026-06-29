@@ -1,0 +1,79 @@
+{
+  "inputs": {
+    "expanded_val": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+    "train": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+    "transfer": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv"
+  },
+  "mode": "fix",
+  "objective": "oracle action group split audit",
+  "out_dir": "autoresearch/oracle-split-audit-260629",
+  "outputs": {
+    "by_group": "autoresearch/oracle-split-audit-260629/oracle_group_audit_by_group.tsv",
+    "report": "autoresearch/oracle-split-audit-260629/oracle_group_audit_report.md",
+    "summary": "autoresearch/oracle-split-audit-260629/oracle_group_audit_summary.tsv"
+  },
+  "ranker_top1_deltas": "autoresearch/action-value-ranker-260629/top1_group_deltas.tsv",
+  "status": "completed",
+  "summary": [
+    {
+      "all_negative_groups": 0,
+      "all_positive_groups": 168,
+      "groups": 288,
+      "groups_with_negative": 120,
+      "max_delta_tc": 0.24738000000000004,
+      "mean_delta_tc": 0.0029838059413580306,
+      "mean_group_best_delta_tc": 0.016520659722222227,
+      "mean_group_worst_delta_tc": -0.004598402777777776,
+      "median_delta_tc": 0.0002300000000001745,
+      "min_delta_tc": -0.07211000000000001,
+      "negative": 716,
+      "negative_rate": 0.1381172839506173,
+      "p05_delta_tc": -0.009560000000000013,
+      "p95_delta_tc": 0.02469999999999951,
+      "positive": 4468,
+      "rows": 5184,
+      "split": "train",
+      "zero": 0
+    },
+    {
+      "all_negative_groups": 0,
+      "all_positive_groups": 11,
+      "groups": 48,
+      "groups_with_negative": 37,
+      "max_delta_tc": 0.16049000000000013,
+      "mean_delta_tc": -0.0048849884259259254,
+      "mean_group_best_delta_tc": 0.026467500000000005,
+      "mean_group_worst_delta_tc": -0.025336666666666664,
+      "median_delta_tc": 0.00012999999999996348,
+      "min_delta_tc": -0.25784999999999997,
+      "negative": 359,
+      "negative_rate": 0.41550925925925924,
+      "p05_delta_tc": -0.04293899999999987,
+      "p95_delta_tc": 0.03208,
+      "positive": 505,
+      "rows": 864,
+      "split": "expanded_val",
+      "zero": 0
+    },
+    {
+      "all_negative_groups": 0,
+      "all_positive_groups": 3,
+      "groups": 6,
+      "groups_with_negative": 3,
+      "max_delta_tc": 0.06855000000000011,
+      "mean_delta_tc": 0.0023624305555555616,
+      "mean_group_best_delta_tc": 0.023190000000000027,
+      "mean_group_worst_delta_tc": -0.019499999999999962,
+      "median_delta_tc": 5.999999999994898e-05,
+      "min_delta_tc": -0.043749999999999956,
+      "negative": 98,
+      "negative_rate": 0.3402777777777778,
+      "p05_delta_tc": -0.02842,
+      "p95_delta_tc": 0.030590000000000006,
+      "positive": 190,
+      "rows": 288,
+      "split": "transfer",
+      "zero": 0
+    }
+  ]
+}

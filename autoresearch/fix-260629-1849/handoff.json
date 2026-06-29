@@ -1,0 +1,33 @@
+{
+  "objective": "Audit oracle train/expanded/transfer split mismatch and build negative-action-balanced oracle groups.",
+  "mode": "fix",
+  "status": "completed_needs_more_oracle",
+  "generated_at": "2026-06-29 18:49 Asia/Shanghai",
+  "source_plan": "autoresearch/plan-260629-1839/plan.md",
+  "code_changes": [
+    "Added scripts/audit_oracle_action_groups.py",
+    "Added scripts/build_balanced_oracle_action_subset.py"
+  ],
+  "artifacts": {
+    "fix_report": "autoresearch/fix-260629-1849/fix_report.md",
+    "audit_report": "autoresearch/oracle-split-audit-260629/oracle_group_audit_report.md",
+    "audit_summary": "autoresearch/oracle-split-audit-260629/oracle_group_audit_summary.tsv",
+    "balance_report": "autoresearch/oracle-balanced-groups-260629/balance_report.md",
+    "balance_summary": "autoresearch/oracle-balanced-groups-260629/balance_summary.tsv",
+    "balanced_train": "autoresearch/oracle-balanced-groups-260629/balanced_train_oracle_actions.tsv",
+    "balanced_val": "autoresearch/oracle-balanced-groups-260629/balanced_val_oracle_actions.tsv"
+  },
+  "key_findings": {
+    "train_negative_rate": 0.1381172839506173,
+    "expanded_val_negative_rate": 0.41550925925925924,
+    "transfer_negative_rate": 0.3402777777777778,
+    "train_all_positive_groups": 168,
+    "train_groups": 288,
+    "balanced_train_groups": 71,
+    "balanced_train_group_target": 80,
+    "balanced_val_groups": 34,
+    "balanced_val_group_target": 24
+  },
+  "verdict": "Existing labeled oracle data is insufficient for the balanced train target; collect more negative-rich oracle groups.",
+  "next_recommended_command": "$autoresearch plan Collect negative-rich oracle action groups from sampled subckts with control-heavy candidate pools, then rebuild balanced train data."
+}

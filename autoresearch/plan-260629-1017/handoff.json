@@ -1,0 +1,29 @@
+{
+  "subcommand": "plan",
+  "generated_at": "2026-06-29 10:17 Asia/Shanghai",
+  "objective": "Joint-train action_encoder/dynamics/reward/hard_reduction on oracle pairwise planner-score ranking instead of head-only reward finetune.",
+  "status": "ready_for_fix",
+  "plan": "autoresearch/plan-260629-1017/plan.md",
+  "target_files": [
+    "scripts/finetune_oracle_action_values.py"
+  ],
+  "primary_score_field": "hybrid_pred",
+  "primary_train_data": "autoresearch/oracle-action-probe-260629-labeled-subckt-train/oracle_actions.tsv",
+  "primary_val_data": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv",
+  "secondary_transfer_data": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+  "recommended_fix_command": "$autoresearch fix autoresearch/plan-260629-1017/plan.md",
+  "acceptance": {
+    "score_field": "hybrid_pred",
+    "distribution": "held-out labeled subckt val",
+    "promote_if": [
+      "mean_spearman >= incumbent + 0.05",
+      "negative_top1_rate <= incumbent",
+      "mean_top1_regret <= incumbent"
+    ],
+    "reject_if": [
+      "negative_top1_rate > incumbent",
+      "mean_spearman < incumbent - 0.02",
+      "mean_top1_regret > incumbent + 0.005"
+    ]
+  }
+}

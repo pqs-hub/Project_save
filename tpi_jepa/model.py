@@ -304,6 +304,22 @@ class TPIWorldModel(nn.Module):
             parts.extend([z[action_node_id], relation_features.mean(dim=0)])
         return torch.cat(parts, dim=0)
 
+    @staticmethod
+    def _derived_hard_counts(hard_logits: torch.Tensor) -> torch.Tensor:
+        """Return differentiable graph-level hard counts from node hard probabilities."""
+
+        prob = hard_logits.sigmoid()
+        sa0 = prob[:, 0].sum()
+        sa1 = prob[:, 1].sum()
+        total = sa0 + sa1
+        return torch.stack([total, sa0, sa1])
+
+    @staticmethod
+    def _derived_hard_reduction(pre_counts: torch.Tensor, post_counts: torch.Tensor) -> torch.Tensor:
+        """Return normalized hard-count reduction ratios from pre/post counts."""
+
+        return ((pre_counts - post_counts) / pre_counts.clamp_min(1.0)).clamp(-1.0, 1.0)
+
     def predict_from_latent(
         self,
         z_t: torch.Tensor,
@@ -329,6 +345,10 @@ class TPIWorldModel(nn.Module):
             z_pred = z_update
         summary = self._summary(z_pred, action_node_id, relation_features)
         reward_pred = self.reward_head(summary).view(())
+        pre_hard_logits = self._hard_logits(z_t, relation_features)
+        post_hard_logits = self._hard_logits(z_pred, relation_features)
+        derived_pre_counts = self._derived_hard_counts(pre_hard_logits)
+        derived_post_counts = self._derived_hard_counts(post_hard_logits)
         out = {
             "z_pred": z_pred,
             "reward_pred": reward_pred,
@@ -337,13 +357,17 @@ class TPIWorldModel(nn.Module):
             "score_pred": reward_pred,
             "return_pred": self.return_head(summary).view(()),
             "hard_reduction_pred": self.hard_reduction_head(summary),
+            "pre_hard_logits": pre_hard_logits,
+            "derived_hard_count_pre_pred": derived_pre_counts,
+            "derived_hard_count_post_pred": derived_post_counts,
+            "derived_hard_reduction_pred": self._derived_hard_reduction(derived_pre_counts, derived_post_counts),
         }
         if include_aux_heads:
             out.update(
                 {
                     "scoap_pred": self.scoap_head(z_pred),
                     "delta_scoap_pred": self.delta_scoap_head(z_pred),
-                    "hard_logits": self._hard_logits(z_pred, relation_features),
+                    "hard_logits": post_hard_logits,
                     "hard_count_pred": self._hard_count(z_pred, relation_features),
                 }
             )

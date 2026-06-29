@@ -73,6 +73,11 @@ FIELDS = [
     "hard_reduction_mae",
     "hard_reduction_sign_acc",
     "hard_reduction_score",
+    "derived_hard_count_post_mae",
+    "derived_hard_reduction_mae",
+    "derived_hard_reduction_acc_at_005",
+    "derived_hard_reduction_sign_acc",
+    "derived_hard_reduction_score",
     "reward_mae",
     "latent_cosine",
     "scoap_acc_at_005",
@@ -454,6 +459,7 @@ def action_score_from_record(record: dict, field: str) -> float:
         "hard_reduction_total": "hard_reduction_pred_total",
         "hard_reduction_sa0": "hard_reduction_pred_sa0",
         "hard_reduction_sa1": "hard_reduction_pred_sa1",
+        "derived_hard_reduction_total": "derived_hard_reduction_pred_total",
         "reward": "reward_pred",
     }
     return float(record.get(mapping.get(field, field), 0.0))
@@ -764,6 +770,10 @@ def evaluate_checkpoint(
         "hard_bce": 0.0,
         "hard_count_mae": 0.0,
         "hard_reduction_mae": 0.0,
+        "derived_hard_count_post_mae": 0.0,
+        "derived_hard_reduction_mae": 0.0,
+        "derived_hard_reduction_acc_at_005": 0.0,
+        "derived_hard_reduction_sign_acc": 0.0,
         "reward_mae": 0.0,
         "latent_cosine": 0.0,
         "scoap_acc_at_005": 0.0,
@@ -821,6 +831,30 @@ def evaluate_checkpoint(
         totals["hard_bce"] += float(F.binary_cross_entropy_with_logits(out["hard_logits"], hard_target).cpu().item())
         totals["hard_count_mae"] += float((out["hard_count_pred"].sigmoid() - hard_count_target).abs().mean().cpu().item())
         totals["hard_reduction_mae"] += float((out["hard_reduction_pred"] - hard_reduction_target).abs().mean().cpu().item())
+        derived_post_count = out.get("derived_hard_count_post_pred")
+        derived_reduction = out.get("derived_hard_reduction_pred")
+        if derived_post_count is None:
+            derived_post_count = torch.zeros((3,), dtype=hard_target.dtype, device=device)
+        if derived_reduction is None:
+            derived_reduction = torch.zeros((3,), dtype=hard_reduction_target.dtype, device=device)
+        derived_count_target = torch.stack(
+            [
+                hard_target.sum(),
+                hard_target[:, 0].sum(),
+                hard_target[:, 1].sum(),
+            ]
+        )
+        count_norm = torch.tensor(
+            [max(1.0, float(hard_target.numel())), max(1.0, float(hard_target.shape[0])), max(1.0, float(hard_target.shape[0]))],
+            dtype=hard_target.dtype,
+            device=device,
+        )
+        totals["derived_hard_count_post_mae"] += float(
+            ((derived_post_count - derived_count_target).abs() / count_norm).mean().cpu().item()
+        )
+        totals["derived_hard_reduction_mae"] += float(
+            (derived_reduction - hard_reduction_target).abs().mean().cpu().item()
+        )
         totals["reward_mae"] += float((out["reward_pred"] - reward_target).abs().cpu().item())
         totals["latent_cosine"] += float(
             ((F.cosine_similarity(out["z_pred"], out["z_t1"], dim=1).mean().clamp(-1.0, 1.0) + 1.0) * 0.5)
@@ -837,8 +871,14 @@ def evaluate_checkpoint(
         totals["hard_reduction_acc_at_005"] += float(
             ((out["hard_reduction_pred"] - hard_reduction_target).abs() <= 0.05).float().mean().cpu().item()
         )
+        totals["derived_hard_reduction_acc_at_005"] += float(
+            ((derived_reduction - hard_reduction_target).abs() <= 0.05).float().mean().cpu().item()
+        )
         totals["hard_reduction_sign_acc"] += float(
             ((out["hard_reduction_pred"] >= 0.0) == (hard_reduction_target >= 0.0)).float().mean().cpu().item()
+        )
+        totals["derived_hard_reduction_sign_acc"] += float(
+            ((derived_reduction >= 0.0) == (hard_reduction_target >= 0.0)).float().mean().cpu().item()
         )
         totals["reward_sign_acc"] += float(
             ((out["reward_pred"] >= 0.0) == (reward_target >= 0.0)).float().cpu().item()
@@ -912,6 +952,7 @@ def evaluate_checkpoint(
                     "hard_reduction_target_sa0": float(hard_reduction_target[1].detach().cpu().item()),
                     "hard_reduction_pred_sa1": float(out["hard_reduction_pred"][2].detach().cpu().item()),
                     "hard_reduction_target_sa1": float(hard_reduction_target[2].detach().cpu().item()),
+                    "derived_hard_reduction_pred_total": float(derived_reduction[0].detach().cpu().item()),
                     "reward_pred": float(out["reward_pred"].detach().cpu().item()),
                     "delta_fault_coverage": float(sample.delta_fault_coverage.detach().cpu().item()),
                     "num_nodes": sample.graph.num_nodes,
@@ -954,6 +995,7 @@ def evaluate_checkpoint(
     hard_macro_f1_tuned = (tuned_sa0[2] + tuned_sa1[2]) * 0.5
     averaged = {key: value / max(1, steps) for key, value in totals.items()}
     hard_reduction_score = max(0.0, 1.0 - float(averaged["hard_reduction_mae"]))
+    derived_hard_reduction_score = max(0.0, 1.0 - float(averaged["derived_hard_reduction_mae"]))
     predictive_score = (
         0.45 * hard_macro_f1_tuned
         + 0.25 * float(averaged.get("hard_recall_at_top_10pct", 0.0))
@@ -990,6 +1032,7 @@ def evaluate_checkpoint(
         "positive_rate_sa1": float(np.mean(hard_targets_all[1])) if hard_targets_all[1] else 0.0,
         "hard_micro_accuracy": safe_div(counts["hard_correct"], counts["hard_total"]),
         "hard_reduction_score": hard_reduction_score,
+        "derived_hard_reduction_score": derived_hard_reduction_score,
         "predictive_score": predictive_score,
     }
     if not diagnostics:
@@ -1624,7 +1667,7 @@ def main() -> None:
     parser.add_argument(
         "--action-score-field",
         default="hard_reduction_total",
-        choices=["hard_reduction_total", "hard_reduction_sa0", "hard_reduction_sa1", "reward"],
+        choices=["hard_reduction_total", "hard_reduction_sa0", "hard_reduction_sa1", "derived_hard_reduction_total", "reward"],
     )
     parser.add_argument("--min-action-group-size", type=int, default=2)
     args = parser.parse_args()

@@ -1,0 +1,15 @@
+{
+  "objective": "Design action-value training loss using backend-labeled oracle action groups and validate with the fixed oracle checkpoint gate.",
+  "mode": "plan",
+  "status": "completed",
+  "generated_at": "2026-06-29 04:37 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0437/plan.md",
+  "validated_config": "autoresearch/plan-260629-0437/validated_config.json",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0437/plan.md",
+  "summary": {
+    "method": "Separate oracle-action finetune script using pointwise SmoothL1 and pairwise logistic ranking loss on fixed oracle groups.",
+    "default_training": "Freeze encoder/dynamics/hard heads; train reward_head and return_head first.",
+    "validation": "Compare candidate checkpoint to incumbent with scripts/evaluate_oracle_action_values.py on held-out oracle_actions.tsv."
+  }
+}

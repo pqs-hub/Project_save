@@ -1,0 +1,35 @@
+{
+  "objective": "Run pairwise-only oracle action ranking finetune.",
+  "mode": "fix",
+  "status": "completed",
+  "generated_at": "2026-06-29 10:08 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-1004/plan.md",
+  "report": "autoresearch/fix-260629-1008/fix_report.md",
+  "changed_files": [],
+  "finetune": {
+    "out_dir": "autoresearch/oracle-action-value-finetune-260629-pairwise-only",
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-pairwise-only/candidate.pt",
+    "final_rank_loss": 0.5859935672746764,
+    "groups": 72,
+    "pairs": 5032
+  },
+  "primary_gate": {
+    "out_dir": "autoresearch/oracle-action-value-gate-260629-pairwise-only-val",
+    "candidate_verdict": "INCONCLUSIVE",
+    "incumbent_reward_spearman": -0.13787038728928294,
+    "candidate_reward_spearman": -0.16088495524276233,
+    "incumbent_reward_negative_top1": 0.4166666666666667,
+    "candidate_reward_negative_top1": 0.5416666666666666
+  },
+  "transfer_gate": {
+    "out_dir": "autoresearch/oracle-action-value-gate-260629-pairwise-only-transfer",
+    "candidate_verdict": "INCONCLUSIVE",
+    "incumbent_hybrid_spearman": 0.32739827342251004,
+    "candidate_hybrid_spearman": 0.3231554483860117,
+    "incumbent_hybrid_negative_top1": 0.16666666666666666,
+    "candidate_hybrid_negative_top1": 0.16666666666666666
+  },
+  "conclusion": "Pairwise-only ranking loss did not improve held-out or transfer ranking; continue to isolated sign/top1 safety loss or a cleaner action-value score carrier.",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0944/plan.md"
+}

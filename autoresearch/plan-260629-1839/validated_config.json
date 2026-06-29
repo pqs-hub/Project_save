@@ -1,0 +1,61 @@
+{
+  "mode": "plan",
+  "objective": "Audit oracle train/expanded/transfer split mismatch and add negative-action-balanced oracle groups before training another fixed ranker.",
+  "status": "ready_for_fix",
+  "generated_at": "2026-06-29 18:39 Asia/Shanghai",
+  "target_files": [
+    "scripts/audit_oracle_action_groups.py",
+    "scripts/build_balanced_oracle_action_subset.py"
+  ],
+  "source_artifacts": {
+    "ranker_report": "autoresearch/action-value-ranker-260629/ranker_report.md",
+    "ranker_metrics": "autoresearch/action-value-ranker-260629/ranker_metrics.tsv",
+    "ranker_top1_deltas": "autoresearch/action-value-ranker-260629/top1_group_deltas.tsv"
+  },
+  "oracle_inputs": {
+    "train": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+    "expanded_val": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+    "transfer": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv"
+  },
+  "audit_out_dir": "autoresearch/oracle-split-audit-260629",
+  "balanced_out_dir": "autoresearch/oracle-balanced-groups-260629",
+  "balance_policy": {
+    "min_negatives_per_group": 3,
+    "min_positives_per_group": 3,
+    "prefer_negative_types": [
+      "control0",
+      "control1"
+    ],
+    "max_actions_per_group": 18,
+    "train_negative_rate_target": [
+      0.25,
+      0.55
+    ],
+    "val_negative_rate_target": [
+      0.25,
+      0.60
+    ],
+    "min_balanced_train_groups": 80,
+    "min_balanced_val_groups": 24
+  },
+  "observed_mismatch": {
+    "train_negative_rate": 0.1381172839506173,
+    "expanded_val_negative_rate": 0.41550925925925924,
+    "transfer_negative_rate": 0.3402777777777778,
+    "train_all_positive_groups": 168,
+    "train_groups": 288,
+    "transfer_i2c_aig_negative_rate": 0.6806,
+    "transfer_control0_negative_rate": 0.5,
+    "transfer_control1_negative_rate": 0.5
+  },
+  "verify": [
+    "python -m py_compile scripts/audit_oracle_action_groups.py scripts/build_balanced_oracle_action_subset.py",
+    "python scripts/audit_oracle_action_groups.py --oracle-tsv train=autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv --oracle-tsv expanded_val=autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv --oracle-tsv transfer=autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --ranker-top1-deltas autoresearch/action-value-ranker-260629/top1_group_deltas.tsv --out-dir autoresearch/oracle-split-audit-260629",
+    "python scripts/build_balanced_oracle_action_subset.py --train-oracle autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv --val-oracle autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv --transfer-oracle autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --min-negatives-per-group 3 --min-positives-per-group 3 --prefer-negative-types control0,control1 --max-actions-per-group 18 --out-dir autoresearch/oracle-balanced-groups-260629",
+    "test -s autoresearch/oracle-split-audit-260629/oracle_group_audit_report.md",
+    "test -s autoresearch/oracle-balanced-groups-260629/balance_report.md",
+    "python -m json.tool autoresearch/oracle-split-audit-260629/handoff.json >/dev/null",
+    "python -m json.tool autoresearch/oracle-balanced-groups-260629/handoff.json >/dev/null"
+  ],
+  "next_after_fix": "If balanced groups meet minimum targets, rescore balanced train/val and rerun fixed ranker without mlp_small first. If not, collect negative-rich oracle groups."
+}

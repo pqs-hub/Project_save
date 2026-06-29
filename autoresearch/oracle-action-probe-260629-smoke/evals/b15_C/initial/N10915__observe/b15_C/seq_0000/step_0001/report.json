@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "b15_C",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "b15_C",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 10000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 19152,
+    "effective_pattern_count": 690,
+    "fault_coverage": 0.82474,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 4070
+    },
+    "hard_fault_count": 4070,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 10000,
+    "random_pattern_budget": 10000,
+    "test_coverage": 0.82474,
+    "total_faults": 23222,
+    "undetected_fault_count": 4070,
+    "undetected_input_edge_fault_count": 1,
+    "undetected_node_count": 4016,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 4069,
+    "undetected_sa0_count": 250,
+    "undetected_sa1_count": 3820,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/oracle-action-probe-260629-smoke/evals/b15_C/initial/N10915__observe/b15_C/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "38467de34e32ad15469b490c92204ad0f69ee625b7a91f5003c98f4dd4c86fff",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 17961,
+      "net": "N10915",
+      "score": 0.2524343729019165,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b15_C.bench",
+  "source_bench_sha256": "3e2646ef1fda8ac89ea99bfaef525127d0df0b46b7263d1e7be204bfd1eb2df0",
+  "status": "ok"
+}

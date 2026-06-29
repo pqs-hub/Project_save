@@ -1,0 +1,48 @@
+{
+  "objective": "Add explicit sign/top1 safety loss or dedicated action-value head for oracle action-value training.",
+  "mode": "plan",
+  "status": "validated",
+  "generated_at": "2026-06-29 09:44 Asia/Shanghai",
+  "stage_a": {
+    "scope": [
+      "scripts/finetune_oracle_action_values.py"
+    ],
+    "new_args": [
+      "--lambda-oracle-sign",
+      "--lambda-oracle-top1",
+      "--lambda-oracle-regret",
+      "--positive-margin",
+      "--negative-margin",
+      "--top1-temperature",
+      "--safety-score"
+    ],
+    "losses": [
+      "sign calibration loss",
+      "soft top1 negative-action loss",
+      "soft regret loss"
+    ],
+    "train_oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-train/oracle_actions.tsv",
+    "primary_gate_oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv",
+    "transfer_gate_oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv"
+  },
+  "stage_b_optional": {
+    "trigger": "Stage A remains inconclusive or worsens safety",
+    "scope": [
+      "tpi_jepa/model.py",
+      "tpi_jepa/plan.py",
+      "scripts/evaluate_oracle_action_values.py",
+      "scripts/finetune_oracle_action_values.py"
+    ],
+    "new_score_field": "action_value_pred"
+  },
+  "acceptance": [
+    "finetune script compiles",
+    "finetune help shows safety-loss args",
+    "safety finetune writes candidate.pt and history.tsv with sign/top1/regret losses",
+    "primary gate runs",
+    "transfer gate runs",
+    "negative_top1_rate does not increase on either gate"
+  ],
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0944/plan.md"
+}

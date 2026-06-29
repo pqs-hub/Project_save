@@ -1,0 +1,23 @@
+{
+  "objective": "implement Version B step 1 derived hard-count and hard-reduction outputs",
+  "status": "implemented_and_smoke_verified",
+  "artifacts": {
+    "results": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/impl-version-b-derived-260629-1558/results.md",
+    "oracle_smoke_summary": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/impl-version-b-derived-260629-1558/oracle_smoke/oracle_action_value_summary.tsv",
+    "hard_smoke_csv": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/impl-version-b-derived-260629-1558/hard_smoke.csv"
+  },
+  "modified_files": [
+    "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py",
+    "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py",
+    "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py",
+    "/data4/pengqingsong/DFT/TPI-my.3/scripts/oracle_action_value_probe.py",
+    "/data4/pengqingsong/DFT/TPI-my.3/scripts/finetune_oracle_action_values.py",
+    "/data4/pengqingsong/DFT/TPI-my.3/scripts/evaluate_hard_checkpoints.py"
+  ],
+  "verification": {
+    "py_compile": "passed",
+    "oracle_gate_smoke": "passed",
+    "hard_eval_smoke": "passed"
+  },
+  "next_step": "train Version B with direct hard_count/hard_reduction/FC/return losses disabled and evaluate derived scores"
+}

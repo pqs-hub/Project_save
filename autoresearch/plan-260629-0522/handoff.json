@@ -1,0 +1,16 @@
+{
+  "objective": "Correct oracle action-value expansion to use the 131 labeled training subgraphs.",
+  "mode": "plan",
+  "status": "completed",
+  "generated_at": "2026-06-29 05:22 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0522/plan.md",
+  "validated_config": "autoresearch/plan-260629-0522/validated_config.json",
+  "supersedes": "autoresearch/plan-260629-0509/plan.md",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0522/plan.md",
+  "summary": {
+    "correction": "Use labels.csv 131 sampled subgraphs for oracle action-value training; keep original full circuits only for transfer gate.",
+    "primary_gate": "held-out sampled subgraphs",
+    "transfer_gate": "b15_C/i2c_aig fixed oracle smoke"
+  }
+}

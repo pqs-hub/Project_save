@@ -1,0 +1,21 @@
+{
+  "objective": "Implement oracle action-value dataset export and checkpoint comparison gate.",
+  "mode": "plan",
+  "status": "completed",
+  "generated_at": "2026-06-29 03:11 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0311/plan.md",
+  "validated_config": "autoresearch/plan-260629-0311/validated_config.json",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0311/plan.md",
+  "summary": {
+    "primary_scope": [
+      "extend scripts/oracle_action_value_probe.py with resume, manifest, oracle_groups.tsv",
+      "add scripts/evaluate_oracle_action_values.py fixed-oracle checkpoint comparison gate"
+    ],
+    "acceptance": [
+      "static and help validation pass",
+      "gate smoke on existing oracle TSV produces INCONCLUSIVE baseline-only verdict",
+      "resume smoke avoids redundant backend evaluation and writes manifest/group summaries"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "objective": "implement original training plus default-off oracle pairwise ranking loss",
+  "mode": "classic",
+  "status": "implemented_and_smoke_verified",
+  "artifacts": {
+    "results": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/autoresearch-260629-1446/results.md",
+    "sweep_weights": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/autoresearch-260629-1446/sweep_weights.json",
+    "oracle_smoke_config": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/autoresearch-260629-1446/configs/oracle_rank_smoke.json",
+    "oracle_smoke_history": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/autoresearch-260629-1446/runs/oracle_rank_smoke/history.csv"
+  },
+  "modified_files": [
+    "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py"
+  ],
+  "verification": {
+    "py_compile": "passed",
+    "default_train_smoke": "passed",
+    "oracle_train_smoke": "passed"
+  },
+  "next_step": "generate full sweep run configs and train lambda_oracle_rank 0.0/0.05/0.10/0.20"
+}

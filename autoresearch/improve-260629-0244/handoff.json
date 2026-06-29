@@ -1,0 +1,67 @@
+{
+  "objective": "Research improvements for TPI-JEPA after oracle action-value probes",
+  "status": "completed",
+  "generated_at": "2026-06-29 02:44 Asia/Shanghai",
+  "mode": "improve",
+  "primary_recommendation": "Build backend-labeled oracle action-value groups and use them for checkpoint gating plus pairwise/listwise action-value training.",
+  "evidence": {
+    "big_eval_probe": {
+      "source": "autoresearch/evals-260629-0102/evals_report.md",
+      "finite_oracle_actions": 288,
+      "positive_actions": 190,
+      "negative_actions": 98,
+      "best_score_field": "hybrid_pred",
+      "mean_spearman": 0.327398,
+      "negative_top1_rate": 0.166667,
+      "mean_sign_accuracy": 0.197917
+    },
+    "small_subckt_probe": {
+      "source": "autoresearch/evals-260629-smallckt/smallckt_evals_report.md",
+      "finite_oracle_actions": 288,
+      "positive_actions": 268,
+      "negative_actions": 20,
+      "best_score_field": "hard_reduction_total_pred",
+      "mean_spearman": 0.074829,
+      "negative_top1_rate": 0.083333,
+      "mean_sign_accuracy": 0.930556
+    }
+  },
+  "prd_outputs": [
+    {
+      "id": "PRD-A",
+      "name": "Oracle Action-Value Dataset Builder",
+      "priority": "P0"
+    },
+    {
+      "id": "PRD-B",
+      "name": "Action-Value Evaluation Gate",
+      "priority": "P0"
+    },
+    {
+      "id": "PRD-C",
+      "name": "Action-Value Training Loss",
+      "priority": "P0"
+    },
+    {
+      "id": "PRD-D",
+      "name": "Scale-Aware Generalization Check",
+      "priority": "P1"
+    }
+  ],
+  "next_autoresearch_target": "plan",
+  "next_goal": "Implement oracle action-value dataset export and checkpoint comparison gate.",
+  "suggested_first_slice": [
+    "extend scripts/oracle_action_value_probe.py with --resume and manifest.json",
+    "emit oracle_groups.tsv with per-state base_tc and finite action counts",
+    "add scripts/evaluate_oracle_action_values.py for checkpoint comparison on fixed oracle TSVs",
+    "produce PROMOTE/REJECT/INCONCLUSIVE gate"
+  ],
+  "promotion_gate": {
+    "mean_spearman_improvement": 0.10,
+    "negative_top1_rate_reduction": 0.10,
+    "mean_top1_regret_reduction": 0.01,
+    "hard_f1_max_drop": 0.03,
+    "predictive_score_max_drop": 0.03
+  },
+  "report": "autoresearch/improve-260629-0244/improve_report.md"
+}

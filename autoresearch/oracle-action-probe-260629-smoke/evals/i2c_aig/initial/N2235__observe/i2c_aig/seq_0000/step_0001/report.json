@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "i2c_aig",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "i2c_aig",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 10000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 3037,
+    "effective_pattern_count": 288,
+    "fault_coverage": 0.94906,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 163
+    },
+    "hard_fault_count": 163,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 10000,
+    "random_pattern_budget": 10000,
+    "test_coverage": 0.94906,
+    "total_faults": 3200,
+    "undetected_fault_count": 163,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 163,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 163,
+    "undetected_sa0_count": 18,
+    "undetected_sa1_count": 145,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/oracle-action-probe-260629-smoke/evals/i2c_aig/initial/N2235__observe/i2c_aig/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "15dac024882e555d4210fffac88be2d65d5d59ace713f51ff11853decba1794a",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 613,
+      "net": "N2235",
+      "score": 0.3065314292907715,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/i2c_aig.bench",
+  "source_bench_sha256": "e783e4d0c147cb6145a684637239a1711fdf1bb2c62e37da7768a37a9b4724e7",
+  "status": "ok"
+}

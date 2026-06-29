@@ -1,0 +1,66 @@
+{
+  "subcommand": "fix",
+  "generated_at": "2026-06-29 10:53 Asia/Shanghai",
+  "objective": "Run planner_joint hybrid ranking with hard_reduction_head frozen to test whether transfer regression comes from disturbing the hard-reduction signal.",
+  "status": "diagnostic_answered_not_promoted",
+  "plan": "autoresearch/plan-260629-1047/plan.md",
+  "modified_files": [
+    "scripts/finetune_oracle_action_values.py"
+  ],
+  "outputs": {
+    "report": "autoresearch/fix-260629-1053/fix_report.md",
+    "smoke": "autoresearch/oracle-action-value-finetune-260629-joint-freezehard-smoke",
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-joint-freezehard/candidate.pt",
+    "heldout_gate": "autoresearch/oracle-action-value-gate-260629-joint-freezehard-val",
+    "transfer_gate": "autoresearch/oracle-action-value-gate-260629-joint-freezehard-transfer"
+  },
+  "code_change": {
+    "added_train_scope": "planner_joint_frozen_hard",
+    "trainable_prefixes": [
+      "action_encoder",
+      "dynamics",
+      "reward_head",
+      "return_head"
+    ],
+    "frozen_prefixes": [
+      "hard_reduction_head",
+      "online_encoder",
+      "target_encoder"
+    ]
+  },
+  "training": {
+    "epochs": 5,
+    "final_train_rank_loss": 0.6832206385831038,
+    "pairs": 5032
+  },
+  "heldout_hybrid": {
+    "incumbent_spearman": 0.00569312166602479,
+    "joint_hybrid_spearman": 0.025509332968394773,
+    "freezehard_spearman": -0.010977139866717526,
+    "incumbent_negative_top1_rate": 0.4583333333333333,
+    "joint_hybrid_negative_top1_rate": 0.4583333333333333,
+    "freezehard_negative_top1_rate": 0.4166666666666667,
+    "incumbent_top1_regret": 0.043452499999999984,
+    "joint_hybrid_top1_regret": 0.03175374999999996,
+    "freezehard_top1_regret": 0.02803749999999997
+  },
+  "transfer_hybrid": {
+    "incumbent_spearman": 0.32739827342251004,
+    "joint_hybrid_spearman": 0.25668314988379504,
+    "freezehard_spearman": 0.18208462557309915,
+    "incumbent_negative_top1_rate": 0.16666666666666666,
+    "joint_hybrid_negative_top1_rate": 0.16666666666666666,
+    "freezehard_negative_top1_rate": 0.16666666666666666,
+    "incumbent_top1_regret": 0.012551666666666702,
+    "joint_hybrid_top1_regret": 0.012558333333333357,
+    "freezehard_top1_regret": 0.017645000000000022
+  },
+  "transfer_hard_reduction": {
+    "incumbent_spearman": 0.3244427102285325,
+    "joint_hybrid_spearman": 0.26708066405516245,
+    "freezehard_spearman": 0.19003772187506696
+  },
+  "diagnosis": "Freezing hard_reduction_head did not recover transfer. hard_reduction_total_pred also regressed while the hard head was frozen, so the damage comes from upstream action_encoder/dynamics latent drift.",
+  "verdict": "DO_NOT_PROMOTE",
+  "recommended_next": "Train reward_head and return_head only while ranking hybrid_pred, so hard_reduction and dynamics stay stable and reward/return act as residual correction."
+}

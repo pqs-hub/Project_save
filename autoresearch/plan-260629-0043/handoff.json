@@ -1,0 +1,73 @@
+{
+  "mode": "plan",
+  "objective": "Build an oracle action-value probe and world-model reward-alignment evaluation for improving 8-circuit TC lift.",
+  "status": "implemented_smoke_verified",
+  "plan": "autoresearch/plan-260629-0043/plan.md",
+  "validated_config": "autoresearch/plan-260629-0043/validated_config.json",
+  "recommendation": "Stop treating labels.csv action recall as a planner-quality metric; evaluate whether world-model predicted action rewards rank backend-measured TC gains correctly.",
+  "problem_with_previous_metric": {
+    "historical_action_recall": "Measures whether candidate pools contain logged actions from labels.csv.",
+    "why_insufficient": "Logged actions are not guaranteed oracle-optimal for test coverage, so recalling them does not imply higher final TC."
+  },
+  "oracle_label": {
+    "unit": "candidate action under a fixed benchmark and current inserted-action state",
+    "primary_value": "backend-measured delta_test_coverage after inserting S + [action]",
+    "label": "top-M candidate actions by oracle_delta_tc within a backend-valid candidate pool"
+  },
+  "scope": [
+    "scripts/oracle_action_value_probe.py",
+    "tpi_jepa/plan.py",
+    "tpi_jepa/evaluate_plan_tmax.py",
+    "scripts/build_tp_candidate_cache.py",
+    "autoresearch/plan-260629-0043/"
+  ],
+  "metrics": [
+    "oracle_action_recall@K",
+    "oracle_node_recall@K",
+    "regret@K",
+    "best_in_topK_delta_tc",
+    "spearman(pred_score, oracle_delta_tc)",
+    "kendall_tau(pred_score, oracle_delta_tc)",
+    "pearson(pred_score, oracle_delta_tc)",
+    "topK_real_gain_by_pred",
+    "top1_real_delta_tc",
+    "top1_regret",
+    "sign_accuracy",
+    "negative_top1_rate",
+    "calibration_slope",
+    "calibration_intercept"
+  ],
+  "score_fields_to_evaluate": [
+    "reward_pred",
+    "fc_pred",
+    "guarded_reward",
+    "return_pred",
+    "hard_reduction_total_pred",
+    "hybrid_pred"
+  ],
+  "verify": [
+    "python -m py_compile tpi_jepa/*.py scripts/*.py",
+    "python -m tpi_jepa.plan --help",
+    "python -m tpi_jepa.evaluate_plan_tmax --help",
+    "python scripts/build_tp_candidate_cache.py --help",
+    "build or verify candidate cache for the 8 eval circuits",
+    "scripts/oracle_action_value_probe.py --help",
+    "oracle_action_value_probe real micro-smoke on b15_C with max_nets=1, action_types=CP0, patterns=10"
+  ],
+  "promotion_gate": [
+    "oracle_actions.tsv exists and has rows for every requested benchmark",
+    "rank_metrics.tsv includes recall@8/16/32 and regret@8/16/32",
+    "prediction_metrics.tsv includes rank correlation and top1_regret per score field",
+    "at least one score_field has positive Spearman/Kendall against oracle_delta_tc",
+    "at least one score_field/strategy has lower regret than netlist baseline",
+    "negative_top1_rate is not worse than netlist baseline"
+  ],
+  "next": [
+    "Run a larger 2-circuit smoke probe on b15_C and i2c_aig.",
+    "Use prediction_metrics.tsv to decide whether reward_pred/guarded_reward/hard_reduction_total_pred actually rank true TC gains.",
+    "Use oracle regret and negative_top1_rate to select planner/candidate strategies.",
+    "If model ranking is bad, train an action-value/ranking head from oracle probe labels.",
+    "If ranking is good but rollout TC is bad, add one-step/replanning guardrails."
+  ],
+  "next_subcommand": "evals"
+}

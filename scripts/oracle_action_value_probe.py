@@ -52,6 +52,8 @@ SCORE_FIELDS = [
     "hard_reduction_total_pred",
     "hybrid_pred",
     "bounded_residual_hybrid_pred",
+    "derived_hard_reduction_total_pred",
+    "derived_hard_reduction_hybrid_pred",
 ]
 ORACLE_FIELDS = [
     "benchmark_id",
@@ -76,6 +78,10 @@ ORACLE_FIELDS = [
     "pattern_pred",
     "hard_reduction_sa0_pred",
     "hard_reduction_sa1_pred",
+    "derived_hard_reduction_sa0_pred",
+    "derived_hard_reduction_sa1_pred",
+    "derived_hard_count_pre_total_pred",
+    "derived_hard_count_post_total_pred",
 ]
 RANK_FIELDS = [
     "benchmark_id",

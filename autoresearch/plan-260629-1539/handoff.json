@@ -1,0 +1,32 @@
+{
+  "objective": "plan implementation for version A and version B hard-count/hard-reduction simplification",
+  "mode": "classic",
+  "status": "planned",
+  "artifacts": {
+    "plan": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/plan-260629-1539/plan.md"
+  },
+  "versions": {
+    "A": {
+      "description": "keep hard_reduction head; disable hard_count, FC, return losses",
+      "requires_code_change": false,
+      "primary_config_changes": {
+        "lambda_hard_count": 0.0,
+        "lambda_fc": 0.0,
+        "lambda_return": 0.0,
+        "lambda_hard_reduction": 0.5
+      }
+    },
+    "B": {
+      "description": "train only node-level hard labels; derive hard_count and hard_reduction from hard logits",
+      "requires_code_change": true,
+      "primary_config_changes": {
+        "lambda_hard_count": 0.0,
+        "lambda_hard_reduction": 0.0,
+        "lambda_fc": 0.0,
+        "lambda_return": 0.0,
+        "hard_value_mode": "derived_from_node_hard"
+      }
+    }
+  },
+  "recommended_next_step": "implement version A config/run first; only implement version B derived score after version A hard gate"
+}

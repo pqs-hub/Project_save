@@ -1,0 +1,31 @@
+{
+  "objective": "Run the same SCOAP / delta-SCOAP ablation on Scheme A.",
+  "status": "complete",
+  "base_scheme": "Scheme A keeps hard_reduction and disables hard_count, FC, and return.",
+  "variants": {
+    "A_base": {
+      "lambda_scoap": 0.5,
+      "lambda_delta_scoap": 0.3,
+      "checkpoint": "autoresearch/autoresearch-260629-1550/runs/version_A_no_hard_count/best.pt"
+    },
+    "A_only_scoap": {
+      "lambda_scoap": 0.5,
+      "lambda_delta_scoap": 0.0,
+      "checkpoint": "autoresearch/ablate-scoap-version-a-260629-1806/runs/A_only_scoap/best.pt"
+    },
+    "A_only_delta_scoap": {
+      "lambda_scoap": 0.0,
+      "lambda_delta_scoap": 0.3,
+      "checkpoint": "autoresearch/ablate-scoap-version-a-260629-1806/runs/A_only_delta_scoap/best.pt"
+    }
+  },
+  "outputs": {
+    "summary": "autoresearch/ablate-scoap-version-a-260629-1806/ablation_summary.tsv",
+    "report": "autoresearch/ablate-scoap-version-a-260629-1806/final_report.md",
+    "hard_gate": "autoresearch/ablate-scoap-version-a-260629-1806/gates/hard",
+    "expanded_oracle_gate": "autoresearch/ablate-scoap-version-a-260629-1806/gates/expanded_val/oracle_action_value_summary.tsv",
+    "transfer_oracle_gate": "autoresearch/ablate-scoap-version-a-260629-1806/gates/transfer/oracle_action_value_summary.tsv"
+  },
+  "decision": "Do not promote either A_only_scoap or A_only_delta_scoap.",
+  "main_reason": "A_only_scoap helps expanded validation ranking but fails to improve transfer top1 quality; A_only_delta_scoap improves delta-SCOAP prediction but hurts expanded oracle ranking."
+}

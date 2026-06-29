@@ -1,0 +1,48 @@
+{
+  "objective": "Implement oracle action-value finetune and validate with fixed oracle checkpoint gate.",
+  "mode": "fix",
+  "status": "completed",
+  "generated_at": "2026-06-29 04:44 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0437/plan.md",
+  "report": "autoresearch/fix-260629-0444/fix_report.md",
+  "changed_files": [
+    "scripts/finetune_oracle_action_values.py"
+  ],
+  "validation": {
+    "py_compile": "passed",
+    "help": "passed",
+    "tiny_smoke": {
+      "status": "passed",
+      "out_dir": "autoresearch/oracle-action-value-finetune-260629-tiny",
+      "candidate": "autoresearch/oracle-action-value-finetune-260629-tiny/candidate.pt"
+    },
+    "real_smoke": {
+      "status": "passed",
+      "out_dir": "autoresearch/oracle-action-value-finetune-260629-smallckt",
+      "candidate": "autoresearch/oracle-action-value-finetune-260629-smallckt/candidate.pt",
+      "final_train_loss": 3.2308994879325232,
+      "final_value_loss": 2.8843952218691506,
+      "final_rank_loss": 0.6930085917313894,
+      "groups": 12,
+      "pairs": 2257
+    },
+    "candidate_gate": {
+      "status": "passed",
+      "out_dir": "autoresearch/oracle-action-value-gate-260629-candidate",
+      "candidate_verdict": "INCONCLUSIVE",
+      "incumbent_best_spearman": 0.32739827342251004,
+      "candidate_best_spearman": 0.3244427102285325,
+      "candidate_hybrid_spearman": 0.31827885659816985,
+      "candidate_reward_spearman": 0.2784693113933741
+    }
+  },
+  "outputs": {
+    "finetune_script": "scripts/finetune_oracle_action_values.py",
+    "tiny_candidate": "autoresearch/oracle-action-value-finetune-260629-tiny/candidate.pt",
+    "smallckt_candidate": "autoresearch/oracle-action-value-finetune-260629-smallckt/candidate.pt",
+    "candidate_gate_summary": "autoresearch/oracle-action-value-gate-260629-candidate/oracle_action_value_summary.tsv",
+    "candidate_gate_report": "autoresearch/oracle-action-value-gate-260629-candidate/oracle_action_value_report.md"
+  },
+  "next_autoresearch_target": "plan",
+  "next_goal": "Generate more eval-like oracle action groups before another action-value finetune attempt."
+}

@@ -1,0 +1,41 @@
+{
+  "baseline": "incumbent",
+  "checkpoints": [
+    {
+      "checkpoint_id": "0a30e730990c065e",
+      "name": "incumbent",
+      "path": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt"
+    },
+    {
+      "checkpoint_id": "8a2135caabd6aacf",
+      "name": "control",
+      "path": "autoresearch/autoresearch-260629-1550/runs/control_incumbent_like/best.pt"
+    },
+    {
+      "checkpoint_id": "d681cd5312efdc2d",
+      "name": "version_A",
+      "path": "autoresearch/autoresearch-260629-1550/runs/version_A_no_hard_count/best.pt"
+    }
+  ],
+  "mode": "fix",
+  "objective": "fixed oracle action-value checkpoint comparison gate",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+  "out_dir": "autoresearch/autoresearch-260629-1550/gates/transfer",
+  "outputs": {
+    "oracle_action_value_metrics": "autoresearch/autoresearch-260629-1550/gates/transfer/oracle_action_value_metrics.tsv",
+    "oracle_action_value_report": "autoresearch/autoresearch-260629-1550/gates/transfer/oracle_action_value_report.md",
+    "oracle_action_value_summary": "autoresearch/autoresearch-260629-1550/gates/transfer/oracle_action_value_summary.tsv",
+    "rescored_oracle_actions": "autoresearch/autoresearch-260629-1550/gates/transfer/rescored_oracle_actions.tsv"
+  },
+  "records": {
+    "oracle_action_value_metrics": 54,
+    "oracle_action_value_summary": 9,
+    "rescored_oracle_actions": 864
+  },
+  "status": "progressed",
+  "verdicts": {
+    "control": "INCONCLUSIVE",
+    "incumbent": "INCONCLUSIVE",
+    "version_A": "INCONCLUSIVE"
+  }
+}

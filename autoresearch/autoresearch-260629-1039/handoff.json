@@ -1,0 +1,58 @@
+{
+  "subcommand": "autoresearch",
+  "mode": "classic",
+  "generated_at": "2026-06-29 10:39 Asia/Shanghai",
+  "objective": "Execute autoresearch/plan-260629-1017/plan.md: joint-train action_encoder/dynamics/reward/hard_reduction on oracle pairwise planner-score ranking.",
+  "status": "progressed_not_promoted",
+  "plan": "autoresearch/plan-260629-1017/plan.md",
+  "modified_files": [
+    "scripts/finetune_oracle_action_values.py"
+  ],
+  "outputs": {
+    "results": "autoresearch/autoresearch-260629-1039/results.md",
+    "joint_smoke": "autoresearch/oracle-action-value-finetune-260629-joint-smoke",
+    "heads_compat_smoke": "autoresearch/oracle-action-value-finetune-260629-heads-compat-smoke",
+    "joint_hybrid_candidate": "autoresearch/oracle-action-value-finetune-260629-joint-hybrid/candidate.pt",
+    "heldout_gate": "autoresearch/oracle-action-value-gate-260629-joint-hybrid-val",
+    "transfer_gate": "autoresearch/oracle-action-value-gate-260629-joint-hybrid-transfer"
+  },
+  "implementation": {
+    "train_scope": "planner_joint",
+    "ranking_score_field": "hybrid_pred",
+    "trainable_prefixes": [
+      "action_encoder",
+      "dynamics",
+      "reward_head",
+      "return_head",
+      "hard_reduction_head"
+    ],
+    "frozen_prefixes": [
+      "online_encoder",
+      "target_encoder"
+    ]
+  },
+  "verification": {
+    "py_compile": "PASS",
+    "planner_joint_smoke": "PASS",
+    "heads_compat_smoke": "PASS"
+  },
+  "heldout_hybrid": {
+    "incumbent_spearman": 0.00569312166602479,
+    "candidate_spearman": 0.025509332968394773,
+    "incumbent_negative_top1_rate": 0.4583333333333333,
+    "candidate_negative_top1_rate": 0.4583333333333333,
+    "incumbent_top1_regret": 0.043452499999999984,
+    "candidate_top1_regret": 0.03175374999999996,
+    "acceptance": "FAIL_SPEARMAN_THRESHOLD"
+  },
+  "transfer_hybrid": {
+    "incumbent_spearman": 0.32739827342251004,
+    "candidate_spearman": 0.25668314988379504,
+    "incumbent_negative_top1_rate": 0.16666666666666666,
+    "candidate_negative_top1_rate": 0.16666666666666666,
+    "incumbent_top1_regret": 0.012551666666666702,
+    "candidate_top1_regret": 0.012558333333333357
+  },
+  "verdict": "DO_NOT_PROMOTE",
+  "recommended_next": "Increase oracle action groups from the 131 labeled subckt distribution, then repeat joint-hybrid ranking with the same fixed gate; alternatively test planner_joint with hard_reduction_head frozen."
+}

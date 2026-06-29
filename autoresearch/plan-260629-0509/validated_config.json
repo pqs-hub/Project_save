@@ -1,0 +1,60 @@
+{
+  "objective": "Generate more eval-like oracle action groups before another action-value finetune attempt.",
+  "mode": "plan",
+  "status": "validated",
+  "generated_at": "2026-06-29 05:09 Asia/Shanghai",
+  "train_oracle_benchmarks": [
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "max_aig",
+    "b17_C",
+    "mem_ctrl_aig"
+  ],
+  "heldout_gate_benchmarks": [
+    "b15_C",
+    "i2c_aig"
+  ],
+  "oracle_expansion": {
+    "out_dir": "autoresearch/oracle-action-probe-260629-evallike-train",
+    "candidate_strategies": [
+      "cached_stride",
+      "cached_hard_cone",
+      "hard_fault_recall_union"
+    ],
+    "max_nets": 8,
+    "action_types": [
+      "CP0",
+      "CP1",
+      "OP"
+    ],
+    "estimated_backend_evaluations": 432,
+    "resume": true
+  },
+  "finetune": {
+    "out_dir": "autoresearch/oracle-action-value-finetune-260629-evallike",
+    "epochs": 5,
+    "lr": 0.0001,
+    "lambda_oracle_value": 1.0,
+    "lambda_oracle_rank": 1.0,
+    "train_heads": "reward,return"
+  },
+  "gate": {
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "out_dir": "autoresearch/oracle-action-value-gate-260629-evallike",
+    "baseline": "incumbent"
+  },
+  "promotion_thresholds": {
+    "mean_spearman_improvement": 0.1,
+    "negative_top1_rate_reduction": 0.1,
+    "mean_top1_regret_reduction": 0.01
+  },
+  "verify_commands": [
+    "python -m py_compile scripts/oracle_action_value_probe.py scripts/finetune_oracle_action_values.py scripts/evaluate_oracle_action_values.py",
+    "test -s autoresearch/oracle-action-probe-260629-evallike-train/oracle_actions.tsv",
+    "test -s autoresearch/oracle-action-value-finetune-260629-evallike/candidate.pt",
+    "test -s autoresearch/oracle-action-value-gate-260629-evallike/oracle_action_value_summary.tsv"
+  ],
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0509/plan.md"
+}

@@ -1,0 +1,64 @@
+{
+  "objective": "Design action-value training loss using backend-labeled oracle action groups and validate with the fixed oracle checkpoint gate.",
+  "mode": "plan",
+  "status": "validated",
+  "generated_at": "2026-06-29 04:37 Asia/Shanghai",
+  "scope": [
+    "scripts/finetune_oracle_action_values.py",
+    "scripts/evaluate_oracle_action_values.py",
+    "scripts/oracle_action_value_probe.py"
+  ],
+  "out_of_scope": [
+    "TPIWorldModel architecture changes",
+    "tpi_jepa/train.py main loop changes",
+    "full 8-circuit oracle labeling",
+    "non-initial state support"
+  ],
+  "training_design": {
+    "input": "oracle_actions.tsv",
+    "state_support": "initial only",
+    "prediction_target": "reward_pred",
+    "target": "coverage_scale * oracle_delta_tc",
+    "losses": [
+      "SmoothL1 pointwise action-value loss",
+      "pairwise logistic ranking loss within each oracle group"
+    ],
+    "default_trainable_parts": [
+      "reward_head",
+      "return_head"
+    ],
+    "default_freeze": [
+      "encoder",
+      "dynamics",
+      "hard heads"
+    ]
+  },
+  "baseline": {
+    "checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+    "gate_oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "train_oracle_actions": "autoresearch/oracle-action-probe-260629-smallckt/oracle_actions.tsv",
+    "best_score_field": "hybrid_pred",
+    "mean_spearman": 0.32739827342251004,
+    "negative_top1_rate": 0.16666666666666666,
+    "mean_top1_regret": 0.012551666666666702
+  },
+  "promotion_thresholds": {
+    "mean_spearman_improvement": 0.1,
+    "negative_top1_rate_reduction": 0.1,
+    "mean_top1_regret_reduction": 0.01
+  },
+  "verify_commands": [
+    "python -m py_compile scripts/finetune_oracle_action_values.py scripts/evaluate_oracle_action_values.py scripts/oracle_action_value_probe.py",
+    "python scripts/finetune_oracle_action_values.py --help",
+    "python scripts/finetune_oracle_action_values.py --checkpoint autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt --oracle-actions autoresearch/oracle-action-probe-260629-resume-smoke/oracle_actions.tsv --out-dir autoresearch/oracle-action-value-finetune-260629-tiny --epochs 1 --lr 1e-4 --lambda-oracle-value 1.0 --lambda-oracle-rank 0.5 --plan-device cpu"
+  ],
+  "acceptance": [
+    "finetune script compiles",
+    "finetune help works",
+    "tiny smoke writes candidate.pt history.tsv handoff.json",
+    "real smoke writes candidate.pt",
+    "candidate gate compares incumbent and candidate without backend calls"
+  ],
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0437/plan.md"
+}

@@ -1,0 +1,64 @@
+{
+  "action_types": [
+    "control0",
+    "control1",
+    "observe"
+  ],
+  "backend": "atalanta-bist",
+  "benchmarks": [
+    "subckt_0045",
+    "subckt_0106",
+    "subckt_0150",
+    "subckt_0216",
+    "subckt_0251",
+    "subckt_0299",
+    "subckt_0362",
+    "subckt_0399"
+  ],
+  "candidate_cache_dir": "autoresearch/tp-candidates-labeled-subckt-260629",
+  "candidate_strategies": [
+    "cached_stride",
+    "cached_hard_cone",
+    "cached_random"
+  ],
+  "checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "checkpoint_id": "0a30e730990c065e",
+  "generated_at": "2026-06-29T05:29:38",
+  "max_nets": 6,
+  "oracle_top_m": 5,
+  "outputs": {
+    "manifest": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/manifest.json",
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv",
+    "oracle_groups": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_groups.tsv",
+    "prediction_metrics": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/prediction_metrics.tsv",
+    "rank_metrics": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/rank_metrics.tsv",
+    "state_summary": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/state_summary.tsv"
+  },
+  "patterns": 10000,
+  "records": {
+    "evaluated_oracle_actions": 432,
+    "oracle_actions": 432,
+    "oracle_groups": 24,
+    "prediction_metrics": 96,
+    "rank_metrics": 288,
+    "reused_oracle_actions": 0,
+    "state_summary": 96
+  },
+  "resume": true,
+  "score_fields": [
+    "reward_pred",
+    "guarded_reward",
+    "hard_reduction_total_pred",
+    "hybrid_pred"
+  ],
+  "script": "scripts/oracle_action_value_probe.py",
+  "seed": 2026,
+  "states": [
+    "initial"
+  ],
+  "top_ks": [
+    8,
+    16,
+    18
+  ]
+}

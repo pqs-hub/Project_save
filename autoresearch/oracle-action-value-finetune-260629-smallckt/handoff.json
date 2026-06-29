@@ -1,0 +1,27 @@
+{
+  "epochs": 3,
+  "final": {
+    "epoch": 3,
+    "train_groups": 12,
+    "train_loss": 3.2308994879325232,
+    "train_pairs": 2257,
+    "train_rank_loss": 0.6930085917313894,
+    "train_value_loss": 2.8843952218691506
+  },
+  "groups": 12,
+  "mode": "fix",
+  "objective": "oracle action-value finetune",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-smallckt/oracle_actions.tsv",
+  "out_dir": "autoresearch/oracle-action-value-finetune-260629-smallckt",
+  "outputs": {
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-smallckt/candidate.pt",
+    "history": "autoresearch/oracle-action-value-finetune-260629-smallckt/history.tsv"
+  },
+  "source_checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "source_checkpoint_id": "0a30e730990c065e",
+  "status": "progressed",
+  "trainable_prefixes": [
+    "return_head",
+    "reward_head"
+  ]
+}

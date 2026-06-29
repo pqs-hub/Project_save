@@ -1,0 +1,30 @@
+{
+  "subcommand": "improve",
+  "generated_at": "2026-06-29 10:13 Asia/Shanghai",
+  "objective": "Research the next improvement after head-only and pairwise-only oracle action-value finetuning failed to improve ranking.",
+  "inputs": [
+    "autoresearch/fix-260629-1008/fix_report.md",
+    "autoresearch/reason-260629-0947/reason_report.md",
+    "autoresearch/oracle-action-value-gate-260629-labeled-subckt-val/oracle_action_value_summary.tsv",
+    "autoresearch/oracle-action-value-gate-260629-pairwise-only-val/oracle_action_value_summary.tsv"
+  ],
+  "conclusion": "Pairwise ranking is the right objective family, but applying it only to reward/return heads is too weak and may optimize the wrong score carrier. The next experiment should jointly train action_encoder, dynamics, reward/return, and hard_reduction on pairwise ranking of the actual planner score, preferably hybrid_pred or its differentiable equivalent.",
+  "recommended_next_command": "$autoresearch plan Joint-train action_encoder/dynamics/reward/hard_reduction on oracle pairwise planner-score ranking instead of head-only reward finetune.",
+  "recommended_acceptance_gate": {
+    "primary_oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv",
+    "secondary_oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "primary_score_field": "hybrid_pred",
+    "promote_if": [
+      "hybrid_pred Spearman improves by at least 0.05 on held-out labeled subckt val",
+      "negative_top1_rate does not worsen on held-out labeled subckt val",
+      "top1_regret does not worsen on held-out labeled subckt val"
+    ],
+    "reject_if": [
+      "negative_top1_rate worsens on held-out labeled subckt val",
+      "hybrid_pred Spearman decreases materially on held-out labeled subckt val"
+    ]
+  },
+  "files": {
+    "report": "autoresearch/improve-260629-1013/improve_report.md"
+  }
+}

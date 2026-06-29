@@ -1,0 +1,51 @@
+{
+  "action_types": [
+    "control0"
+  ],
+  "backend": "atalanta-bist",
+  "benchmarks": [
+    "b15_C"
+  ],
+  "candidate_cache_dir": "autoresearch/tp-candidates-260626-2047",
+  "candidate_strategies": [
+    "cached_stride"
+  ],
+  "checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "checkpoint_id": "0a30e730990c065e",
+  "generated_at": "2026-06-29T03:39:21",
+  "max_nets": 1,
+  "oracle_top_m": 1,
+  "outputs": {
+    "manifest": "autoresearch/oracle-action-probe-260629-resume-smoke/manifest.json",
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-resume-smoke/oracle_actions.tsv",
+    "oracle_groups": "autoresearch/oracle-action-probe-260629-resume-smoke/oracle_groups.tsv",
+    "prediction_metrics": "autoresearch/oracle-action-probe-260629-resume-smoke/prediction_metrics.tsv",
+    "rank_metrics": "autoresearch/oracle-action-probe-260629-resume-smoke/rank_metrics.tsv",
+    "state_summary": "autoresearch/oracle-action-probe-260629-resume-smoke/state_summary.tsv"
+  },
+  "patterns": 10,
+  "records": {
+    "evaluated_oracle_actions": 0,
+    "oracle_actions": 1,
+    "oracle_groups": 1,
+    "prediction_metrics": 4,
+    "rank_metrics": 4,
+    "reused_oracle_actions": 1,
+    "state_summary": 4
+  },
+  "resume": true,
+  "score_fields": [
+    "reward_pred",
+    "guarded_reward",
+    "hard_reduction_total_pred",
+    "hybrid_pred"
+  ],
+  "script": "scripts/oracle_action_value_probe.py",
+  "seed": 2026,
+  "states": [
+    "initial"
+  ],
+  "top_ks": [
+    1
+  ]
+}

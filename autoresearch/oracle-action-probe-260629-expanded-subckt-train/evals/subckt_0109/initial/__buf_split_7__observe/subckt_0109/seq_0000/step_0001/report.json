@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "subckt_0109",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "subckt_0109",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 10000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 297,
+    "effective_pattern_count": 82,
+    "fault_coverage": 0.99,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 3
+    },
+    "hard_fault_count": 3,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 10000,
+    "random_pattern_budget": 10000,
+    "test_coverage": 0.99,
+    "total_faults": 300,
+    "undetected_fault_count": 3,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 3,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 3,
+    "undetected_sa0_count": 0,
+    "undetected_sa1_count": 3,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/evals/subckt_0109/initial/__buf_split_7__observe/subckt_0109/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "9db4e5fe071b99f2ee1ec6f88d82574b327669e22a2a8e137920e1ecc3524854",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 0,
+      "net": "__buf_split_7",
+      "score": 0.3092682361602783,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0109.bench",
+  "source_bench_sha256": "787ee860453a9c10d976a1cc71a0980417affb333c850b1525046d4fa3546e5f",
+  "status": "ok"
+}

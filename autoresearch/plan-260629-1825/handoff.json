@@ -1,0 +1,19 @@
+{
+  "objective": "Train a fixed-checkpoint action-value ranker over oracle-rescored model features, with pairwise ranking loss and expanded/transfer oracle gates.",
+  "mode": "plan",
+  "status": "ready_for_fix",
+  "generated_at": "2026-06-29 18:25 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-1825/plan.md",
+  "validated_config": "autoresearch/plan-260629-1825/validated_config.json",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-1825/plan.md",
+  "summary": {
+    "decision": "Implement a fixed-checkpoint ranker before more neural retraining.",
+    "reason": "Scratch retraining is confounded because the oracle-rank 0.0 control fails to reproduce incumbent hard F1.",
+    "primary_train_data": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+    "primary_val_data": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+    "transfer_data": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+    "primary_metric": "expanded val ranker_score vs oracle_delta_tc",
+    "promotion_gate": "expanded Spearman +0.05, no expanded negative_top1/regret regression, transfer safety preserved"
+  }
+}

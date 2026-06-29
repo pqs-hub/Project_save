@@ -210,6 +210,8 @@ def predict_group_scores(
         "hard_reduction_total_pred": [],
         "hybrid_pred": [],
         "bounded_residual_hybrid_pred": [],
+        "derived_hard_reduction_total_pred": [],
+        "derived_hard_reduction_hybrid_pred": [],
     }
     for row in group:
         node = row["node"]
@@ -229,6 +231,15 @@ def predict_group_scores(
         return_pred = pred["return_pred"]
         hard_reduction_pred = pred["hard_reduction_pred"].view(-1)
         hard_reduction_total = hard_reduction_pred[0] if hard_reduction_pred.numel() > 0 else reward_pred.new_zeros(())
+        derived_reduction = pred.get("derived_hard_reduction_pred")
+        derived_reduction = (
+            derived_reduction.view(-1)
+            if derived_reduction is not None
+            else hard_reduction_pred.new_zeros(3)
+        )
+        derived_hard_reduction_total = (
+            derived_reduction[0] if derived_reduction.numel() > 0 else reward_pred.new_zeros(())
+        )
         score_lists["reward_pred"].append(reward_pred)
         score_lists["return_pred"].append(return_pred)
         score_lists["guarded_reward"].append(torch.minimum(reward_pred, return_pred))
@@ -237,6 +248,8 @@ def predict_group_scores(
         score_lists["bounded_residual_hybrid_pred"].append(
             hard_reduction_total * coverage_scale + bounded_residual_alpha * (reward_pred + return_pred)
         )
+        score_lists["derived_hard_reduction_total_pred"].append(derived_hard_reduction_total)
+        score_lists["derived_hard_reduction_hybrid_pred"].append(derived_hard_reduction_total * coverage_scale)
     return {field: torch.stack(values) for field, values in score_lists.items()}
 
 

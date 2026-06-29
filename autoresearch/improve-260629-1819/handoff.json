@@ -1,0 +1,22 @@
+{
+  "objective": "Research next improvement after Scheme A/B, SCOAP/delta-SCOAP ablations, and oracle ranking sweeps.",
+  "subcommand": "improve",
+  "status": "completed",
+  "generated_at": "2026-06-29 18:19 Asia/Shanghai",
+  "report": "autoresearch/improve-260629-1819/improve_report.md",
+  "backlog": "autoresearch/improve-260629-1819/backlog.tsv",
+  "decision": "Do a fixed-checkpoint action-value ranker next; do not run more scratch oracle-loss sweeps until incumbent reproduction passes.",
+  "main_evidence": [
+    "scratch_0p00 has no oracle ranking loss but hard F1 collapses to 0.165301 vs incumbent 0.794805",
+    "Scheme A improves hard F1 but fails oracle ranking",
+    "Scheme B node-hard prediction is acceptable but derived hard_reduction is not a reliable planner score",
+    "SCOAP/delta-SCOAP ablations are mixed and non-promotable",
+    "head-only and local oracle finetunes have not produced stable promotion"
+  ],
+  "recommended_next_command": "$autoresearch plan Train a fixed-checkpoint action-value ranker over oracle-rescored model features, with pairwise ranking loss and expanded/transfer oracle gates.",
+  "do_not_do_next": [
+    "Do not run another SCOAP/delta-SCOAP weight sweep immediately.",
+    "Do not run more scratch oracle-ranking sweeps until scratch control reproduces incumbent.",
+    "Do not add a new action_value_head before proving a fixed ranker can extract useful signal."
+  ]
+}

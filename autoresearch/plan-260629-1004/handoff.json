@@ -1,0 +1,15 @@
+{
+  "objective": "Run pairwise-only oracle action ranking finetune.",
+  "mode": "plan",
+  "status": "completed",
+  "generated_at": "2026-06-29 10:04 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-1004/plan.md",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-1004/plan.md",
+  "summary": {
+    "decision": "Only use pairwise rank loss for this iteration.",
+    "no_new_losses": "Do not add sign/top1/regret losses yet.",
+    "no_new_head": "Do not add a dedicated action-value head yet.",
+    "implementation": "Use existing finetune script with --lambda-oracle-value 0.0 --lambda-oracle-rank 1.0."
+  }
+}

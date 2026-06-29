@@ -1,0 +1,24 @@
+{
+  "objective": "train and evaluate Version B derived hard-value model",
+  "status": "completed_not_promoted",
+  "verdict": "REJECT_VERSION_B_DERIVED_SCORE",
+  "artifacts": {
+    "final_report": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/final_report.md",
+    "config": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/configs/version_B_derived_node_hard.json",
+    "checkpoint": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/runs/version_B_derived_node_hard/best.pt",
+    "hard_gate": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/gates/hard",
+    "expanded_gate": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/gates/expanded_val/oracle_action_value_summary.tsv",
+    "transfer_gate": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/train-version-b-derived-260629-1629/gates/transfer/oracle_action_value_summary.tsv"
+  },
+  "key_metrics": {
+    "version_B_hard_macro_f1_tuned": 0.8026480386731021,
+    "incumbent_hard_macro_f1_tuned": 0.7948049980095285,
+    "version_B_derived_hard_reduction_score": 0.5916368687539943,
+    "incumbent_derived_hard_reduction_score": 0.6922070222790353,
+    "version_B_expanded_derived_spearman": -0.1434473173179725,
+    "incumbent_expanded_derived_spearman": 0.08632730234909525,
+    "version_B_transfer_derived_spearman": -0.007390604352698504,
+    "incumbent_transfer_derived_spearman": 0.046112501515520245
+  },
+  "recommended_next_step": "keep direct hard_reduction head; consider removing only hard_count loss or adding consistency between direct and derived reduction"
+}

@@ -1,0 +1,32 @@
+{
+  "mode": "wizard",
+  "generated_at": "2026-06-29 03:34 Asia/Shanghai",
+  "source_command": "$autoresearch",
+  "dispatch_reason": "Bare $autoresearch invocation maps to setup wizard.",
+  "selected_next_mode": "classic",
+  "selected_next_subcommand": "fix",
+  "objective": "Implement oracle action-value dataset export and checkpoint comparison gate.",
+  "plan": "autoresearch/plan-260629-0311/plan.md",
+  "validated_config": "autoresearch/plan-260629-0311/validated_config.json",
+  "scope": [
+    "scripts/oracle_action_value_probe.py",
+    "scripts/evaluate_oracle_action_values.py"
+  ],
+  "metric": {
+    "type": "acceptance_gate",
+    "success": [
+      "py_compile passes",
+      "help commands pass",
+      "gate smoke writes expected output files",
+      "baseline-only gate verdict is INCONCLUSIVE",
+      "probe resume smoke writes oracle_groups.tsv and manifest.json"
+    ]
+  },
+  "verify_commands": [
+    "python -m py_compile scripts/oracle_action_value_probe.py scripts/evaluate_oracle_action_values.py",
+    "python scripts/oracle_action_value_probe.py --help",
+    "python scripts/evaluate_oracle_action_values.py --help",
+    "python scripts/evaluate_oracle_action_values.py --oracle-actions autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --checkpoints incumbent=autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt --score-fields reward_pred,guarded_reward,hard_reduction_total_pred,hybrid_pred --top-ks 8,16,32 --oracle-top-m 5 --plan-device cpu --out-dir autoresearch/oracle-action-value-gate-260629-smoke --baseline incumbent"
+  ],
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0311/plan.md"
+}

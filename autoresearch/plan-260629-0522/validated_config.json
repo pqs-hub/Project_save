@@ -1,0 +1,45 @@
+{
+  "objective": "Correct oracle action-value expansion to use the 131 labeled training subgraphs, not original full circuits.",
+  "mode": "plan",
+  "status": "validated",
+  "generated_at": "2026-06-29 05:22 Asia/Shanghai",
+  "supersedes": "autoresearch/plan-260629-0509/plan.md",
+  "reason": "The model training distribution is the 131 benchmark_ids in labels.csv; original eval circuits should not be used as action-value training data.",
+  "labels_csv": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/labels.csv",
+  "bench_root": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits",
+  "labeled_subckt_count": 131,
+  "split": {
+    "oracle_train_subckts": 24,
+    "oracle_val_subckts": 8,
+    "selection": "deterministic stride over sorted labels.csv benchmark_id set"
+  },
+  "oracle_train": {
+    "out_dir": "autoresearch/oracle-action-probe-260629-labeled-subckt-train",
+    "estimated_backend_evaluations": 1296,
+    "max_nets": 6,
+    "candidate_strategies": "cached_stride,cached_hard_cone,cached_random"
+  },
+  "oracle_val": {
+    "out_dir": "autoresearch/oracle-action-probe-260629-labeled-subckt-val",
+    "estimated_backend_evaluations": 432,
+    "max_nets": 6,
+    "candidate_strategies": "cached_stride,cached_hard_cone,cached_random"
+  },
+  "finetune": {
+    "out_dir": "autoresearch/oracle-action-value-finetune-260629-labeled-subckt",
+    "train_heads": "reward,return",
+    "epochs": 5,
+    "lambda_oracle_value": 1.0,
+    "lambda_oracle_rank": 1.0
+  },
+  "primary_gate": {
+    "out_dir": "autoresearch/oracle-action-value-gate-260629-labeled-subckt-val",
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv"
+  },
+  "transfer_gate": {
+    "out_dir": "autoresearch/oracle-action-value-gate-260629-labeled-subckt-transfer",
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv"
+  },
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0522/plan.md"
+}

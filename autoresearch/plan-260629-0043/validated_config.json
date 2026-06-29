@@ -1,0 +1,101 @@
+{
+  "mode": "plan",
+  "source_plan": "autoresearch/plan-260629-0043/plan.md",
+  "validated_at": "2026-06-29 00:43 Asia/Shanghai",
+  "goal": "Evaluate whether world-model action scores rank backend-measured TC gains correctly, and whether candidate strategies surface real high-value TPI actions.",
+  "status": "implemented_smoke_verified",
+  "preconditions": {
+    "oracle_action_value_probe_exists": true,
+    "candidate_cache_dir": "autoresearch/tp-candidates-260626-2047",
+    "candidate_cache_status": "present_for_8_eval_circuits",
+    "required_eval_circuits": [
+      "b15_C",
+      "b20_C",
+      "b21_C",
+      "b22_C",
+      "i2c_aig",
+      "max_aig",
+      "b17_C",
+      "mem_ctrl_aig"
+    ]
+  },
+  "scope": {
+    "create": [
+      "scripts/oracle_action_value_probe.py"
+    ],
+    "read_or_reuse": [
+      "tpi_jepa/plan.py",
+      "tpi_jepa/evaluate_plan_tmax.py",
+      "scripts/build_tp_candidate_cache.py",
+      "autoresearch/tp-candidates-260626-2047/"
+    ],
+    "do_not_change": [
+      "Atalanta/TMAX backend semantics",
+      "model training losses",
+      "checkpoint selection"
+    ]
+  },
+  "oracle_label": {
+    "state": "fixed benchmark plus current inserted actions S",
+    "candidate_action": "(net, action_type)",
+    "primary_oracle_value": "backend-measured delta_test_coverage after evaluating S + [candidate_action]",
+    "oracle_top_m": "top-M candidate actions by primary_oracle_value in the evaluated backend-valid candidate pool"
+  },
+  "score_fields": [
+    "reward_pred",
+    "fc_pred",
+    "guarded_reward",
+    "return_pred",
+    "hard_reduction_total_pred",
+    "hybrid_pred"
+  ],
+  "metrics": {
+    "candidate_quality": [
+      "oracle_action_recall@K",
+      "oracle_node_recall@K",
+      "regret@K",
+      "best_in_topK_delta_tc",
+      "negative_top1_rate"
+    ],
+    "world_model_alignment": [
+      "spearman(pred_score, oracle_delta_tc)",
+      "kendall_tau(pred_score, oracle_delta_tc)",
+      "pearson(pred_score, oracle_delta_tc)",
+      "topK_real_gain_by_pred",
+      "topK_hit_rate",
+      "top1_real_delta_tc",
+      "top1_regret",
+      "sign_accuracy",
+      "negative_top1_rate",
+      "calibration_slope",
+      "calibration_intercept"
+    ]
+  },
+  "required_outputs": [
+    "oracle_actions.tsv",
+    "rank_metrics.tsv",
+    "prediction_metrics.tsv",
+    "state_summary.tsv",
+    "handoff.json"
+  ],
+  "verification_commands": {
+    "static": [
+      "python -m py_compile tpi_jepa/*.py scripts/*.py",
+      "python -m tpi_jepa.plan --help",
+      "python -m tpi_jepa.evaluate_plan_tmax --help",
+      "python scripts/build_tp_candidate_cache.py --help"
+    ],
+    "post_implementation_smoke": [
+      "TPI_BENCH_ROOT=/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard python scripts/oracle_action_value_probe.py --checkpoint autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt --benchmarks b15_C,i2c_aig --candidate-cache-dir autoresearch/tp-candidates-260626-2047 --candidate-strategies cached_stride,cached_hard_cone,hard_fault_recall_union --score-fields reward_pred,guarded_reward,hard_reduction_total_pred,hybrid_pred --states initial --max-nets 16 --action-types CP0,CP1,OP --patterns 10000 --seed 2026 --backend atalanta-bist --plan-device cuda --timeout-sec 14400 --out-dir autoresearch/oracle-action-probe-260629-smoke"
+    ]
+  },
+  "promotion_gate": [
+    "oracle_actions.tsv has backend-measured rows for every requested benchmark/state/action",
+    "prediction_metrics.tsv reports correlation, top1_regret, sign_accuracy, and negative_top1_rate for each score field",
+    "at least one score field has positive Spearman and Kendall correlation with oracle_delta_tc",
+    "predicted top-1 real delta_tc is better than or equal to netlist/cached_stride baseline on the smoke set",
+    "negative_top1_rate is not worse than baseline"
+  ],
+  "next_subcommand": "evals",
+  "next_action": "Run a larger oracle_action_value_probe smoke on b15_C,i2c_aig with max_nets=16 and patterns=10000, then analyze prediction_metrics.tsv."
+}

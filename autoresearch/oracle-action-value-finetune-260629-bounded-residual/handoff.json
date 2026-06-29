@@ -1,0 +1,56 @@
+{
+  "best": {
+    "bounded_residual_alpha": -0.11205179989337921,
+    "epoch": 1,
+    "is_best": 1,
+    "train_groups": 288,
+    "train_loss": 0.7454771082136884,
+    "train_pairs": 18466,
+    "train_rank_loss": 0.7454771082136884,
+    "train_value_loss": 0.413779327429236,
+    "val_groups": 48,
+    "val_negative_top1_rate": 0.375,
+    "val_pairs": 4706,
+    "val_rank_loss": 0.6701117195188999,
+    "val_spearman": 0.04526056437152481,
+    "val_top1_regret": 0.035482708333333335
+  },
+  "bounded_residual_alpha_bound": 0.25,
+  "epochs": 8,
+  "final": {
+    "bounded_residual_alpha": -0.23783981800079346,
+    "epoch": 8,
+    "is_best": 0,
+    "train_groups": 288,
+    "train_loss": 0.7022449719305668,
+    "train_pairs": 18466,
+    "train_rank_loss": 0.7022449719305668,
+    "train_value_loss": 0.41375224344018435,
+    "val_groups": 48,
+    "val_negative_top1_rate": 0.375,
+    "val_pairs": 4706,
+    "val_rank_loss": 0.6699034944176674,
+    "val_spearman": 0.04446054955927826,
+    "val_top1_regret": 0.035482708333333335
+  },
+  "groups": 288,
+  "mode": "fix",
+  "objective": "oracle action-value finetune",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+  "out_dir": "autoresearch/oracle-action-value-finetune-260629-bounded-residual",
+  "outputs": {
+    "best": "autoresearch/oracle-action-value-finetune-260629-bounded-residual/best.pt",
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-bounded-residual/candidate.pt",
+    "history": "autoresearch/oracle-action-value-finetune-260629-bounded-residual/history.tsv"
+  },
+  "ranking_score_field": "bounded_residual_hybrid_pred",
+  "source_checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "source_checkpoint_id": "0a30e730990c065e",
+  "status": "progressed",
+  "train_scope": "bounded_residual",
+  "trainable_prefixes": [
+    "bounded_residual_alpha"
+  ],
+  "val_oracle_actions": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+  "value_score_field": "reward_pred"
+}

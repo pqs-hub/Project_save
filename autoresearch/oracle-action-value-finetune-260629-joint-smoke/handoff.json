@@ -1,0 +1,33 @@
+{
+  "epochs": 1,
+  "final": {
+    "epoch": 1,
+    "train_groups": 72,
+    "train_loss": 0.7133223199182086,
+    "train_pairs": 940,
+    "train_rank_loss": 0.7133223199182086,
+    "train_value_loss": 0.5019032436022017
+  },
+  "groups": 72,
+  "mode": "fix",
+  "objective": "oracle action-value finetune",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-train/oracle_actions.tsv",
+  "out_dir": "autoresearch/oracle-action-value-finetune-260629-joint-smoke",
+  "outputs": {
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-joint-smoke/candidate.pt",
+    "history": "autoresearch/oracle-action-value-finetune-260629-joint-smoke/history.tsv"
+  },
+  "ranking_score_field": "hybrid_pred",
+  "source_checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "source_checkpoint_id": "0a30e730990c065e",
+  "status": "progressed",
+  "train_scope": "planner_joint",
+  "trainable_prefixes": [
+    "action_encoder",
+    "dynamics",
+    "reward_head",
+    "return_head",
+    "hard_reduction_head"
+  ],
+  "value_score_field": "reward_pred"
+}

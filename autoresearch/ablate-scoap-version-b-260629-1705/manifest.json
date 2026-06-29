@@ -1,0 +1,21 @@
+{
+  "base_version_B": "autoresearch/train-version-b-derived-260629-1629",
+  "variants": [
+    {
+      "name": "B_only_scoap",
+      "config": "autoresearch/ablate-scoap-version-b-260629-1705/configs/B_only_scoap.json",
+      "run_dir": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_scoap",
+      "lambda_scoap": 0.5,
+      "lambda_delta_scoap": 0.0,
+      "device": "cuda:4"
+    },
+    {
+      "name": "B_only_delta_scoap",
+      "config": "autoresearch/ablate-scoap-version-b-260629-1705/configs/B_only_delta_scoap.json",
+      "run_dir": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap",
+      "lambda_scoap": 0.0,
+      "lambda_delta_scoap": 0.3,
+      "device": "cuda:7"
+    }
+  ]
+}

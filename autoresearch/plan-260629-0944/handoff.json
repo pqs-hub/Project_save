@@ -1,0 +1,15 @@
+{
+  "objective": "Add explicit sign/top1 safety loss or dedicated action-value head for oracle action-value training.",
+  "mode": "plan",
+  "status": "completed",
+  "generated_at": "2026-06-29 09:44 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-0944/plan.md",
+  "validated_config": "autoresearch/plan-260629-0944/validated_config.json",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-0944/plan.md",
+  "summary": {
+    "stage_a": "Add sign calibration, soft top1 negative-action, and soft regret losses to existing oracle finetune script.",
+    "stage_b": "Only if Stage A fails, add dedicated action_value_head and expose action_value_pred as a planner/gate score field.",
+    "reason": "Previous candidate improved reward Spearman on transfer but was rejected because negative_top1_rate remained unsafe."
+  }
+}

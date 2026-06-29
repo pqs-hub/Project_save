@@ -1,0 +1,59 @@
+{
+  "subcommand": "fix",
+  "generated_at": "2026-06-29 11:35 Asia/Shanghai",
+  "objective": "Keep action_encoder/dynamics/hard_reduction frozen, train only a bounded residual term, and use validation early stopping.",
+  "status": "completed_not_promoted",
+  "modified_files": [
+    "tpi_jepa/plan.py",
+    "scripts/oracle_action_value_probe.py",
+    "scripts/finetune_oracle_action_values.py"
+  ],
+  "outputs": {
+    "report": "autoresearch/fix-260629-1135/fix_report.md",
+    "smoke": "autoresearch/oracle-action-value-finetune-260629-bounded-residual-smoke",
+    "finetune": "autoresearch/oracle-action-value-finetune-260629-bounded-residual",
+    "best_checkpoint": "autoresearch/oracle-action-value-finetune-260629-bounded-residual/best.pt",
+    "final_checkpoint": "autoresearch/oracle-action-value-finetune-260629-bounded-residual/candidate.pt",
+    "expanded_val_gate": "autoresearch/oracle-action-value-gate-260629-bounded-residual-val",
+    "transfer_gate": "autoresearch/oracle-action-value-gate-260629-bounded-residual-transfer"
+  },
+  "score_field": "bounded_residual_hybrid_pred",
+  "formula": "hard_reduction_total_pred * coverage_scale + bounded_residual_alpha * (reward_pred + return_pred)",
+  "training": {
+    "train_scope": "bounded_residual",
+    "trainable_parameters": [
+      "bounded_residual_alpha"
+    ],
+    "frozen": [
+      "all model weights",
+      "action_encoder",
+      "dynamics",
+      "hard_reduction_head"
+    ],
+    "alpha_bound": 0.25,
+    "best_epoch": 1,
+    "best_alpha": -0.11205179989337921,
+    "best_val_spearman": 0.04526056437152481,
+    "best_val_negative_top1_rate": 0.375,
+    "best_val_top1_regret": 0.035482708333333335
+  },
+  "expanded_val": {
+    "incumbent_hybrid_spearman": 0.031476491394793325,
+    "incumbent_hard_spearman": 0.04403395544828171,
+    "incumbent_bounded_spearman": 0.042002126329435306,
+    "bounded_best_spearman": 0.045258017311957825,
+    "bounded_best_negative_top1_rate": 0.375,
+    "bounded_best_top1_regret": 0.035482708333333335
+  },
+  "transfer": {
+    "incumbent_hybrid_spearman": 0.32739827342251004,
+    "incumbent_hard_spearman": 0.3244427102285325,
+    "incumbent_bounded_spearman": 0.32483519949881423,
+    "bounded_best_spearman": 0.3243305182097412,
+    "bounded_best_negative_top1_rate": 0.16666666666666666,
+    "bounded_best_top1_regret": 0.012551666666666702
+  },
+  "verdict": "DO_NOT_PROMOTE_AS_DEFAULT_PLANNER_CHECKPOINT",
+  "diagnosis": "Bounded residual is transfer-safe and slightly improves expanded val over hard-only/default bounded scoring, but effect size is small and transfer Spearman is below incumbent hybrid_pred.",
+  "recommended_next": "Grid-search alpha/bound for the bounded residual score on fixed oracle TSVs instead of training graph-by-graph; select by expanded val and transfer gate."
+}

@@ -1,0 +1,34 @@
+{
+  "objective": "complete scratch oracle rank sweep and gates",
+  "status": "completed_no_promotion",
+  "artifacts": {
+    "final_report": "autoresearch/autoresearch-260629-1450/final_report.md",
+    "promotion_summary": "autoresearch/autoresearch-260629-1450/promotion_summary.tsv",
+    "expanded_gate": "autoresearch/autoresearch-260629-1450/gates/expanded_val/oracle_action_value_summary.tsv",
+    "transfer_gate": "autoresearch/autoresearch-260629-1450/gates/transfer/oracle_action_value_summary.tsv",
+    "hard_gate_dir": "autoresearch/autoresearch-260629-1450/gates/hard"
+  },
+  "verdict": "REJECT_ALL",
+  "decisions": [
+    {
+      "checkpoint": "scratch_0p00",
+      "verdict": "REJECT",
+      "reasons": "expanded hybrid Spearman did not beat incumbent by +0.02; expanded negative_top1 worse than incumbent; transfer hybrid Spearman dropped more than 0.02; transfer negative_top1 worse than incumbent; hard_macro_f1_tuned regressed by more than 0.03"
+    },
+    {
+      "checkpoint": "scratch_0p05",
+      "verdict": "REJECT",
+      "reasons": "expanded hybrid Spearman did not beat incumbent by +0.02; expanded negative_top1 worse than incumbent; transfer hybrid Spearman dropped more than 0.02; transfer negative_top1 worse than incumbent; hard_macro_f1_tuned regressed by more than 0.03"
+    },
+    {
+      "checkpoint": "scratch_0p10",
+      "verdict": "REJECT",
+      "reasons": "expanded hybrid Spearman did not beat incumbent by +0.02; expanded negative_top1 worse than incumbent; transfer hybrid Spearman dropped more than 0.02; transfer negative_top1 worse than incumbent; hard_macro_f1_tuned regressed by more than 0.03"
+    },
+    {
+      "checkpoint": "scratch_0p20",
+      "verdict": "REJECT",
+      "reasons": "expanded hybrid Spearman did not beat incumbent by +0.02; expanded negative_top1 worse than incumbent; hard_macro_f1_tuned regressed by more than 0.03"
+    }
+  ]
+}

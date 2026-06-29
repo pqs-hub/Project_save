@@ -1,0 +1,44 @@
+{
+  "counts": {
+    "oracle_actions": 1,
+    "prediction_metrics": 2,
+    "rank_metrics": 2,
+    "state_summary": 2
+  },
+  "findings": {
+    "correlation_conclusion": "not_available_with_one_action",
+    "negative_real_delta_actions": 1,
+    "positive_score_negative_tc_actions": 1
+  },
+  "full_smoke": {
+    "best_mean_spearman": 0.32739827342251004,
+    "best_negative_top1_rate": 0.16666666666666666,
+    "best_score_field": "hybrid_pred",
+    "compact_actions_tsv": "autoresearch/evals-260629-0102/oracle-probe-smoke-results.tsv",
+    "finite_oracle_actions": 288,
+    "negative_oracle_delta": 98,
+    "oracle_actions": 288,
+    "positive_oracle_delta": 190,
+    "prediction_metrics": 24,
+    "rank_metrics": 72,
+    "score_summary_tsv": "autoresearch/evals-260629-0102/prediction-score-summary.tsv",
+    "source": "autoresearch/oracle-action-probe-260629-smoke"
+  },
+  "mode": "evals",
+  "next": "Add calibration/safety gating for predicted rewards, or train an action-value/ranking head using oracle probe labels; do not use raw positive reward_pred as a safe TC-gain signal.",
+  "next_subcommand": "plan",
+  "outputs": {
+    "report": "autoresearch/evals-260629-0102/evals_report.md",
+    "summary_tsv": "autoresearch/evals-260629-0102/oracle-probe-results.tsv"
+  },
+  "small_probe": {
+    "best_score_field": "reward_pred",
+    "best_spearman": "0.9486832980505138",
+    "oracle_actions": 4,
+    "prediction_metrics": 4,
+    "source": "autoresearch/oracle-action-probe-260629-evals-small",
+    "summary_tsv": "autoresearch/evals-260629-0102/oracle-probe-small-results.tsv"
+  },
+  "source": "autoresearch/oracle-action-probe-260629-smoke-real",
+  "status": "analyzed_full_smoke"
+}

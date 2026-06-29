@@ -1,0 +1,30 @@
+{
+  "objective": "Execute fixed-checkpoint action-value ranker plan.",
+  "mode": "fix",
+  "status": "completed",
+  "generated_at": "2026-06-29 18:36 Asia/Shanghai",
+  "source_plan": "autoresearch/plan-260629-1825/plan.md",
+  "code_changes": [
+    "Added scripts/train_action_value_ranker.py"
+  ],
+  "primary_artifacts": {
+    "ranker_report": "autoresearch/action-value-ranker-260629/ranker_report.md",
+    "ranker_metrics": "autoresearch/action-value-ranker-260629/ranker_metrics.tsv",
+    "ranker_handoff": "autoresearch/action-value-ranker-260629/handoff.json",
+    "fix_report": "autoresearch/fix-260629-1836/fix_report.md"
+  },
+  "verdict": "INCONCLUSIVE",
+  "best_variant": "linear_l2",
+  "reason": "expanded validation improves, but transfer negative_top1_rate worsens from 0.166667 to 0.500000",
+  "key_metrics": {
+    "expanded_baseline_hybrid_spearman": 0.031476491394793325,
+    "expanded_linear_l2_spearman": 0.10228265896174503,
+    "expanded_baseline_negative_top1": 0.375,
+    "expanded_linear_l2_negative_top1": 0.3541666666666667,
+    "transfer_baseline_hybrid_spearman": 0.32739827342251004,
+    "transfer_linear_l2_spearman": 0.054477482582202856,
+    "transfer_baseline_negative_top1": 0.16666666666666666,
+    "transfer_linear_l2_negative_top1": 0.5
+  },
+  "next_recommended_command": "$autoresearch plan Audit oracle train/expanded/transfer split mismatch and add negative-action-balanced oracle groups before training another fixed ranker."
+}

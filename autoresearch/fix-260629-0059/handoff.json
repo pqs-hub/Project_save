@@ -1,0 +1,42 @@
+{
+  "mode": "fix",
+  "objective": "Implement oracle action-value and world-model reward-alignment probe.",
+  "status": "progressed",
+  "implemented": [
+    "scripts/oracle_action_value_probe.py"
+  ],
+  "updated": [
+    "autoresearch/plan-260629-0043/handoff.json",
+    "autoresearch/plan-260629-0043/validated_config.json"
+  ],
+  "outputs": {
+    "dry_run": "autoresearch/oracle-action-probe-260629-dryrun/",
+    "real_micro_smoke": "autoresearch/oracle-action-probe-260629-smoke-real/",
+    "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke-real/oracle_actions.tsv",
+    "prediction_metrics": "autoresearch/oracle-action-probe-260629-smoke-real/prediction_metrics.tsv",
+    "rank_metrics": "autoresearch/oracle-action-probe-260629-smoke-real/rank_metrics.tsv",
+    "state_summary": "autoresearch/oracle-action-probe-260629-smoke-real/state_summary.tsv"
+  },
+  "verify": [
+    "python -m py_compile scripts/oracle_action_value_probe.py",
+    "python scripts/oracle_action_value_probe.py --help",
+    "python -m py_compile tpi_jepa/*.py scripts/*.py",
+    "TPI_BENCH_ROOT=/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard python scripts/oracle_action_value_probe.py --checkpoint autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt --benchmarks b15_C --candidate-cache-dir autoresearch/tp-candidates-260626-2047 --candidate-strategies cached_stride --score-fields reward_pred,guarded_reward --states initial --max-nets 1 --action-types CP0 --top-ks 1 --oracle-top-m 1 --patterns 10 --seed 2026 --backend atalanta-bist --plan-device cpu --timeout-sec 120 --out-dir autoresearch/oracle-action-probe-260629-smoke-real --cleanup-workdir"
+  ],
+  "first_observation": {
+    "benchmark_id": "b15_C",
+    "state_id": "initial",
+    "candidate_strategy": "cached_stride",
+    "action": "__buf_split_1::control0",
+    "reward_pred": 0.2648739218711853,
+    "guarded_reward": 0.2239551991224289,
+    "oracle_delta_tc": -0.000290000000000068,
+    "interpretation": "The micro-smoke already shows a positive predicted score on an action with slightly negative real TC delta; larger probes should quantify whether this is systematic."
+  },
+  "next": [
+    "Run the validated 2-circuit smoke with b15_C,i2c_aig, max_nets=16, patterns=10000.",
+    "Analyze prediction_metrics.tsv for Spearman/Kendall/top1_regret/negative_top1_rate.",
+    "If score alignment is weak, train or calibrate an action-value/ranking head against oracle probe labels."
+  ],
+  "next_subcommand": "evals"
+}

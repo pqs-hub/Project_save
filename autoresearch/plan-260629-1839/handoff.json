@@ -1,0 +1,19 @@
+{
+  "objective": "Audit oracle train/expanded/transfer split mismatch and add negative-action-balanced oracle groups before training another fixed ranker.",
+  "mode": "plan",
+  "status": "ready_for_fix",
+  "generated_at": "2026-06-29 18:39 Asia/Shanghai",
+  "plan": "autoresearch/plan-260629-1839/plan.md",
+  "validated_config": "autoresearch/plan-260629-1839/validated_config.json",
+  "next_autoresearch_target": "fix",
+  "next_command": "$autoresearch fix autoresearch/plan-260629-1839/plan.md",
+  "summary": {
+    "reason": "The fixed ranker improved expanded val but failed transfer safety; train has too few negative control actions and many all-positive groups.",
+    "train_negative_rate": 0.1381172839506173,
+    "expanded_val_negative_rate": 0.41550925925925924,
+    "transfer_negative_rate": 0.3402777777777778,
+    "train_all_positive_groups": "168 / 288",
+    "primary_fix": "Add audit script and balanced oracle subset builder before rerunning ranker.",
+    "do_not_train_on_transfer": true
+  }
+}

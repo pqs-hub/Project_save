@@ -1,0 +1,41 @@
+{
+  "baseline": "B_base",
+  "checkpoints": [
+    {
+      "checkpoint_id": "6b52ce3f4eb2a0e8",
+      "name": "B_base",
+      "path": "autoresearch/train-version-b-derived-260629-1629/runs/version_B_derived_node_hard/best.pt"
+    },
+    {
+      "checkpoint_id": "c62889f7c3197d7f",
+      "name": "B_only_scoap",
+      "path": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_scoap/best.pt"
+    },
+    {
+      "checkpoint_id": "0d515991726cf6e8",
+      "name": "B_only_delta_scoap",
+      "path": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap/best.pt"
+    }
+  ],
+  "mode": "fix",
+  "objective": "fixed oracle action-value checkpoint comparison gate",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+  "out_dir": "autoresearch/ablate-scoap-version-b-260629-1705/gates/transfer",
+  "outputs": {
+    "oracle_action_value_metrics": "autoresearch/ablate-scoap-version-b-260629-1705/gates/transfer/oracle_action_value_metrics.tsv",
+    "oracle_action_value_report": "autoresearch/ablate-scoap-version-b-260629-1705/gates/transfer/oracle_action_value_report.md",
+    "oracle_action_value_summary": "autoresearch/ablate-scoap-version-b-260629-1705/gates/transfer/oracle_action_value_summary.tsv",
+    "rescored_oracle_actions": "autoresearch/ablate-scoap-version-b-260629-1705/gates/transfer/rescored_oracle_actions.tsv"
+  },
+  "records": {
+    "oracle_action_value_metrics": 36,
+    "oracle_action_value_summary": 6,
+    "rescored_oracle_actions": 864
+  },
+  "status": "progressed",
+  "verdicts": {
+    "B_base": "INCONCLUSIVE",
+    "B_only_delta_scoap": "INCONCLUSIVE",
+    "B_only_scoap": "INCONCLUSIVE"
+  }
+}

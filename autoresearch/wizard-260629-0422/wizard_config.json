@@ -1,0 +1,48 @@
+{
+  "mode": "wizard",
+  "generated_at": "2026-06-29 04:22 Asia/Shanghai",
+  "source_command": "$autoresearch",
+  "dispatch_reason": "Bare $autoresearch invocation maps to setup wizard.",
+  "latest_handoff": "autoresearch/fix-260629-0339/handoff.json",
+  "selected_next_mode": "classic",
+  "selected_next_subcommand": "plan",
+  "objective": "Design action-value training loss using backend-labeled oracle action groups and validate with the fixed oracle checkpoint gate.",
+  "why_this_next": [
+    "The oracle action-value dataset/gate is implemented and validated.",
+    "The latest gate run has only the incumbent checkpoint, so verdict is INCONCLUSIVE.",
+    "A candidate checkpoint trained with action-value supervision is needed before the gate can promote or reject a model."
+  ],
+  "input_evidence": {
+    "gate_summary": "autoresearch/oracle-action-value-gate-260629-smoke/oracle_action_value_summary.tsv",
+    "best_incumbent_score_field": "hybrid_pred",
+    "best_incumbent_mean_spearman": 0.32739827342251004,
+    "best_incumbent_negative_top1_rate": 0.16666666666666666,
+    "best_incumbent_mean_top1_regret": 0.012551666666666702
+  },
+  "recommended_scope": [
+    "tpi_jepa/dataset.py",
+    "tpi_jepa/train.py",
+    "scripts/evaluate_oracle_action_values.py",
+    "configs/*.json"
+  ],
+  "out_of_scope": [
+    "full 8-circuit oracle labeling",
+    "new GNN architecture",
+    "planner policy rewrite",
+    "TMAX/Atalanta backend changes"
+  ],
+  "success_metric": {
+    "gate": "Compare candidate checkpoint against incumbent on fixed oracle_actions.tsv.",
+    "promote_if": [
+      "mean_spearman improves by at least 0.10",
+      "negative_top1_rate drops by at least 0.10",
+      "mean_top1_regret drops by at least 0.01"
+    ],
+    "guardrails": [
+      "hard_f1 drop <= 0.03",
+      "predictive score drop <= 0.03",
+      "reject if Spearman improves but negative_top1_rate increases"
+    ]
+  },
+  "next_command": "$autoresearch plan Design action-value training loss using backend-labeled oracle action groups and validate with the fixed oracle checkpoint gate."
+}

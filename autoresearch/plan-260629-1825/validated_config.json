@@ -1,0 +1,93 @@
+{
+  "mode": "plan",
+  "objective": "Train a fixed-checkpoint action-value ranker over oracle-rescored model features, with pairwise ranking loss and expanded/transfer oracle gates.",
+  "status": "ready_for_fix",
+  "target_files": [
+    "scripts/train_action_value_ranker.py"
+  ],
+  "optional_target_files": [
+    "scripts/evaluate_action_value_ranker.py"
+  ],
+  "out_dir": "autoresearch/action-value-ranker-260629",
+  "checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "oracle_inputs": {
+    "train": "autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+    "expanded_val": "autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+    "transfer": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv"
+  },
+  "rescored_inputs": {
+    "train": "autoresearch/action-value-ranker-260629/rescore_train/rescored_oracle_actions.tsv",
+    "expanded_val": "autoresearch/action-value-ranker-260629/rescore_val/rescored_oracle_actions.tsv",
+    "transfer": "autoresearch/action-value-ranker-260629/rescore_transfer/rescored_oracle_actions.tsv"
+  },
+  "variants": [
+    "linear",
+    "linear_l2",
+    "mlp_small",
+    "action_type_linear"
+  ],
+  "baseline_score_field": "hybrid_pred",
+  "secondary_baseline_score_field": "hard_reduction_total_pred",
+  "score_features": [
+    "reward_pred",
+    "fc_pred",
+    "guarded_reward",
+    "return_pred",
+    "hard_reduction_total_pred",
+    "hard_reduction_sa0_pred",
+    "hard_reduction_sa1_pred",
+    "hybrid_pred",
+    "bounded_residual_hybrid_pred",
+    "derived_hard_reduction_total_pred",
+    "derived_hard_reduction_hybrid_pred",
+    "derived_hard_reduction_sa0_pred",
+    "derived_hard_reduction_sa1_pred",
+    "derived_hard_count_pre_total_pred",
+    "derived_hard_count_post_total_pred",
+    "candidate_rank"
+  ],
+  "categorical_features": [
+    "type",
+    "candidate_strategy",
+    "benchmark_id"
+  ],
+  "forbidden_features": [
+    "oracle_delta_tc",
+    "oracle_delta_fault_coverage",
+    "oracle_delta_pattern_count",
+    "oracle_test_coverage",
+    "oracle_fault_coverage",
+    "oracle_hard_fault_count",
+    "oracle_undetected_fault_count"
+  ],
+  "training": {
+    "loss": "pairwise_logistic_within_group",
+    "pairwise_min_delta": 0.001,
+    "temperature": 1.0,
+    "epochs": 200,
+    "patience": 20,
+    "seed": 2026,
+    "batch_unit": "group"
+  },
+  "promotion_gate": {
+    "primary_split": "expanded_val",
+    "secondary_split": "transfer",
+    "promote_if": [
+      "expanded mean_spearman >= incumbent hybrid_pred + 0.05",
+      "expanded negative_top1_rate <= incumbent hybrid_pred",
+      "expanded mean_top1_regret <= incumbent hybrid_pred",
+      "transfer negative_top1_rate <= incumbent hybrid_pred + 0.10",
+      "transfer mean_top1_real_delta_tc >= 0.0",
+      "transfer mean_top1_regret <= incumbent hybrid_pred + 0.01"
+    ],
+    "reject_if": [
+      "expanded negative_top1_rate worsens",
+      "transfer mean_top1_real_delta_tc becomes negative while incumbent is positive"
+    ]
+  },
+  "verify": [
+    "python -m py_compile scripts/train_action_value_ranker.py",
+    "python scripts/train_action_value_ranker.py --train-rescored autoresearch/action-value-ranker-260629/rescore_train/rescored_oracle_actions.tsv --val-rescored autoresearch/action-value-ranker-260629/rescore_val/rescored_oracle_actions.tsv --transfer-rescored autoresearch/action-value-ranker-260629/rescore_transfer/rescored_oracle_actions.tsv --variants linear --epochs 2 --patience 1 --out-dir autoresearch/action-value-ranker-260629-smoke",
+    "python scripts/train_action_value_ranker.py --train-rescored autoresearch/action-value-ranker-260629/rescore_train/rescored_oracle_actions.tsv --val-rescored autoresearch/action-value-ranker-260629/rescore_val/rescored_oracle_actions.tsv --transfer-rescored autoresearch/action-value-ranker-260629/rescore_transfer/rescored_oracle_actions.tsv --variants linear,linear_l2,mlp_small,action_type_linear --baseline-score-field hybrid_pred --pairwise-min-delta 0.001 --temperature 1.0 --epochs 200 --patience 20 --seed 2026 --out-dir autoresearch/action-value-ranker-260629"
+  ]
+}

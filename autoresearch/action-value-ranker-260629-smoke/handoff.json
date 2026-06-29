@@ -1,0 +1,27 @@
+{
+  "best_variant": "linear",
+  "inputs": {
+    "train_rescored": "autoresearch/action-value-ranker-260629/rescore_train/rescored_oracle_actions.tsv",
+    "transfer_rescored": "autoresearch/action-value-ranker-260629/rescore_transfer/rescored_oracle_actions.tsv",
+    "val_rescored": "autoresearch/action-value-ranker-260629/rescore_val/rescored_oracle_actions.tsv"
+  },
+  "mode": "fix",
+  "objective": "fixed-checkpoint action-value ranker",
+  "out_dir": "autoresearch/action-value-ranker-260629-smoke",
+  "outputs": {
+    "handoff": "autoresearch/action-value-ranker-260629-smoke/handoff.json",
+    "ranker_metrics": "autoresearch/action-value-ranker-260629-smoke/ranker_metrics.tsv",
+    "ranker_report": "autoresearch/action-value-ranker-260629-smoke/ranker_report.md"
+  },
+  "reasons": [
+    "transfer negative_top1_rate safety failed"
+  ],
+  "records": {
+    "train_pair_groups": 220,
+    "train_rows": 5184,
+    "transfer_rows": 288,
+    "val_rows": 864
+  },
+  "status": "completed",
+  "verdict": "INCONCLUSIVE"
+}

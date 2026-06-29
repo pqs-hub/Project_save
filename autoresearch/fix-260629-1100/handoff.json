@@ -1,0 +1,42 @@
+{
+  "subcommand": "fix",
+  "generated_at": "2026-06-29 11:00 Asia/Shanghai",
+  "objective": "Train reward_head and return_head only while ranking hybrid_pred.",
+  "status": "completed_not_promoted",
+  "modified_files": [],
+  "outputs": {
+    "report": "autoresearch/fix-260629-1100/fix_report.md",
+    "smoke": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid-smoke",
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid/candidate.pt",
+    "heldout_gate": "autoresearch/oracle-action-value-gate-260629-heads-hybrid-val",
+    "transfer_gate": "autoresearch/oracle-action-value-gate-260629-heads-hybrid-transfer"
+  },
+  "training": {
+    "train_scope": "heads",
+    "train_heads": "reward,return",
+    "ranking_score_field": "hybrid_pred",
+    "epochs": 5,
+    "best_train_rank_loss_epoch": 4,
+    "best_train_rank_loss": 0.7240246539521549,
+    "final_train_rank_loss": 0.7453464954677556
+  },
+  "heldout_hybrid": {
+    "incumbent_spearman": 0.00569312166602479,
+    "heads_hybrid_spearman": 0.001005688691236637,
+    "incumbent_negative_top1_rate": 0.4583333333333333,
+    "heads_hybrid_negative_top1_rate": 0.5,
+    "incumbent_top1_regret": 0.043452499999999984,
+    "heads_hybrid_top1_regret": 0.04319958333333332
+  },
+  "transfer_hybrid": {
+    "incumbent_spearman": 0.32739827342251004,
+    "heads_hybrid_spearman": 0.3341223249937031,
+    "incumbent_negative_top1_rate": 0.16666666666666666,
+    "heads_hybrid_negative_top1_rate": 0.16666666666666666,
+    "incumbent_top1_regret": 0.012551666666666702,
+    "heads_hybrid_top1_regret": 0.012551666666666702
+  },
+  "diagnosis": "Head-only hybrid ranking preserves transfer and hard_reduction exactly, but does not improve held-out labeled-subckt hybrid ranking and worsens negative top1. The likely bottleneck is insufficient oracle action-value coverage or hybrid score domination by hard_reduction.",
+  "verdict": "DO_NOT_PROMOTE",
+  "recommended_next": "Export more oracle action groups from the 131 labeled subckt distribution, then rerun heads_hybrid with validation-based early stopping."
+}

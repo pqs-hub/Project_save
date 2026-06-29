@@ -1,0 +1,70 @@
+{
+  "subcommand": "fix",
+  "generated_at": "2026-06-29 11:10 Asia/Shanghai",
+  "objective": "Export more oracle action groups from the 131 labeled subckt distribution, then rerun heads_hybrid with validation early stopping.",
+  "status": "completed_not_promoted",
+  "modified_files": [
+    "scripts/finetune_oracle_action_values.py",
+    "scripts/oracle_action_value_probe.py",
+    "tpi_jepa/plan.py"
+  ],
+  "outputs": {
+    "report": "autoresearch/fix-260629-1110/fix_report.md",
+    "expanded_split": "autoresearch/fix-260629-expanded-subckt-split",
+    "candidate_cache": "autoresearch/tp-candidates-labeled-subckt-expanded-260629",
+    "expanded_train_oracle": "autoresearch/oracle-action-probe-260629-expanded-subckt-train",
+    "expanded_val_oracle": "autoresearch/oracle-action-probe-260629-expanded-subckt-val",
+    "finetune": "autoresearch/oracle-action-value-finetune-260629-expanded-heads-hybrid",
+    "best_checkpoint": "autoresearch/oracle-action-value-finetune-260629-expanded-heads-hybrid/best.pt",
+    "final_checkpoint": "autoresearch/oracle-action-value-finetune-260629-expanded-heads-hybrid/candidate.pt",
+    "expanded_val_gate": "autoresearch/oracle-action-value-gate-260629-expanded-heads-hybrid-val",
+    "transfer_gate": "autoresearch/oracle-action-value-gate-260629-expanded-heads-hybrid-transfer"
+  },
+  "oracle_data": {
+    "train_subckts": 96,
+    "train_groups": 288,
+    "train_actions": 5184,
+    "train_reused_actions": 1296,
+    "train_new_evaluated_actions": 3888,
+    "val_subckts": 16,
+    "val_groups": 48,
+    "val_actions": 864,
+    "val_reused_actions": 432,
+    "val_new_evaluated_actions": 432
+  },
+  "code_changes": {
+    "validation_early_stopping": "scripts/finetune_oracle_action_values.py now supports --val-oracle-actions and saves best.pt by validation Spearman, negative_top1, top1_regret, rank_loss.",
+    "planner_cache_fix": "tpi_jepa.plan.clear_planner_caches() clears per-graph caches; oracle_action_value_probe.py calls it before each benchmark."
+  },
+  "training": {
+    "train_scope": "heads",
+    "train_heads": "reward,return",
+    "ranking_score_field": "hybrid_pred",
+    "epochs": 8,
+    "best_epoch": 1,
+    "best_val_spearman": 0.01791600955785484,
+    "best_val_negative_top1_rate": 0.375,
+    "best_val_top1_regret": 0.035528125,
+    "final_val_spearman": -0.11714024344472425,
+    "final_val_negative_top1_rate": 0.5208333333333334
+  },
+  "expanded_val_hybrid": {
+    "incumbent_spearman": 0.031476491394793325,
+    "expanded_best_spearman": 0.017519150660424834,
+    "expanded_final_spearman": -0.11710994514097885,
+    "incumbent_negative_top1_rate": 0.375,
+    "expanded_best_negative_top1_rate": 0.375,
+    "expanded_final_negative_top1_rate": 0.5208333333333334
+  },
+  "transfer_hybrid": {
+    "incumbent_spearman": 0.32739827342251004,
+    "expanded_best_spearman": 0.3314465538681998,
+    "expanded_final_spearman": 0.3273055589904861,
+    "heads_hybrid_old_spearman": 0.3341223249937031,
+    "incumbent_negative_top1_rate": 0.16666666666666666,
+    "expanded_best_negative_top1_rate": 0.16666666666666666
+  },
+  "verdict": "DO_NOT_PROMOTE",
+  "diagnosis": "Expanded oracle data plus early stopping confirms heads_hybrid is transfer-safe but does not improve expanded held-out subckt ranking. Train loss improves while val Spearman degrades after epoch 1, indicating overfit and weak residual capacity.",
+  "recommended_next": "Change score composition to a bounded reward/return residual added to fixed hard_reduction_total_pred, with dynamics and hard_reduction frozen and validation early stopping."
+}

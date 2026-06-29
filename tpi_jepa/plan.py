@@ -42,6 +42,16 @@ PLAN_FIELDNAMES = [
     "hard_reduction_total_pred",
     "hard_reduction_sa0_pred",
     "hard_reduction_sa1_pred",
+    "derived_hard_count_pre_total_pred",
+    "derived_hard_count_pre_sa0_pred",
+    "derived_hard_count_pre_sa1_pred",
+    "derived_hard_count_post_total_pred",
+    "derived_hard_count_post_sa0_pred",
+    "derived_hard_count_post_sa1_pred",
+    "derived_hard_reduction_total_pred",
+    "derived_hard_reduction_sa0_pred",
+    "derived_hard_reduction_sa1_pred",
+    "derived_hard_reduction_hybrid_pred",
     "hybrid_pred",
     "bounded_residual_hybrid_pred",
     "step_value",
@@ -1009,6 +1019,25 @@ def score_candidate_from_latent(
     hard_reduction_total = float(hard_reduction_pred[0].item()) if hard_reduction_pred.numel() > 0 else 0.0
     hard_reduction_sa0 = float(hard_reduction_pred[1].item()) if hard_reduction_pred.numel() > 1 else 0.0
     hard_reduction_sa1 = float(hard_reduction_pred[2].item()) if hard_reduction_pred.numel() > 2 else 0.0
+    derived_pre = out.get("derived_hard_count_pre_pred")
+    derived_post = out.get("derived_hard_count_post_pred")
+    derived_reduction = out.get("derived_hard_reduction_pred")
+    derived_pre = derived_pre.detach().cpu().view(-1) if derived_pre is not None else hard_reduction_pred.new_zeros(3)
+    derived_post = derived_post.detach().cpu().view(-1) if derived_post is not None else hard_reduction_pred.new_zeros(3)
+    derived_reduction = (
+        derived_reduction.detach().cpu().view(-1)
+        if derived_reduction is not None
+        else hard_reduction_pred.new_zeros(3)
+    )
+    derived_hard_count_pre_total = float(derived_pre[0].item()) if derived_pre.numel() > 0 else 0.0
+    derived_hard_count_pre_sa0 = float(derived_pre[1].item()) if derived_pre.numel() > 1 else 0.0
+    derived_hard_count_pre_sa1 = float(derived_pre[2].item()) if derived_pre.numel() > 2 else 0.0
+    derived_hard_count_post_total = float(derived_post[0].item()) if derived_post.numel() > 0 else 0.0
+    derived_hard_count_post_sa0 = float(derived_post[1].item()) if derived_post.numel() > 1 else 0.0
+    derived_hard_count_post_sa1 = float(derived_post[2].item()) if derived_post.numel() > 2 else 0.0
+    derived_hard_reduction_total = float(derived_reduction[0].item()) if derived_reduction.numel() > 0 else 0.0
+    derived_hard_reduction_sa0 = float(derived_reduction[1].item()) if derived_reduction.numel() > 1 else 0.0
+    derived_hard_reduction_sa1 = float(derived_reduction[2].item()) if derived_reduction.numel() > 2 else 0.0
     distance = _undirected_distance_to_selected(
         graph,
         action_node_id,
@@ -1028,6 +1057,7 @@ def score_candidate_from_latent(
         min(float(getattr(model, "bounded_residual_alpha", 1.0)), float(getattr(model, "bounded_residual_alpha_bound", 0.25))),
     )
     bounded_residual_hybrid_pred = hard_reduction_total * coverage_scale + residual_alpha * (reward_pred + return_pred)
+    derived_hard_reduction_hybrid_pred = derived_hard_reduction_total * coverage_scale
     return {
         "node": node,
         "type": action_type,
@@ -1040,6 +1070,16 @@ def score_candidate_from_latent(
         "hard_reduction_total_pred": hard_reduction_total,
         "hard_reduction_sa0_pred": hard_reduction_sa0,
         "hard_reduction_sa1_pred": hard_reduction_sa1,
+        "derived_hard_count_pre_total_pred": derived_hard_count_pre_total,
+        "derived_hard_count_pre_sa0_pred": derived_hard_count_pre_sa0,
+        "derived_hard_count_pre_sa1_pred": derived_hard_count_pre_sa1,
+        "derived_hard_count_post_total_pred": derived_hard_count_post_total,
+        "derived_hard_count_post_sa0_pred": derived_hard_count_post_sa0,
+        "derived_hard_count_post_sa1_pred": derived_hard_count_post_sa1,
+        "derived_hard_reduction_total_pred": derived_hard_reduction_total,
+        "derived_hard_reduction_sa0_pred": derived_hard_reduction_sa0,
+        "derived_hard_reduction_sa1_pred": derived_hard_reduction_sa1,
+        "derived_hard_reduction_hybrid_pred": derived_hard_reduction_hybrid_pred,
         "hybrid_pred": hybrid_pred,
         "bounded_residual_hybrid_pred": bounded_residual_hybrid_pred,
         "diversity_penalty": diversity_penalty,

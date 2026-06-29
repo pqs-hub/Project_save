@@ -1,0 +1,54 @@
+{
+  "best": {
+    "epoch": 1,
+    "is_best": 1,
+    "train_groups": 72,
+    "train_loss": 0.7487067613854177,
+    "train_pairs": 214,
+    "train_rank_loss": 0.7487067613854177,
+    "train_value_loss": 0.5078989094795866,
+    "val_groups": 24,
+    "val_negative_top1_rate": 0.5833333333333334,
+    "val_pairs": 80,
+    "val_rank_loss": 0.6056070650617281,
+    "val_spearman": -0.057420200947804485,
+    "val_top1_regret": 0.023676249999999968
+  },
+  "epochs": 2,
+  "final": {
+    "epoch": 2,
+    "is_best": 0,
+    "train_groups": 72,
+    "train_loss": 0.699332115550836,
+    "train_pairs": 214,
+    "train_rank_loss": 0.699332115550836,
+    "train_value_loss": 0.5084956990613136,
+    "val_groups": 24,
+    "val_negative_top1_rate": 0.5833333333333334,
+    "val_pairs": 80,
+    "val_rank_loss": 0.6052501648664474,
+    "val_spearman": -0.07893677509340125,
+    "val_top1_regret": 0.023676249999999968
+  },
+  "groups": 72,
+  "mode": "fix",
+  "objective": "oracle action-value finetune",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-train/oracle_actions.tsv",
+  "out_dir": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid-earlystop-smoke",
+  "outputs": {
+    "best": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid-earlystop-smoke/best.pt",
+    "candidate": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid-earlystop-smoke/candidate.pt",
+    "history": "autoresearch/oracle-action-value-finetune-260629-heads-hybrid-earlystop-smoke/history.tsv"
+  },
+  "ranking_score_field": "hybrid_pred",
+  "source_checkpoint": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt",
+  "source_checkpoint_id": "0a30e730990c065e",
+  "status": "progressed",
+  "train_scope": "heads",
+  "trainable_prefixes": [
+    "return_head",
+    "reward_head"
+  ],
+  "val_oracle_actions": "autoresearch/oracle-action-probe-260629-labeled-subckt-val/oracle_actions.tsv",
+  "value_score_field": "reward_pred"
+}

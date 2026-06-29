@@ -1,0 +1,67 @@
+{
+  "objective": "Implement oracle action-value dataset export and checkpoint comparison gate.",
+  "mode": "plan",
+  "status": "validated",
+  "generated_at": "2026-06-29 03:11 Asia/Shanghai",
+  "scope": [
+    "scripts/oracle_action_value_probe.py",
+    "scripts/evaluate_oracle_action_values.py",
+    "autoresearch/plan-260629-0311/"
+  ],
+  "out_of_scope": [
+    "training loss changes",
+    "new model heads",
+    "full 8-circuit oracle labeling",
+    "backend semantic changes",
+    "planner policy changes"
+  ],
+  "required_changes": [
+    {
+      "file": "scripts/oracle_action_value_probe.py",
+      "changes": [
+        "add --resume",
+        "write oracle_groups.tsv",
+        "write manifest.json",
+        "update handoff.json with oracle_groups and manifest outputs",
+        "reuse backend oracle rows on resume while recomputing model score fields"
+      ]
+    },
+    {
+      "file": "scripts/evaluate_oracle_action_values.py",
+      "changes": [
+        "read fixed oracle_actions.tsv",
+        "rescore exact action groups for one or more checkpoints",
+        "compute ranking/calibration metrics",
+        "aggregate checkpoint summaries",
+        "emit PROMOTE / REJECT / INCONCLUSIVE"
+      ]
+    }
+  ],
+  "promotion_thresholds": {
+    "mean_spearman_improvement": 0.1,
+    "negative_top1_rate_reduction": 0.1,
+    "mean_top1_regret_reduction": 0.01
+  },
+  "guardrails": [
+    "REJECT if Spearman improves but negative_top1_rate increases",
+    "v1 may fail fast for non-initial states",
+    "gate script must not call backend evaluation"
+  ],
+  "verify_commands": [
+    "python -m py_compile scripts/oracle_action_value_probe.py scripts/evaluate_oracle_action_values.py",
+    "python scripts/oracle_action_value_probe.py --help",
+    "python scripts/evaluate_oracle_action_values.py --help",
+    "python scripts/evaluate_oracle_action_values.py --oracle-actions autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --checkpoints incumbent=autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt --score-fields reward_pred,guarded_reward,hard_reduction_total_pred,hybrid_pred --top-ks 8,16,32 --oracle-top-m 5 --plan-device cpu --out-dir autoresearch/oracle-action-value-gate-260629-smoke --baseline incumbent"
+  ],
+  "acceptance": [
+    "py_compile passes",
+    "help commands pass",
+    "gate smoke writes rescored_oracle_actions.tsv",
+    "gate smoke writes oracle_action_value_metrics.tsv",
+    "gate smoke writes oracle_action_value_summary.tsv",
+    "gate smoke writes oracle_action_value_report.md",
+    "baseline-only gate verdict is INCONCLUSIVE",
+    "probe resume smoke writes oracle_groups.tsv and manifest.json"
+  ],
+  "handoff_next": "$autoresearch fix autoresearch/plan-260629-0311/plan.md"
+}

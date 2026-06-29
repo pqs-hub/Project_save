@@ -1,0 +1,47 @@
+{
+  "base_config": "/data4/pengqingsong/DFT/TPI-my.3/configs/aig_lowtc_100k_hard_pretrain.json",
+  "oracle_actions": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-train/oracle_actions.tsv",
+  "val_oracle_actions": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/oracle-action-probe-260629-expanded-subckt-val/oracle_actions.tsv",
+  "fixed_weights": {
+    "lambda_jepa": 1.0,
+    "lambda_scoap": 0.3,
+    "lambda_delta_scoap": 0.2,
+    "lambda_hard": 0.5,
+    "lambda_hard_count": 0.1,
+    "lambda_hard_reduction": 0.5,
+    "lambda_hard_soft_f1": 0.02,
+    "lambda_hard_rank": 0.0,
+    "lambda_hard_brier": 0.0,
+    "lambda_fc": 0.0,
+    "lambda_return": 0.0,
+    "lambda_pattern": 0.0,
+    "lambda_oracle_value": 0.0
+  },
+  "sweep": [
+    {
+      "name": "scratch_oracle_rank_0p00",
+      "lambda_oracle_rank": 0.0
+    },
+    {
+      "name": "scratch_oracle_rank_0p05",
+      "lambda_oracle_rank": 0.05
+    },
+    {
+      "name": "scratch_oracle_rank_0p10",
+      "lambda_oracle_rank": 0.1
+    },
+    {
+      "name": "scratch_oracle_rank_0p20",
+      "lambda_oracle_rank": 0.2
+    }
+  ],
+  "oracle_schedule": {
+    "oracle_ranking_score_field": "hybrid_pred",
+    "oracle_every_n_steps": 4,
+    "oracle_batch_groups": 4,
+    "oracle_warmup_epochs": 1,
+    "oracle_ramp_epochs": 2,
+    "oracle_pairwise_min_delta": 0.001,
+    "oracle_pairwise_temperature": 1.0
+  }
+}
