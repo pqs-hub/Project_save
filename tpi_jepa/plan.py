@@ -39,6 +39,10 @@ PLAN_FIELDNAMES = [
     "pattern_pred",
     "return_pred",
     "guarded_reward",
+    "hard_reduction_total_pred",
+    "hard_reduction_sa0_pred",
+    "hard_reduction_sa1_pred",
+    "hybrid_pred",
     "step_value",
     "sequence_score",
     "lookahead_score",
@@ -162,6 +166,35 @@ def enumerate_candidates(
             candidate_sample_seed,
             len(inserted_actions),
         )
+    if strategy == "recall_pool":
+        return _recall_pool_candidate_slice(
+            graph,
+            used,
+            max_candidates,
+            real_fault_benchmark_id,
+            real_fault_prior_path,
+            activation_prior_path,
+        )
+    if strategy == "hard_fault_recall_union":
+        return _hard_fault_recall_union_candidate_slice(
+            graph,
+            used,
+            max_candidates,
+            real_fault_benchmark_id,
+            real_fault_prior_path,
+            activation_prior_path,
+        )
+    if strategy.endswith("_ranked"):
+        base_strategy = strategy[: -len("_ranked")] or "testability"
+        ranked = _ranked_candidates(
+            graph,
+            base_strategy,
+            real_fault_benchmark_id,
+            real_fault_prior_path,
+            activation_prior_path,
+        )
+        available = [(node, action_type) for node, action_type, _ in ranked if (node, action_type) not in used]
+        return available if max_candidates is None else available[: int(max_candidates)]
     if strategy != "netlist":
         ranked = _ranked_candidates(
             graph,
@@ -189,6 +222,100 @@ def enumerate_candidates(
             if max_candidates is not None and len(candidates) >= max_candidates:
                 return candidates
     return candidates
+
+
+def _recall_pool_candidate_slice(
+    graph: GraphData,
+    used: set[tuple[str, str]],
+    max_candidates: int | None,
+    real_fault_benchmark_id: str | None = None,
+    real_fault_prior_path: str | Path | None = None,
+    activation_prior_path: str | Path | None = None,
+) -> list[tuple[str, str]]:
+    """Interleave several no-oracle structural rankings to maximize recall."""
+
+    strategies = ["hard_fault", "ffr", "reconvergence", "mixed", "testability"]
+    ranked_lists: list[list[tuple[str, str]]] = []
+    for base_strategy in strategies:
+        ranked = _ranked_candidates(
+            graph,
+            base_strategy,
+            real_fault_benchmark_id,
+            real_fault_prior_path,
+            activation_prior_path,
+        )
+        ranked_lists.append([(node, action_type) for node, action_type, _ in ranked if (node, action_type) not in used])
+
+    selected: list[tuple[str, str]] = []
+    selected_set: set[tuple[str, str]] = set()
+    limit = None if max_candidates is None else int(max_candidates)
+    cursor = 0
+    while limit is None or len(selected) < limit:
+        progressed = False
+        for ranked in ranked_lists:
+            if cursor >= len(ranked):
+                continue
+            candidate = ranked[cursor]
+            if candidate in selected_set:
+                continue
+            selected.append(candidate)
+            selected_set.add(candidate)
+            progressed = True
+            if limit is not None and len(selected) >= limit:
+                break
+        if not progressed and all(cursor >= len(ranked) for ranked in ranked_lists):
+            break
+        cursor += 1
+    return selected
+
+
+def _hard_fault_recall_union_candidate_slice(
+    graph: GraphData,
+    used: set[tuple[str, str]],
+    max_candidates: int | None,
+    real_fault_benchmark_id: str | None = None,
+    real_fault_prior_path: str | Path | None = None,
+    activation_prior_path: str | Path | None = None,
+) -> list[tuple[str, str]]:
+    """Merge Top-N hard-fault ranking with Top-N recall-pool actions before model scoring."""
+
+    hard_ranked = _ranked_candidates(
+        graph,
+        "hard_fault",
+        real_fault_benchmark_id,
+        real_fault_prior_path,
+        activation_prior_path,
+    )
+    branch_limit = None if max_candidates is None else int(max_candidates)
+    hard_candidates = [(node, action_type) for node, action_type, _ in hard_ranked if (node, action_type) not in used]
+    if branch_limit is not None:
+        hard_candidates = hard_candidates[:branch_limit]
+    recall_candidates = _recall_pool_candidate_slice(
+        graph,
+        used,
+        branch_limit,
+        real_fault_benchmark_id,
+        real_fault_prior_path,
+        activation_prior_path,
+    )
+    selected: list[tuple[str, str]] = []
+    selected_set: set[tuple[str, str]] = set()
+    cursor = 0
+    while True:
+        progressed = False
+        for candidates in (hard_candidates, recall_candidates):
+            if cursor >= len(candidates):
+                continue
+            candidate = candidates[cursor]
+            if candidate in selected_set:
+                continue
+            selected.append(candidate)
+            selected_set.add(candidate)
+            progressed = True
+        if not progressed and all(cursor >= len(candidates) for candidates in (hard_candidates, recall_candidates)):
+            break
+        cursor += 1
+    return selected
 
 
 def _load_candidate_cache(
@@ -867,6 +994,10 @@ def score_candidate_from_latent(
     coverage_scale = float(getattr(model, "coverage_scale", 100.0))
     reward_pred = float(out["reward_pred"].detach().cpu().item())
     return_pred = float(out["return_pred"].detach().cpu().item())
+    hard_reduction_pred = out["hard_reduction_pred"].detach().cpu().view(-1)
+    hard_reduction_total = float(hard_reduction_pred[0].item()) if hard_reduction_pred.numel() > 0 else 0.0
+    hard_reduction_sa0 = float(hard_reduction_pred[1].item()) if hard_reduction_pred.numel() > 1 else 0.0
+    hard_reduction_sa1 = float(hard_reduction_pred[2].item()) if hard_reduction_pred.numel() > 2 else 0.0
     distance = _undirected_distance_to_selected(
         graph,
         action_node_id,
@@ -876,6 +1007,11 @@ def score_candidate_from_latent(
     diversity_penalty = 0.0
     if distance is not None and float(diversity_penalty_weight) > 0.0:
         diversity_penalty = float(diversity_penalty_weight) / float(distance + 1)
+    hybrid_pred = (
+        return_pred
+        + reward_pred
+        + hard_reduction_total * coverage_scale
+    )
     return {
         "node": node,
         "type": action_type,
@@ -885,6 +1021,10 @@ def score_candidate_from_latent(
         "pattern_pred": float(out["pattern_pred"].detach().cpu().item()),
         "return_pred": return_pred,
         "guarded_reward": min(reward_pred, return_pred),
+        "hard_reduction_total_pred": hard_reduction_total,
+        "hard_reduction_sa0_pred": hard_reduction_sa0,
+        "hard_reduction_sa1_pred": hard_reduction_sa1,
+        "hybrid_pred": hybrid_pred,
         "diversity_penalty": diversity_penalty,
         "_z_pred": out["z_pred"].detach(),
     }
@@ -929,7 +1069,8 @@ def greedy_plan(
     x_state = make_state_features(graph, selected, base_features).to(device)
     edge_src = graph.edge_src.to(device)
     edge_dst = graph.edge_dst.to(device)
-    z_state = model.online_encoder(x_state, edge_src, edge_dst)
+    gate_type_ids = graph.gate_type_ids.to(device)
+    z_state = model.online_encoder(x_state, edge_src, edge_dst, gate_type_ids)
 
     for step in range(1, budget + 1):
         candidates = enumerate_candidates(
@@ -1087,7 +1228,8 @@ def beam_rollout_plan(
     x_state = make_state_features(graph, selected, base_features).to(device)
     edge_src = graph.edge_src.to(device)
     edge_dst = graph.edge_dst.to(device)
-    z_state = model.online_encoder(x_state, edge_src, edge_dst)
+    gate_type_ids = graph.gate_type_ids.to(device)
+    z_state = model.online_encoder(x_state, edge_src, edge_dst, gate_type_ids)
     cumulative_score = 0.0
 
     for step in range(1, budget + 1):
@@ -1186,7 +1328,8 @@ def beam_full_sequence_plan(
     x_state = make_state_features(graph, selected, base_features).to(device)
     edge_src = graph.edge_src.to(device)
     edge_dst = graph.edge_dst.to(device)
-    z_state = model.online_encoder(x_state, edge_src, edge_dst)
+    gate_type_ids = graph.gate_type_ids.to(device)
+    z_state = model.online_encoder(x_state, edge_src, edge_dst, gate_type_ids)
     beams = [
         BeamPath(
             selected=[],
@@ -1276,7 +1419,16 @@ def main() -> None:
     parser.add_argument("--lookahead-depth", type=int, default=3)
     parser.add_argument(
         "--score-field",
-        choices=["reward_pred", "fc_pred", "score_pred", "pattern_pred", "return_pred", "guarded_reward"],
+        choices=[
+            "reward_pred",
+            "fc_pred",
+            "score_pred",
+            "pattern_pred",
+            "return_pred",
+            "guarded_reward",
+            "hard_reduction_total_pred",
+            "hybrid_pred",
+        ],
         default="reward_pred",
     )
     parser.add_argument(
@@ -1297,10 +1449,17 @@ def main() -> None:
             "testability",
             "hard_fault",
             "hard_fault_cone",
+            "hard_fault_ranked",
+            "hard_fault_recall_union",
             "reconvergence",
+            "reconvergence_ranked",
             "ffr",
+            "ffr_ranked",
             "ffr_hier",
             "mixed",
+            "mixed_ranked",
+            "testability_ranked",
+            "recall_pool",
             "cached_netlist",
             "cached_hard_cone",
             "cached_stride",

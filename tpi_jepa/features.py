@@ -187,6 +187,8 @@ def make_state_features(
     benchmark_id: str | None = None,
     real_fault_prior_path: str | Path | None = None,
     activation_prior_path: str | Path | None = None,
+    state_update_mode: str = "static",
+    update_depth: int = 8,
 ) -> torch.Tensor:
     """Build node features for a graph plus the current inserted-testpoint state."""
 
@@ -198,6 +200,14 @@ def make_state_features(
             real_fault_prior_path=real_fault_prior_path,
             activation_prior_path=activation_prior_path,
         )
+    mode = (state_update_mode or "static").lower()
+    if mode in {"static", "mask", "none"}:
+        state_base = base_features
+    elif mode in {"proxy", "scoap_proxy", "action_proxy"}:
+        state_base = apply_action_scoap_proxy_updates(graph, base_features, inserted_actions, update_depth)
+    else:
+        raise ValueError(f"Unsupported state_update_mode: {state_update_mode!r}")
+
     masks = torch.zeros((graph.num_nodes, ACTION_MASK_DIM), dtype=torch.float32)
 
     for node, action_type in inserted_actions:
@@ -205,7 +215,45 @@ def make_state_features(
         action_id = action_type_to_id(action_type)
         masks[node_id, action_id] = 1.0
 
-    return torch.cat([base_features, masks], dim=1)
+    return torch.cat([state_base, masks], dim=1)
+
+
+def apply_action_scoap_proxy_updates(
+    graph: GraphData,
+    base_features: torch.Tensor,
+    inserted_actions: list[tuple[int | str, str]],
+    max_depth: int = 8,
+) -> torch.Tensor:
+    """Return base features with action-conditioned SCOAP proxy updates.
+
+    This is a conservative proxy update, not a patched-netlist simulation:
+    CP0/CP1 reduce the selected node's controllability and attenuate through
+    the fanout cone, while OP reduces observability through the fanin cone.
+    The original graph, edges, and non-SCOAP feature columns are unchanged.
+    """
+
+    if not inserted_actions:
+        return base_features
+    updated = base_features.clone()
+    scoap = updated[:, SCOAP_START:SCOAP_END]
+    for node, action_type in inserted_actions:
+        node_id = _action_node_id(graph, node)
+        action_id = action_type_to_id(action_type)
+        if action_id == ACTION_TO_ID["observe"]:
+            distances = _distances_from(node_id, graph.fanin_lists, max_depth)
+            column = 2
+        else:
+            distances = _distances_from(node_id, graph.fanout_lists, max_depth)
+            column = 0 if action_id == ACTION_TO_ID["control0"] else 1
+        for target, distance in distances.items():
+            strength = 1.0 / (1.0 + float(distance))
+            factor = 1.0 - 0.75 * strength
+            scoap[target, column] = torch.minimum(
+                scoap[target, column],
+                scoap[target, column] * factor,
+            )
+    updated[:, SCOAP_START:SCOAP_END] = scoap.clamp(0.0, 1.0)
+    return updated
 
 
 def _distances_from(start: int, adjacency: list[list[int]], max_depth: int = 8) -> dict[int, int]:

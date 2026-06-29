@@ -159,6 +159,8 @@ class TPIDataset(Dataset):
         feature_mode: str = "basic",
         relation_mode: str = "basic",
         relation_depth: int = 8,
+        state_update_mode: str = "static",
+        state_update_depth: int = 8,
         real_fault_prior_path: str | Path | None = None,
         activation_prior_path: str | Path | None = None,
         cache_samples: bool = False,
@@ -170,6 +172,8 @@ class TPIDataset(Dataset):
         self.feature_mode = feature_mode
         self.relation_mode = relation_mode
         self.relation_depth = relation_depth
+        self.state_update_mode = state_update_mode
+        self.state_update_depth = state_update_depth
         self.real_fault_prior_path = real_fault_prior_path
         self.activation_prior_path = activation_prior_path
         self.cache_samples = cache_samples
@@ -261,8 +265,20 @@ class TPIDataset(Dataset):
         graph = self._graph_for(spec)
         base = self._base_features_for(spec, graph)
         action_node_id = graph.node_names.index(spec.action_node)
-        x_pre = make_state_features(graph, spec.pre_actions, base)
-        x_post = make_state_features(graph, spec.post_actions, base)
+        x_pre = make_state_features(
+            graph,
+            spec.pre_actions,
+            base,
+            state_update_mode=self.state_update_mode,
+            update_depth=self.state_update_depth,
+        )
+        x_post = make_state_features(
+            graph,
+            spec.post_actions,
+            base,
+            state_update_mode=self.state_update_mode,
+            update_depth=self.state_update_depth,
+        )
         relation = make_action_relation_features(
             graph,
             action_node_id,
@@ -323,6 +339,8 @@ class TPIRolloutDataset(Dataset):
         feature_mode: str = "basic",
         relation_mode: str = "basic",
         relation_depth: int = 8,
+        state_update_mode: str = "static",
+        state_update_depth: int = 8,
         real_fault_prior_path: str | Path | None = None,
         activation_prior_path: str | Path | None = None,
         cache_samples: bool = False,
@@ -338,6 +356,8 @@ class TPIRolloutDataset(Dataset):
         self.feature_mode = feature_mode
         self.relation_mode = relation_mode
         self.relation_depth = relation_depth
+        self.state_update_mode = state_update_mode
+        self.state_update_depth = state_update_depth
         self.real_fault_prior_path = real_fault_prior_path
         self.activation_prior_path = activation_prior_path
         self.cache_samples = cache_samples
@@ -461,7 +481,13 @@ class TPIRolloutDataset(Dataset):
         graph = self._graph_for(first)
         base = self._base_features_for(first, graph)
         node_ids = self._node_ids_for(first, graph)
-        x_start = make_state_features(graph, self._actions_to_ids(first.pre_actions, node_ids), base)
+        x_start = make_state_features(
+            graph,
+            self._actions_to_ids(first.pre_actions, node_ids),
+            base,
+            state_update_mode=self.state_update_mode,
+            update_depth=self.state_update_depth,
+        )
         x_targets: list[torch.Tensor] = []
         action_node_ids: list[int] = []
         action_type_ids: list[int] = []
@@ -476,7 +502,15 @@ class TPIRolloutDataset(Dataset):
 
         for spec in specs:
             action_node_id = node_ids[spec.action_node]
-            x_targets.append(make_state_features(graph, self._actions_to_ids(spec.post_actions, node_ids), base))
+            x_targets.append(
+                make_state_features(
+                    graph,
+                    self._actions_to_ids(spec.post_actions, node_ids),
+                    base,
+                    state_update_mode=self.state_update_mode,
+                    update_depth=self.state_update_depth,
+                )
+            )
             action_node_ids.append(action_node_id)
             action_type_ids.append(action_type_to_id(spec.action_type))
             relation_features.append(

@@ -85,6 +85,26 @@ def _rollout_sample_to_device(sample: RolloutSample, device: torch.device) -> di
     }
 
 
+def discounted_return_targets(
+    deltas: list[torch.Tensor],
+    steps: int | None = None,
+    gamma: float = 1.0,
+    scale: float = 1.0,
+) -> list[torch.Tensor]:
+    """Return per-step discounted cumulative future delta targets."""
+
+    limit = len(deltas) if steps is None else min(int(steps), len(deltas))
+    if limit <= 0:
+        return []
+    returns: list[torch.Tensor] = []
+    running = torch.zeros((), dtype=deltas[0].dtype, device=deltas[0].device)
+    for value in reversed(deltas[:limit]):
+        running = value * float(scale) + float(gamma) * running
+        returns.append(running)
+    returns.reverse()
+    return returns
+
+
 def _hard_pos_weight(hard_targets: torch.Tensor, max_weight: float = 20.0) -> torch.Tensor:
     """Build a stable positive-class weight for sparse hard-fault labels."""
 
@@ -289,7 +309,8 @@ def compute_loss(batch: dict, model: TPIWorldModel, config: dict, pattern_enable
         pattern_loss = F.smooth_l1_loss(out["pattern_pred"], batch["delta_pattern"])
     else:
         pattern_loss = torch.zeros((), dtype=reward_loss.dtype, device=reward_loss.device)
-    return_loss = F.smooth_l1_loss(out["return_pred"], batch["delta_fault_coverage"])
+    return_scale = float(config.get("return_scale", coverage_scale))
+    return_loss = F.smooth_l1_loss(out["return_pred"], return_scale * batch["delta_fault_coverage"])
     weighted_reward_loss = hard_weight * reward_loss
     weighted_return_loss = hard_weight * return_loss
     lambda_jepa = float(config["lambda_jepa"])
@@ -431,7 +452,10 @@ def compute_rollout_loss(
         "return_loss": 0.0,
     }
     steps = min(int(horizon), len(batch["x_targets"]))
-    final_return_target = batch["delta_fault_coverages"][max(0, steps - 1)] if steps else torch.zeros((), device=z_state.device)
+    coverage_scale = float(config.get("coverage_scale", 100.0))
+    return_scale = float(config.get("return_scale", coverage_scale))
+    return_gamma = float(config.get("return_gamma", config.get("discount_gamma", 1.0)))
+    return_targets = discounted_return_targets(batch["delta_fault_coverages"], steps, return_gamma, return_scale)
     for step in range(steps):
         prev_state = batch["x_start"] if step == 0 else batch["x_targets"][step - 1]
         pred = model.predict_from_latent(
@@ -455,7 +479,6 @@ def compute_rollout_loss(
         hard_soft_f1 = _hard_soft_f1_loss(pred["hard_logits"], hard_targets, config)
         hard_count_loss = F.smooth_l1_loss(pred["hard_count_pred"], batch["hard_count_post"][step])
         hard_reduction_loss = F.smooth_l1_loss(pred["hard_reduction_pred"], batch["hard_reduction_targets"][step])
-        coverage_scale = float(config.get("coverage_scale", 100.0))
         reward_target = coverage_scale * batch["delta_fault_coverages"][step]
         reward_loss = F.smooth_l1_loss(pred["reward_pred"], reward_target)
         hard_weight = _hard_action_weight(batch["x_start"], batch["action_node_ids"][step], config)
@@ -469,7 +492,7 @@ def compute_rollout_loss(
             pattern_loss = F.smooth_l1_loss(pred["pattern_pred"], batch["delta_patterns"][step])
         else:
             pattern_loss = torch.zeros((), dtype=reward_loss.dtype, device=reward_loss.device)
-        return_loss = F.smooth_l1_loss(pred["return_pred"], final_return_target)
+        return_loss = F.smooth_l1_loss(pred["return_pred"], return_targets[step])
         weighted_reward_loss = hard_weight * reward_loss
         weighted_return_loss = hard_weight * return_loss
         step_loss = (
@@ -693,6 +716,8 @@ def main() -> None:
         "feature_mode": str(config.get("feature_mode", "basic")),
         "relation_mode": str(config.get("relation_mode", "basic")),
         "relation_depth": int(config.get("relation_depth", 8)),
+        "state_update_mode": str(config.get("state_update_mode", "static")),
+        "state_update_depth": int(config.get("state_update_depth", config.get("relation_depth", 8))),
         "real_fault_prior_path": config.get("real_fault_priors") or config.get("real_fault_prior_path"),
         "activation_prior_path": config.get("activation_priors") or config.get("activation_prior_path"),
         "cache_samples": bool(config.get("cache_samples", False)),

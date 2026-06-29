@@ -3,6 +3,9 @@
 This project is copied from `/data3/pengqingsong/DFT/TPI-my.2` and adapted
 for the Atalanta_BIST low-TC AIG subcircuit dataset.
 
+If you want the current codebase map and run-order, start with
+[`docs/codebase_guide.md`](/data4/pengqingsong/DFT/TPI-my.3/docs/codebase_guide.md).
+
 The first version intentionally keeps the existing TPI-JEPA world-model
 backbone so that we have a clean baseline before changing the architecture:
 
