@@ -56,7 +56,7 @@ def main() -> None:
     loss = (
         torch.nn.functional.mse_loss(out["z_pred"], out["z_t1"])
         + torch.nn.functional.mse_loss(out["scoap_pred"], scoap_target)
-        + out["reward_pred"].pow(2)
+        + out["q_pred"].pow(2)
     )
     loss.backward()
 
@@ -65,6 +65,8 @@ def main() -> None:
     assert x.shape[0] == graph.num_nodes
     assert rel.shape == (graph.num_nodes, 4)
     assert out["scoap_pred"].shape == (sample.graph.num_nodes, 3)
+    assert out["q_pred"].ndim == 0
+    assert torch.equal(out["score_pred"], out["q_pred"])
     assert torch.isfinite(out["scoap_pred"]).all().item()
     assert torch.isfinite(loss).item()
     print(f"benchmark_id: {bench_id}")
@@ -75,6 +77,7 @@ def main() -> None:
     print("load_labels: ok")
     print("build dataset sample: ok")
     print("model forward: ok")
+    print("q head: ok")
     print("scoap head: ok")
     print("one backward step: ok")
     print("smoke_test: ok")

@@ -1,0 +1,235 @@
+[q_v1_hard_topk] $ /data1/pengqingsong/tools/miniconda3/bin/python -u -m tpi_jepa.train --config configs/q_v1_candidate_rank.json
+[q_v1_hard_topk] [train] disabling pattern loss
+[q_v1_hard_topk] [train] q_oracle enabled groups=180 score_field=q_pred lambda_q_value=0.0 lambda_q_rank=1.0 lambda_candidate=0.5 pairwise_mode=hard_topk
+[q_v1_hard_topk] [train] rows=100000 train_rows=85510 val_rows=14490 train_samples=20000 val_samples=4096 rollout_training=False feature_dim=38 relation_dim=12 cache_samples=False sample_cache_max_entries=unlimited
+[q_v1_hard_topk] [train-progress] epoch=1 [------------------------] 1/500   0.2% loss=2.13271 jepa=0.36934 hard=2.27031 hard_red=0.16524 oracle=2.18225 rank=0.69389 value=0.00000 cand=2.97671 pairs=45.0
+[q_v1_hard_topk] [train-progress] epoch=1 [#-----------------------] 25/500   5.0% loss=1.06596 jepa=0.27179 hard=1.05576 hard_red=0.02903 oracle=2.25534 rank=0.69435 value=0.00000 cand=3.12198 pairs=48.0
+[q_v1_hard_topk] [train-progress] epoch=1 [##----------------------] 50/500  10.0% loss=0.93811 jepa=0.20114 hard=0.98787 hard_red=0.03401 oracle=2.27613 rank=0.69437 value=0.00000 cand=3.16353 pairs=48.0
+[q_v1_hard_topk] [train-progress] epoch=1 [###---------------------] 75/500  15.0% loss=0.86607 jepa=0.16661 hard=0.94360 hard_red=0.03061 oracle=2.26906 rank=0.69430 value=0.00000 cand=3.14953 pairs=47.5
+[q_v1_hard_topk] [train-progress] epoch=1 [####--------------------] 100/500  20.0% loss=0.86434 jepa=0.14763 hard=0.97161 hard_red=0.03211 oracle=2.26609 rank=0.69410 value=0.00000 cand=3.14396 pairs=46.8
+[q_v1_hard_topk] [train-progress] epoch=1 [######------------------] 125/500  25.0% loss=0.85501 jepa=0.13578 hard=0.97887 hard_red=0.03100 oracle=2.26433 rank=0.69452 value=0.00000 cand=3.13962 pairs=47.1
+[q_v1_hard_topk] [train-progress] epoch=1 [#######-----------------] 150/500  30.0% loss=0.83188 jepa=0.13001 hard=0.95707 hard_red=0.02951 oracle=2.26100 rank=0.69480 value=0.00000 cand=3.13240 pairs=47.0
+[q_v1_hard_topk] [train-progress] epoch=1 [########----------------] 175/500  35.0% loss=0.82467 jepa=0.12716 hard=0.95205 hard_red=0.03063 oracle=2.25601 rank=0.69434 value=0.00000 cand=3.12334 pairs=46.9
+[q_v1_hard_topk] [train-progress] epoch=1 [#########---------------] 200/500  40.0% loss=0.82678 jepa=0.12755 hard=0.95479 hard_red=0.03181 oracle=2.24757 rank=0.69086 value=0.00000 cand=3.11341 pairs=46.9
+[q_v1_hard_topk] [train-progress] epoch=1 [##########--------------] 225/500  45.0% loss=0.79861 jepa=0.12539 hard=0.91910 hard_red=0.03148 oracle=2.23859 rank=0.68625 value=0.00000 cand=3.10467 pairs=46.9
+[q_v1_hard_topk] [train-progress] epoch=1 [############------------] 250/500  50.0% loss=0.79297 jepa=0.12494 hard=0.91120 hard_red=0.03349 oracle=2.22497 rank=0.67774 value=0.00000 cand=3.09445 pairs=46.9
+[q_v1_hard_topk] [train-progress] epoch=1 [#############-----------] 275/500  55.0% loss=0.78856 jepa=0.12429 hard=0.90696 hard_red=0.03309 oracle=2.21593 rank=0.67370 value=0.00000 cand=3.08446 pairs=46.8
+[q_v1_hard_topk] [train-progress] epoch=1 [##############----------] 300/500  60.0% loss=0.77791 jepa=0.12340 hard=0.89452 hard_red=0.03206 oracle=2.20753 rank=0.66795 value=0.00000 cand=3.07917 pairs=46.7
+[q_v1_hard_topk] [train-progress] epoch=1 [###############---------] 325/500  65.0% loss=0.77393 jepa=0.12190 hard=0.89206 hard_red=0.03155 oracle=2.19611 rank=0.65974 value=0.00000 cand=3.07275 pairs=46.6
+[q_v1_hard_topk] [train-progress] epoch=1 [################--------] 350/500  70.0% loss=0.76683 jepa=0.12143 hard=0.88333 hard_red=0.03128 oracle=2.18585 rank=0.65181 value=0.00000 cand=3.06808 pairs=46.4
+[q_v1_hard_topk] [train-progress] epoch=1 [##################------] 375/500  75.0% loss=0.76063 jepa=0.12027 hard=0.87757 hard_red=0.03015 oracle=2.17983 rank=0.64683 value=0.00000 cand=3.06601 pairs=46.4
+[q_v1_hard_topk] [train-progress] epoch=1 [###################-----] 400/500  80.0% loss=0.75558 jepa=0.11997 hard=0.87121 hard_red=0.03023 oracle=2.16773 rank=0.63778 value=0.00000 cand=3.05991 pairs=46.3
+[q_v1_hard_topk] [train-progress] epoch=1 [####################----] 425/500  85.0% loss=0.74664 jepa=0.11912 hard=0.85934 hard_red=0.03138 oracle=2.15831 rank=0.63035 value=0.00000 cand=3.05593 pairs=46.2
+[q_v1_hard_topk] [train-progress] epoch=1 [#####################---] 450/500  90.0% loss=0.74117 jepa=0.11887 hard=0.85245 hard_red=0.03108 oracle=2.14832 rank=0.62268 value=0.00000 cand=3.05128 pairs=45.9
+[q_v1_hard_topk] [train-progress] epoch=1 [######################--] 475/500  95.0% loss=0.73389 jepa=0.11889 hard=0.84228 hard_red=0.03125 oracle=2.13579 rank=0.61239 value=0.00000 cand=3.04680 pairs=45.9
+[q_v1_hard_topk] [train-progress] epoch=1 [########################] 500/500 100.0% loss=0.73032 jepa=0.11877 hard=0.83825 hard_red=0.03048 oracle=2.12469 rank=0.60256 value=0.00000 cand=3.04426 pairs=45.8
+[q_v1_hard_topk] [train] epoch=1 horizon=1 train_loss=0.730318 val_loss=1.209991 train_steps=500
+[q_v1_hard_topk] [train-progress] epoch=2 [------------------------] 1/500   0.2% loss=0.85796 jepa=0.11041 hard=1.06011 hard_red=0.00111 oracle=2.27063 rank=0.66072 value=0.00000 cand=3.21982 pairs=40.0
+[q_v1_hard_topk] [train-progress] epoch=2 [#-----------------------] 25/500   5.0% loss=0.62968 jepa=0.12257 hard=0.70484 hard_red=0.01680 oracle=1.87751 rank=0.41944 value=0.00000 cand=2.91614 pairs=44.0
+[q_v1_hard_topk] [train-progress] epoch=2 [##----------------------] 50/500  10.0% loss=0.57479 jepa=0.12076 hard=0.62670 hard_red=0.01995 oracle=1.85489 rank=0.39267 value=0.00000 cand=2.92443 pairs=43.6
+[q_v1_hard_topk] [train-progress] epoch=2 [###---------------------] 75/500  15.0% loss=0.59833 jepa=0.12477 hard=0.65452 hard_red=0.02010 oracle=1.85925 rank=0.38589 value=0.00000 cand=2.94671 pairs=43.3
+[q_v1_hard_topk] [train-progress] epoch=2 [####--------------------] 100/500  20.0% loss=0.59138 jepa=0.12237 hard=0.64823 hard_red=0.02064 oracle=1.84090 rank=0.36936 value=0.00000 cand=2.94307 pairs=43.4
+[q_v1_hard_topk] [train-progress] epoch=2 [######------------------] 125/500  25.0% loss=0.61463 jepa=0.12258 hard=0.67964 hard_red=0.02288 oracle=1.84680 rank=0.36934 value=0.00000 cand=2.95492 pairs=43.2
+[q_v1_hard_topk] [train-progress] epoch=2 [#######-----------------] 150/500  30.0% loss=0.60188 jepa=0.12260 hard=0.66035 hard_red=0.02445 oracle=1.84860 rank=0.36805 value=0.00000 cand=2.96108 pairs=43.2
+[q_v1_hard_topk] [train-progress] epoch=2 [########----------------] 175/500  35.0% loss=0.60603 jepa=0.12316 hard=0.66613 hard_red=0.02372 oracle=1.83786 rank=0.35867 value=0.00000 cand=2.95837 pairs=43.2
+[q_v1_hard_topk] [train-progress] epoch=2 [#########---------------] 200/500  40.0% loss=0.60408 jepa=0.12372 hard=0.66209 hard_red=0.02461 oracle=1.83218 rank=0.35392 value=0.00000 cand=2.95650 pairs=42.9
+[q_v1_hard_topk] [train-progress] epoch=2 [##########--------------] 225/500  45.0% loss=0.58012 jepa=0.12334 hard=0.62767 hard_red=0.02584 oracle=1.82625 rank=0.34462 value=0.00000 cand=2.96326 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=2 [############------------] 250/500  50.0% loss=0.58459 jepa=0.12388 hard=0.63323 hard_red=0.02593 oracle=1.81880 rank=0.34185 value=0.00000 cand=2.95391 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=2 [#############-----------] 275/500  55.0% loss=0.59436 jepa=0.12413 hard=0.64553 hard_red=0.02781 oracle=1.81573 rank=0.33765 value=0.00000 cand=2.95615 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=2 [##############----------] 300/500  60.0% loss=0.58339 jepa=0.12348 hard=0.63062 hard_red=0.02820 oracle=1.81076 rank=0.33287 value=0.00000 cand=2.95577 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=2 [###############---------] 325/500  65.0% loss=0.58667 jepa=0.12293 hard=0.63681 hard_red=0.02733 oracle=1.80125 rank=0.32773 value=0.00000 cand=2.94703 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=2 [################--------] 350/500  70.0% loss=0.59041 jepa=0.12389 hard=0.64084 hard_red=0.02722 oracle=1.79205 rank=0.31990 value=0.00000 cand=2.94430 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=2 [##################------] 375/500  75.0% loss=0.58389 jepa=0.12396 hard=0.63207 hard_red=0.02640 oracle=1.78540 rank=0.31417 value=0.00000 cand=2.94246 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=2 [###################-----] 400/500  80.0% loss=0.57826 jepa=0.12363 hard=0.62473 hard_red=0.02618 oracle=1.78006 rank=0.30956 value=0.00000 cand=2.94100 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=2 [####################----] 425/500  85.0% loss=0.58136 jepa=0.12325 hard=0.63051 hard_red=0.02516 oracle=1.77290 rank=0.30597 value=0.00000 cand=2.93385 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=2 [#####################---] 450/500  90.0% loss=0.57647 jepa=0.12335 hard=0.62356 hard_red=0.02497 oracle=1.76840 rank=0.30254 value=0.00000 cand=2.93173 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=2 [######################--] 475/500  95.0% loss=0.57099 jepa=0.12351 hard=0.61484 hard_red=0.02597 oracle=1.76347 rank=0.29851 value=0.00000 cand=2.92991 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=2 [########################] 500/500 100.0% loss=0.56689 jepa=0.12287 hard=0.61024 hard_red=0.02558 oracle=1.75484 rank=0.29457 value=0.00000 cand=2.92055 pairs=42.8
+[q_v1_hard_topk] [train] epoch=2 horizon=1 train_loss=0.566889 val_loss=1.057428 train_steps=500
+[q_v1_hard_topk] [train-progress] epoch=3 [------------------------] 1/500   0.2% loss=0.17833 jepa=0.11244 hard=0.08814 hard_red=0.00309 oracle=1.58767 rank=0.24276 value=0.00000 cand=2.68982 pairs=43.0
+[q_v1_hard_topk] [train-progress] epoch=3 [#-----------------------] 25/500   5.0% loss=0.51971 jepa=0.12288 hard=0.55165 hard_red=0.01273 oracle=1.65155 rank=0.19974 value=0.00000 cand=2.90363 pairs=41.5
+[q_v1_hard_topk] [train-progress] epoch=3 [##----------------------] 50/500  10.0% loss=0.51338 jepa=0.11525 hard=0.55014 hard_red=0.01848 oracle=1.68473 rank=0.21393 value=0.00000 cand=2.94159 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=3 [###---------------------] 75/500  15.0% loss=0.49801 jepa=0.11592 hard=0.52531 hard_red=0.02162 oracle=1.68138 rank=0.21727 value=0.00000 cand=2.92821 pairs=42.4
+[q_v1_hard_topk] [train-progress] epoch=3 [####--------------------] 100/500  20.0% loss=0.51426 jepa=0.11747 hard=0.54511 hard_red=0.02349 oracle=1.67297 rank=0.21375 value=0.00000 cand=2.91844 pairs=42.2
+[q_v1_hard_topk] [train-progress] epoch=3 [######------------------] 125/500  25.0% loss=0.52200 jepa=0.11862 hard=0.54902 hard_red=0.03096 oracle=1.66445 rank=0.21030 value=0.00000 cand=2.90830 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=3 [#######-----------------] 150/500  30.0% loss=0.50075 jepa=0.11776 hard=0.51925 hard_red=0.03198 oracle=1.66639 rank=0.21234 value=0.00000 cand=2.90810 pairs=42.5
+[q_v1_hard_topk] [train-progress] epoch=3 [########----------------] 175/500  35.0% loss=0.49407 jepa=0.11677 hard=0.51338 hard_red=0.02902 oracle=1.66853 rank=0.20993 value=0.00000 cand=2.91722 pairs=42.1
+[q_v1_hard_topk] [train-progress] epoch=3 [#########---------------] 200/500  40.0% loss=0.50151 jepa=0.11700 hard=0.52480 hard_red=0.02746 oracle=1.67278 rank=0.21006 value=0.00000 cand=2.92544 pairs=42.1
+[q_v1_hard_topk] [train-progress] epoch=3 [##########--------------] 225/500  45.0% loss=0.50020 jepa=0.11717 hard=0.52283 hard_red=0.02736 oracle=1.67006 rank=0.20878 value=0.00000 cand=2.92258 pairs=42.2
+[q_v1_hard_topk] [train-progress] epoch=3 [############------------] 250/500  50.0% loss=0.50367 jepa=0.11730 hard=0.52808 hard_red=0.02674 oracle=1.66756 rank=0.20736 value=0.00000 cand=2.92041 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=3 [#############-----------] 275/500  55.0% loss=0.49569 jepa=0.11707 hard=0.51729 hard_red=0.02646 oracle=1.66648 rank=0.20551 value=0.00000 cand=2.92194 pairs=42.2
+[q_v1_hard_topk] [train-progress] epoch=3 [##############----------] 300/500  60.0% loss=0.48502 jepa=0.11580 hard=0.50399 hard_red=0.02642 oracle=1.65893 rank=0.20296 value=0.00000 cand=2.91195 pairs=42.0
+[q_v1_hard_topk] [train-progress] epoch=3 [###############---------] 325/500  65.0% loss=0.47809 jepa=0.11512 hard=0.49555 hard_red=0.02584 oracle=1.65973 rank=0.20265 value=0.00000 cand=2.91417 pairs=42.1
+[q_v1_hard_topk] [train-progress] epoch=3 [################--------] 350/500  70.0% loss=0.48189 jepa=0.11525 hard=0.50118 hard_red=0.02534 oracle=1.65886 rank=0.20171 value=0.00000 cand=2.91429 pairs=42.1
+[q_v1_hard_topk] [train-progress] epoch=3 [##################------] 375/500  75.0% loss=0.47884 jepa=0.11483 hard=0.49817 hard_red=0.02435 oracle=1.65634 rank=0.20143 value=0.00000 cand=2.90983 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=3 [###################-----] 400/500  80.0% loss=0.48110 jepa=0.11435 hard=0.50267 hard_red=0.02356 oracle=1.65353 rank=0.19997 value=0.00000 cand=2.90712 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=3 [####################----] 425/500  85.0% loss=0.47756 jepa=0.11418 hard=0.49828 hard_red=0.02302 oracle=1.65468 rank=0.19913 value=0.00000 cand=2.91110 pairs=42.2
+[q_v1_hard_topk] [train-progress] epoch=3 [#####################---] 450/500  90.0% loss=0.47480 jepa=0.11398 hard=0.49439 hard_red=0.02339 oracle=1.65417 rank=0.19806 value=0.00000 cand=2.91224 pairs=42.2
+[q_v1_hard_topk] [train-progress] epoch=3 [######################--] 475/500  95.0% loss=0.46833 jepa=0.11351 hard=0.48643 hard_red=0.02259 oracle=1.64798 rank=0.19571 value=0.00000 cand=2.90453 pairs=42.4
+[q_v1_hard_topk] [train-progress] epoch=3 [########################] 500/500 100.0% loss=0.46493 jepa=0.11278 hard=0.48292 hard_red=0.02226 oracle=1.64624 rank=0.19492 value=0.00000 cand=2.90264 pairs=42.3
+[q_v1_hard_topk] [train] epoch=3 horizon=1 train_loss=0.464933 val_loss=1.141038 train_steps=500
+[q_v1_hard_topk] [train-progress] epoch=4 [------------------------] 1/500   0.2% loss=0.34378 jepa=0.06713 hard=0.34410 hard_red=0.06841 oracle=1.59656 rank=0.19365 value=0.00000 cand=2.80582 pairs=35.0
+[q_v1_hard_topk] [train-progress] epoch=4 [#-----------------------] 25/500   5.0% loss=0.43770 jepa=0.11029 hard=0.44338 hard_red=0.02801 oracle=1.54347 rank=0.15294 value=0.00000 cand=2.78106 pairs=44.4
+[q_v1_hard_topk] [train-progress] epoch=4 [##----------------------] 50/500  10.0% loss=0.48361 jepa=0.10784 hard=0.51564 hard_red=0.02393 oracle=1.59198 rank=0.17066 value=0.00000 cand=2.84264 pairs=43.4
+[q_v1_hard_topk] [train-progress] epoch=4 [###---------------------] 75/500  15.0% loss=0.45552 jepa=0.10779 hard=0.47466 hard_red=0.02539 oracle=1.58966 rank=0.16820 value=0.00000 cand=2.84293 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=4 [####--------------------] 100/500  20.0% loss=0.46196 jepa=0.10810 hard=0.48444 hard_red=0.02391 oracle=1.59716 rank=0.16898 value=0.00000 cand=2.85635 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=4 [######------------------] 125/500  25.0% loss=0.43347 jepa=0.10589 hard=0.44928 hard_red=0.02076 oracle=1.60431 rank=0.17135 value=0.00000 cand=2.86593 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=4 [#######-----------------] 150/500  30.0% loss=0.42029 jepa=0.10444 hard=0.43193 hard_red=0.02173 oracle=1.60947 rank=0.17173 value=0.00000 cand=2.87548 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=4 [########----------------] 175/500  35.0% loss=0.43358 jepa=0.10516 hard=0.44744 hard_red=0.02514 oracle=1.60390 rank=0.16988 value=0.00000 cand=2.86804 pairs=43.0
+[q_v1_hard_topk] [train-progress] epoch=4 [#########---------------] 200/500  40.0% loss=0.42343 jepa=0.10381 hard=0.43244 hard_red=0.02857 oracle=1.60108 rank=0.17049 value=0.00000 cand=2.86119 pairs=43.1
+[q_v1_hard_topk] [train-progress] epoch=4 [##########--------------] 225/500  45.0% loss=0.42058 jepa=0.10417 hard=0.42853 hard_red=0.02760 oracle=1.60564 rank=0.17035 value=0.00000 cand=2.87058 pairs=43.0
+[q_v1_hard_topk] [train-progress] epoch=4 [############------------] 250/500  50.0% loss=0.43265 jepa=0.10397 hard=0.44537 hard_red=0.02863 oracle=1.60514 rank=0.17050 value=0.00000 cand=2.86929 pairs=43.0
+[q_v1_hard_topk] [train-progress] epoch=4 [#############-----------] 275/500  55.0% loss=0.43389 jepa=0.10430 hard=0.44555 hard_red=0.03018 oracle=1.60163 rank=0.16937 value=0.00000 cand=2.86453 pairs=42.9
+[q_v1_hard_topk] [train-progress] epoch=4 [##############----------] 300/500  60.0% loss=0.42699 jepa=0.10429 hard=0.43702 hard_red=0.02836 oracle=1.60305 rank=0.16991 value=0.00000 cand=2.86628 pairs=43.0
+[q_v1_hard_topk] [train-progress] epoch=4 [###############---------] 325/500  65.0% loss=0.41959 jepa=0.10397 hard=0.42728 hard_red=0.02782 oracle=1.60334 rank=0.16874 value=0.00000 cand=2.86920 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=4 [################--------] 350/500  70.0% loss=0.41953 jepa=0.10385 hard=0.42703 hard_red=0.02830 oracle=1.60298 rank=0.16897 value=0.00000 cand=2.86801 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=4 [##################------] 375/500  75.0% loss=0.41536 jepa=0.10370 hard=0.42197 hard_red=0.02737 oracle=1.60159 rank=0.16784 value=0.00000 cand=2.86750 pairs=42.8
+[q_v1_hard_topk] [train-progress] epoch=4 [###################-----] 400/500  80.0% loss=0.41411 jepa=0.10341 hard=0.42118 hard_red=0.02661 oracle=1.59937 rank=0.16782 value=0.00000 cand=2.86311 pairs=42.7
+[q_v1_hard_topk] [train-progress] epoch=4 [####################----] 425/500  85.0% loss=0.40939 jepa=0.10304 hard=0.41569 hard_red=0.02567 oracle=1.59845 rank=0.16632 value=0.00000 cand=2.86428 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=4 [#####################---] 450/500  90.0% loss=0.41030 jepa=0.10257 hard=0.41755 hard_red=0.02585 oracle=1.59708 rank=0.16633 value=0.00000 cand=2.86151 pairs=42.6
+[q_v1_hard_topk] [train-progress] epoch=4 [######################--] 475/500  95.0% loss=0.40569 jepa=0.10239 hard=0.41146 hard_red=0.02553 oracle=1.59647 rank=0.16587 value=0.00000 cand=2.86118 pairs=42.5
+[q_v1_hard_topk] [train-progress] epoch=4 [########################] 500/500 100.0% loss=0.40514 jepa=0.10192 hard=0.41152 hard_red=0.02535 oracle=1.59589 rank=0.16510 value=0.00000 cand=2.86159 pairs=42.5
+[q_v1_hard_topk] [train] epoch=4 horizon[train-progress] epoch=5 [#########---------------] 200/5[q_v1_hard_topk] [train-progress] epoch=5 [------------------------] 1/500   0.2% loss=5.64915 jepa=0.10350 hard=7.91911 hard_red=0.[train-progress] epoch=5 [##########--------------] 225/500  45.0% loss=[q_v1_hard_topk] [train-progress] epoch=5 [#-----------------------] 25/500   5.0% loss=0.60750 jepa=0.10819 hard=0.6[train-progress] epoch=5 [############------------] 250/500  50.0% loss=0.36959 jepa=0.0[q_v1_hard_topk] [train-progress] epoch=5 [##----------------------] 50/500  10.0% loss=0.54190 jepa=[train-progress] epoch=5 [#############-----------] 275/500  55.0% loss=0.37107 jepa=0.09756 hard=0.3725[q_v1_hard_topk] [train-progress] epoch=5 [###---------------------] 75/500  15.0% lo[train-progress] epoch=5 [##############----------] 300/500  60.0% loss=0.36820 jepa=0.09763 hard=0.36915 hard_red=0.019[q_v1_hard_topk] [train-progress] epoch=5 [####--------------------] [train-progress] epoch=5 [###############---------] 325/500  65.0% loss=0.36389 jepa=0.09737 hard=0.36237 hard_red=0.02063 oracle=1.54730[q_v1_hard_topk] [train-progress] epoch=5 [######---[train-progress] epoch=5 [################--------] 350/500  70.0% loss=0.36227 jepa=0.09725 hard=0.35996 hard_red=0.02100 oracle=1.55150 rank=0.14057 val[q_v1_hard_topk] [train-progress] e[train-progress] epoch=5 [##################------] 375/500  75.0% loss=0.36644 jepa=0.09760 hard=0.36517 hard_red=0.02128 oracle=1.55400 rank=0.14126 value=0.00000 cand=2[q_v1_hard_topk] [[train-progress] epoch=5 [###################-----] 400/500  80.0% loss=0.36668 jepa=0.09764 hard=0.36550 hard_red=0.02128 oracle=1.55524 rank=0.14213 value=0.00000 cand=2.82622 pairs=42.4[[train-progress] epoch=5 [####################----] 425/500  85.0% loss=0.36128 jepa=0.09718 hard=0.35836 hard_red=0.02144 oracle=1.55837 rank=0.14194 value=0.00000 cand=2.83286 pairs=42.4
+[train-progress] epoch=5 [#####################---] 450/500  90.0% loss=0.36381 jepa=0.09753 hard=0.36151 hard_red=0.02140 oracle=1.56059 rank=0.14171 value=0.00000 cand=2.83776 pairs=42.3
+[train-progress] epoch=5 [######################--] 475/500  95.0% loss=0.36512 jepa=0.09762 hard=0.36313 hard_red=0.02158 oracle=1.55962 rank=0.14156 value=0.00000 cand=2.83610 pairs=42.3
+[train-progress] epoch=5 [########################] 500/500 100.0% loss=0.36459 jepa=0.09760 hard=0.36208 hard_red=0.02201 oracle=1.56109 rank=0.14180 value=0.00000 cand=2.83859 pairs=42.4
+[train] epoch=5 horizon=1 train_loss=0.364593 val_loss=1.391301 train_steps=500
+[train-progress] epoch=6 [------------------------] 1/500   0.2% loss=0.21674 jepa=0.08684 hard=0.18218 hard_red=0.00211 oracle=1.20580 rank=0.06687 value=0.00000 cand=2.27788 pairs=34.0
+[train-progress] epoch=6 [#-----------------------] 25/500   5.0% loss=0.40195 jepa=0.10072 hard=0.41381 hard_red=0.01859 oracle=1.54786 rank=0.13672 value=0.00000 cand=2.82228 pairs=41.8
+[train-progress] epoch=6 [##----------------------] 50/500  10.0% loss=0.37458 jepa=0.09868 hard=0.38084 hard_red=0.01421 oracle=1.55961 rank=0.13735 value=0.00000 cand=2.84452 pairs=41.8
+[train-progress] epoch=6 [###---------------------] 75/500  15.0% loss=0.38158 jepa=0.09981 hard=0.39025 hard_red=0.01268 oracle=1.56134 rank=0.13695 value=0.00000 cand=2.84879 pairs=42.1
+[train-progress] epoch=6 [####--------------------] 100/500  20.0% loss=0.37562 jepa=0.10141 hard=0.37747 hard_red=0.01517 oracle=1.56021 rank=0.13376 value=0.00000 cand=2.85291 pairs=41.8
+[train-progress] epoch=6 [######------------------] 125/500  25.0% loss=0.37140 jepa=0.10072 hard=0.37239 hard_red=0.01512 oracle=1.56144 rank=0.13563 value=0.00000 cand=2.85161 pairs=41.4
+[train-progress] epoch=6 [#######-----------------] 150/500  30.0% loss=0.36309 jepa=0.09987 hard=0.36054 hard_red=0.01679 oracle=1.56160 rank=0.13655 value=0.00000 cand=2.85012 pairs=41.4
+[train-progress] epoch=6 [########----------------] 175/500  35.0% loss=0.35075 jepa=0.09889 hard=0.34510 hard_red=0.01576 oracle=1.56099 rank=0.13581 value=0.00000 cand=2.85035 pairs=41.3
+[train-progress] epoch=6 [#########---------------] 200/500  40.0% loss=0.35405 jepa=0.09875 hard=0.34907 hard_red=0.01694 oracle=1.55282 rank=0.13530 value=0.00000 cand=2.83505 pairs=41.6
+[train-progress] epoch=6 [##########--------------] 225/500  45.0% loss=0.35414 jepa=0.09738 hard=0.35094 hard_red=0.01724 oracle=1.54761 rank=0.13443 value=0.00000 cand=2.82637 pairs=41.6
+[train-progress] epoch=6 [############------------] 250/500  50.0% loss=0.35846 jepa=0.09725 hard=0.35662 hard_red=0.01823 oracle=1.54711 rank=0.13349 value=0.00000 cand=2.82725 pairs=41.8
+[train-progress] epoch=6 [#############-----------] 275/500  55.0% loss=0.35485 jepa=0.09701 hard=0.35163 hard_red=0.01848 oracle=1.54683 rank=0.13313 value=0.00000 cand=2.82740 pairs=41.8
+[train-progress] epoch=6 [##############----------] 300/500  60.0% loss=0.35848 jepa=0.09660 hard=0.35638 hard_red=0.01997 oracle=1.55036 rank=0.13356 value=0.00000 cand=2.83360 pairs=41.8
+[train-progress] epoch=6 [###############---------] 325/500  65.0% loss=0.36048 jepa=0.09628 hard=0.35883 hard_red=0.02120 oracle=1.54498 rank=0.13301 value=0.00000 cand=2.82396 pairs=41.8
+[train-progress] epoch=6 [################--------] 350/500  70.0% loss=0.35719 jepa=0.09602 hard=0.35489 hard_red=0.02068 oracle=1.54338 rank=0.13303 value=0.00000 cand=2.82070 pairs=42.0
+[train-progress] epoch=6 [##################------] 375/500  75.0% loss=0.35277 jepa=0.09559 hard=0.34822 hard_red=0.02205 oracle=1.53675 rank=0.13201 value=0.00000 cand=2.80949 pairs=42.2
+[train-progress] epoch=6 [###################-----] 400/500  80.0% loss=0.35258 jepa=0.09555 hard=0.34774 hard_red=0.02239 oracle=1.53803 rank=0.13172 value=0.00000 cand=2.81263 pairs=42.1
+[train-progress] epoch=6 [####################----] 425/500  85.0% loss=0.34735 jepa=0.09536 hard=0.34111 hard_red=0.02161 oracle=1.53748 rank=0.13253 value=0.00000 cand=2.80991 pairs=42.2
+[train-progress] epoch=6 [#####################---] 450/500  90.0% loss=0.34849 jepa=0.09550 hard=0.34272 hard_red=0.02132 oracle=1.53615 rank=0.13230 value=0.00000 cand=2.80769 pairs=42.2
+[train-progress] epoch=6 [######################--] 475/500  95.0% loss=0.35234 jepa=0.09540 hard=0.34841 hard_red=0.02127 oracle=1.54011 rank=0.13375 value=0.00000 cand=2.81272 pairs=42.1
+[train-progress] epoch=6 [########################] 500/500 100.0% loss=0.35377 jepa=0.09523 hard=0.35081 hard_red=0.02110 oracle=1.54089 rank=0.13397 value=0.00000 cand=2.81385 pairs=42.1
+[train] epoch=6 horizon=1 train_loss=0.353771 val_loss=1.053076 train_steps=500
+[train-progress] epoch=7 [------------------------] 1/500   0.2% loss=0.71168 jepa=0.09057 hard=0.83641 hard_red=0.06716 oracle=1.53716 rank=0.15406 value=0.00000 cand=2.76620 pairs=40.0
+[train-progress] epoch=7 [#-----------------------] 25/500   5.0% loss=0.27072 jepa=0.09468 hard=0.23723 hard_red=0.01495 oracle=1.52980 rank=0.12185 value=0.00000 cand=2.81589 pairs=40.6
+[train-progress] epoch=7 [##----------------------] 50/500  10.0% loss=0.33502 jepa=0.09628 hard=0.32615 hard_red=0.01585 oracle=1.56316 rank=0.13374 value=0.00000 cand=2.85885 pairs=40.4
+[train-progress] epoch=7 [###---------------------] 75/500  15.0% loss=0.31166 jepa=0.09556 hard=0.29485 hard_red=0.01465 oracle=1.55778 rank=0.13186 value=0.00000 cand=2.85183 pairs=40.6
+[train-progress] epoch=7 [####--------------------] 100/500  20.0% loss=0.32873 jepa=0.09199 hard=0.31970 hard_red=0.02153 oracle=1.55605 rank=0.12799 value=0.00000 cand=2.85612 pairs=41.4
+[train-progress] epoch=7 [######------------------] 125/500  25.0% loss=0.32329 jepa=0.09246 hard=0.31146 hard_red=0.02129 oracle=1.55019 rank=0.12947 value=0.00000 cand=2.84145 pairs=41.4
+[train-progress] epoch=7 [#######-----------------] 150/500  30.0% loss=0.35392 jepa=0.09363 hard=0.35311 hard_red=0.02177 oracle=1.54445 rank=0.13101 value=0.00000 cand=2.82686 pairs=41.4
+[train-progress] epoch=7 [########----------------] 175/500  35.0% loss=0.35169 jepa=0.09303 hard=0.35111 hard_red=0.02131 oracle=1.54886 rank=0.13211 value=0.00000 cand=2.83350 pairs=41.9
+[train-progress] epoch=7 [#########---------------] 200/500  40.0% loss=0.33725 jepa=0.09193 hard=0.33186 hard_red=0.02163 oracle=1.54384 rank=0.13112 value=0.00000 cand=2.82543 pairs=42.0
+[train-progress] epoch=7 [##########--------------] 225/500  45.0% loss=0.33738 jepa=0.09130 hard=0.33226 hard_red=0.02263 oracle=1.54635 rank=0.13119 value=0.00000 cand=2.83032 pairs=41.8
+[train-progress] epoch=7 [############------------] 250/500  50.0% loss=0.34287 jepa=0.09190 hard=0.33803 hard_red=0.02430 oracle=1.54390 rank=0.13090 value=0.00000 cand=2.82599 pairs=41.7
+[train-progress] epoch=7 [#############-----------] 275/500  55.0% loss=0.34150 jepa=0.09151 hard=0.33652 hard_red=0.02450 oracle=1.54305 rank=0.13123 value=0.00000 cand=2.82364 pairs=41.7
+[train-progress] epoch=7 [##############----------] 300/500  60.0% loss=0.33501 jepa=0.09123 hard=0.32762 hard_red=0.02450 oracle=1.54262 rank=0.12951 value=0.00000 cand=2.82622 pairs=41.6
+[train-progress] epoch=7 [###############---------] 325/500  65.0% loss=0.33015 jepa=0.09100 hard=0.32134 hard_red=0.02403 oracle=1.54078 rank=0.12920 value=0.00000 cand=2.82316 pairs=41.6
+[train-progress] epoch=7 [################--------] 350/500  70.0% loss=0.33000 jepa=0.09034 hard=0.32248 hard_red=0.02351 oracle=1.53931 rank=0.12893 value=0.00000 cand=2.82076 pairs=41.5
+[train-progress] epoch=7 [##################------] 375/500  75.0% loss=0.32384 jepa=0.09004 hard=0.31478 hard_red=0.02260 oracle=1.53995 rank=0.12892 value=0.00000 cand=2.82205 pairs=41.5
+[train-progress] epoch=7 [###################-----] 400/500  80.0% loss=0.32190 jepa=0.09015 hard=0.31246 hard_red=0.02176 oracle=1.53629 rank=0.12906 value=0.00000 cand=2.81446 pairs=41.7
+[train-progress] epoch=7 [####################----] 425/500  85.0% loss=0.32957 jepa=0.09047 hard=0.32209 hard_red=0.02295 oracle=1.53502 rank=0.12889 value=0.00000 cand=2.81226 pairs=41.7
+[train-progress] epoch=7 [#####################---] 450/500  90.0% loss=0.32844 jepa=0.09032 hard=0.32040 hard_red=0.02333 oracle=1.53470 rank=0.12874 value=0.00000 cand=2.81192 pairs=42.0
+[train-progress] epoch=7 [######################--] 475/500  95.0% loss=0.32768 jepa=0.09026 hard=0.31960 hard_red=0.02302 oracle=1.53479 rank=0.12786 value=0.00000 cand=2.81386 pairs=42.1
+[train-progress] epoch=7 [########################] 500/500 100.0% loss=0.32239 jepa=0.09001 hard=0.31203 hard_red=0.02354 oracle=1.53258 rank=0.12679 value=0.00000 cand=2.81160 pairs=42.1
+[train] epoch=7 horizon=1 train_loss=0.322387 val_loss=1.657912 train_steps=500
+[train-progress] epoch=8 [------------------------] 1/500   0.2% loss=0.49180 jepa=0.08513 hard=0.57760 hard_red=0.00039 oracle=1.51827 rank=0.11392 value=0.00000 cand=2.80870 pairs=49.0
+[train-progress] epoch=8 [#-----------------------] 25/500   5.0% loss=0.22446 jepa=0.08676 hard=0.18508 hard_red=0.01225 oracle=1.55258 rank=0.12431 value=0.00000 cand=2.85655 pairs=42.1
+[train-progress] epoch=8 [##----------------------] 50/500  10.0% loss=0.33243 jepa=0.08898 hard=0.32973 hard_red=0.02092 oracle=1.53128 rank=0.11749 value=0.00000 cand=2.82759 pairs=41.8
+[train-progress] epoch=8 [###---------------------] 75/500  15.0% loss=0.31462 jepa=0.08898 hard=0.30405 hard_red=0.02133 oracle=1.52780 rank=0.11630 value=0.00000 cand=2.82300 pairs=41.8
+[train-progress] epoch=8 [####--------------------] 100/500  20.0% loss=0.32338 jepa=0.08895 hard=0.31595 hard_red=0.02223 oracle=1.52543 rank=0.11626 value=0.00000 cand=2.81834 pairs=41.8
+[train-progress] epoch=8 [######------------------] 125/500  25.0% loss=0.31969 jepa=0.08884 hard=0.31048 hard_red=0.02263 oracle=1.52636 rank=0.11660 value=0.00000 cand=2.81952 pairs=42.1
+[train-progress] epoch=8 [#######-----------------] 150/500  30.0% loss=0.30297 jepa=0.08806 hard=0.28986 hard_red=0.01970 oracle=1.52475 rank=0.11706 value=0.00000 cand=2.81537 pairs=42.2
+[train-progress] epoch=8 [########----------------] 175/500  35.0% loss=0.29820 jepa=0.08689 hard=0.28413 hard_red=0.02058 oracle=1.51701 rank=0.11674 value=0.00000 cand=2.80053 pairs=42.3
+[train-progress] epoch=8 [#########---------------] 200/500  40.0% loss=0.30006 jepa=0.08688 hard=0.28806 hard_red=0.01885 oracle=1.51659 rank=0.11645 value=0.00000 cand=2.80026 pairs=42.3
+[train-progress] epoch=8 [##########--------------] 225/500  45.0% loss=0.29406 jepa=0.08728 hard=0.27793 hard_red=0.02024 oracle=1.51509 rank=0.11609 value=0.00000 cand=2.79801 pairs=42.1
+[train-progress] epoch=8 [############------------] 250/500  50.0% loss=0.29406 jepa=0.08734 hard=0.27557 hard_red=0.02343 oracle=1.51622 rank=0.11680 value=0.00000 cand=2.79884 pairs=42.0
+[train-progress] epoch=8 [#############-----------] 275/500  55.0% loss=0.30141 jepa=0.08685 hard=0.28438 hard_red=0.02679 oracle=1.51460 rank=0.11673 value=0.00000 cand=2.79574 pairs=42.1
+[train-progress] epoch=8 [##############----------] 300/500  60.0% loss=0.30223 jepa=0.08696 hard=0.28517 hard_red=0.02709 oracle=1.51434 rank=0.11594 value=0.00000 cand=2.79680 pairs=42.0
+[train-progress] epoch=8 [###############---------] 325/500  65.0% loss=0.29948 jepa=0.08641 hard=0.28169 hard_red=0.02765 oracle=1.51886 rank=0.11695 value=0.00000 cand=2.80381 pairs=42.0
+[train-progress] epoch=8 [################--------] 350/500  70.0% loss=0.31196 jepa=0.08661 hard=0.29922 hard_red=0.02761 oracle=1.51373 rank=0.11668 value=0.00000 cand=2.79410 pairs=42.0
+[train-progress] epoch=8 [##################------] 375/500  75.0% loss=0.31307 jepa=0.08633 hard=0.30101 hard_red=0.02790 oracle=1.51312 rank=0.11672 value=0.00000 cand=2.79281 pairs=41.9
+[train-progress] epoch=8 [###################-----] 400/500  80.0% loss=0.31524 jepa=0.08654 hard=0.30335 hard_red=0.02852 oracle=1.51331 rank=0.11668 value=0.00000 cand=2.79327 pairs=42.0
+[train-progress] epoch=8 [####################----] 425/500  85.0% loss=0.31220 jepa=0.08663 hard=0.29941 hard_red=0.02777 oracle=1.51157 rank=0.11722 value=0.00000 cand=2.78871 pairs=41.9
+[train-progress] epoch=8 [#####################---] 450/500  90.0% loss=0.32443 jepa=0.08654 hard=0.31530 hard_red=0.03014 oracle=1.51059 rank=0.11775 value=0.00000 cand=2.78568 pairs=42.0
+[train-progress] epoch=8 [######################--] 475/500  95.0% loss=0.32285 jepa=0.08638 hard=0.31393 hard_red=0.02923 oracle=1.50945 rank=0.11800 value=0.00000 cand=2.78289 pairs=42.1
+[train-progress] epoch=8 [########################] 500/500 100.0% loss=0.31915 jepa=0.08648 hard=0.30889 hard_red=0.02867 oracle=1.51082 rank=0.11796 value=0.00000 cand=2.78571 pairs=42.0
+[train] epoch=8 horizon=1 train_loss=0.319147 val_loss=1.644148 train_steps=500
+$ /data1/pengqingsong/tools/miniconda3/bin/python -u scripts/evaluate_oracle_action_values.py --oracle-actions autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_val_oracle_actions.tsv --checkpoints incumbent=autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt,B_oracle_0p05=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p05/best.pt,q_v1_hard_topk=/data4/pengqingsong/DFT/TPI-my.3/runs/q_v1_candidate_rank/best.pt --score-fields q_pred,score_pred,hybrid_pred,derived_hard_reduction_hybrid_pred --top-ks 1,3,5 --oracle-top-m 1 --plan-device cuda --out-dir autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/expanded_val --baseline incumbent
+{
+  "baseline": "incumbent",
+  "checkpoints": [
+    {
+      "checkpoint_id": "0a30e730990c065e",
+      "name": "incumbent",
+      "path": "autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt"
+    },[q_v1_hard_topk] [train-progress] epoch=8 [###############---------] 325/500  65.0% loss=0.31369 jepa=0.08448 hard=0.30368 hard_red=0.02935 oracle=1.53057 rank=0.12140 value=0.00000 cand=2.81834 pairs=42.4
+[q_v1_hard_topk] [train-progress] epoch=8 [################--------] 350/500  70.0% loss=0.30870 jepa=0.08440 hard=0.29680 hard_red=0.02918 oracle=1.52968 rank=0.12084 value=0.00000 cand=2.81769 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=8 [##################------] 375/500  75.0% loss=0.30589 jepa=0.08470 hard=0.29288 hard_red=0.02842 oracle=1.52699 rank=0.12048 value=0.00000 cand=2.81302 pairs=42.5
+[q_v1_hard_topk] [train-progress] epoch=8 [###################-----] 400/500  80.0% loss=0.30733 jepa=0.08463 hard=0.29563 hard_red=0.02759 oracle=1.52589 rank=0.11980 value=0.00000 cand=2.81219 pairs=42.5
+[q_v1_hard_topk] [train-progress] epoch=8 [####################----] 425/500  85.0% loss=0.31056 jepa=0.08420 hard=0.30129 hard_red=0.02706 oracle=1.52448 rank=0.11931 value=0.00000 cand=2.81034 pairs=42.4
+[q_v1_hard_topk] [train-progress] epoch=8 [#####################---] 450/500  90.0% loss=0.30900 jepa=0.08389 hard=0.29873 hard_red=0.02815 oracle=1.52241 rank=0.11879 value=0.00000 cand=2.80725 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=8 [######################--] 475/500  95.0% loss=0.31006 jepa=0.08404 hard=0.29980 hard_red=0.02849 oracle=1.52208 rank=0.11894 value=0.00000 cand=2.80629 pairs=42.3
+[q_v1_hard_topk] [train-progress] epoch=8 [########################] 500/500 100.0% loss=0.30559 jepa=0.08373 hard=0.29404 hard_red=0.02826 oracle=1.52297 rank=0.11878 value=0.00000 cand=2.80838 pairs=42.3
+[q_v1_hard_topk] [train] epoch=8 horizon=1 train_loss=0.305591 val_loss=2.069438 train_steps=500
+[q_v1_hard_topk] [eval] skip existing autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/expanded_val/oracle_action_value_summary.tsv
+[q_v1_hard_topk] [eval] skip existing autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer/oracle_action_value_summary.tsv
+[q_v1_hard_topk] {
+[q_v1_hard_topk]   "status": "completed",
+[q_v1_hard_topk]   "variant": "q_v1_hard_topk",
+[q_v1_hard_topk]   "config": "configs/q_v1_candidate_rank.json",
+[q_v1_hard_topk]   "checkpoint": "/data4/pengqingsong/DFT/TPI-my.3/runs/q_v1_candidate_rank/best.pt",
+[q_v1_hard_topk]   "summary": "autoresearch/q-v1-parallel-260630/summaries/q_v1_hard_topk_summary.tsv",
+[q_v1_hard_topk]   "report": "autoresearch/q-v1-parallel-260630/summaries/q_v1_hard_topk_report.md",
+[q_v1_hard_topk]   "promoted": []
+[q_v1_hard_topk] }
+[q_v1_hard_topk] [q_v1_hard_topk] exited status=0
+p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt"
+    },
+    {
+      "checkpoint_id": "3a1c901ee0d6b6e1",
+      "name": "B_oracle_0p05",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p05/best.pt"
+    },
+    {
+      "checkpoint_id": "38a331048e76ba9f",
+      "name": "q_v1_hard_topk",
+      "path": "/data4/pengqingsong/DFT/TPI-my.3/runs/q_v1_candidate_rank/best.pt"
+    }
+  ],
+  "mode": "fix",
+  "objective": "fixed oracle action-value checkpoint comparison gate",
+  "oracle_actions": "autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv",
+  "out_dir": "autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer",
+  "outputs": {
+    "oracle_action_value_metrics": "autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer/oracle_action_value_metrics.tsv",
+    "oracle_action_value_report": "autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer/oracle_action_value_report.md",
+    "oracle_action_value_summary": "autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer/oracle_action_value_summary.tsv",
+    "rescored_oracle_actions": "autoresearch/q-v1-parallel-260630/gates/q_v1_hard_topk/transfer/rescored_oracle_actions.tsv"
+  },
+  "records": {
+    "oracle_action_value_metrics": 72,
+    "oracle_action_value_summary": 12,
+    "rescored_oracle_actions": 864
+  },
+  "status": "progressed",
+  "verdicts": {
+    "B_oracle_0p05": "INCONCLUSIVE",
+    "incumbent": "INCONCLUSIVE",
+    "q_v1_hard_topk": "INCONCLUSIVE"
+  }
+}
+{
+  "status": "completed",
+  "variant": "q_v1_hard_topk",
+  "config": "configs/q_v1_candidate_rank.json",
+  "checkpoint": "/data4/pengqingsong/DFT/TPI-my.3/runs/q_v1_candidate_rank/best.pt",
+  "summary": "autoresearch/q-v1-parallel-260630/summaries/q_v1_hard_topk_summary.tsv",
+  "report": "autoresearch/q-v1-parallel-260630/summaries/q_v1_hard_topk_report.md",
+  "promoted": []
+}

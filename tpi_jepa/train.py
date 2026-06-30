@@ -659,6 +659,8 @@ def _predict_oracle_group_scores(
     node_ids = {name: idx for idx, name in enumerate(graph.node_names)}
     coverage_scale = float(config.get("coverage_scale", 100.0))
     score_lists: dict[str, list[torch.Tensor]] = {
+        "q_pred": [],
+        "score_pred": [],
         "reward_pred": [],
         "return_pred": [],
         "guarded_reward": [],
@@ -681,6 +683,7 @@ def _predict_oracle_group_scores(
             relation,
             include_aux_heads=False,
         )
+        q_pred = pred["q_pred"]
         reward_pred = pred["reward_pred"]
         return_pred = pred["return_pred"]
         hard_reduction_pred = pred["hard_reduction_pred"].view(-1)
@@ -694,6 +697,8 @@ def _predict_oracle_group_scores(
         derived_hard_reduction_total = (
             derived_reduction[0] if derived_reduction.numel() > 0 else reward_pred.new_zeros(())
         )
+        score_lists["q_pred"].append(q_pred)
+        score_lists["score_pred"].append(q_pred)
         score_lists["reward_pred"].append(reward_pred)
         score_lists["return_pred"].append(return_pred)
         score_lists["guarded_reward"].append(torch.minimum(reward_pred, return_pred))
@@ -718,29 +723,67 @@ def _oracle_pairwise_rank_loss(
     targets: torch.Tensor,
     min_delta: float,
     temperature: float,
+    mode: str = "all",
+    hard_negative_topk: int = 0,
+    positive_topk: int = 1,
+    max_pairs: int = 0,
 ) -> tuple[torch.Tensor, int]:
     """Pairwise logistic ranking loss against backend-labeled delta-TC order."""
 
-    losses = []
-    count = 0
+    pairs: list[tuple[int, int, float]] = []
     temp = max(1e-6, float(temperature))
-    for i in range(targets.numel()):
-        for j in range(i + 1, targets.numel()):
-            diff = targets[i] - targets[j]
-            if diff.abs().item() < float(min_delta):
-                continue
-            order = diff.sign().detach()
-            losses.append(F.softplus(-order * (preds[i] - preds[j]) / temp))
-            count += 1
-    if not losses:
+    mode = str(mode or "all").lower()
+    min_delta_value = float(min_delta)
+    if mode == "all":
+        for i in range(targets.numel()):
+            for j in range(i + 1, targets.numel()):
+                diff = float((targets[i] - targets[j]).detach().cpu().item())
+                if abs(diff) < min_delta_value:
+                    continue
+                if diff > 0.0:
+                    pairs.append((i, j, 1.0))
+                else:
+                    pairs.append((j, i, 1.0))
+    elif mode in {"hard_topk", "best_vs_hard_topk"}:
+        target_order = torch.argsort(targets.detach(), descending=True).cpu().tolist()
+        pred_order = torch.argsort(preds.detach(), descending=True).cpu().tolist()
+        pos_count = max(1, int(positive_topk or 1))
+        hard_count = int(hard_negative_topk or 0)
+        hard_pool = pred_order[:hard_count] if hard_count > 0 else pred_order
+        for pos_idx in target_order[:pos_count]:
+            negs = [
+                neg_idx
+                for neg_idx in hard_pool
+                if neg_idx != pos_idx and float((targets[pos_idx] - targets[neg_idx]).detach().cpu().item()) >= min_delta_value
+            ]
+            if not negs:
+                negs = [
+                    neg_idx
+                    for neg_idx in pred_order
+                    if neg_idx != pos_idx and float((targets[pos_idx] - targets[neg_idx]).detach().cpu().item()) >= min_delta_value
+                ]
+            pairs.extend((pos_idx, neg_idx, 1.0) for neg_idx in negs)
+    else:
+        raise ValueError(f"unsupported oracle_pairwise_mode {mode!r}")
+
+    if max_pairs > 0 and len(pairs) > max_pairs:
+        pairs = random.sample(pairs, k=max_pairs)
+    if not pairs:
         return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
-    return torch.stack(losses).mean(), count
+    losses = [F.softplus(-(preds[left] - preds[right]) / temp) for left, right, _ in pairs]
+    return torch.stack(losses).mean(), len(pairs)
 
 
 def _oracle_rank_weight(config: dict, epoch: int) -> float:
     """Return the current oracle weight after warmup and linear ramp."""
 
     target = float(config.get("lambda_oracle_rank", 0.0))
+    return _oracle_ramped_weight(config, epoch, target)
+
+
+def _oracle_ramped_weight(config: dict, epoch: int, target: float) -> float:
+    """Return an oracle auxiliary loss weight after warmup and linear ramp."""
+
     if target <= 0.0:
         return 0.0
     warmup = max(0, int(config.get("oracle_warmup_epochs", 0) or 0))
@@ -751,6 +794,40 @@ def _oracle_rank_weight(config: dict, epoch: int) -> float:
         return target
     ramp_step = min(ramp, max(1, epoch - warmup))
     return target * float(ramp_step) / float(ramp)
+
+
+def _q_rank_weight(config: dict, epoch: int) -> float:
+    """Return Q ranking weight, falling back to legacy oracle rank weight."""
+
+    if "lambda_q_rank" in config:
+        return _oracle_ramped_weight(config, epoch, float(config.get("lambda_q_rank", 0.0)))
+    return _oracle_rank_weight(config, epoch)
+
+
+def _q_value_weight(config: dict, epoch: int) -> float:
+    """Return Q value-regression weight."""
+
+    return _oracle_ramped_weight(
+        config,
+        epoch,
+        float(config.get("lambda_q_value", config.get("lambda_oracle_value", 0.0))),
+    )
+
+
+def _q_candidate_weight(config: dict, epoch: int) -> float:
+    """Return candidate-list softmax loss weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_candidate", 0.0)))
+
+
+def _oracle_candidate_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
+    """Listwise candidate loss that pushes probability mass toward high-delta-TC actions."""
+
+    target_temp = max(1e-6, float(config.get("candidate_target_temperature", 1.0)))
+    pred_temp = max(1e-6, float(config.get("candidate_pred_temperature", 1.0)))
+    target_prob = torch.softmax(targets.detach() / target_temp, dim=0)
+    pred_log_prob = torch.log_softmax(preds / pred_temp, dim=0)
+    return -(target_prob * pred_log_prob).sum()
 
 
 def train_oracle_ranking_step(
@@ -765,26 +842,36 @@ def train_oracle_ranking_step(
 ) -> dict[str, float]:
     """Run one auxiliary oracle pairwise-ranking optimizer step."""
 
-    weight = _oracle_rank_weight(config, epoch)
-    if weight <= 0.0 or not oracle_groups:
+    rank_weight = _q_rank_weight(config, epoch)
+    value_weight = _q_value_weight(config, epoch)
+    candidate_weight = _q_candidate_weight(config, epoch)
+    if max(rank_weight, value_weight, candidate_weight) <= 0.0 or not oracle_groups:
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
+            "oracle_value_loss": 0.0,
+            "oracle_candidate_loss": 0.0,
             "oracle_pairs": 0.0,
             "oracle_groups": 0.0,
-            "oracle_weight": weight,
+            "oracle_weight": max(rank_weight, value_weight, candidate_weight),
         }
     group_count = max(1, int(config.get("oracle_batch_groups", 1) or 1))
     if len(oracle_groups) <= group_count:
         groups = random.sample(oracle_groups, k=len(oracle_groups))
     else:
         groups = random.sample(oracle_groups, k=group_count)
-    score_field = str(config.get("oracle_ranking_score_field", "hybrid_pred"))
+    score_field = str(config.get("oracle_ranking_score_field", "q_pred"))
     coverage_scale = float(config.get("coverage_scale", 100.0))
     min_delta = float(config.get("oracle_pairwise_min_delta", 0.001)) * coverage_scale
     temperature = float(config.get("oracle_pairwise_temperature", 1.0))
+    pairwise_mode = str(config.get("oracle_pairwise_mode", "all"))
+    hard_negative_topk = int(config.get("oracle_hard_negative_topk", 0) or 0)
+    positive_topk = int(config.get("oracle_positive_topk", 1) or 1)
+    max_pairs_per_group = int(config.get("oracle_max_pairs_per_group", 0) or 0)
 
     rank_losses: list[torch.Tensor] = []
+    value_losses: list[torch.Tensor] = []
+    candidate_losses: list[torch.Tensor] = []
     pair_total = 0
     for group in groups:
         scores = _predict_oracle_group_scores(model, config, group, graph_cache, base_cache, device)
@@ -794,21 +881,40 @@ def train_oracle_ranking_step(
             dtype=preds.dtype,
             device=device,
         )
-        rank_loss, pair_count = _oracle_pairwise_rank_loss(preds, targets, min_delta, temperature)
-        if pair_count > 0:
-            rank_losses.append(rank_loss)
-            pair_total += int(pair_count)
+        if rank_weight > 0.0:
+            rank_loss, pair_count = _oracle_pairwise_rank_loss(
+                preds,
+                targets,
+                min_delta,
+                temperature,
+                mode=pairwise_mode,
+                hard_negative_topk=hard_negative_topk,
+                positive_topk=positive_topk,
+                max_pairs=max_pairs_per_group,
+            )
+            if pair_count > 0:
+                rank_losses.append(rank_loss)
+                pair_total += int(pair_count)
+        if value_weight > 0.0:
+            value_losses.append(F.smooth_l1_loss(preds, targets))
+        if candidate_weight > 0.0 and preds.numel() >= 2:
+            candidate_losses.append(_oracle_candidate_loss(preds, targets, config))
 
-    if not rank_losses:
+    if not rank_losses and not value_losses and not candidate_losses:
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
+            "oracle_value_loss": 0.0,
+            "oracle_candidate_loss": 0.0,
             "oracle_pairs": 0.0,
             "oracle_groups": float(len(groups)),
-            "oracle_weight": weight,
+            "oracle_weight": max(rank_weight, value_weight, candidate_weight),
         }
-    rank_loss = torch.stack(rank_losses).mean()
-    loss = weight * rank_loss
+    zero = torch.zeros((), dtype=torch.float32, device=device)
+    rank_loss = torch.stack(rank_losses).mean() if rank_losses else zero
+    value_loss = torch.stack(value_losses).mean() if value_losses else zero
+    candidate_loss = torch.stack(candidate_losses).mean() if candidate_losses else zero
+    loss = rank_weight * rank_loss + value_weight * value_loss + candidate_weight * candidate_loss
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
     torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -817,9 +923,11 @@ def train_oracle_ranking_step(
     return {
         "oracle_loss": float(loss.detach().cpu().item()),
         "oracle_rank_loss": float(rank_loss.detach().cpu().item()),
+        "oracle_value_loss": float(value_loss.detach().cpu().item()),
+        "oracle_candidate_loss": float(candidate_loss.detach().cpu().item()),
         "oracle_pairs": float(pair_total),
-        "oracle_groups": float(len(rank_losses)),
-        "oracle_weight": weight,
+        "oracle_groups": float(max(len(rank_losses), len(value_losses), len(candidate_losses))),
+        "oracle_weight": max(rank_weight, value_weight, candidate_weight),
     }
 
 
@@ -847,6 +955,9 @@ def train_one_epoch(
     oracle_every = max(1, int(config.get("oracle_every_n_steps", 4) or 4))
     oracle_graph_cache = oracle_graph_cache if oracle_graph_cache is not None else {}
     oracle_base_cache = oracle_base_cache if oracle_base_cache is not None else {}
+    progress_enabled = bool(config.get("progress_bar", False))
+    progress_every = max(1, int(config.get("progress_log_every", 25) or 25))
+    total_steps = len(indices)
     for idx in indices:
         sample = dataset[idx]
         is_rollout = isinstance(sample, RolloutSample)
@@ -877,6 +988,8 @@ def train_one_epoch(
             oracle_steps += 1
             for key, value in oracle_metrics.items():
                 totals[key] = totals.get(key, 0.0) + value
+        if progress_enabled and (steps == 1 or steps % progress_every == 0 or steps == total_steps):
+            print(_train_progress_line(epoch, steps, total_steps, totals, oracle_steps), flush=True)
         if max_steps is not None and steps >= max_steps:
             break
     averaged = {}
@@ -884,6 +997,45 @@ def train_one_epoch(
         denom = max(1, oracle_steps) if key.startswith("oracle_") else max(1, steps)
         averaged[key] = value / denom
     return averaged | {"steps": float(steps), "oracle_steps": float(oracle_steps)}
+
+
+def _avg_metric(totals: dict[str, float], key: str, steps: int, oracle_steps: int) -> float:
+    denom = max(1, oracle_steps) if key.startswith("oracle_") else max(1, steps)
+    return totals.get(key, 0.0) / denom
+
+
+def _train_progress_line(
+    epoch: int,
+    step: int,
+    total_steps: int,
+    totals: dict[str, float],
+    oracle_steps: int,
+) -> str:
+    width = 24
+    done = int(width * step / max(1, total_steps))
+    bar = "#" * done + "-" * (width - done)
+    pct = 100.0 * step / max(1, total_steps)
+    parts = [
+        f"[train-progress] epoch={epoch}",
+        f"[{bar}]",
+        f"{step}/{total_steps}",
+        f"{pct:5.1f}%",
+        f"loss={_avg_metric(totals, 'loss', step, oracle_steps):.5f}",
+        f"jepa={_avg_metric(totals, 'jepa_loss', step, oracle_steps):.5f}",
+        f"hard={_avg_metric(totals, 'hard_bce_loss', step, oracle_steps):.5f}",
+        f"hard_red={_avg_metric(totals, 'hard_reduction_loss', step, oracle_steps):.5f}",
+    ]
+    if oracle_steps > 0:
+        parts.extend(
+            [
+                f"oracle={_avg_metric(totals, 'oracle_loss', step, oracle_steps):.5f}",
+                f"rank={_avg_metric(totals, 'oracle_rank_loss', step, oracle_steps):.5f}",
+                f"value={_avg_metric(totals, 'oracle_value_loss', step, oracle_steps):.5f}",
+                f"cand={_avg_metric(totals, 'oracle_candidate_loss', step, oracle_steps):.5f}",
+                f"pairs={_avg_metric(totals, 'oracle_pairs', step, oracle_steps):.1f}",
+            ]
+        )
+    return " ".join(parts)
 
 
 @torch.no_grad()
@@ -996,13 +1148,22 @@ def main() -> None:
     config.setdefault("lambda_hard_soft_f1", 0.0)
     config.setdefault("lambda_oracle_rank", 0.0)
     config.setdefault("lambda_oracle_value", 0.0)
-    config.setdefault("oracle_ranking_score_field", "hybrid_pred")
+    config.setdefault("lambda_q_value", config.get("lambda_oracle_value", 0.0))
+    config.setdefault("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))
+    config.setdefault("lambda_candidate", 0.0)
+    config.setdefault("oracle_ranking_score_field", "q_pred")
+    config.setdefault("candidate_target_temperature", 1.0)
+    config.setdefault("candidate_pred_temperature", 1.0)
     config.setdefault("oracle_every_n_steps", 4)
     config.setdefault("oracle_batch_groups", 4)
     config.setdefault("oracle_warmup_epochs", 1)
     config.setdefault("oracle_ramp_epochs", 2)
     config.setdefault("oracle_pairwise_min_delta", 0.001)
     config.setdefault("oracle_pairwise_temperature", 1.0)
+    config.setdefault("oracle_pairwise_mode", "all")
+    config.setdefault("oracle_hard_negative_topk", 0)
+    config.setdefault("oracle_positive_topk", 1)
+    config.setdefault("oracle_max_pairs_per_group", 0)
     config.setdefault("hard_soft_f1_eps", 1e-6)
     config.setdefault("hard_rank_margin", 0.2)
     config.setdefault("hard_negative_sample_ratio", 0)
@@ -1011,6 +1172,8 @@ def main() -> None:
     config.setdefault("encoder_type", "mean")
     config.setdefault("summary_mode", "global")
     config.setdefault("train_sample_strategy", "shuffle")
+    config.setdefault("progress_bar", False)
+    config.setdefault("progress_log_every", 25)
     pattern_enabled = _pattern_target_valid(train_rows)
     if not pattern_enabled or float(config.get("lambda_pattern", 0.0)) <= 0.0:
         config["lambda_pattern"] = 0.0
@@ -1021,15 +1184,27 @@ def main() -> None:
             "the main hard-fault target is hard_reduction"
         )
     oracle_groups = None
-    if config.get("oracle_actions") and float(config.get("lambda_oracle_rank", 0.0)) > 0.0:
+    oracle_enabled = bool(
+        config.get("oracle_actions")
+        and max(
+            float(config.get("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))),
+            float(config.get("lambda_q_value", config.get("lambda_oracle_value", 0.0))),
+            float(config.get("lambda_candidate", 0.0)),
+        )
+        > 0.0
+    )
+    if oracle_enabled:
         oracle_groups = load_oracle_groups(
             config["oracle_actions"],
             max_actions_per_group=int(config.get("oracle_max_actions_per_group", 0)) or None,
         )
         print(
-            f"[train] oracle_ranking enabled groups={len(oracle_groups)} "
+            f"[train] q_oracle enabled groups={len(oracle_groups)} "
             f"score_field={config['oracle_ranking_score_field']} "
-            f"lambda_oracle_rank={float(config['lambda_oracle_rank'])}"
+            f"lambda_q_value={float(config['lambda_q_value'])} "
+            f"lambda_q_rank={float(config['lambda_q_rank'])} "
+            f"lambda_candidate={float(config['lambda_candidate'])} "
+            f"pairwise_mode={config['oracle_pairwise_mode']}"
         )
 
     rollout_training = bool(config.get("rollout_training", True))
@@ -1114,6 +1289,7 @@ def main() -> None:
         hard_head_type=str(config.get("hard_head_type", "mlp")),
         encoder_type=str(config.get("encoder_type", "mean")),
         summary_mode=str(config.get("summary_mode", "global")),
+        q_head_type=str(config.get("q_head_type", "summary")),
     ).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=float(config["lr"]))
     oracle_graph_cache: dict[str, Any] = {}

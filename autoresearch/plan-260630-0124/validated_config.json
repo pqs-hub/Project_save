@@ -1,0 +1,49 @@
+{
+  "mode": "plan",
+  "objective": "Evaluate post-hoc Q calibration under fixed candidate groups without adding losses, changing candidates, or using hybrid scores.",
+  "scope": {
+    "include": [
+      "Build scripts/evaluate_q_calibration.py.",
+      "Use existing rescored oracle action TSVs from autoresearch/q-oracle-260629.",
+      "Compare raw q_pred against group/circuit/global calibrated q_pred.",
+      "Keep candidate/action groups fixed.",
+      "Produce expanded/transfer calibration summary and promote/reject verdict."
+    ],
+    "exclude": [
+      "No new training loss.",
+      "No candidate strategy changes.",
+      "No hybrid score.",
+      "No new checkpoint training.",
+      "No planner default change beyond existing q_pred path."
+    ]
+  },
+  "inputs": {
+    "expanded_rescored": "autoresearch/q-oracle-260629/gates/expanded_val/rescored_oracle_actions.tsv",
+    "transfer_rescored": "autoresearch/q-oracle-260629/gates/transfer/rescored_oracle_actions.tsv",
+    "checkpoints": [
+      "Q_v0_rank0p5",
+      "Q_v0_rank1p0",
+      "Q_v0_rank2p0",
+      "Q_v0_value1_rank1"
+    ],
+    "score_field": "q_pred"
+  },
+  "methods": [
+    "raw",
+    "group_center",
+    "group_zscore",
+    "group_rank_pct",
+    "circuit_zscore",
+    "global_zscore",
+    "platt"
+  ],
+  "promotion_thresholds": {
+    "expanded_spearman_min": 0.5,
+    "expanded_negative_top1_max": 0.162,
+    "transfer_negative_top1_max": 0.167,
+    "transfer_regret_max": 0.012552,
+    "transfer_spearman_min": 0.2
+  },
+  "parallel_policy": "No training in this step. If later planner eval is needed, run circuits in parallel and keep candidate strategy fixed.",
+  "recommended_next_command": "$autoresearch fix autoresearch/plan-260630-0124/plan.md"
+}

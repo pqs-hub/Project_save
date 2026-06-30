@@ -1,0 +1,37 @@
+{
+  "status": "completed",
+  "source_plan": "autoresearch/plan-260630-0124/plan.md",
+  "created_at": "2026-06-30 01:30",
+  "changed_files": [
+    "scripts/evaluate_q_calibration.py"
+  ],
+  "output_dir": "autoresearch/q-calibration-260630",
+  "report": "autoresearch/q-calibration-260630/q_calibration_report.md",
+  "promotion_table": "autoresearch/q-calibration-260630/q_calibration_promotion.tsv",
+  "fix_report": "autoresearch/fix-260630-0130/fix_report.md",
+  "summary": {
+    "total_rows": 28,
+    "promoted_rows": 0,
+    "best_expanded_spearman": {
+      "checkpoint": "Q_v0_rank1p0",
+      "method": "raw",
+      "value": 0.576224348635029
+    },
+    "best_transfer_spearman": {
+      "checkpoint": "Q_v0_value1_rank1",
+      "method": "raw",
+      "value": 0.3002244672078064
+    },
+    "best_transfer_regret": {
+      "checkpoint": "Q_v0_value1_rank1",
+      "method": "raw",
+      "value": 0.01227333333333334
+    },
+    "best_transfer_sign_accuracy": {
+      "checkpoint": "Q_v0_value1_rank1",
+      "method": "global_zscore",
+      "value": 0.8333333333333334
+    }
+  },
+  "main_conclusion": "Post-hoc monotonic Q calibration improves sign/scale interpretation but does not change fixed-candidate top1 selection, so it cannot promote these checkpoints under the current gate."
+}

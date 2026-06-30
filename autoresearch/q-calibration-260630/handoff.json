@@ -1,0 +1,34 @@
+{
+  "inputs": {
+    "checkpoints": [
+      "Q_v0_rank0p5",
+      "Q_v0_rank1p0",
+      "Q_v0_rank2p0",
+      "Q_v0_value1_rank1"
+    ],
+    "expanded_rescored": "autoresearch/q-oracle-260629/gates/expanded_val/rescored_oracle_actions.tsv",
+    "methods": [
+      "raw",
+      "group_center",
+      "group_zscore",
+      "group_rank_pct",
+      "circuit_zscore",
+      "global_zscore",
+      "platt"
+    ],
+    "score_field": "q_pred",
+    "transfer_rescored": "autoresearch/q-oracle-260629/gates/transfer/rescored_oracle_actions.tsv"
+  },
+  "mode": "fix",
+  "objective": "post-hoc Q calibration fixed-candidate ablation",
+  "out_dir": "autoresearch/q-calibration-260630",
+  "outputs": {
+    "actions": "autoresearch/q-calibration-260630/q_calibrated_actions.tsv",
+    "metrics": "autoresearch/q-calibration-260630/q_calibration_metrics.tsv",
+    "promotion": "autoresearch/q-calibration-260630/q_calibration_promotion.tsv",
+    "report": "autoresearch/q-calibration-260630/q_calibration_report.md",
+    "summary": "autoresearch/q-calibration-260630/q_calibration_summary.tsv"
+  },
+  "promoted": [],
+  "status": "completed"
+}

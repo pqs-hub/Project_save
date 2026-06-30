@@ -215,7 +215,7 @@ def main() -> None:
     parser.add_argument("--checkpoints", action="append", default=[], help="Comma-separated NAME=PATH checkpoint specs.")
     parser.add_argument("--checkpoint", action="append", default=[], help="Repeatable NAME=PATH checkpoint spec.")
     parser.add_argument("--bench-root", default=None)
-    parser.add_argument("--score-fields", default="reward_pred,guarded_reward,hard_reduction_total_pred,hybrid_pred")
+    parser.add_argument("--score-fields", default="q_pred,score_pred,reward_pred,guarded_reward,hard_reduction_total_pred,hybrid_pred")
     parser.add_argument("--top-ks", default="8,16,32")
     parser.add_argument("--oracle-top-m", type=int, default=5)
     parser.add_argument("--plan-device", default=None)

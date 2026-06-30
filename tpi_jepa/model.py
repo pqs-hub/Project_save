@@ -205,6 +205,7 @@ class TPIWorldModel(nn.Module):
         hard_head_type: str = "mlp",
         encoder_type: str = "mean",
         summary_mode: str = "global",
+        q_head_type: str = "summary",
     ):
         super().__init__()
         self.head_context = bool(head_context)
@@ -214,6 +215,7 @@ class TPIWorldModel(nn.Module):
         self.hard_head_type = str(hard_head_type or "mlp").lower()
         self.encoder_type = str(encoder_type or "mean").lower()
         self.summary_mode = str(summary_mode or "global").lower()
+        self.q_head_type = str(q_head_type or "summary").lower()
         self.online_encoder = NodeEncoder(
             feature_dim,
             latent_dim,
@@ -242,6 +244,13 @@ class TPIWorldModel(nn.Module):
             summary_dim += latent_dim * 3
         if self.head_context:
             summary_dim += latent_dim + self.relation_dim
+        self.q_head = nn.Sequential(nn.Linear(summary_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 1))
+        self.q_node_head = nn.Sequential(nn.Linear(latent_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 1))
+        self.q_type_head = nn.Sequential(
+            nn.Linear(summary_dim + action_type_dim, latent_dim),
+            nn.ReLU(),
+            nn.Linear(latent_dim, 1),
+        )
         self.reward_head = nn.Sequential(nn.Linear(summary_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 1))
         self.pattern_head = nn.Sequential(nn.Linear(summary_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 1))
         self.return_head = nn.Sequential(nn.Linear(summary_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 1))
@@ -344,6 +353,17 @@ class TPIWorldModel(nn.Module):
         else:
             z_pred = z_update
         summary = self._summary(z_pred, action_node_id, relation_features)
+        if self.q_head_type in {"factorized", "node_type", "node_type_factorized"}:
+            if not torch.is_tensor(action_type_id):
+                type_id = torch.tensor(action_type_id, dtype=torch.long, device=z_t.device)
+            else:
+                type_id = action_type_id.to(device=z_t.device, dtype=torch.long).view(())
+            type_z = self.action_encoder.type_emb(type_id)
+            q_node = self.q_node_head(z_t[action_node_id]).view(())
+            q_type = self.q_type_head(torch.cat([summary, type_z], dim=0)).view(())
+            q_pred = q_node + q_type
+        else:
+            q_pred = self.q_head(summary).view(())
         reward_pred = self.reward_head(summary).view(())
         pre_hard_logits = self._hard_logits(z_t, relation_features)
         post_hard_logits = self._hard_logits(z_pred, relation_features)
@@ -351,10 +371,11 @@ class TPIWorldModel(nn.Module):
         derived_post_counts = self._derived_hard_counts(post_hard_logits)
         out = {
             "z_pred": z_pred,
+            "q_pred": q_pred,
             "reward_pred": reward_pred,
             "fc_pred": reward_pred,
             "pattern_pred": self.pattern_head(summary).view(()),
-            "score_pred": reward_pred,
+            "score_pred": q_pred,
             "return_pred": self.return_head(summary).view(()),
             "hard_reduction_pred": self.hard_reduction_head(summary),
             "pre_hard_logits": pre_hard_logits,
@@ -445,10 +466,11 @@ def _main() -> None:
     )
     print(f"z_pred_shape={tuple(out['z_pred'].shape)}")
     print(f"z_t_shape={tuple(out['z_t'].shape)}")
+    print(f"q_scalar={out['q_pred'].ndim == 0}")
     print(f"scoap_pred_shape={tuple(out['scoap_pred'].shape)}")
     print(f"fc_scalar={out['fc_pred'].ndim == 0}")
     print(f"pattern_scalar={out['pattern_pred'].ndim == 0}")
-    print(f"score_scalar={out['score_pred'].ndim == 0}")
+    print(f"score_is_q={bool(torch.equal(out['score_pred'], out['q_pred']))}")
     print(f"return_scalar={out['return_pred'].ndim == 0}")
     print(f"hard_logits_shape={tuple(out['hard_logits'].shape)}")
     print(f"hard_count_shape={tuple(out['hard_count_pred'].shape)}")

@@ -1,0 +1,12 @@
+{
+  "mode": "plan",
+  "objective": "Converge current TPI-JEPA code toward a Q(s,a)-centric planner.",
+  "status": "completed",
+  "out_dir": "autoresearch/plan-260629-2333",
+  "outputs": {
+    "plan": "autoresearch/plan-260629-2333/plan.md",
+    "validated_config": "autoresearch/plan-260629-2333/validated_config.json"
+  },
+  "recommended_next_command": "$autoresearch fix autoresearch/plan-260629-2333/plan.md",
+  "key_decision": "Add q_head and q_pred first, train/evaluate it against fixed oracle gates, and only delete legacy heads after q_pred passes oracle transfer and 8-circuit real TC gates."
+}

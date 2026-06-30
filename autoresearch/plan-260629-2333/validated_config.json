@@ -1,0 +1,46 @@
+{
+  "mode": "plan",
+  "objective": "Converge current TPI-JEPA code toward a Q(s,a)-centric planner while preserving comparability to existing baselines.",
+  "scope": {
+    "phase_1": [
+      "Add q_head to TPIWorldModel.",
+      "Expose q_pred through predict_from_latent and planner rows.",
+      "Allow oracle ranking/value training to use q_pred.",
+      "Keep legacy heads for compatibility."
+    ],
+    "phase_2": [
+      "Run parallel Q oracle training sweep.",
+      "Evaluate expanded oracle val, transfer oracle, hard-fault gate, and 8-circuit planner gate."
+    ],
+    "excluded_initially": [
+      "Do not delete legacy heads in the first implementation.",
+      "Do not change default planner score until q_pred passes gates.",
+      "Do not remove SCOAP input features."
+    ]
+  },
+  "metrics": {
+    "primary": [
+      "expanded_val mean_spearman for q_pred",
+      "expanded_val negative_top1_rate for q_pred",
+      "transfer mean_spearman for q_pred",
+      "transfer negative_top1_rate for q_pred",
+      "transfer mean_top1_regret for q_pred",
+      "8-circuit real backend TC"
+    ],
+    "guardrails": [
+      "hard_macro_f1_tuned >= 0.765",
+      "checkpoint remains loadable with legacy evaluation scripts",
+      "planner CSV contains q_pred"
+    ]
+  },
+  "promotion_thresholds": {
+    "expanded_spearman_min": 0.425,
+    "expanded_negative_top1_max": 0.162,
+    "transfer_negative_top1_max": 0.167,
+    "transfer_regret_max": 0.0175,
+    "hard_macro_f1_tuned_min": 0.765,
+    "real_8_circuit_tc_delta_vs_incumbent_min": 0.0
+  },
+  "parallel_policy": "Run independent sweeps and gates in parallel across cuda:4,cuda:5,cuda:6,cuda:7 unless there is a dependency or shared-output collision.",
+  "recommended_next_command": "$autoresearch fix autoresearch/plan-260629-2333/plan.md"
+}

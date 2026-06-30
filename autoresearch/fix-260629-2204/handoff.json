@@ -1,0 +1,19 @@
+{
+  "mode": "fix",
+  "objective": "Train/evaluate Scheme A and Scheme B with oracle pairwise ranking loss using parallel sweep execution",
+  "status": "completed",
+  "out_dir": "autoresearch/fix-260629-2204",
+  "experiment_dir": "autoresearch/train-ab-oracle-rank-260629",
+  "outputs": {
+    "fix_report": "autoresearch/fix-260629-2204/fix_report.md",
+    "final_report": "autoresearch/train-ab-oracle-rank-260629/final_report.md",
+    "summary": "autoresearch/train-ab-oracle-rank-260629/ab_oracle_rank_summary.tsv",
+    "experiment_handoff": "autoresearch/train-ab-oracle-rank-260629/handoff.json"
+  },
+  "best_promoted": [
+    "B_oracle_0p05"
+  ],
+  "verdict": "PROMOTE_GUARDED_RERANK",
+  "parallel_policy": "For future independent sweeps, run variants in parallel across available GPUs/CPU unless there is a dependency, shared-output collision, or resource constraint.",
+  "next_step": "Run guarded planner rerank on the 8 evaluation circuits using B_oracle_0p05 derived_hard_reduction_hybrid_pred, while keeping incumbent candidate generation and safety filters."
+}

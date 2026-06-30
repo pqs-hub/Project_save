@@ -45,6 +45,8 @@ ACTION_TO_CANONICAL = {
 DEFAULT_ATALANTA = "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta"
 DEFAULT_TMAX = "/data3/pengqingsong/synopsys/txs/O-2018.06-SP1/bin/tmax"
 SCORE_FIELDS = [
+    "q_pred",
+    "score_pred",
     "reward_pred",
     "fc_pred",
     "guarded_reward",
@@ -74,7 +76,6 @@ ORACLE_FIELDS = [
     "oracle_error",
     "eval_dir",
     *SCORE_FIELDS,
-    "score_pred",
     "pattern_pred",
     "hard_reduction_sa0_pred",
     "hard_reduction_sa1_pred",

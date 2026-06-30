@@ -1,0 +1,26 @@
+{
+  "mode": "fix",
+  "objective": "Directly execute Q(s,a)-centric refactor and Q-only oracle training sweep.",
+  "status": "completed",
+  "out_dir": "autoresearch/fix-260630-0048",
+  "outputs": {
+    "fix_report": "autoresearch/fix-260630-0048/fix_report.md",
+    "q_report": "autoresearch/q-oracle-260629/final_report.md",
+    "q_summary": "autoresearch/q-oracle-260629/q_oracle_summary.tsv",
+    "q_handoff": "autoresearch/q-oracle-260629/handoff.json"
+  },
+  "code_changes": [
+    "Added q_head/q_pred to TPIWorldModel.",
+    "Made score_pred equal q_pred.",
+    "Added Q oracle value/ranking/candidate losses.",
+    "Made planner default score field q_pred.",
+    "Added q_pred to oracle action-value gates.",
+    "Added scripts/run_q_oracle_experiment.py."
+  ],
+  "promoted": [],
+  "best_candidates": [
+    "Q_v0_rank1p0",
+    "Q_v0_value1_rank1"
+  ],
+  "next_step": "Continue Q-only with candidate/listwise or top1 safety loss; do not return to legacy multi-head as the primary path."
+}

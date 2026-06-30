@@ -33,6 +33,7 @@ PLAN_FIELDNAMES = [
     "step",
     "node",
     "type",
+    "q_pred",
     "score_pred",
     "reward_pred",
     "fc_pred",
@@ -152,6 +153,7 @@ def load_checkpoint(path: str | Path, device: torch.device) -> tuple[TPIWorldMod
         hard_head_type=str(config.get("hard_head_type", "mlp")),
         encoder_type=str(config.get("encoder_type", "mean")),
         summary_mode=str(config.get("summary_mode", "global")),
+        q_head_type=str(config.get("q_head_type", "summary")),
     ).to(device)
     model.load_state_dict(ckpt["model_state"], strict=False)
     model.coverage_scale = float(config.get("coverage_scale", 100.0))
@@ -1013,6 +1015,7 @@ def score_candidate_from_latent(
         include_aux_heads=False,
     )
     coverage_scale = float(getattr(model, "coverage_scale", 100.0))
+    q_pred = float(out["q_pred"].detach().cpu().item())
     reward_pred = float(out["reward_pred"].detach().cpu().item())
     return_pred = float(out["return_pred"].detach().cpu().item())
     hard_reduction_pred = out["hard_reduction_pred"].detach().cpu().view(-1)
@@ -1061,6 +1064,7 @@ def score_candidate_from_latent(
     return {
         "node": node,
         "type": action_type,
+        "q_pred": q_pred,
         "score_pred": float(out["score_pred"].detach().cpu().item()),
         "reward_pred": reward_pred,
         "fc_pred": reward_pred / coverage_scale,
@@ -1102,7 +1106,7 @@ def greedy_plan(
     budget: int,
     device: torch.device,
     max_candidates: int | None = 8,
-    score_field: str = "reward_pred",
+    score_field: str = "q_pred",
     feature_mode: str = "basic",
     relation_mode: str = "basic",
     relation_depth: int = 8,
@@ -1259,7 +1263,7 @@ def beam_rollout_plan(
     max_candidates: int | None = 8,
     beam_width: int = 4,
     lookahead_depth: int = 3,
-    score_field: str = "reward_pred",
+    score_field: str = "q_pred",
     objective: str = "cumulative",
     discount_gamma: float = 1.0,
     feature_mode: str = "basic",
@@ -1360,7 +1364,7 @@ def beam_full_sequence_plan(
     device: torch.device,
     max_candidates: int | None = 8,
     beam_width: int = 4,
-    score_field: str = "reward_pred",
+    score_field: str = "q_pred",
     objective: str = "cumulative",
     discount_gamma: float = 1.0,
     feature_mode: str = "basic",
@@ -1477,6 +1481,7 @@ def main() -> None:
     parser.add_argument(
         "--score-field",
         choices=[
+            "q_pred",
             "reward_pred",
             "fc_pred",
             "score_pred",
@@ -1485,8 +1490,11 @@ def main() -> None:
             "guarded_reward",
             "hard_reduction_total_pred",
             "hybrid_pred",
+            "bounded_residual_hybrid_pred",
+            "derived_hard_reduction_total_pred",
+            "derived_hard_reduction_hybrid_pred",
         ],
-        default="reward_pred",
+        default="q_pred",
     )
     parser.add_argument(
         "--beam-objective",

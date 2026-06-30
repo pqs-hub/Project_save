@@ -1,1 +1,8 @@
 $ /data1/pengqingsong/tools/miniconda3/bin/python -m tpi_jepa.train --config autoresearch/train-ab-oracle-rank-260629/configs/B_oracle_0p01.json
+[train] disabling pattern loss
+[train] oracle_ranking enabled groups=180 score_field=derived_hard_reduction_hybrid_pred lambda_oracle_rank=0.01
+[train] rows=100000 train_rows=83760 val_rows=16240 train_samples=20000 val_samples=4096 rollout_training=False feature_dim=38 relation_dim=12 cache_samples=True sample_cache_max_entries=25000
+[train] epoch=1 horizon=1 train_loss=0.746101 val_loss=0.216314 train_steps=500
+[train] epoch=2 horizon=1 train_loss=0.590581 val_loss=0.241306 train_steps=500
+[train] epoch=3 horizon=1 train_loss=0.457631 val_loss=0.160738 train_steps=500
+[train] epoch=4 horizon=1 train_loss=0.459243 val_loss=0.249275 train_steps=500

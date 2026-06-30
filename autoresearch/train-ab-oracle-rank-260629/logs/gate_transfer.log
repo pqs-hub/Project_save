@@ -1,4 +1,4 @@
-$ /data1/pengqingsong/tools/miniconda3/bin/python scripts/evaluate_oracle_action_values.py --oracle-actions autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --checkpoints incumbent=autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt,A_no_oracle=autoresearch/ablate-scoap-version-a-260629-1806/runs/A_only_scoap/best.pt,B_no_oracle=autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap/best.pt,A_oracle_0p03=autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p03/best.pt,B_oracle_0p03=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03/best.pt --score-fields hard_reduction_total_pred,hybrid_pred,derived_hard_reduction_total_pred,derived_hard_reduction_hybrid_pred --top-ks 1,3,5 --oracle-top-m 1 --plan-device cuda:4 --out-dir autoresearch/train-ab-oracle-rank-260629/gates/transfer --baseline incumbent
+$ /data1/pengqingsong/tools/miniconda3/bin/python scripts/evaluate_oracle_action_values.py --oracle-actions autoresearch/oracle-action-probe-260629-smoke/oracle_actions.tsv --checkpoints incumbent=autoresearch/highseed-improvement-260626-run-posweight-30/runs/seed2030__lh0p5__lhc0p1__lhr0p5__lhrk0p0__lhb0p0__lhsf0p02__encmean__sumglobal__hlasl__agn2p0__ac0p05__hhresidual_context__pw30__ns5__nmtopk__tshard_weighted__fmtestability__ewfault_path__ek0p6__fc0p0/epoch_002.pt,A_no_oracle=autoresearch/ablate-scoap-version-a-260629-1806/runs/A_only_scoap/best.pt,B_no_oracle=autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap/best.pt,A_oracle_0p01=autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p01/best.pt,A_oracle_0p03=autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p03/best.pt,A_oracle_0p05=autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p05/best.pt,B_oracle_0p01=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p01/best.pt,B_oracle_0p03=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03/best.pt,B_oracle_0p05=autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p05/best.pt --score-fields hard_reduction_total_pred,hybrid_pred,derived_hard_reduction_total_pred,derived_hard_reduction_hybrid_pred --top-ks 1,3,5 --oracle-top-m 1 --plan-device cuda:4 --out-dir autoresearch/train-ab-oracle-rank-260629/gates/transfer --baseline incumbent
 {
   "baseline": "incumbent",
   "checkpoints": [
@@ -18,14 +18,34 @@ $ /data1/pengqingsong/tools/miniconda3/bin/python scripts/evaluate_oracle_action
       "path": "autoresearch/ablate-scoap-version-b-260629-1705/runs/B_only_delta_scoap/best.pt"
     },
     {
+      "checkpoint_id": "de734081b366c2fc",
+      "name": "A_oracle_0p01",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p01/best.pt"
+    },
+    {
       "checkpoint_id": "bb1b826289a281a1",
       "name": "A_oracle_0p03",
       "path": "autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p03/best.pt"
     },
     {
+      "checkpoint_id": "e00965fa64cd03a2",
+      "name": "A_oracle_0p05",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/A_oracle_0p05/best.pt"
+    },
+    {
+      "checkpoint_id": "61bd1dad0b8989b7",
+      "name": "B_oracle_0p01",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p01/best.pt"
+    },
+    {
       "checkpoint_id": "8690c26d5157df28",
       "name": "B_oracle_0p03",
       "path": "autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p03/best.pt"
+    },
+    {
+      "checkpoint_id": "3a1c901ee0d6b6e1",
+      "name": "B_oracle_0p05",
+      "path": "autoresearch/train-ab-oracle-rank-260629/runs/B_oracle_0p05/best.pt"
     }
   ],
   "mode": "fix",
@@ -39,16 +59,20 @@ $ /data1/pengqingsong/tools/miniconda3/bin/python scripts/evaluate_oracle_action
     "rescored_oracle_actions": "autoresearch/train-ab-oracle-rank-260629/gates/transfer/rescored_oracle_actions.tsv"
   },
   "records": {
-    "oracle_action_value_metrics": 120,
-    "oracle_action_value_summary": 20,
-    "rescored_oracle_actions": 1440
+    "oracle_action_value_metrics": 216,
+    "oracle_action_value_summary": 36,
+    "rescored_oracle_actions": 2592
   },
   "status": "progressed",
   "verdicts": {
     "A_no_oracle": "INCONCLUSIVE",
+    "A_oracle_0p01": "INCONCLUSIVE",
     "A_oracle_0p03": "INCONCLUSIVE",
+    "A_oracle_0p05": "INCONCLUSIVE",
     "B_no_oracle": "INCONCLUSIVE",
+    "B_oracle_0p01": "INCONCLUSIVE",
     "B_oracle_0p03": "INCONCLUSIVE",
+    "B_oracle_0p05": "INCONCLUSIVE",
     "incumbent": "INCONCLUSIVE"
   }
 }
