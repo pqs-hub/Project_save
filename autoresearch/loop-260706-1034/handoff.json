@@ -1,0 +1,61 @@
+{
+  "version": "2.1.0",
+  "source": "loop",
+  "timestamp": "2026-07-06T20:10:52+08:00",
+  "status": "BOUNDED",
+  "results_tsv": "autoresearch/loop-260706-1034/results.tsv",
+  "findings": [
+    {
+      "iteration": 1,
+      "status": "prepared",
+      "description": "Added top-heavy NDCG/listwise oracle ranking support and two safe configs.",
+      "guard": "pass",
+      "metric": "not_run"
+    },
+    {
+      "iteration": 2,
+      "status": "prepared",
+      "description": "Added CQL-style conservative q oracle loss and one safe config.",
+      "guard": "pass",
+      "metric": "not_run"
+    },
+    {
+      "iteration": 3,
+      "status": "prepared",
+      "description": "Added greedy ensemble lower-confidence-bound rerank support and q/reward LCB script variants.",
+      "guard": "pass",
+      "metric": "not_run"
+    },
+    {
+      "iteration": 4,
+      "status": "fixed",
+      "description": "Changed non-target dev default to protocol-safe subckt_0001 and added BENCH preflight.",
+      "guard": "pass",
+      "metric": "not_run"
+    },
+    {
+      "iteration": 5,
+      "status": "prepared",
+      "description": "Added candidate-context oracle loss, context planner score fields, q/reward context safe configs, and context script variants.",
+      "guard": "pass",
+      "metric": "not_run"
+    },
+    {
+      "iteration": 6,
+      "status": "fixed",
+      "description": "Changed oracle loading to skip forbidden benchmark rows such as subckt_0001 while keeping forbidden groups out of training.",
+      "guard": "pass",
+      "metric": "not_run"
+    }
+  ],
+  "config": {
+    "goal": "Improve world-model rerank using NDCG/listwise, conservative/uncertainty, candidate-context, or DAG-aware methods without using the 8 target circuits for training, calibration, or model selection.",
+    "scope": "tpi_jepa/train.py,tpi_jepa/model.py,tpi_jepa/plan.py,tpi_jepa/protocol.py,configs/planner_aligned_*safe*.json,scripts/*.py,autoresearch/improve-260706-0959/*.sh,autoresearch/improve-260706-0959/*.py",
+    "metric": "non_target_dev_best_delta_tc_pct",
+    "direction": "higher_is_better",
+    "verify": "run non-target dev rerank and print best delta TC %",
+    "iterations_requested": 20,
+    "iterations_completed": 6,
+    "verify_started": false
+  }
+}

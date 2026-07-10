@@ -1,0 +1,21 @@
+{
+  "version": "2.1.0",
+  "source": "reason",
+  "timestamp": "2026-07-06T09:54:00+08:00",
+  "status": "CONVERGED",
+  "results_tsv": "autoresearch/reason-260706-0954/reason-results.tsv",
+  "findings": [
+    {
+      "id": "conditional-two-track-interpretation",
+      "type": "recommendation",
+      "summary": "q_rank_v1 is the strict-budget macro winner, reward_rank_v1 is the safer all-positive rerank candidate, and old C_depth2 remains the reference baseline until planner-matched fixed-protocol tests isolate model vs planner effects."
+    }
+  ],
+  "config": {
+    "task": "Reason about strict old-budget 8-circuit world-model rerank results and decide what can be claimed.",
+    "domain": "research",
+    "mode": "convergent",
+    "judges": 3,
+    "convergence": 3
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "benchmark_id": "epfl__random_control__i2c__i2c",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__random_control__i2c__i2c",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 3051,
+    "effective_pattern_count": 297,
+    "fault_coverage": 0.94869,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 165
+    },
+    "hard_fault_count": 165,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.94869,
+    "total_faults": 3216,
+    "undetected_fault_count": 165,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 165,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/undetected_nodes.csv",
+    "undetected_output_fault_count": 165,
+    "undetected_sa0_count": 25,
+    "undetected_sa1_count": 140,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/D_depth3_small/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d3__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0005/inserted.bench",
+  "inserted_bench_sha256": "57dc3a19f0628663edd280f7d61608df838fd976d24b34353490514a20158f60",
+  "inserted_count": 5,
+  "insertion_sequence": [
+    {
+      "candidate_id": 428,
+      "net": "N578",
+      "score": 0.4394916594028473,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 351,
+      "net": "N493",
+      "score": 0.44989344477653503,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 357,
+      "net": "N500",
+      "score": 0.4542112648487091,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 2742,
+      "net": "N3005",
+      "score": 0.46377554535865784,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 358,
+      "net": "N501",
+      "score": 0.47027766704559326,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/i2c_aig.bench",
+  "source_bench_sha256": "5f6e7c11191e0d11b1961c9313419347e11027a9410f622917553fd60997b647",
+  "status": "ok"
+}

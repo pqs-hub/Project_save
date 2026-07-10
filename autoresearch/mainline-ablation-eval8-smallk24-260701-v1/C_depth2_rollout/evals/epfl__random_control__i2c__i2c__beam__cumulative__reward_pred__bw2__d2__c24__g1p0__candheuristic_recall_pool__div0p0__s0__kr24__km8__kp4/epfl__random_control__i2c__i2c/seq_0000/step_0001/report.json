@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "epfl__random_control__i2c__i2c",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__random_control__i2c__i2c",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 3035,
+    "effective_pattern_count": 291,
+    "fault_coverage": 0.94844,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 165
+    },
+    "hard_fault_count": 165,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.94844,
+    "total_faults": 3200,
+    "undetected_fault_count": 165,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 165,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 165,
+    "undetected_sa0_count": 20,
+    "undetected_sa1_count": 145,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-eval8-smallk24-260701-v1/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__random_control__i2c__i2c/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "5dab9bd499b3e0bc5f296c617faaa810c432059b45376d380355f1c4d93e9833",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 4142,
+      "net": "N578",
+      "score": 0.480362206697464,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/i2c_aig.bench",
+  "source_bench_sha256": "e783e4d0c147cb6145a684637239a1711fdf1bb2c62e37da7768a37a9b4724e7",
+  "status": "ok"
+}

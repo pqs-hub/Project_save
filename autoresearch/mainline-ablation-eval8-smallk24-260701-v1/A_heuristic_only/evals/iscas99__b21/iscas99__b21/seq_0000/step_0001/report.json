@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "iscas99__b21",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "iscas99__b21",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 43209,
+    "effective_pattern_count": 1596,
+    "fault_coverage": 0.8969400000000001,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 4965
+    },
+    "hard_fault_count": 4965,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.8969400000000001,
+    "total_faults": 48174,
+    "undetected_fault_count": 4965,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 4726,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 4965,
+    "undetected_sa0_count": 296,
+    "undetected_sa1_count": 4669,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/iscas99__b21/iscas99__b21/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "22bd11176058f63e721d38a499a67f2e2cfe4f22388c18ff84b02a89e6fd160a",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 84939,
+      "net": "__buf_split_23513",
+      "score": null,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b21_C.bench",
+  "source_bench_sha256": "83d39e42114f11810e00fa09b7823348be8028b75420b99027d79373962cd00c",
+  "status": "ok"
+}

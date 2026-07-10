@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1795, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1723, in main
+    rows = beam_rollout_plan(
+        model,
+    ...<19 lines>...
+        k_plan,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1431, in beam_rollout_plan
+    z_state = model.online_encoder(x_state, edge_src, edge_dst, gate_type_ids)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py", line 89, in forward
+    h = torch.relu(self.input(x))
+                   ~~~~~~~~~~^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (125962x44 and 38x64)

@@ -1,0 +1,126 @@
+ResearchClaw output: /data4/pengqingsong/DFT/TPI-my.3/autoresearch/paper-q-lcb-current-best-260707-215438
+ResearchClaw session: researchclaw-tpi-paper-260707-215438
+ResearchClaw config: /tmp/researchclaw-tpi-paper-260707-215438.yaml
+Stage TOPIC_INIT failed
+Traceback (most recent call last):
+  File "/data4/pengqingsong/DFT/AutoResearchClaw/researchclaw/pipeline/executor.py", line 663, in execute_stage
+    result = executor(
+        stage_dir, run_dir, config, adapters, llm=llm, prompts=prompts
+    )
+  File "/data4/pengqingsong/DFT/AutoResearchClaw/researchclaw/pipeline/stage_impls/_topic.py", line 52, in _execute_topic_init
+    resp = llm.chat(
+        [{"role": "user", "content": sp.user}],
+        system=sp.system,
+    )
+  File "/data4/pengqingsong/DFT/AutoResearchClaw/researchclaw/llm/acp_client.py", line 125, in chat
+    content = self._send_prompt(prompt_text)
+  File "/data4/pengqingsong/DFT/AutoResearchClaw/researchclaw/llm/acp_client.py", line 345, in _send_prompt
+    return self._send_prompt_via_file(acpx, prompt)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/data4/pengqingsong/DFT/AutoResearchClaw/researchclaw/llm/acp_client.py", line 516, in _send_prompt_via_file
+    raise RuntimeError(
+        f"ACP prompt failed (exit {result.returncode}): {stderr}"
+    )
+RuntimeError: ACP prompt failed (exit 1): file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1374
+	if (!Array.isArray(value)) throw new Error(`Invalid ${fieldPath}: expected array`);
+	                                 ^
+
+Error: Invalid mcpServers in /data4/pengqingsong/DFT/codex-home-researchclaw/empty-mcp.json: expected array
+    at parseMcpServers (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1374:35)
+    at resolveMcpServers (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1604:28)
+    at loadResolvedConfig (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1547:21)
+    at async main (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:2614:17)
+
+Node.js v24.18.0
+ResearchClaw v0.5.0 — Starting pipeline
+  Run ID:  rc-20260707-135438-fd6b8b
+  Topic:   Write a full research paper about the current best method in my TPI project.
+
+Project and artifact locations:
+
+- TPI project root: `/data4/pengqingsong/DFT/TPI-my.3`
+- Current best record: `/data4/pengqingsong/DFT/TPI-my.3/autoresearch/improve-260706-0959/current_best.md`
+- Machine-readable current best record: `/data4/pengqingsong/DFT/TPI-my.3/autoresearch/improve-260706-0959/current_best.json`
+- Final 8-circuit comparison table: `/data4/pengqingsong/DFT/TPI-my.3/autoresearch/improve-260706-0959/eval8_final_heldout_oldbudget/comparison_final_tc_vs_deeptpi.tsv`
+- Raw 8-circuit summary: `/data4/pengqingsong/DFT/TPI-my.3/autoresearch/improve-260706-0959/eval8_final_heldout_oldbudget/summary.tsv`
+- Evaluation protocol: `/data4/pengqingsong/DFT/TPI-my.3/configs/eval_protocol_coverage_only.json`
+- Main implementation files to inspect if needed:
+  - `/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py`
+  - `/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/train.py`
+  - `/data4/pengqingsong/DFT/TPI-my.3/scripts/run_gmean_sweep.py`
+  - `/data4/pengqingsong/DFT/TPI-my.3/autoresearch/improve-260706-0959/run_eval8_final_heldout_parallel.sh`
+
+Paper topic:
+
+World-model-based test point insertion for digital circuits. The current best method is `q_lcb_ensemble_safe`: a Q-value reranking planner with a three-checkpoint ensemble and lower-confidence-bound scoring. The method reranks candidate test points during insertion using:
+
+- greedy cumulative planning,
+- Q-value prediction as the action value,
+- an ensemble of three Q-rank world-model checkpoints,
+- LCB score = ensemble mean minus 0.75 times ensemble standard deviation,
+- 96 candidates per insertion step from `heuristic_recall_pool`,
+- strict DeepTPI Table-II #TP budgets on 8 circuits.
+
+Important evaluation rule:
+
+- Final TC must be computed as measured local baseline TC + model delta TC.
+- DeepTPI Table-II final TC is the external comparison target.
+- Do not use `DeepTPI final TC - old delta + model delta` as the model final TC.
+- The 8 target circuits must not be described as training data. They are final evaluation circuits.
+- In this project, using the 8 circuits for evaluation and result comparison is allowed, but not for training.
+
+Current best aggregate result:
+
+- Method: `q_lcb_ensemble_safe`
+- Macro final TC: 90.357%
+- Minimum final TC: 74.852%
+- Beats DeepTPI: 8/8 circuits
+- Worst gap versus DeepTPI: +0.046 percentage points
+
+Current best per-circuit results:
+
+| ID | Circuit | Budget | Local Baseline TC | q_lcb Final TC | DeepTPI TC | Gap |
+|---|---:|---:|---:|---:|---:|---:|
+| D1 | b15_C | 278 | 81.764 | 90.656 | 90.610 | +0.046 |
+| D2 | b20_C | 616 | 90.757 | 97.087 | 90.600 | +6.487 |
+| D3 | b21_C | 628 | 89.682 | 96.379 | 89.730 | +6.649 |
+| D4 | b22_C | 915 | 92.130 | 97.187 | 91.700 | +5.487 |
+| D5 | i2c | 34 | 94.900 | 96.907 | 86.110 | +10.797 |
+| D6 | max | 94 | 59.796 | 79.916 | 52.650 | +27.266 |
+| D7 | b17_C | 994 | 85.623 | 89.869 | 86.840 | +3.029 |
+| D8 | mem_ctrl | 1273 | 65.823 | 74.852 | 69.950 | +4.902 |
+
+Required paper framing:
+
+- Present the problem as test point insertion for improving stuck-at fault test coverage.
+- Position DeepTPI as the main baseline.
+- Explain why simple single-model reranking can be unstable and why uncertainty-aware ensemble scoring helps.
+- Emphasize that the proposed method is a planning-time reranker over candidate test points, not a different ATPG backend.
+- Include method details, training/evaluation protocol, and ablations/variants from the project when useful.
+- Use final TC tables as the primary result tables, not only delta TC.
+- Include enough implementation detail to be reproducible: budget, candidates, planner, score field, ensemble checkpoints, LCB alpha, patterns, seed, backend, and paths.
+- Do not fabricate results. If a value is not present in the listed files, mark it as not reported.
+- If additional analysis code is generated, it must only parse the existing TSV/JSON/CSV artifacts. Do not rerun expensive TPI planning/evaluation and do not retrain models.
+
+Suggested title:
+
+Uncertainty-Aware World-Model Reranking for Test Point Insertion
+  Output:  /data4/pengqingsong/DFT/TPI-my.3/autoresearch/paper-q-lcb-current-best-260707-215438
+  Mode:    full-auto
+  From:    Stage 1: TOPIC_INIT
+
+[rc-20260707-135438-fd6b8b] Stage 01/23 TOPIC_INIT — running...
+[rc-20260707-135438-fd6b8b] Stage 01/23 TOPIC_INIT — FAILED (12.4s) — ACP prompt failed (exit 1): file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1374
+	if (!Array.isArray(value)) throw new Error(`Invalid ${fieldPath}: expected array`);
+	                                 ^
+
+Error: Invalid mcpServers in /data4/pengqingsong/DFT/codex-home-researchclaw/empty-mcp.json: expected array
+    at parseMcpServers (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1374:35)
+    at resolveMcpServers (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1604:28)
+    at loadResolvedConfig (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:1547:21)
+    at async main (file:///home/pengqingsong/.nvm/versions/node/v24.18.0/lib/node_modules/acpx/dist/cli.js:2614:17)
+
+Node.js v24.18.0
+[rc-20260707-135438-fd6b8b] Deliverables packaged → /data4/pengqingsong/DFT/TPI-my.3/autoresearch/paper-q-lcb-current-best-260707-215438/deliverables
+
+Pipeline complete: 0/1 stages done, 1 failed
