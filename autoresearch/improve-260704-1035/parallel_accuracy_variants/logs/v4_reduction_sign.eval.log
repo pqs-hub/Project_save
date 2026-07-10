@@ -1,0 +1,719 @@
+[v4_reduction_sign gpu7] [2026-07-04T11:26:25+08:00] v4_reduction_sign gpu=7 config=configs/mainline_accuracy_improve_v4_reduction_sign.json
+[v4_reduction_sign gpu7] [train] disabling pattern loss
+[v4_reduction_sign gpu7] [train] note: delta_test_coverage is retained as a weak objective; the main hard-fault target is hard_reduction
+[v4_reduction_sign gpu7] [train] rows=100000 train_rows=85510 val_rows=14490 train_samples=24000 val_samples=4096 rollout_training=True feature_dim=38 relation_dim=12 cache_samples=False sample_cache_max_entries=unlimited
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [------------------------] 1/1000   0.1% loss=0.33991 jepa=0.97804 hard=0.76773 hard_red=0.04276
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [------------------------] 25/1000   2.5% loss=1.49144 jepa=0.88288 hard=0.67796 hard_red=0.03868
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#-----------------------] 50/1000   5.0% loss=1.19970 jepa=0.76900 hard=0.69603 hard_red=0.03590
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#-----------------------] 75/1000   7.5% loss=1.08323 jepa=0.61754 hard=0.69725 hard_red=0.03613
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##----------------------] 100/1000  10.0% loss=0.98439 jepa=0.54836 hard=0.69394 hard_red=0.03465
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###---------------------] 125/1000  12.5% loss=0.92905 jepa=0.47011 hard=0.68873 hard_red=0.03140
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###---------------------] 150/1000  15.0% loss=0.89831 jepa=0.41023 hard=0.68622 hard_red=0.03103
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [####--------------------] 175/1000  17.5% loss=0.89943 jepa=0.36440 hard=0.68927 hard_red=0.03204
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [####--------------------] 200/1000  20.0% loss=0.88115 jepa=0.32889 hard=0.68468 hard_red=0.03223
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#####-------------------] 225/1000  22.5% loss=0.85292 jepa=0.30363 hard=0.68488 hard_red=0.03134
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [######------------------] 250/1000  25.0% loss=0.88820 jepa=0.28369 hard=0.68400 hard_red=0.03227
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [######------------------] 275/1000  27.5% loss=0.85841 jepa=0.26802 hard=0.68471 hard_red=0.03197
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#######-----------------] 300/1000  30.0% loss=0.97089 jepa=0.25263 hard=0.68538 hard_red=0.03192
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#######-----------------] 325/1000  32.5% loss=0.97510 jepa=0.23954 hard=0.68576 hard_red=0.03149
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [########----------------] 350/1000  35.0% loss=0.95648 jepa=0.22892 hard=0.68394 hard_red=0.03176
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#########---------------] 375/1000  37.5% loss=0.99315 jepa=0.21915 hard=0.68395 hard_red=0.03261
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#########---------------] 400/1000  40.0% loss=0.99759 jepa=0.21204 hard=0.68438 hard_red=0.03234
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##########--------------] 425/1000  42.5% loss=0.98713 jepa=0.20460 hard=0.68237 hard_red=0.03219
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##########--------------] 450/1000  45.0% loss=0.97120 jepa=0.19895 hard=0.68449 hard_red=0.03278
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###########-------------] 475/1000  47.5% loss=0.97518 jepa=0.19335 hard=0.68526 hard_red=0.03346
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [############------------] 500/1000  50.0% loss=0.96070 jepa=0.18836 hard=0.68558 hard_red=0.03279
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [############------------] 525/1000  52.5% loss=0.96148 jepa=0.18530 hard=0.68567 hard_red=0.03278
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#############-----------] 550/1000  55.0% loss=0.99146 jepa=0.18265 hard=0.68535 hard_red=0.03322
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#############-----------] 575/1000  57.5% loss=1.00165 jepa=0.18068 hard=0.68326 hard_red=0.03295
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##############----------] 600/1000  60.0% loss=0.98169 jepa=0.17736 hard=0.68133 hard_red=0.03257
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###############---------] 625/1000  62.5% loss=0.97209 jepa=0.17336 hard=0.67833 hard_red=0.03179
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###############---------] 650/1000  65.0% loss=0.96236 jepa=0.16950 hard=0.67840 hard_red=0.03160
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [################--------] 675/1000  67.5% loss=0.96399 jepa=0.16603 hard=0.67874 hard_red=0.03216
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [################--------] 700/1000  70.0% loss=0.95916 jepa=0.16284 hard=0.67853 hard_red=0.03187
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#################-------] 725/1000  72.5% loss=0.96663 jepa=0.15986 hard=0.67694 hard_red=0.03170
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##################------] 750/1000  75.0% loss=0.98320 jepa=0.15765 hard=0.67651 hard_red=0.03135
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [##################------] 775/1000  77.5% loss=0.98573 jepa=0.15680 hard=0.67494 hard_red=0.03134
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###################-----] 800/1000  80.0% loss=0.98209 jepa=0.15484 hard=0.67535 hard_red=0.03116
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [###################-----] 825/1000  82.5% loss=0.96295 jepa=0.15290 hard=0.67453 hard_red=0.03095
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [####################----] 850/1000  85.0% loss=0.95217 jepa=0.15088 hard=0.67467 hard_red=0.03066
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#####################---] 875/1000  87.5% loss=0.95664 jepa=0.14902 hard=0.67359 hard_red=0.03127
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#####################---] 900/1000  90.0% loss=0.96036 jepa=0.14698 hard=0.67263 hard_red=0.03114
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [######################--] 925/1000  92.5% loss=0.95765 jepa=0.14516 hard=0.67218 hard_red=0.03109
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [######################--] 950/1000  95.0% loss=0.95902 jepa=0.14332 hard=0.67158 hard_red=0.03095
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [#######################-] 975/1000  97.5% loss=0.94821 jepa=0.14181 hard=0.67248 hard_red=0.03085
+[v4_reduction_sign gpu7] [train-progress] epoch=1 [########################] 1000/1000 100.0% loss=0.94599 jepa=0.14068 hard=0.67165 hard_red=0.03074
+[v4_reduction_sign gpu7] [train] epoch=1 horizon=2 train_loss=0.945986 val_loss=0.157186 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [------------------------] 1/1000   0.1% loss=0.11581 jepa=0.10131 hard=0.76673 hard_red=0.00288
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [------------------------] 25/1000   2.5% loss=1.09244 jepa=0.08525 hard=0.61247 hard_red=0.02125
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#-----------------------] 50/1000   5.0% loss=0.93337 jepa=0.08564 hard=0.63113 hard_red=0.01618
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#-----------------------] 75/1000   7.5% loss=1.02833 jepa=0.09441 hard=0.60969 hard_red=0.01754
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##----------------------] 100/1000  10.0% loss=0.92991 jepa=0.10300 hard=0.61447 hard_red=0.01998
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###---------------------] 125/1000  12.5% loss=1.04147 jepa=0.10125 hard=0.62001 hard_red=0.02394
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###---------------------] 150/1000  15.0% loss=1.07357 jepa=0.10355 hard=0.60824 hard_red=0.02581
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [####--------------------] 175/1000  17.5% loss=1.08045 jepa=0.11090 hard=0.61434 hard_red=0.02557
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [####--------------------] 200/1000  20.0% loss=1.07208 jepa=0.11264 hard=0.60852 hard_red=0.02720
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#####-------------------] 225/1000  22.5% loss=1.02533 jepa=0.11267 hard=0.60686 hard_red=0.02739
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [######------------------] 250/1000  25.0% loss=1.02575 jepa=0.11350 hard=0.60862 hard_red=0.02617
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [######------------------] 275/1000  27.5% loss=0.99201 jepa=0.11588 hard=0.60895 hard_red=0.02627
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#######-----------------] 300/1000  30.0% loss=0.97616 jepa=0.11872 hard=0.60988 hard_red=0.02699
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#######-----------------] 325/1000  32.5% loss=0.96235 jepa=0.11998 hard=0.61241 hard_red=0.02602
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [########----------------] 350/1000  35.0% loss=0.97314 jepa=0.12074 hard=0.61371 hard_red=0.02703
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#########---------------] 375/1000  37.5% loss=0.96969 jepa=0.12211 hard=0.61290 hard_red=0.02797
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#########---------------] 400/1000  40.0% loss=0.95296 jepa=0.12426 hard=0.61067 hard_red=0.02787
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##########--------------] 425/1000  42.5% loss=0.95725 jepa=0.12520 hard=0.60945 hard_red=0.02733
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##########--------------] 450/1000  45.0% loss=0.92997 jepa=0.12782 hard=0.60649 hard_red=0.02677
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###########-------------] 475/1000  47.5% loss=0.92993 jepa=0.12927 hard=0.60496 hard_red=0.02630
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [############------------] 500/1000  50.0% loss=0.93387 jepa=0.13013 hard=0.60378 hard_red=0.02625
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [############------------] 525/1000  52.5% loss=0.99483 jepa=0.13322 hard=0.60334 hard_red=0.02650
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#############-----------] 550/1000  55.0% loss=0.98367 jepa=0.13486 hard=0.60262 hard_red=0.02638
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#############-----------] 575/1000  57.5% loss=0.99578 jepa=0.13665 hard=0.60094 hard_red=0.02605
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##############----------] 600/1000  60.0% loss=0.99212 jepa=0.13773 hard=0.60054 hard_red=0.02588
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###############---------] 625/1000  62.5% loss=1.00082 jepa=0.13997 hard=0.59809 hard_red=0.02613
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###############---------] 650/1000  65.0% loss=0.99681 jepa=0.14256 hard=0.60120 hard_red=0.02552
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [################--------] 675/1000  67.5% loss=1.00228 jepa=0.14366 hard=0.59936 hard_red=0.02552
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [################--------] 700/1000  70.0% loss=1.00852 jepa=0.14431 hard=0.59700 hard_red=0.02530
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#################-------] 725/1000  72.5% loss=0.99714 jepa=0.14526 hard=0.59682 hard_red=0.02586
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##################------] 750/1000  75.0% loss=0.98177 jepa=0.14609 hard=0.59307 hard_red=0.02559
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [##################------] 775/1000  77.5% loss=0.99900 jepa=0.14847 hard=0.59487 hard_red=0.02572
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###################-----] 800/1000  80.0% loss=0.99118 jepa=0.15184 hard=0.59310 hard_red=0.02608
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [###################-----] 825/1000  82.5% loss=0.98658 jepa=0.15720 hard=0.58906 hard_red=0.02626
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [####################----] 850/1000  85.0% loss=1.01200 jepa=0.16255 hard=0.59003 hard_red=0.02643
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#####################---] 875/1000  87.5% loss=1.01133 jepa=0.16419 hard=0.58680 hard_red=0.02639
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#####################---] 900/1000  90.0% loss=1.00598 jepa=0.16683 hard=0.58668 hard_red=0.02619
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [######################--] 925/1000  92.5% loss=1.00089 jepa=0.16842 hard=0.58558 hard_red=0.02654
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [######################--] 950/1000  95.0% loss=0.99022 jepa=0.16918 hard=0.58636 hard_red=0.02676
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [#######################-] 975/1000  97.5% loss=0.98831 jepa=0.17109 hard=0.58453 hard_red=0.02651
+[v4_reduction_sign gpu7] [train-progress] epoch=2 [########################] 1000/1000 100.0% loss=1.00478 jepa=0.17192 hard=0.58182 hard_red=0.02658
+[v4_reduction_sign gpu7] [train] epoch=2 horizon=2 train_loss=1.004781 val_loss=0.168105 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [------------------------] 1/1000   0.1% loss=1.07468 jepa=0.14767 hard=0.22797 hard_red=0.00182
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [------------------------] 25/1000   2.5% loss=0.53260 jepa=0.19434 hard=0.49404 hard_red=0.02353
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#-----------------------] 50/1000   5.0% loss=0.83520 jepa=0.24595 hard=0.51512 hard_red=0.01881
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#-----------------------] 75/1000   7.5% loss=0.89064 jepa=0.23325 hard=0.52883 hard_red=0.02123
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##----------------------] 100/1000  10.0% loss=0.89466 jepa=0.23295 hard=0.53877 hard_red=0.02515
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###---------------------] 125/1000  12.5% loss=0.86512 jepa=0.23084 hard=0.54034 hard_red=0.02603
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###---------------------] 150/1000  15.0% loss=0.89309 jepa=0.22512 hard=0.54321 hard_red=0.02786
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [####--------------------] 175/1000  17.5% loss=0.90351 jepa=0.22694 hard=0.54850 hard_red=0.02645
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [####--------------------] 200/1000  20.0% loss=0.87160 jepa=0.24946 hard=0.54736 hard_red=0.02508
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#####-------------------] 225/1000  22.5% loss=0.84700 jepa=0.24819 hard=0.54572 hard_red=0.02477
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [######------------------] 250/1000  25.0% loss=0.88185 jepa=0.27275 hard=0.54493 hard_red=0.02521
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [######------------------] 275/1000  27.5% loss=0.88362 jepa=0.26823 hard=0.54381 hard_red=0.02460
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#######-----------------] 300/1000  30.0% loss=0.90738 jepa=0.26580 hard=0.53556 hard_red=0.02392
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#######-----------------] 325/1000  32.5% loss=0.90253 jepa=0.25915 hard=0.53300 hard_red=0.02380
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [########----------------] 350/1000  35.0% loss=0.93814 jepa=0.25633 hard=0.53528 hard_red=0.02412
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#########---------------] 375/1000  37.5% loss=0.94997 jepa=0.25582 hard=0.53482 hard_red=0.02395
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#########---------------] 400/1000  40.0% loss=0.92237 jepa=0.25211 hard=0.53517 hard_red=0.02430
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##########--------------] 425/1000  42.5% loss=0.93371 jepa=0.24919 hard=0.53351 hard_red=0.02401
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##########--------------] 450/1000  45.0% loss=0.92838 jepa=0.24578 hard=0.53447 hard_red=0.02431
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###########-------------] 475/1000  47.5% loss=0.92452 jepa=0.24394 hard=0.53421 hard_red=0.02418
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [############------------] 500/1000  50.0% loss=0.91099 jepa=0.24045 hard=0.53271 hard_red=0.02433
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [############------------] 525/1000  52.5% loss=0.90608 jepa=0.23700 hard=0.53583 hard_red=0.02469
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#############-----------] 550/1000  55.0% loss=0.92644 jepa=0.23591 hard=0.53271 hard_red=0.02476
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#############-----------] 575/1000  57.5% loss=0.91102 jepa=0.23396 hard=0.52951 hard_red=0.02486
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##############----------] 600/1000  60.0% loss=0.89614 jepa=0.23257 hard=0.52889 hard_red=0.02459
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###############---------] 625/1000  62.5% loss=0.88697 jepa=0.23145 hard=0.52675 hard_red=0.02475
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###############---------] 650/1000  65.0% loss=0.89149 jepa=0.22885 hard=0.52504 hard_red=0.02515
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [################--------] 675/1000  67.5% loss=0.90445 jepa=0.22727 hard=0.52535 hard_red=0.02545
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [################--------] 700/1000  70.0% loss=0.89956 jepa=0.22670 hard=0.52506 hard_red=0.02525
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#################-------] 725/1000  72.5% loss=0.89488 jepa=0.22642 hard=0.52192 hard_red=0.02594
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##################------] 750/1000  75.0% loss=0.90640 jepa=0.22502 hard=0.52307 hard_red=0.02623
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [##################------] 775/1000  77.5% loss=0.89811 jepa=0.22378 hard=0.52041 hard_red=0.02607
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###################-----] 800/1000  80.0% loss=0.87893 jepa=0.22181 hard=0.51900 hard_red=0.02630
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [###################-----] 825/1000  82.5% loss=0.86524 jepa=0.21959 hard=0.51753 hard_red=0.02612
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [####################----] 850/1000  85.0% loss=0.86556 jepa=0.22188 hard=0.51521 hard_red=0.02581
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#####################---] 875/1000  87.5% loss=0.86418 jepa=0.22054 hard=0.51465 hard_red=0.02574
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#####################---] 900/1000  90.0% loss=0.86190 jepa=0.22000 hard=0.51922 hard_red=0.02537
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [######################--] 925/1000  92.5% loss=0.85949 jepa=0.21953 hard=0.51795 hard_red=0.02509
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [######################--] 950/1000  95.0% loss=0.85162 jepa=0.21826 hard=0.52004 hard_red=0.02495
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [#######################-] 975/1000  97.5% loss=0.85553 jepa=0.21828 hard=0.51925 hard_red=0.02485
+[v4_reduction_sign gpu7] [train-progress] epoch=3 [########################] 1000/1000 100.0% loss=0.85488 jepa=0.21830 hard=0.51697 hard_red=0.02450
+[v4_reduction_sign gpu7] [train] epoch=3 horizon=2 train_loss=0.854881 val_loss=0.151507 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [------------------------] 1/1000   0.1% loss=0.54785 jepa=0.12531 hard=0.39993 hard_red=0.00041
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [------------------------] 25/1000   2.5% loss=0.34643 jepa=0.15055 hard=0.51946 hard_red=0.01768
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#-----------------------] 50/1000   5.0% loss=0.53115 jepa=0.17157 hard=0.51587 hard_red=0.02178
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#-----------------------] 75/1000   7.5% loss=0.75387 jepa=0.18505 hard=0.50357 hard_red=0.02468
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##----------------------] 100/1000  10.0% loss=0.84001 jepa=0.18356 hard=0.50871 hard_red=0.02739
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###---------------------] 125/1000  12.5% loss=0.86685 jepa=0.18572 hard=0.48851 hard_red=0.02729
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###---------------------] 150/1000  15.0% loss=0.88681 jepa=0.18671 hard=0.48616 hard_red=0.02769
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [####--------------------] 175/1000  17.5% loss=0.87352 jepa=0.19047 hard=0.48052 hard_red=0.02799
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [####--------------------] 200/1000  20.0% loss=0.90982 jepa=0.19621 hard=0.49253 hard_red=0.02736
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#####-------------------] 225/1000  22.5% loss=0.97439 jepa=0.19725 hard=0.50238 hard_red=0.02829
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [######------------------] 250/1000  25.0% loss=0.91898 jepa=0.20471 hard=0.50917 hard_red=0.02872
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [######------------------] 275/1000  27.5% loss=0.90856 jepa=0.21049 hard=0.51087 hard_red=0.02791
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#######-----------------] 300/1000  30.0% loss=0.88813 jepa=0.20655 hard=0.50533 hard_red=0.02673
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#######-----------------] 325/1000  32.5% loss=0.91915 jepa=0.20547 hard=0.50076 hard_red=0.02650
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [########----------------] 350/1000  35.0% loss=0.92679 jepa=0.20474 hard=0.50204 hard_red=0.02615
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#########---------------] 375/1000  37.5% loss=0.93535 jepa=0.20432 hard=0.50182 hard_red=0.02537
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#########---------------] 400/1000  40.0% loss=0.94677 jepa=0.20382 hard=0.50042 hard_red=0.02482
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##########--------------] 425/1000  42.5% loss=0.92761 jepa=0.20348 hard=0.49902 hard_red=0.02549
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##########--------------] 450/1000  45.0% loss=0.92006 jepa=0.20447 hard=0.49795 hard_red=0.02579
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###########-------------] 475/1000  47.5% loss=0.93609 jepa=0.21313 hard=0.49838 hard_red=0.02541
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [############------------] 500/1000  50.0% loss=0.93375 jepa=0.21297 hard=0.49479 hard_red=0.02538
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [############------------] 525/1000  52.5% loss=0.92354 jepa=0.21269 hard=0.49373 hard_red=0.02552
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#############-----------] 550/1000  55.0% loss=0.90764 jepa=0.21276 hard=0.49167 hard_red=0.02522
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#############-----------] 575/1000  57.5% loss=0.92399 jepa=0.21402 hard=0.49189 hard_red=0.02572
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##############----------] 600/1000  60.0% loss=0.91615 jepa=0.21410 hard=0.49328 hard_red=0.02541
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###############---------] 625/1000  62.5% loss=0.91849 jepa=0.21283 hard=0.49478 hard_red=0.02538
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###############---------] 650/1000  65.0% loss=0.94793 jepa=0.21449 hard=0.49339 hard_red=0.02535
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [################--------] 675/1000  67.5% loss=0.93425 jepa=0.21453 hard=0.49344 hard_red=0.02543
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [################--------] 700/1000  70.0% loss=0.93480 jepa=0.21534 hard=0.49084 hard_red=0.02482
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#################-------] 725/1000  72.5% loss=0.92357 jepa=0.21801 hard=0.48918 hard_red=0.02448
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##################------] 750/1000  75.0% loss=0.92887 jepa=0.21794 hard=0.48837 hard_red=0.02457
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [##################------] 775/1000  77.5% loss=0.92215 jepa=0.21741 hard=0.48605 hard_red=0.02470
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###################-----] 800/1000  80.0% loss=0.90574 jepa=0.21705 hard=0.48501 hard_red=0.02460
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [###################-----] 825/1000  82.5% loss=0.91485 jepa=0.21699 hard=0.48350 hard_red=0.02453
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [####################----] 850/1000  85.0% loss=0.91357 jepa=0.21735 hard=0.48228 hard_red=0.02441
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#####################---] 875/1000  87.5% loss=0.90479 jepa=0.21869 hard=0.48140 hard_red=0.02434
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#####################---] 900/1000  90.0% loss=0.90405 jepa=0.22111 hard=0.48049 hard_red=0.02484
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [######################--] 925/1000  92.5% loss=0.90027 jepa=0.22168 hard=0.47901 hard_red=0.02482
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [######################--] 950/1000  95.0% loss=0.89981 jepa=0.22233 hard=0.47827 hard_red=0.02463
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [#######################-] 975/1000  97.5% loss=0.91115 jepa=0.22457 hard=0.47797 hard_red=0.02495
+[v4_reduction_sign gpu7] [train-progress] epoch=4 [########################] 1000/1000 100.0% loss=0.91450 jepa=0.22560 hard=0.47827 hard_red=0.02537
+[v4_reduction_sign gpu7] [train] epoch=4 horizon=2 train_loss=0.914503 val_loss=0.160810 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [------------------------] 1/1000   0.1% loss=0.19380 jepa=0.14152 hard=0.24503 hard_red=0.06505
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [------------------------] 25/1000   2.5% loss=0.68967 jepa=0.24836 hard=0.37811 hard_red=0.02289
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#-----------------------] 50/1000   5.0% loss=0.52101 jepa=0.21769 hard=0.38344 hard_red=0.02026
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#-----------------------] 75/1000   7.5% loss=0.60703 jepa=0.20857 hard=0.42055 hard_red=0.02079
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##----------------------] 100/1000  10.0% loss=0.70085 jepa=0.20662 hard=0.42757 hard_red=0.02183
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###---------------------] 125/1000  12.5% loss=0.96692 jepa=0.22491 hard=0.45881 hard_red=0.02337
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###---------------------] 150/1000  15.0% loss=0.89922 jepa=0.25051 hard=0.46657 hard_red=0.02470
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [####--------------------] 175/1000  17.5% loss=0.87251 jepa=0.24662 hard=0.46930 hard_red=0.02640
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [####--------------------] 200/1000  20.0% loss=0.83861 jepa=0.24191 hard=0.47890 hard_red=0.02664
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#####-------------------] 225/1000  22.5% loss=0.82380 jepa=0.23602 hard=0.47694 hard_red=0.02706
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [######------------------] 250/1000  25.0% loss=0.82178 jepa=0.23344 hard=0.47084 hard_red=0.02877
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [######------------------] 275/1000  27.5% loss=0.88066 jepa=0.23647 hard=0.46571 hard_red=0.02762
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#######-----------------] 300/1000  30.0% loss=0.84933 jepa=0.23640 hard=0.46077 hard_red=0.02638
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#######-----------------] 325/1000  32.5% loss=0.81519 jepa=0.23429 hard=0.45831 hard_red=0.02587
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [########----------------] 350/1000  35.0% loss=0.83128 jepa=0.23190 hard=0.45746 hard_red=0.02640
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#########---------------] 375/1000  37.5% loss=0.85127 jepa=0.23051 hard=0.44778 hard_red=0.02671
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#########---------------] 400/1000  40.0% loss=0.83975 jepa=0.22735 hard=0.44870 hard_red=0.02654
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##########--------------] 425/1000  42.5% loss=0.84575 jepa=0.22538 hard=0.44494 hard_red=0.02602
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##########--------------] 450/1000  45.0% loss=0.85038 jepa=0.22725 hard=0.43980 hard_red=0.02653
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###########-------------] 475/1000  47.5% loss=0.83390 jepa=0.22863 hard=0.43859 hard_red=0.02666
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [############------------] 500/1000  50.0% loss=0.81666 jepa=0.22678 hard=0.43940 hard_red=0.02648
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [############------------] 525/1000  52.5% loss=0.80630 jepa=0.22798 hard=0.44298 hard_red=0.02743
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#############-----------] 550/1000  55.0% loss=0.81919 jepa=0.23055 hard=0.44613 hard_red=0.02746
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#############-----------] 575/1000  57.5% loss=0.82776 jepa=0.23003 hard=0.44949 hard_red=0.02744
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##############----------] 600/1000  60.0% loss=0.82910 jepa=0.23176 hard=0.45018 hard_red=0.02744
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###############---------] 625/1000  62.5% loss=0.84098 jepa=0.23191 hard=0.44941 hard_red=0.02735
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###############---------] 650/1000  65.0% loss=0.82658 jepa=0.23201 hard=0.44828 hard_red=0.02705
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [################--------] 675/1000  67.5% loss=0.82074 jepa=0.23041 hard=0.44898 hard_red=0.02714
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [################--------] 700/1000  70.0% loss=0.81867 jepa=0.23148 hard=0.44856 hard_red=0.02656
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#################-------] 725/1000  72.5% loss=0.82217 jepa=0.23126 hard=0.44702 hard_red=0.02652
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##################------] 750/1000  75.0% loss=0.81678 jepa=0.23230 hard=0.44401 hard_red=0.02628
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [##################------] 775/1000  77.5% loss=0.81144 jepa=0.23392 hard=0.44073 hard_red=0.02588
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###################-----] 800/1000  80.0% loss=0.80512 jepa=0.23414 hard=0.43982 hard_red=0.02579
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [###################-----] 825/1000  82.5% loss=0.80619 jepa=0.23225 hard=0.43785 hard_red=0.02675
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [####################----] 850/1000  85.0% loss=0.80598 jepa=0.23120 hard=0.43548 hard_red=0.02648
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#####################---] 875/1000  87.5% loss=0.81359 jepa=0.23244 hard=0.43589 hard_red=0.02682
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#####################---] 900/1000  90.0% loss=0.81284 jepa=0.23338 hard=0.43440 hard_red=0.02654
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [######################--] 925/1000  92.5% loss=0.80053 jepa=0.23161 hard=0.43526 hard_red=0.02632
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [######################--] 950/1000  95.0% loss=0.80130 jepa=0.23034 hard=0.43477 hard_red=0.02644
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [#######################-] 975/1000  97.5% loss=0.79502 jepa=0.23127 hard=0.43251 hard_red=0.02639
+[v4_reduction_sign gpu7] [train-progress] epoch=5 [########################] 1000/1000 100.0% loss=0.78841 jepa=0.23009 hard=0.43149 hard_red=0.02661
+[v4_reduction_sign gpu7] [train] epoch=5 horizon=2 train_loss=0.788413 val_loss=0.147194 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [------------------------] 1/1000   0.1% loss=0.32533 jepa=0.14384 hard=2.97889 hard_red=0.00464
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [------------------------] 25/1000   2.5% loss=1.21271 jepa=0.29459 hard=0.57226 hard_red=0.04330
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#-----------------------] 50/1000   5.0% loss=0.89982 jepa=0.27970 hard=0.45729 hard_red=0.03230
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#-----------------------] 75/1000   7.5% loss=0.98181 jepa=0.27990 hard=0.48577 hard_red=0.03138
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##----------------------] 100/1000  10.0% loss=0.97919 jepa=0.27404 hard=0.47193 hard_red=0.02861
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###---------------------] 125/1000  12.5% loss=0.92817 jepa=0.27030 hard=0.46003 hard_red=0.02873
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###---------------------] 150/1000  15.0% loss=0.97914 jepa=0.25860 hard=0.44174 hard_red=0.02973
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [####--------------------] 175/1000  17.5% loss=0.95654 jepa=0.25109 hard=0.42796 hard_red=0.03054
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [####--------------------] 200/1000  20.0% loss=0.94222 jepa=0.24648 hard=0.43368 hard_red=0.03124
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#####-------------------] 225/1000  22.5% loss=0.94719 jepa=0.24698 hard=0.43540 hard_red=0.03235
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [######------------------] 250/1000  25.0% loss=0.96152 jepa=0.24490 hard=0.42970 hard_red=0.03274
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [######------------------] 275/1000  27.5% loss=0.93087 jepa=0.24317 hard=0.42856 hard_red=0.03346
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#######-----------------] 300/1000  30.0% loss=0.96686 jepa=0.24049 hard=0.43325 hard_red=0.03433
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#######-----------------] 325/1000  32.5% loss=0.93291 jepa=0.23892 hard=0.42927 hard_red=0.03418
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [########----------------] 350/1000  35.0% loss=0.93310 jepa=0.24016 hard=0.43111 hard_red=0.03434
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#########---------------] 375/1000  37.5% loss=0.94895 jepa=0.24060 hard=0.42373 hard_red=0.03359
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#########---------------] 400/1000  40.0% loss=0.93281 jepa=0.23910 hard=0.41949 hard_red=0.03294
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##########--------------] 425/1000  42.5% loss=0.92413 jepa=0.23820 hard=0.41924 hard_red=0.03291
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##########--------------] 450/1000  45.0% loss=0.94883 jepa=0.23813 hard=0.42089 hard_red=0.03359
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###########-------------] 475/1000  47.5% loss=0.94656 jepa=0.23664 hard=0.42368 hard_red=0.03366
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [############------------] 500/1000  50.0% loss=0.94056 jepa=0.23637 hard=0.42664 hard_red=0.03476
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [############------------] 525/1000  52.5% loss=0.96523 jepa=0.23575 hard=0.42275 hard_red=0.03479
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#############-----------] 550/1000  55.0% loss=0.95760 jepa=0.23607 hard=0.42153 hard_red=0.03431
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#############-----------] 575/1000  57.5% loss=0.94798 jepa=0.23793 hard=0.41844 hard_red=0.03382
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##############----------] 600/1000  60.0% loss=0.93405 jepa=0.23666 hard=0.41333 hard_red=0.03290
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###############---------] 625/1000  62.5% loss=0.91952 jepa=0.23519 hard=0.40923 hard_red=0.03193
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###############---------] 650/1000  65.0% loss=0.91967 jepa=0.23467 hard=0.40679 hard_red=0.03162
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [################--------] 675/1000  67.5% loss=0.90621 jepa=0.23403 hard=0.40397 hard_red=0.03139
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [################--------] 700/1000  70.0% loss=0.91267 jepa=0.23264 hard=0.40405 hard_red=0.03107
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#################-------] 725/1000  72.5% loss=0.89737 jepa=0.23051 hard=0.40647 hard_red=0.03120
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##################------] 750/1000  75.0% loss=0.89452 jepa=0.22987 hard=0.41150 hard_red=0.03144
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [##################------] 775/1000  77.5% loss=0.91298 jepa=0.23074 hard=0.41371 hard_red=0.03123
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###################-----] 800/1000  80.0% loss=0.90367 jepa=0.23075 hard=0.40928 hard_red=0.03116
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [###################-----] 825/1000  82.5% loss=0.92000 jepa=0.23222 hard=0.41265 hard_red=0.03119
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [####################----] 850/1000  85.0% loss=0.90983 jepa=0.23111 hard=0.41256 hard_red=0.03087
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#####################---] 875/1000  87.5% loss=0.90813 jepa=0.23034 hard=0.41212 hard_red=0.03061
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#####################---] 900/1000  90.0% loss=0.90259 jepa=0.22902 hard=0.41261 hard_red=0.03024
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [######################--] 925/1000  92.5% loss=0.90482 jepa=0.22852 hard=0.41158 hard_red=0.03044
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [######################--] 950/1000  95.0% loss=0.89477 jepa=0.23021 hard=0.41050 hard_red=0.03015
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [#######################-] 975/1000  97.5% loss=0.89667 jepa=0.23034 hard=0.41021 hard_red=0.03010
+[v4_reduction_sign gpu7] [train-progress] epoch=6 [########################] 1000/1000 100.0% loss=0.89952 jepa=0.23021 hard=0.41545 hard_red=0.03018
+[v4_reduction_sign gpu7] [train] epoch=6 horizon=2 train_loss=0.899521 val_loss=0.192179 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [------------------------] 1/1000   0.1% loss=0.09788 jepa=0.15793 hard=0.24157 hard_red=0.00022
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [------------------------] 25/1000   2.5% loss=1.07806 jepa=0.22818 hard=0.31087 hard_red=0.01894
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#-----------------------] 50/1000   5.0% loss=1.05147 jepa=0.21450 hard=0.32701 hard_red=0.01733
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#-----------------------] 75/1000   7.5% loss=0.90893 jepa=0.21485 hard=0.34423 hard_red=0.02054
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##----------------------] 100/1000  10.0% loss=0.78925 jepa=0.20832 hard=0.37410 hard_red=0.02037
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###---------------------] 125/1000  12.5% loss=0.92550 jepa=0.20933 hard=0.39859 hard_red=0.02417
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###---------------------] 150/1000  15.0% loss=0.90178 jepa=0.21217 hard=0.39856 hard_red=0.02430
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [####--------------------] 175/1000  17.5% loss=0.90888 jepa=0.21518 hard=0.40182 hard_red=0.02381
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [####--------------------] 200/1000  20.0% loss=0.94435 jepa=0.22118 hard=0.40261 hard_red=0.02198
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#####-------------------] 225/1000  22.5% loss=0.93617 jepa=0.22146 hard=0.41004 hard_red=0.02156
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [######------------------] 250/1000  25.0% loss=0.93733 jepa=0.22260 hard=0.40039 hard_red=0.02227
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [######------------------] 275/1000  27.5% loss=0.93900 jepa=0.22522 hard=0.40510 hard_red=0.02361
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#######-----------------] 300/1000  30.0% loss=0.93561 jepa=0.22641 hard=0.40753 hard_red=0.02516
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#######-----------------] 325/1000  32.5% loss=0.92140 jepa=0.22654 hard=0.40757 hard_red=0.02438
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [########----------------] 350/1000  35.0% loss=0.90354 jepa=0.22495 hard=0.39867 hard_red=0.02512
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#########---------------] 375/1000  37.5% loss=0.89034 jepa=0.22113 hard=0.40504 hard_red=0.02528
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#########---------------] 400/1000  40.0% loss=0.94953 jepa=0.22139 hard=0.41407 hard_red=0.02478
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##########--------------] 425/1000  42.5% loss=0.95813 jepa=0.21946 hard=0.41444 hard_red=0.02472
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##########--------------] 450/1000  45.0% loss=0.94569 jepa=0.22067 hard=0.42239 hard_red=0.02574
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###########-------------] 475/1000  47.5% loss=0.91852 jepa=0.21924 hard=0.41988 hard_red=0.02514
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [############------------] 500/1000  50.0% loss=0.89081 jepa=0.21704 hard=0.41655 hard_red=0.02513
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [############------------] 525/1000  52.5% loss=0.93311 jepa=0.21871 hard=0.41713 hard_red=0.02586
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#############-----------] 550/1000  55.0% loss=0.91152 jepa=0.21741 hard=0.41251 hard_red=0.02489
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#############-----------] 575/1000  57.5% loss=0.89559 jepa=0.21703 hard=0.41693 hard_red=0.02450
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##############----------] 600/1000  60.0% loss=0.89617 jepa=0.21517 hard=0.41376 hard_red=0.02465
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###############---------] 625/1000  62.5% loss=0.89567 jepa=0.21558 hard=0.41589 hard_red=0.02539
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###############---------] 650/1000  65.0% loss=0.89751 jepa=0.21480 hard=0.41755 hard_red=0.02534
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [################--------] 675/1000  67.5% loss=0.88777 jepa=0.21534 hard=0.41455 hard_red=0.02491
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [################--------] 700/1000  70.0% loss=0.87588 jepa=0.21612 hard=0.41529 hard_red=0.02480
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#################-------] 725/1000  72.5% loss=0.87456 jepa=0.21747 hard=0.41192 hard_red=0.02528
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##################------] 750/1000  75.0% loss=0.87465 jepa=0.21898 hard=0.41237 hard_red=0.02561
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [##################------] 775/1000  77.5% loss=0.87110 jepa=0.21853 hard=0.40977 hard_red=0.02583
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###################-----] 800/1000  80.0% loss=0.88039 jepa=0.21990 hard=0.40835 hard_red=0.02552
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [###################-----] 825/1000  82.5% loss=0.87661 jepa=0.22069 hard=0.41055 hard_red=0.02535
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [####################----] 850/1000  85.0% loss=0.87360 jepa=0.22105 hard=0.41274 hard_red=0.02562
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#####################---] 875/1000  87.5% loss=0.86704 jepa=0.22212 hard=0.41251 hard_red=0.02544
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#####################---] 900/1000  90.0% loss=0.86012 jepa=0.22271 hard=0.41173 hard_red=0.02532
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [######################--] 925/1000  92.5% loss=0.85224 jepa=0.22304 hard=0.40972 hard_red=0.02515
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [######################--] 950/1000  95.0% loss=0.86132 jepa=0.22357 hard=0.41081 hard_red=0.02536
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [#######################-] 975/1000  97.5% loss=0.84845 jepa=0.22361 hard=0.40869 hard_red=0.02500
+[v4_reduction_sign gpu7] [train-progress] epoch=7 [########################] 1000/1000 100.0% loss=0.83787 jepa=0.22339 hard=0.40542 hard_red=0.02476
+[v4_reduction_sign gpu7] [train] epoch=7 horizon=2 train_loss=0.837868 val_loss=0.217319 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [------------------------] 1/1000   0.1% loss=3.39812 jepa=0.51100 hard=0.38761 hard_red=0.02023
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [------------------------] 25/1000   2.5% loss=0.62004 jepa=0.20769 hard=0.46341 hard_red=0.01738
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#-----------------------] 50/1000   5.0% loss=0.79312 jepa=0.21852 hard=0.39255 hard_red=0.02903
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#-----------------------] 75/1000   7.5% loss=0.66801 jepa=0.22599 hard=0.37664 hard_red=0.02598
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##----------------------] 100/1000  10.0% loss=0.87908 jepa=0.27229 hard=0.42396 hard_red=0.02783
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###---------------------] 125/1000  12.5% loss=0.86205 jepa=0.28920 hard=0.43079 hard_red=0.02718
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###---------------------] 150/1000  15.0% loss=0.86256 jepa=0.27701 hard=0.42044 hard_red=0.02546
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [####--------------------] 175/1000  17.5% loss=0.89970 jepa=0.27100 hard=0.41784 hard_red=0.02506
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [####--------------------] 200/1000  20.0% loss=0.85142 jepa=0.26442 hard=0.40858 hard_red=0.02514
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#####-------------------] 225/1000  22.5% loss=0.81338 jepa=0.25940 hard=0.39400 hard_red=0.02530
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [######------------------] 250/1000  25.0% loss=0.82636 jepa=0.25313 hard=0.39917 hard_red=0.02452
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [######------------------] 275/1000  27.5% loss=0.80736 jepa=0.24883 hard=0.39285 hard_red=0.02382
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#######-----------------] 300/1000  30.0% loss=0.86568 jepa=0.25311 hard=0.38607 hard_red=0.02442
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#######-----------------] 325/1000  32.5% loss=0.90087 jepa=0.25736 hard=0.38852 hard_red=0.02480
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [########----------------] 350/1000  35.0% loss=0.86761 jepa=0.25266 hard=0.38599 hard_red=0.02386
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#########---------------] 375/1000  37.5% loss=0.84225 jepa=0.24951 hard=0.37717 hard_red=0.02315
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#########---------------] 400/1000  40.0% loss=0.84211 jepa=0.24632 hard=0.38874 hard_red=0.02324
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##########--------------] 425/1000  42.5% loss=0.83973 jepa=0.24371 hard=0.38785 hard_red=0.02309
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##########--------------] 450/1000  45.0% loss=0.85691 jepa=0.24211 hard=0.38835 hard_red=0.02309
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###########-------------] 475/1000  47.5% loss=0.84427 jepa=0.24288 hard=0.38363 hard_red=0.02291
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [############------------] 500/1000  50.0% loss=0.83628 jepa=0.24214 hard=0.37951 hard_red=0.02266
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [############------------] 525/1000  52.5% loss=0.81801 jepa=0.24042 hard=0.37671 hard_red=0.02310
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#############-----------] 550/1000  55.0% loss=0.80820 jepa=0.23900 hard=0.37349 hard_red=0.02268
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#############-----------] 575/1000  57.5% loss=0.80057 jepa=0.23852 hard=0.37128 hard_red=0.02258
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##############----------] 600/1000  60.0% loss=0.79001 jepa=0.23665 hard=0.36995 hard_red=0.02312
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###############---------] 625/1000  62.5% loss=0.78847 jepa=0.23646 hard=0.37001 hard_red=0.02346
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###############---------] 650/1000  65.0% loss=0.77203 jepa=0.23517 hard=0.37388 hard_red=0.02301
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [################--------] 675/1000  67.5% loss=0.75510 jepa=0.23272 hard=0.37388 hard_red=0.02358
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [################--------] 700/1000  70.0% loss=0.76630 jepa=0.23346 hard=0.37798 hard_red=0.02391
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#################-------] 725/1000  72.5% loss=0.76064 jepa=0.23349 hard=0.37715 hard_red=0.02403
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##################------] 750/1000  75.0% loss=0.77405 jepa=0.23444 hard=0.37936 hard_red=0.02434
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [##################------] 775/1000  77.5% loss=0.76729 jepa=0.23472 hard=0.38011 hard_red=0.02417
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###################-----] 800/1000  80.0% loss=0.77167 jepa=0.23679 hard=0.37859 hard_red=0.02402
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [###################-----] 825/1000  82.5% loss=0.76424 jepa=0.23817 hard=0.37733 hard_red=0.02402
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [####################----] 850/1000  85.0% loss=0.76992 jepa=0.23840 hard=0.37676 hard_red=0.02424
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#####################---] 875/1000  87.5% loss=0.75842 jepa=0.23693 hard=0.37360 hard_red=0.02397
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#####################---] 900/1000  90.0% loss=0.76051 jepa=0.23680 hard=0.36960 hard_red=0.02356
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [######################--] 925/1000  92.5% loss=0.75404 jepa=0.23761 hard=0.36871 hard_red=0.02336
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [######################--] 950/1000  95.0% loss=0.75619 jepa=0.23781 hard=0.37002 hard_red=0.02341
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [#######################-] 975/1000  97.5% loss=0.75002 jepa=0.23757 hard=0.36815 hard_red=0.02369
+[v4_reduction_sign gpu7] [train-progress] epoch=8 [########################] 1000/1000 100.0% loss=0.74593 jepa=0.23730 hard=0.36566 hard_red=0.02380
+[v4_reduction_sign gpu7] [train] epoch=8 horizon=2 train_loss=0.745933 val_loss=0.188475 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [------------------------] 1/1000   0.1% loss=0.69705 jepa=0.19609 hard=0.56135 hard_red=0.04876
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [------------------------] 25/1000   2.5% loss=0.75089 jepa=0.22124 hard=0.34659 hard_red=0.02246
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#-----------------------] 50/1000   5.0% loss=0.95779 jepa=0.23252 hard=0.32158 hard_red=0.03024
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#-----------------------] 75/1000   7.5% loss=0.73882 jepa=0.22507 hard=0.29349 hard_red=0.02543
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##----------------------] 100/1000  10.0% loss=0.84682 jepa=0.22800 hard=0.28816 hard_red=0.02337
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###---------------------] 125/1000  12.5% loss=0.75258 jepa=0.22760 hard=0.30644 hard_red=0.02437
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###---------------------] 150/1000  15.0% loss=0.75677 jepa=0.22243 hard=0.30951 hard_red=0.02294
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [####--------------------] 175/1000  17.5% loss=0.72522 jepa=0.21597 hard=0.30676 hard_red=0.02352
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [####--------------------] 200/1000  20.0% loss=0.74843 jepa=0.21832 hard=0.31991 hard_red=0.02744
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#####-------------------] 225/1000  22.5% loss=0.73790 jepa=0.22489 hard=0.31323 hard_red=0.02689
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [######------------------] 250/1000  25.0% loss=0.72341 jepa=0.22445 hard=0.32624 hard_red=0.02598
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [######------------------] 275/1000  27.5% loss=0.71680 jepa=0.22644 hard=0.32419 hard_red=0.02479
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#######-----------------] 300/1000  30.0% loss=0.75263 jepa=0.22772 hard=0.34040 hard_red=0.02354
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#######-----------------] 325/1000  32.5% loss=0.75734 jepa=0.22723 hard=0.34205 hard_red=0.02287
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [########----------------] 350/1000  35.0% loss=0.75660 jepa=0.22493 hard=0.33795 hard_red=0.02318
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#########---------------] 375/1000  37.5% loss=0.75722 jepa=0.22422 hard=0.34878 hard_red=0.02242
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#########---------------] 400/1000  40.0% loss=0.74616 jepa=0.22079 hard=0.34639 hard_red=0.02232
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##########--------------] 425/1000  42.5% loss=0.73065 jepa=0.22011 hard=0.34507 hard_red=0.02242
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##########--------------] 450/1000  45.0% loss=0.73315 jepa=0.21916 hard=0.34157 hard_red=0.02244
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###########-------------] 475/1000  47.5% loss=0.72571 jepa=0.21890 hard=0.34439 hard_red=0.02212
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [############------------] 500/1000  50.0% loss=0.73999 jepa=0.21902 hard=0.35126 hard_red=0.02217
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [############------------] 525/1000  52.5% loss=0.72597 jepa=0.21768 hard=0.34806 hard_red=0.02160
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#############-----------] 550/1000  55.0% loss=0.71911 jepa=0.21657 hard=0.34989 hard_red=0.02138
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#############-----------] 575/1000  57.5% loss=0.71398 jepa=0.21626 hard=0.35410 hard_red=0.02177
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##############----------] 600/1000  60.0% loss=0.70974 jepa=0.21752 hard=0.35030 hard_red=0.02268
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###############---------] 625/1000  62.5% loss=0.72838 jepa=0.22070 hard=0.34990 hard_red=0.02294
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###############---------] 650/1000  65.0% loss=0.72968 jepa=0.22053 hard=0.34952 hard_red=0.02297
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [################--------] 675/1000  67.5% loss=0.73123 jepa=0.22125 hard=0.35041 hard_red=0.02274
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [################--------] 700/1000  70.0% loss=0.72297 jepa=0.22103 hard=0.34577 hard_red=0.02275
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#################-------] 725/1000  72.5% loss=0.71051 jepa=0.22043 hard=0.34698 hard_red=0.02232
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##################------] 750/1000  75.0% loss=0.71098 jepa=0.22139 hard=0.34540 hard_red=0.02215
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [##################------] 775/1000  77.5% loss=0.71839 jepa=0.22286 hard=0.34596 hard_red=0.02280
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###################-----] 800/1000  80.0% loss=0.72309 jepa=0.22284 hard=0.34557 hard_red=0.02296
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [###################-----] 825/1000  82.5% loss=0.72082 jepa=0.22152 hard=0.34345 hard_red=0.02252
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [####################----] 850/1000  85.0% loss=0.72561 jepa=0.22165 hard=0.34647 hard_red=0.02251
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#####################---] 875/1000  87.5% loss=0.73322 jepa=0.22176 hard=0.34694 hard_red=0.02277
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#####################---] 900/1000  90.0% loss=0.73587 jepa=0.22240 hard=0.34648 hard_red=0.02328
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [######################--] 925/1000  92.5% loss=0.73639 jepa=0.22176 hard=0.34507 hard_red=0.02344
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [######################--] 950/1000  95.0% loss=0.74558 jepa=0.22214 hard=0.34478 hard_red=0.02367
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [#######################-] 975/1000  97.5% loss=0.74030 jepa=0.22154 hard=0.34394 hard_red=0.02361
+[v4_reduction_sign gpu7] [train-progress] epoch=9 [########################] 1000/1000 100.0% loss=0.72918 jepa=0.22034 hard=0.34264 hard_red=0.02350
+[v4_reduction_sign gpu7] [train] epoch=9 horizon=2 train_loss=0.729180 val_loss=0.184451 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [------------------------] 1/1000   0.1% loss=1.08600 jepa=0.17330 hard=0.95731 hard_red=0.07946
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [------------------------] 25/1000   2.5% loss=0.46383 jepa=0.17296 hard=0.33142 hard_red=0.02167
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#-----------------------] 50/1000   5.0% loss=0.58740 jepa=0.19982 hard=0.36067 hard_red=0.02090
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#-----------------------] 75/1000   7.5% loss=0.78660 jepa=0.26319 hard=0.39356 hard_red=0.02650
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##----------------------] 100/1000  10.0% loss=0.69149 jepa=0.25267 hard=0.39588 hard_red=0.02519
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###---------------------] 125/1000  12.5% loss=0.67179 jepa=0.25758 hard=0.39850 hard_red=0.02771
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###---------------------] 150/1000  15.0% loss=0.69468 jepa=0.25460 hard=0.38783 hard_red=0.02825
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [####--------------------] 175/1000  17.5% loss=0.72778 jepa=0.24454 hard=0.38628 hard_red=0.02777
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [####--------------------] 200/1000  20.0% loss=0.76471 jepa=0.24064 hard=0.38054 hard_red=0.02662
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#####-------------------] 225/1000  22.5% loss=0.73389 jepa=0.23540 hard=0.37752 hard_red=0.02568
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [######------------------] 250/1000  25.0% loss=0.78554 jepa=0.23715 hard=0.38194 hard_red=0.02544
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [######------------------] 275/1000  27.5% loss=0.74775 jepa=0.23289 hard=0.37749 hard_red=0.02572
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#######-----------------] 300/1000  30.0% loss=0.74110 jepa=0.23486 hard=0.36760 hard_red=0.02610
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#######-----------------] 325/1000  32.5% loss=0.72253 jepa=0.23489 hard=0.36189 hard_red=0.02526
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [########----------------] 350/1000  35.0% loss=0.71589 jepa=0.23058 hard=0.36371 hard_red=0.02445
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#########---------------] 375/1000  37.5% loss=0.68238 jepa=0.22860 hard=0.35669 hard_red=0.02344
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#########---------------] 400/1000  40.0% loss=0.66587 jepa=0.22647 hard=0.35360 hard_red=0.02341
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##########--------------] 425/1000  42.5% loss=0.65517 jepa=0.22416 hard=0.35858 hard_red=0.02315
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##########--------------] 450/1000  45.0% loss=0.64985 jepa=0.22327 hard=0.36162 hard_red=0.02365
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###########-------------] 475/1000  47.5% loss=0.64742 jepa=0.22091 hard=0.35952 hard_red=0.02338
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [############------------] 500/1000  50.0% loss=0.67964 jepa=0.22372 hard=0.36352 hard_red=0.02335
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [############------------] 525/1000  52.5% loss=0.70660 jepa=0.22594 hard=0.36000 hard_red=0.02413
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#############-----------] 550/1000  55.0% loss=0.69671 jepa=0.22428 hard=0.36008 hard_red=0.02357
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#############-----------] 575/1000  57.5% loss=0.70329 jepa=0.22337 hard=0.35655 hard_red=0.02379
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##############----------] 600/1000  60.0% loss=0.71002 jepa=0.22297 hard=0.36079 hard_red=0.02407
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###############---------] 625/1000  62.5% loss=0.71292 jepa=0.22358 hard=0.35764 hard_red=0.02403
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###############---------] 650/1000  65.0% loss=0.70269 jepa=0.22340 hard=0.35969 hard_red=0.02366
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [################--------] 675/1000  67.5% loss=0.70023 jepa=0.22302 hard=0.35731 hard_red=0.02360
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [################--------] 700/1000  70.0% loss=0.69439 jepa=0.22166 hard=0.35699 hard_red=0.02351
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#################-------] 725/1000  72.5% loss=0.68844 jepa=0.22122 hard=0.35525 hard_red=0.02331
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##################------] 750/1000  75.0% loss=0.68083 jepa=0.21926 hard=0.35790 hard_red=0.02317
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [##################------] 775/1000  77.5% loss=0.67526 jepa=0.21882 hard=0.35705 hard_red=0.02293
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###################-----] 800/1000  80.0% loss=0.68302 jepa=0.21898 hard=0.36076 hard_red=0.02272
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [###################-----] 825/1000  82.5% loss=0.67568 jepa=0.21840 hard=0.36137 hard_red=0.02284
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [####################----] 850/1000  85.0% loss=0.67151 jepa=0.21733 hard=0.36038 hard_red=0.02303
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#####################---] 875/1000  87.5% loss=0.67714 jepa=0.21856 hard=0.35905 hard_red=0.02321
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#####################---] 900/1000  90.0% loss=0.67605 jepa=0.21835 hard=0.36040 hard_red=0.02307
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [######################--] 925/1000  92.5% loss=0.67345 jepa=0.21751 hard=0.35705 hard_red=0.02315
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [######################--] 950/1000  95.0% loss=0.67122 jepa=0.21737 hard=0.35584 hard_red=0.02311
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [#######################-] 975/1000  97.5% loss=0.66213 jepa=0.21713 hard=0.35313 hard_red=0.02290
+[v4_reduction_sign gpu7] [train-progress] epoch=10 [########################] 1000/1000 100.0% loss=0.66158 jepa=0.21688 hard=0.35468 hard_red=0.02353
+[v4_reduction_sign gpu7] [train] epoch=10 horizon=2 train_loss=0.661585 val_loss=0.635305 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [------------------------] 1/1000   0.1% loss=2.99224 jepa=1.28134 hard=0.32245 hard_red=0.01107
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [------------------------] 25/1000   2.5% loss=0.82488 jepa=0.30387 hard=0.45806 hard_red=0.02730
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#-----------------------] 50/1000   5.0% loss=0.79687 jepa=0.26845 hard=0.41725 hard_red=0.02288
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#-----------------------] 75/1000   7.5% loss=0.77108 jepa=0.25390 hard=0.36317 hard_red=0.02330
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##----------------------] 100/1000  10.0% loss=0.78718 jepa=0.24512 hard=0.34672 hard_red=0.02272
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###---------------------] 125/1000  12.5% loss=0.81627 jepa=0.24292 hard=0.35264 hard_red=0.02464
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###---------------------] 150/1000  15.0% loss=0.84484 jepa=0.23355 hard=0.35819 hard_red=0.02649
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [####--------------------] 175/1000  17.5% loss=0.81889 jepa=0.23722 hard=0.35239 hard_red=0.02350
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [####--------------------] 200/1000  20.0% loss=0.78569 jepa=0.23093 hard=0.34958 hard_red=0.02343
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#####-------------------] 225/1000  22.5% loss=0.75000 jepa=0.22415 hard=0.33720 hard_red=0.02253
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [######------------------] 250/1000  25.0% loss=0.74959 jepa=0.23056 hard=0.34340 hard_red=0.02224
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [######------------------] 275/1000  27.5% loss=0.78278 jepa=0.23314 hard=0.34188 hard_red=0.02199
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#######-----------------] 300/1000  30.0% loss=0.77666 jepa=0.23055 hard=0.34099 hard_red=0.02152
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#######-----------------] 325/1000  32.5% loss=0.76168 jepa=0.22984 hard=0.34350 hard_red=0.02105
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [########----------------] 350/1000  35.0% loss=0.77056 jepa=0.23015 hard=0.33600 hard_red=0.02090
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#########---------------] 375/1000  37.5% loss=0.73814 jepa=0.22845 hard=0.34275 hard_red=0.02037
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#########---------------] 400/1000  40.0% loss=0.74598 jepa=0.22613 hard=0.33995 hard_red=0.02138
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##########--------------] 425/1000  42.5% loss=0.75218 jepa=0.22455 hard=0.34186 hard_red=0.02192
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##########--------------] 450/1000  45.0% loss=0.75572 jepa=0.22554 hard=0.34257 hard_red=0.02303
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###########-------------] 475/1000  47.5% loss=0.74306 jepa=0.22647 hard=0.34573 hard_red=0.02359
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [############------------] 500/1000  50.0% loss=0.74970 jepa=0.22504 hard=0.34539 hard_red=0.02364
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [############------------] 525/1000  52.5% loss=0.74895 jepa=0.22441 hard=0.34342 hard_red=0.02485
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#############-----------] 550/1000  55.0% loss=0.75272 jepa=0.22586 hard=0.34297 hard_red=0.02449
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#############-----------] 575/1000  57.5% loss=0.75926 jepa=0.22888 hard=0.34790 hard_red=0.02479
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##############----------] 600/1000  60.0% loss=0.74896 jepa=0.23020 hard=0.35673 hard_red=0.02467
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###############---------] 625/1000  62.5% loss=0.74503 jepa=0.22865 hard=0.35864 hard_red=0.02488
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###############---------] 650/1000  65.0% loss=0.73499 jepa=0.22651 hard=0.36034 hard_red=0.02499
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [################--------] 675/1000  67.5% loss=0.74265 jepa=0.23111 hard=0.35825 hard_red=0.02498
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [################--------] 700/1000  70.0% loss=0.73302 jepa=0.23094 hard=0.35871 hard_red=0.02464
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#################-------] 725/1000  72.5% loss=0.73878 jepa=0.23172 hard=0.35766 hard_red=0.02435
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##################------] 750/1000  75.0% loss=0.73448 jepa=0.22980 hard=0.35621 hard_red=0.02401
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [##################------] 775/1000  77.5% loss=0.74764 jepa=0.22952 hard=0.35340 hard_red=0.02439
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###################-----] 800/1000  80.0% loss=0.74467 jepa=0.23072 hard=0.35549 hard_red=0.02425
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [###################-----] 825/1000  82.5% loss=0.76408 jepa=0.23238 hard=0.35520 hard_red=0.02460
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [####################----] 850/1000  85.0% loss=0.76320 jepa=0.23113 hard=0.35389 hard_red=0.02418
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#####################---] 875/1000  87.5% loss=0.75793 jepa=0.23007 hard=0.35200 hard_red=0.02402
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#####################---] 900/1000  90.0% loss=0.76238 jepa=0.22906 hard=0.34850 hard_red=0.02476
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [######################--] 925/1000  92.5% loss=0.76879 jepa=0.22864 hard=0.35043 hard_red=0.02433
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [######################--] 950/1000  95.0% loss=0.76881 jepa=0.22746 hard=0.34701 hard_red=0.02422
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [#######################-] 975/1000  97.5% loss=0.76838 jepa=0.22638 hard=0.34703 hard_red=0.02428
+[v4_reduction_sign gpu7] [train-progress] epoch=11 [########################] 1000/1000 100.0% loss=0.76133 jepa=0.22535 hard=0.34633 hard_red=0.02409
+[v4_reduction_sign gpu7] [train] epoch=11 horizon=2 train_loss=0.761325 val_loss=0.419289 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [------------------------] 1/1000   0.1% loss=0.96261 jepa=0.24057 hard=0.25189 hard_red=0.05853
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [------------------------] 25/1000   2.5% loss=1.20287 jepa=0.22724 hard=0.54058 hard_red=0.03010
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#-----------------------] 50/1000   5.0% loss=0.88004 jepa=0.21348 hard=0.45916 hard_red=0.02496
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#-----------------------] 75/1000   7.5% loss=1.01957 jepa=0.22633 hard=0.45960 hard_red=0.02952
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##----------------------] 100/1000  10.0% loss=0.99235 jepa=0.22950 hard=0.43238 hard_red=0.02790
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###---------------------] 125/1000  12.5% loss=1.02724 jepa=0.23696 hard=0.46573 hard_red=0.03155
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###---------------------] 150/1000  15.0% loss=0.99952 jepa=0.23412 hard=0.45330 hard_red=0.03144
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [####--------------------] 175/1000  17.5% loss=1.00055 jepa=0.23145 hard=0.43903 hard_red=0.03131
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [####--------------------] 200/1000  20.0% loss=0.93435 jepa=0.23084 hard=0.41012 hard_red=0.02854
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#####-------------------] 225/1000  22.5% loss=0.90897 jepa=0.22964 hard=0.40917 hard_red=0.02841
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [######------------------] 250/1000  25.0% loss=0.91933 jepa=0.23140 hard=0.39780 hard_red=0.02880
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [######------------------] 275/1000  27.5% loss=0.90410 jepa=0.22915 hard=0.38778 hard_red=0.02990
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#######-----------------] 300/1000  30.0% loss=0.89359 jepa=0.22489 hard=0.38705 hard_red=0.02813
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#######-----------------] 325/1000  32.5% loss=0.87170 jepa=0.22242 hard=0.38531 hard_red=0.02858
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [########----------------] 350/1000  35.0% loss=0.84837 jepa=0.22447 hard=0.38532 hard_red=0.02804
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#########---------------] 375/1000  37.5% loss=0.83058 jepa=0.22460 hard=0.38393 hard_red=0.02714
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#########---------------] 400/1000  40.0% loss=0.82398 jepa=0.22246 hard=0.38890 hard_red=0.02696
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##########--------------] 425/1000  42.5% loss=0.81331 jepa=0.21978 hard=0.39246 hard_red=0.02617
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##########--------------] 450/1000  45.0% loss=0.80784 jepa=0.21939 hard=0.38892 hard_red=0.02527
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###########-------------] 475/1000  47.5% loss=0.79237 jepa=0.21778 hard=0.37955 hard_red=0.02507
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [############------------] 500/1000  50.0% loss=0.78169 jepa=0.21731 hard=0.37678 hard_red=0.02509
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [############------------] 525/1000  52.5% loss=0.78647 jepa=0.21662 hard=0.38265 hard_red=0.02511
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#############-----------] 550/1000  55.0% loss=0.82269 jepa=0.21892 hard=0.39256 hard_red=0.02572
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#############-----------] 575/1000  57.5% loss=0.83744 jepa=0.21915 hard=0.39233 hard_red=0.02595
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##############----------] 600/1000  60.0% loss=0.84223 jepa=0.22471 hard=0.39301 hard_red=0.02586
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###############---------] 625/1000  62.5% loss=0.83875 jepa=0.22353 hard=0.39122 hard_red=0.02564
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###############---------] 650/1000  65.0% loss=0.84406 jepa=0.22283 hard=0.39013 hard_red=0.02543
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [################--------] 675/1000  67.5% loss=0.84133 jepa=0.22184 hard=0.38516 hard_red=0.02500
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [################--------] 700/1000  70.0% loss=0.83299 jepa=0.22279 hard=0.38045 hard_red=0.02489
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#################-------] 725/1000  72.5% loss=0.83057 jepa=0.22268 hard=0.37827 hard_red=0.02484
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##################------] 750/1000  75.0% loss=0.84581 jepa=0.22369 hard=0.37508 hard_red=0.02478
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [##################------] 775/1000  77.5% loss=0.84547 jepa=0.22548 hard=0.37570 hard_red=0.02512
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###################-----] 800/1000  80.0% loss=0.86325 jepa=0.22476 hard=0.37499 hard_red=0.02550
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [###################-----] 825/1000  82.5% loss=0.85130 jepa=0.22631 hard=0.37180 hard_red=0.02499
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [####################----] 850/1000  85.0% loss=0.84233 jepa=0.22527 hard=0.36871 hard_red=0.02502
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#####################---] 875/1000  87.5% loss=0.83836 jepa=0.22438 hard=0.36775 hard_red=0.02532
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#####################---] 900/1000  90.0% loss=0.83393 jepa=0.22528 hard=0.37007 hard_red=0.02558
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [######################--] 925/1000  92.5% loss=0.83223 jepa=0.22463 hard=0.37048 hard_red=0.02582
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [######################--] 950/1000  95.0% loss=0.83431 jepa=0.22647 hard=0.37062 hard_red=0.02560
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [#######################-] 975/1000  97.5% loss=0.83318 jepa=0.22634 hard=0.37376 hard_red=0.02535
+[v4_reduction_sign gpu7] [train-progress] epoch=12 [########################] 1000/1000 100.0% loss=0.82728 jepa=0.22533 hard=0.37138 hard_red=0.02507
+[v4_reduction_sign gpu7] [train] epoch=12 horizon=2 train_loss=0.827275 val_loss=0.426669 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [------------------------] 1/1000   0.1% loss=2.87843 jepa=0.26475 hard=0.38868 hard_red=0.05480
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [------------------------] 25/1000   2.5% loss=0.76066 jepa=0.19213 hard=0.20380 hard_red=0.02015
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#-----------------------] 50/1000   5.0% loss=0.62796 jepa=0.18789 hard=0.37364 hard_red=0.02241
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#-----------------------] 75/1000   7.5% loss=0.56816 jepa=0.18294 hard=0.36766 hard_red=0.02449
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##----------------------] 100/1000  10.0% loss=0.52195 jepa=0.18605 hard=0.35613 hard_red=0.02431
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###---------------------] 125/1000  12.5% loss=0.49020 jepa=0.18643 hard=0.36349 hard_red=0.02267
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###---------------------] 150/1000  15.0% loss=0.54541 jepa=0.18431 hard=0.33835 hard_red=0.02243
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [####--------------------] 175/1000  17.5% loss=0.51493 jepa=0.18339 hard=0.35373 hard_red=0.02160
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [####--------------------] 200/1000  20.0% loss=0.54102 jepa=0.18314 hard=0.35259 hard_red=0.02113
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#####-------------------] 225/1000  22.5% loss=0.51834 jepa=0.18659 hard=0.34182 hard_red=0.01935
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [######------------------] 250/1000  25.0% loss=0.51012 jepa=0.18613 hard=0.35063 hard_red=0.01861
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [######------------------] 275/1000  27.5% loss=0.55611 jepa=0.19402 hard=0.35803 hard_red=0.01934
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#######-----------------] 300/1000  30.0% loss=0.58247 jepa=0.19950 hard=0.38603 hard_red=0.01986
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#######-----------------] 325/1000  32.5% loss=0.59919 jepa=0.20121 hard=0.37879 hard_red=0.02092
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [########----------------] 350/1000  35.0% loss=0.62078 jepa=0.19946 hard=0.37373 hard_red=0.02150
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#########---------------] 375/1000  37.5% loss=0.63058 jepa=0.20118 hard=0.36972 hard_red=0.02182
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#########---------------] 400/1000  40.0% loss=0.64254 jepa=0.20231 hard=0.36540 hard_red=0.02145
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##########--------------] 425/1000  42.5% loss=0.62922 jepa=0.20274 hard=0.36503 hard_red=0.02229
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##########--------------] 450/1000  45.0% loss=0.61484 jepa=0.20128 hard=0.36267 hard_red=0.02240
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###########-------------] 475/1000  47.5% loss=0.60148 jepa=0.20056 hard=0.36074 hard_red=0.02292
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [############------------] 500/1000  50.0% loss=0.61303 jepa=0.20283 hard=0.35985 hard_red=0.02331
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [############------------] 525/1000  52.5% loss=0.61838 jepa=0.20682 hard=0.35929 hard_red=0.02307
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#############-----------] 550/1000  55.0% loss=0.61457 jepa=0.20559 hard=0.36137 hard_red=0.02371
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#############-----------] 575/1000  57.5% loss=0.61267 jepa=0.20421 hard=0.35743 hard_red=0.02333
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##############----------] 600/1000  60.0% loss=0.61106 jepa=0.20333 hard=0.36044 hard_red=0.02343
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###############---------] 625/1000  62.5% loss=0.59631 jepa=0.20217 hard=0.35710 hard_red=0.02295
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###############---------] 650/1000  65.0% loss=0.59555 jepa=0.20180 hard=0.35647 hard_red=0.02266
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [################--------] 675/1000  67.5% loss=0.62226 jepa=0.20204 hard=0.35437 hard_red=0.02302
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [################--------] 700/1000  70.0% loss=0.61309 jepa=0.20214 hard=0.34992 hard_red=0.02258
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#################-------] 725/1000  72.5% loss=0.62005 jepa=0.20133 hard=0.34844 hard_red=0.02229
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##################------] 750/1000  75.0% loss=0.61661 jepa=0.19984 hard=0.34862 hard_red=0.02264
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [##################------] 775/1000  77.5% loss=0.61442 jepa=0.20065 hard=0.34507 hard_red=0.02225
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###################-----] 800/1000  80.0% loss=0.62199 jepa=0.20108 hard=0.34339 hard_red=0.02273
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [###################-----] 825/1000  82.5% loss=0.61562 jepa=0.20128 hard=0.34352 hard_red=0.02301
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [####################----] 850/1000  85.0% loss=0.61616 jepa=0.20093 hard=0.34021 hard_red=0.02290
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#####################---] 875/1000  87.5% loss=0.60914 jepa=0.20039 hard=0.34034 hard_red=0.02307
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#####################---] 900/1000  90.0% loss=0.60942 jepa=0.20062 hard=0.34053 hard_red=0.02298
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [######################--] 925/1000  92.5% loss=0.60199 jepa=0.20043 hard=0.33908 hard_red=0.02281
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [######################--] 950/1000  95.0% loss=0.59412 jepa=0.19993 hard=0.33747 hard_red=0.02256
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [#######################-] 975/1000  97.5% loss=0.58790 jepa=0.19899 hard=0.33732 hard_red=0.02212
+[v4_reduction_sign gpu7] [train-progress] epoch=13 [########################] 1000/1000 100.0% loss=0.58832 jepa=0.19906 hard=0.33859 hard_red=0.02249
+[v4_reduction_sign gpu7] [train] epoch=13 horizon=2 train_loss=0.588319 val_loss=0.155143 train_steps=1000
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [------------------------] 1/1000   0.1% loss=0.06040 jepa=0.10894 hard=0.20180 hard_red=0.00011
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [------------------------] 25/1000   2.5% loss=1.16770 jepa=0.21052 hard=0.33817 hard_red=0.03054
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#-----------------------] 50/1000   5.0% loss=0.93206 jepa=0.19659 hard=0.30012 hard_red=0.02995
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#-----------------------] 75/1000   7.5% loss=0.83202 jepa=0.19914 hard=0.29963 hard_red=0.03241
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##----------------------] 100/1000  10.0% loss=0.72815 jepa=0.20101 hard=0.29714 hard_red=0.02868
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###---------------------] 125/1000  12.5% loss=0.79505 jepa=0.20553 hard=0.31835 hard_red=0.02800
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###---------------------] 150/1000  15.0% loss=0.77353 jepa=0.20076 hard=0.29636 hard_red=0.02635
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [####--------------------] 175/1000  17.5% loss=0.73739 jepa=0.20394 hard=0.29055 hard_red=0.02498
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [####--------------------] 200/1000  20.0% loss=0.70515 jepa=0.20240 hard=0.28661 hard_red=0.02387
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#####-------------------] 225/1000  22.5% loss=0.71983 jepa=0.20137 hard=0.29260 hard_red=0.02309
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [######------------------] 250/1000  25.0% loss=0.71420 jepa=0.19986 hard=0.30186 hard_red=0.02194
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [######------------------] 275/1000  27.5% loss=0.69325 jepa=0.19809 hard=0.30650 hard_red=0.02270
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#######-----------------] 300/1000  30.0% loss=0.68665 jepa=0.19764 hard=0.29755 hard_red=0.02330
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#######-----------------] 325/1000  32.5% loss=0.67882 jepa=0.19517 hard=0.30173 hard_red=0.02332
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [########----------------] 350/1000  35.0% loss=0.66405 jepa=0.19662 hard=0.29647 hard_red=0.02359
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#########---------------] 375/1000  37.5% loss=0.66775 jepa=0.19529 hard=0.30383 hard_red=0.02398
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#########---------------] 400/1000  40.0% loss=0.65292 jepa=0.19322 hard=0.29905 hard_red=0.02390
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##########--------------] 425/1000  42.5% loss=0.63881 jepa=0.19312 hard=0.30319 hard_red=0.02392
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##########--------------] 450/1000  45.0% loss=0.65631 jepa=0.19299 hard=0.30707 hard_red=0.02462
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###########-------------] 475/1000  47.5% loss=0.64822 jepa=0.19279 hard=0.31003 hard_red=0.02414
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [############------------] 500/1000  50.0% loss=0.64149 jepa=0.19219 hard=0.30979 hard_red=0.02413
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [############------------] 525/1000  52.5% loss=0.65831 jepa=0.19309 hard=0.31366 hard_red=0.02537
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#############-----------] 550/1000  55.0% loss=0.65147 jepa=0.19237 hard=0.32191 hard_red=0.02485
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#############-----------] 575/1000  57.5% loss=0.66243 jepa=0.19269 hard=0.33021 hard_red=0.02464
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##############----------] 600/1000  60.0% loss=0.66740 jepa=0.19210 hard=0.33541 hard_red=0.02432
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###############---------] 625/1000  62.5% loss=0.66472 jepa=0.19317 hard=0.34098 hard_red=0.02398
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###############---------] 650/1000  65.0% loss=0.65405 jepa=0.19217 hard=0.33962 hard_red=0.02394
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [################--------] 675/1000  67.5% loss=0.64844 jepa=0.19305 hard=0.33736 hard_red=0.02397
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [################--------] 700/1000  70.0% loss=0.65195 jepa=0.19313 hard=0.33554 hard_red=0.02358
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#################-------] 725/1000  72.5% loss=0.64871 jepa=0.19305 hard=0.34104 hard_red=0.02370
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##################------] 750/1000  75.0% loss=0.64533 jepa=0.19302 hard=0.34629 hard_red=0.02367
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [##################------] 775/1000  77.5% loss=0.64783 jepa=0.19444 hard=0.34685 hard_red=0.02411
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###################-----] 800/1000  80.0% loss=0.65583 jepa=0.19892 hard=0.34460 hard_red=0.02477
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [###################-----] 825/1000  82.5% loss=0.65457 jepa=0.19926 hard=0.34447 hard_red=0.02468
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [####################----] 850/1000  85.0% loss=0.66147 jepa=0.20105 hard=0.34664 hard_red=0.02515
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#####################---] 875/1000  87.5% loss=0.66556 jepa=0.20239 hard=0.34980 hard_red=0.02486
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#####################---] 900/1000  90.0% loss=0.66432 jepa=0.20254 hard=0.34852 hard_red=0.02495
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [######################--] 925/1000  92.5% loss=0.66393 jepa=0.20273 hard=0.34978 hard_red=0.02489
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [######################--] 950/1000  95.0% loss=0.66323 jepa=0.20361 hard=0.34706 hard_red=0.02505
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [#######################-] 975/1000  97.5% loss=0.66547 jepa=0.20421 hard=0.34737 hard_red=0.02472
+[v4_reduction_sign gpu7] [train-progress] epoch=14 [########################] 1000/1000 100.0% loss=0.66552 jepa=0.20423 hard=0.34603 hard_red=0.02462
+[v4_reduction_sign gpu7] [train] epoch=14 horizon=2 train_loss=0.665517 val_loss=0.269876 train_steps=1000
+[v4_reduction_sign gpu7] [2026-07-04T12:41:47+08:00] v4_reduction_sign train_done checkpoint=runs/mainline_accuracy_improve_v4_reduction_sign/best.pt
+[v4_reduction_sign gpu7] {
+[v4_reduction_sign gpu7]   "checkpoint": "runs/mainline_accuracy_improve_v4_reduction_sign/best.pt",
+[v4_reduction_sign gpu7]   "config": "configs/mainline_accuracy_improve_v4_reduction_sign.json",
+[v4_reduction_sign gpu7]   "device": "cuda",
+[v4_reduction_sign gpu7]   "metrics": [
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.1474609375,
+[v4_reduction_sign gpu7]       "balanced_accuracy": "",
+[v4_reduction_sign gpu7]       "f1": "",
+[v4_reduction_sign gpu7]       "metric_type": "sign",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "positive_rate": 0.055908203125,
+[v4_reduction_sign gpu7]       "precision": "",
+[v4_reduction_sign gpu7]       "pred_positive_rate": 0.0,
+[v4_reduction_sign gpu7]       "recall": "",
+[v4_reduction_sign gpu7]       "task": "hard_reduction_sa0_sign"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.175048828125,
+[v4_reduction_sign gpu7]       "balanced_accuracy": "",
+[v4_reduction_sign gpu7]       "f1": "",
+[v4_reduction_sign gpu7]       "metric_type": "sign",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "positive_rate": 0.2607421875,
+[v4_reduction_sign gpu7]       "precision": "",
+[v4_reduction_sign gpu7]       "pred_positive_rate": 0.07080078125,
+[v4_reduction_sign gpu7]       "recall": "",
+[v4_reduction_sign gpu7]       "task": "hard_reduction_sa1_sign"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.269775390625,
+[v4_reduction_sign gpu7]       "balanced_accuracy": "",
+[v4_reduction_sign gpu7]       "f1": "",
+[v4_reduction_sign gpu7]       "metric_type": "sign",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "positive_rate": 0.249267578125,
+[v4_reduction_sign gpu7]       "precision": "",
+[v4_reduction_sign gpu7]       "pred_positive_rate": 0.056396484375,
+[v4_reduction_sign gpu7]       "recall": "",
+[v4_reduction_sign gpu7]       "task": "hard_reduction_total_sign"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.615966796875,
+[v4_reduction_sign gpu7]       "balanced_accuracy": "",
+[v4_reduction_sign gpu7]       "f1": "",
+[v4_reduction_sign gpu7]       "metric_type": "sign",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "positive_rate": 0.78125,
+[v4_reduction_sign gpu7]       "precision": "",
+[v4_reduction_sign gpu7]       "pred_positive_rate": 0.721435546875,
+[v4_reduction_sign gpu7]       "recall": "",
+[v4_reduction_sign gpu7]       "task": "return_pred_sign"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.78125,
+[v4_reduction_sign gpu7]       "balanced_accuracy": "",
+[v4_reduction_sign gpu7]       "f1": "",
+[v4_reduction_sign gpu7]       "metric_type": "sign",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "positive_rate": 0.78125,
+[v4_reduction_sign gpu7]       "precision": "",
+[v4_reduction_sign gpu7]       "pred_positive_rate": 1.0,
+[v4_reduction_sign gpu7]       "recall": "",
+[v4_reduction_sign gpu7]       "task": "reward_pred_sign"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.9160219402002497,
+[v4_reduction_sign gpu7]       "balanced_accuracy": 0.8416774970151206,
+[v4_reduction_sign gpu7]       "f1": 0.7471847689537727,
+[v4_reduction_sign gpu7]       "metric_type": "binary",
+[v4_reduction_sign gpu7]       "n": 1991413,
+[v4_reduction_sign gpu7]       "positive_rate": 0.17023992511849625,
+[v4_reduction_sign gpu7]       "precision": 0.766352531839875,
+[v4_reduction_sign gpu7]       "recall": 0.7289524450029202,
+[v4_reduction_sign gpu7]       "task": "hard_node_any"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.9943467276752738,
+[v4_reduction_sign gpu7]       "balanced_accuracy": 0.8197010432979954,
+[v4_reduction_sign gpu7]       "f1": 0.7257490864799024,
+[v4_reduction_sign gpu7]       "metric_type": "binary",
+[v4_reduction_sign gpu7]       "n": 1991413,
+[v4_reduction_sign gpu7]       "positive_rate": 0.011671612066407119,
+[v4_reduction_sign gpu7]       "precision": 0.8365249620935588,
+[v4_reduction_sign gpu7]       "recall": 0.6408811255001505,
+[v4_reduction_sign gpu7]       "task": "hard_node_sa0"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.9165522169434467,
+[v4_reduction_sign gpu7]       "balanced_accuracy": 0.8375931323299006,
+[v4_reduction_sign gpu7]       "f1": 0.7382352431553727,
+[v4_reduction_sign gpu7]       "metric_type": "binary",
+[v4_reduction_sign gpu7]       "n": 1991413,
+[v4_reduction_sign gpu7]       "positive_rate": 0.16335938351311355,
+[v4_reduction_sign gpu7]       "precision": 0.7570664728212584,
+[v4_reduction_sign gpu7]       "recall": 0.7203180907179481,
+[v4_reduction_sign gpu7]       "task": "hard_node_sa1"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.28604485482730385,
+[v4_reduction_sign gpu7]       "metric_type": "topk_recall",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "task": "hard_node_top10_recall"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.3345817958885104,
+[v4_reduction_sign gpu7]       "metric_type": "topk_recall",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "task": "hard_node_top20_recall"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.48639394084947557,
+[v4_reduction_sign gpu7]       "metric_type": "topk_recall",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "task": "hard_node_top50_recall"
+[v4_reduction_sign gpu7]     },
+[v4_reduction_sign gpu7]     {
+[v4_reduction_sign gpu7]       "accuracy": 0.6658557094638367,
+[v4_reduction_sign gpu7]       "metric_type": "topk_recall",
+[v4_reduction_sign gpu7]       "n": 4096,
+[v4_reduction_sign gpu7]       "task": "hard_node_top100_recall"
+[v4_reduction_sign gpu7]     }
+[v4_reduction_sign gpu7]   ],
+[v4_reduction_sign gpu7]   "samples": 4096
+[v4_reduction_sign gpu7] }
+[v4_reduction_sign gpu7] [2026-07-04T12:43:52+08:00] v4_reduction_sign eval_done accuracy=autoresearch/improve-260704-1035/parallel_accuracy_variants/accuracy/v4_reduction_sign/trained_head_accuracy.tsv

@@ -1,0 +1,7 @@
+# metric_direction: higher_is_better
+iteration	timestamp	category	research_question	status	source	insight_problem	insight_mechanism	confidence	classification
+1	2026-07-04T16:56:00+08:00	ICP challenges	Why did prediction-accuracy training regress planner performance?	complete	local eval summaries	static prediction accuracy fails to optimize candidate action ranking	train and gate on b21 world_rerank delta TC instead of validation accuracy	HIGH	new
+2	2026-07-04T16:58:00+08:00	Competitor gaps	What made the incumbent world_rerank model strong?	complete	config/history comparison	incumbent reward-only rollout model aligns with planner objective	restore horizon5 reward/fc rollout recipe as base and add ranking loss	HIGH	new
+3	2026-07-04T17:00:00+08:00	Market trends	Which local training mechanism directly optimizes ranking?	complete	tpi_jepa.train oracle loss code	backend-labeled oracle action groups already support pairwise/listwise ranking	use lambda_q_rank and lambda_candidate on planner score fields	HIGH	new
+4	2026-07-04T17:02:00+08:00	UX & experience	How should future improvement be judged?	complete	b21 gate results	offline validation metrics hide NaN and long-rollout drift	add NaN guard and b21 gate summary to every candidate run	HIGH	extension
+5	2026-07-04T17:04:00+08:00	Revenue & growth	What is the fastest path to recover insertion gains?	complete	existing scripts/configs	retraining all hard heads wastes GPU on non-planner objectives	run small planner-aligned variants in parallel on GPUs 4-6 before 8-circuit evaluation	MEDIUM	new

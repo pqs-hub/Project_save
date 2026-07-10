@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "openabcd__mem_ctrl_orig",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "openabcd__mem_ctrl_orig",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 69977,
+    "effective_pattern_count": 2957,
+    "fault_coverage": 0.6461199999999999,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 38327
+    },
+    "hard_fault_count": 38327,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.6461199999999999,
+    "total_faults": 108304,
+    "undetected_fault_count": 38327,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 36391,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 38327,
+    "undetected_sa0_count": 3051,
+    "undetected_sa1_count": 35276,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/openabcd__mem_ctrl_orig/evals/openabcd__mem_ctrl_orig/heuristic_recall_pool/N18111__control0/openabcd__mem_ctrl_orig/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "aea5be2bff0456bae1e5178de2ac907f90073a77accea74bc2dbdaa866253c52",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 16960,
+      "net": "N18111",
+      "score": 0.44804999232292175,
+      "type": "CP0"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/mem_ctrl_aig.bench",
+  "source_bench_sha256": "69bc7870ebe4a2a5b25121c1771d7bcd25770f21c5950781cb6d9d3b72b809ba",
+  "status": "ok"
+}
