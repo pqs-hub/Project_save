@@ -1,0 +1,9 @@
+# metric_direction: higher_is_better
+iteration	timestamp	commit	metric	delta	guard	guard-metric	status	description
+0	2026-07-06T10:34:00+08:00	-	NA	0.0	not_run	NA	baseline_skipped	Verify is a long GPU rerank job; baseline should be established by running run_dev_non_target_rerank_parallel.sh.
+1	2026-07-06T10:48:00+08:00	-	NA	NA	pass	4 pytest passed	prepared	Added top-heavy oracle NDCG/listwise loss plus q/reward NDCG safe configs; GPU Verify not started.
+2	2026-07-06T11:02:00+08:00	-	NA	NA	pass	5 pytest passed	prepared	Added CQL-style conservative q oracle loss plus q_rank_v4_conservative_safe config; GPU Verify not started.
+3	2026-07-06T11:18:00+08:00	-	NA	NA	pass	5 pytest passed + LCB smoke passed	prepared	Added greedy ensemble lower-confidence-bound rerank support plus q/reward LCB ensemble script entries; GPU Verify not started.
+4	2026-07-06T19:50:00+08:00	-	NA	NA	pass	py_compile + bash -n + 5 pytest passed + dev preflight passed	fixed	Changed non-target dev default from missing iscas89__s838 to local subckt_0001 and added BENCH preflight.
+5	2026-07-06T20:05:04+08:00	-	NA	NA	pass	py_compile + bash -n + 7 pytest passed + safe audit + context smoke passed	prepared	Added candidate-context oracle loss, context planner score fields, q/reward context safe configs, and context dev/final script entries; GPU Verify not started.
+6	2026-07-06T20:10:52+08:00	-	NA	NA	pass	py_compile + 9 pytest passed + real config oracle preflight passed	fixed	Changed oracle loading to skip forbidden benchmark rows such as subckt_0001 instead of crashing, while keeping forbidden groups out of training.

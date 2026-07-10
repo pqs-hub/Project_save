@@ -1,0 +1,53 @@
+{
+  "benchmark_id": "epfl__arithmetic__max__max",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__arithmetic__max__max",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 4862,
+    "effective_pattern_count": 178,
+    "fault_coverage": 0.62622,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 2902
+    },
+    "hard_fault_count": 2902,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.62622,
+    "total_faults": 7764,
+    "undetected_fault_count": 2902,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 2779,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/undetected_nodes.csv",
+    "undetected_output_fault_count": 2902,
+    "undetected_sa0_count": 127,
+    "undetected_sa1_count": 2775,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-eval8-smallk24-260701-v1/A_heuristic_only/evals/epfl__arithmetic__max__max/epfl__arithmetic__max__max/seq_0000/step_0002/inserted.bench",
+  "inserted_bench_sha256": "eb0ede8d5a71ab437a3272374c780be2d1907ed0fd82d6d0a1a3f8cfe0889313",
+  "inserted_count": 2,
+  "insertion_sequence": [
+    {
+      "candidate_id": 11063,
+      "net": "N4039",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 11057,
+      "net": "N3845",
+      "score": null,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/max_aig.bench",
+  "source_bench_sha256": "9dd322be7ce0c94e8113ad14481a9c4c2aaf7dbc64227ce983b69ba9ae25be44",
+  "status": "ok"
+}

@@ -177,6 +177,10 @@ For the fixed final evaluation protocol, use:
 configs/eval_protocol_coverage_only.json
 ```
 
+That protocol has strict restored DeepTPI Table-II `#TPs` budgets. Do not
+recompute budgets from the current BENCH parser when comparing against Table-II
+or historical 8-circuit results.
+
 ## Where Outputs Go
 
 Training and sweep artifacts are typically written under:

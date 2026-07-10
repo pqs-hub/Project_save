@@ -1,0 +1,71 @@
+{
+  "benchmark_id": "epfl__arithmetic__max__max",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__arithmetic__max__max",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 5006,
+    "effective_pattern_count": 190,
+    "fault_coverage": 0.64361,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 2772
+    },
+    "hard_fault_count": 2772,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.64361,
+    "total_faults": 7778,
+    "undetected_fault_count": 2772,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 2658,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/undetected_nodes.csv",
+    "undetected_output_fault_count": 2772,
+    "undetected_sa0_count": 117,
+    "undetected_sa1_count": 2655,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/C_depth2_rollout/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw2__d2__c24__g1p0__candheuristic_recall_pool__div0p0__s0__kr24__km8__kp4/epfl__arithmetic__max__max/seq_0000/step_0005/inserted.bench",
+  "inserted_bench_sha256": "854e019bdd1b77f39fc24fb660815f6f0f40110f6de21759c30d85ef591efe58",
+  "inserted_count": 5,
+  "insertion_sequence": [
+    {
+      "candidate_id": 3527,
+      "net": "N4039",
+      "score": 0.47902345657348633,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3715,
+      "net": "N4227",
+      "score": 0.4706420600414276,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3684,
+      "net": "N4196",
+      "score": 0.469752699136734,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3649,
+      "net": "N4161",
+      "score": 0.46752676367759705,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3491,
+      "net": "N4003",
+      "score": 0.46868208050727844,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/max_aig.bench",
+  "source_bench_sha256": "a437643367c1590a1c530f0c2cca5aacddfc1a8978a6ad8e65258fb916c0544d",
+  "status": "ok"
+}

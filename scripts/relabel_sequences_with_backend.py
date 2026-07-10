@@ -7,6 +7,7 @@ import csv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
 import json
+import os
 from pathlib import Path
 import sys
 import time
@@ -16,7 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-DATASET_ROOT = Path("/data3/pengqingsong/DFT/Dataset")
+DATASET_ROOT = Path(os.environ.get("DFT_ROOT", "/data4/pengqingsong/DFT")) / "Dataset"
 if str(DATASET_ROOT) not in sys.path:
     sys.path.insert(0, str(DATASET_ROOT))
 
@@ -238,7 +239,10 @@ def main() -> None:
     parser.add_argument("--tmax-bin", default="/data3/pengqingsong/synopsys/txs/O-2018.06-SP1/bin/tmax")
     parser.add_argument(
         "--atalanta-bin",
-        default="/data3/pengqingsong/DFT/DeepTPI-project/external/DeepTPI/src/external/Atalanta_BIST/atalanta",
+        default=str(
+            Path(os.environ.get("DFT_ROOT", "/data4/pengqingsong/DFT"))
+            / "tool/atalanta_bist_with_ufaults/atalanta"
+        ),
     )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--force", action="store_true")

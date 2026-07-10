@@ -1,0 +1,37 @@
+{
+  "version": "2.1.0",
+  "source": "improve",
+  "timestamp": "2026-07-06T10:20:00+08:00",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/improve-260706-0959/improve-results.tsv",
+  "findings": [
+    {
+      "tier": "Must-have",
+      "confidence": "HIGH",
+      "problem": "Need rerank gains without target-circuit leakage",
+      "mechanism": "Train safe planner-aligned variants and enforce oracle_forbidden_benchmarks",
+      "prd_path": "autoresearch/improve-260706-0959/prd-rerank-safe-heldout.md"
+    },
+    {
+      "tier": "Must-have",
+      "confidence": "HIGH",
+      "problem": "Current q/reward models lose to old on i2c and b15",
+      "mechanism": "Run reward, q, guarded_reward, and hybrid safe variants across eight GPUs",
+      "prd_path": "autoresearch/improve-260706-0959/prd-rerank-safe-heldout.md"
+    }
+  ],
+  "config": {
+    "goal": "Improve current world model rerank ability to exceed old held-out result without using the 8 target circuits for training/calibration/selection.",
+    "icp": "DFT/TPI model researcher evaluating held-out circuit generalization.",
+    "depth": "standard",
+    "categories_explored": [
+      "ICP challenges",
+      "Competitor gaps",
+      "Market trends",
+      "UX & experience",
+      "Revenue & growth"
+    ],
+    "insights_total": 6,
+    "prds_generated": 1
+  }
+}
