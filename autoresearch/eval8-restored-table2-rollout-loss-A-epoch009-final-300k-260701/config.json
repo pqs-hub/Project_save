@@ -1,0 +1,165 @@
+{
+  "activation_priors": null,
+  "atalanta_bin": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta",
+  "beam_objectives": "cumulative",
+  "beam_widths": "2",
+  "benchmark_budgets": null,
+  "benchmarks": "iscas99__b15_1,iscas99__b20,iscas99__b21,iscas99__b22,epfl__random_control__i2c__i2c,epfl__arithmetic__max__max,iscas99__b17,openabcd__mem_ctrl_orig",
+  "budget_mode": "floor1pct",
+  "candidate_cache_dir": null,
+  "candidate_diversity_depths": "4",
+  "candidate_diversity_penalties": "0.0",
+  "candidate_sample_seeds": "0",
+  "candidate_strategies": "hard_fault_cone",
+  "checkpoint": "runs/rollout_loss_A_reward_only/epoch_009.pt",
+  "cleanup_workdir": true,
+  "discount_gammas": "0.9",
+  "dry_run": false,
+  "eval_backend": "atalanta-bist",
+  "eval_protocol": "configs/eval_protocol_coverage_only.json",
+  "eval_protocol_loaded": {
+    "bench_root": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench",
+    "benchmark_aliases": {
+      "b15_C": "iscas99__b15_1",
+      "b17_C": "iscas99__b17",
+      "b20_C": "iscas99__b20",
+      "b21_C": "iscas99__b21",
+      "b22_C": "iscas99__b22",
+      "i2c": "epfl__random_control__i2c__i2c",
+      "max": "epfl__arithmetic__max__max",
+      "mem_ctrl": "openabcd__mem_ctrl_orig"
+    },
+    "benchmark_budgets": {
+      "epfl__arithmetic__max__max": 94,
+      "epfl__random_control__i2c__i2c": 34,
+      "iscas99__b15_1": 278,
+      "iscas99__b17": 994,
+      "iscas99__b20": 616,
+      "iscas99__b21": 628,
+      "iscas99__b22": 915,
+      "openabcd__mem_ctrl_orig": 1273
+    },
+    "benchmarks": [
+      "iscas99__b15_1",
+      "iscas99__b20",
+      "iscas99__b21",
+      "iscas99__b22",
+      "epfl__random_control__i2c__i2c",
+      "epfl__arithmetic__max__max",
+      "iscas99__b17",
+      "openabcd__mem_ctrl_orig"
+    ],
+    "budget_mode": "floor1pct",
+    "description": "Fixed 8-circuit evaluation protocol matching the user-provided benchmark table.",
+    "development_benchmark": "iscas89__s838",
+    "fixed_budget": null,
+    "max_tp_ratio": 0.01,
+    "name": "coverage_only_fixed_v3_table8",
+    "notes": [
+      "Use this protocol for final planner and method comparisons.",
+      "BENCH files are loaded from autoresearch/deeptpi_table2_restored_bench to match the restored DeepTPI Table II circuits.",
+      "Training/framework sweeps may use a single development benchmark, but final claims should use this full protocol.",
+      "The TP budget uses floor rounding so it is capped at one percent of logic gates, with a minimum budget of one TPI.",
+      "This protocol follows the user-provided benchmark table.",
+      "Baseline TC must be measured by the local TMAX flow on the local BENCH files; paper_reference_tc is only for traceability.",
+      "Local standardized BENCH files may have different gate counts from the table because they come from a different synthesis or mapping flow."
+    ],
+    "path": "configs/eval_protocol_coverage_only.json",
+    "patterns": 300000,
+    "primary_metric": "macro_mean_delta_tc",
+    "reported_metrics": [
+      "macro_mean_delta_tc",
+      "min_delta_tc",
+      "router_delta_tc",
+      "positive_count",
+      "negative_count",
+      "per_benchmark_delta_test_coverage",
+      "per_benchmark_delta_fault_coverage",
+      "elapsed_sec"
+    ],
+    "safety_benchmark": "epfl__random_control__router__router",
+    "safety_min_delta": -0.005,
+    "seed": 2026,
+    "selection_rule": [
+      "prefer safe == true",
+      "maximize macro_mean_delta_tc",
+      "break ties by min_delta_tc",
+      "break ties by router_delta_tc",
+      "break ties by lower negative_count"
+    ],
+    "table_rows": [
+      {
+        "benchmark_id": "iscas99__b15_1",
+        "circuit": "b15_C",
+        "id": "D1",
+        "paper_reference_tc": 0.9061
+      },
+      {
+        "benchmark_id": "iscas99__b20",
+        "circuit": "b20_C",
+        "id": "D2",
+        "paper_reference_tc": 0.906
+      },
+      {
+        "benchmark_id": "iscas99__b21",
+        "circuit": "b21_C",
+        "id": "D3",
+        "paper_reference_tc": 0.8973
+      },
+      {
+        "benchmark_id": "iscas99__b22",
+        "circuit": "b22_C",
+        "id": "D4",
+        "paper_reference_tc": 0.917
+      },
+      {
+        "benchmark_id": "epfl__random_control__i2c__i2c",
+        "circuit": "i2c",
+        "id": "D5",
+        "paper_reference_tc": 0.8611
+      },
+      {
+        "benchmark_id": "epfl__arithmetic__max__max",
+        "circuit": "max",
+        "id": "D6",
+        "paper_reference_tc": 0.5265
+      },
+      {
+        "benchmark_id": "iscas99__b17",
+        "circuit": "b17_C",
+        "id": "D7",
+        "paper_reference_tc": 0.8684
+      },
+      {
+        "benchmark_id": "openabcd__mem_ctrl_orig",
+        "circuit": "mem_ctrl",
+        "id": "D8",
+        "paper_reference_tc": 0.6995
+      }
+    ],
+    "timeout_sec": 14400,
+    "tp_budget_rule": "Use benchmark_budgets from Table IV #TPs when present; otherwise fall back to budget = max(1, floor(logic_gate_count * 0.01))."
+  },
+  "eval_step_mode": "final",
+  "fixed_budget": null,
+  "k_models": "",
+  "k_plans": "",
+  "k_recalls": "",
+  "lookahead_depths": "2",
+  "max_candidates": "96",
+  "out_dir": "autoresearch/eval8-restored-table2-rollout-loss-A-epoch009-final-300k-260701",
+  "patterns": 300000,
+  "plan_device": "cuda",
+  "planners": "beam",
+  "prior_setup_elapsed_sec": 0.0,
+  "real_fault_priors": null,
+  "safety_benchmark": "epfl__random_control__router__router",
+  "safety_min_delta": -0.005,
+  "save_step_training_data": false,
+  "score_fields": "reward_pred",
+  "seed": 2026,
+  "started": "260701-155134",
+  "stream_logs": true,
+  "time_limit_hours": 72.0,
+  "timeout_sec": 14400
+}

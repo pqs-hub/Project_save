@@ -1,0 +1,140 @@
+{
+  "recorded_at": "2026-07-07",
+  "status": "current_best",
+  "selection_basis": {
+    "metric": "macro_final_test_coverage_pct",
+    "direction": "higher_is_better",
+    "comparison_target": "DeepTPI Table-II final TC",
+    "final_tc_formula": "measured_local_baseline_tc + model_delta_tc",
+    "heldout_policy": "8 target circuits are held out from training, calibration, and model selection"
+  },
+  "protocol": {
+    "eval_protocol": "configs/eval_protocol_coverage_only.json",
+    "bench_root": "autoresearch/deeptpi_table2_restored_bench",
+    "eval_backend": "atalanta-bist",
+    "patterns": 300000,
+    "seed": 2026,
+    "eval_step_mode": "final",
+    "budget_contract": "strict restored DeepTPI Table-II #TP budgets"
+  },
+  "best_method": {
+    "name": "q_lcb_ensemble_safe",
+    "score_field": "q_pred_lcb",
+    "planner": "greedy",
+    "beam_objective": "cumulative",
+    "beam_width": 1,
+    "lookahead_depth": 1,
+    "max_candidates": 96,
+    "candidate_strategy": "heuristic_recall_pool",
+    "candidate_diversity_penalty": 0.0,
+    "candidate_diversity_depth": 4,
+    "ensemble_lcb_alpha": 0.75,
+    "checkpoints": [
+      "runs/planner_aligned_q_rank_v1/best_final_horizon.pt",
+      "runs/planner_aligned_q_rank_v2_safe/best_final_horizon.pt",
+      "runs/planner_aligned_q_rank_v2_seed2_safe/best_final_horizon.pt"
+    ]
+  },
+  "aggregate_result": {
+    "n": 8,
+    "macro_final_tc_pct": 90.357,
+    "min_final_tc_pct": 74.852,
+    "beats_deeptpi": "8/8",
+    "worst_gap_vs_deeptpi_pp": 0.046
+  },
+  "per_circuit_results": [
+    {
+      "id": "D1",
+      "circuit": "b15_C",
+      "benchmark_id": "iscas99__b15_1",
+      "budget": 278,
+      "baseline_tc_pct": 81.764,
+      "model_final_tc_pct": 90.656,
+      "deeptpi_final_tc_pct": 90.610,
+      "gap_vs_deeptpi_pp": 0.046,
+      "delta_tc_pct": 8.892
+    },
+    {
+      "id": "D2",
+      "circuit": "b20_C",
+      "benchmark_id": "iscas99__b20",
+      "budget": 616,
+      "baseline_tc_pct": 90.757,
+      "model_final_tc_pct": 97.087,
+      "deeptpi_final_tc_pct": 90.600,
+      "gap_vs_deeptpi_pp": 6.487,
+      "delta_tc_pct": 6.330
+    },
+    {
+      "id": "D3",
+      "circuit": "b21_C",
+      "benchmark_id": "iscas99__b21",
+      "budget": 628,
+      "baseline_tc_pct": 89.682,
+      "model_final_tc_pct": 96.379,
+      "deeptpi_final_tc_pct": 89.730,
+      "gap_vs_deeptpi_pp": 6.649,
+      "delta_tc_pct": 6.697
+    },
+    {
+      "id": "D4",
+      "circuit": "b22_C",
+      "benchmark_id": "iscas99__b22",
+      "budget": 915,
+      "baseline_tc_pct": 92.130,
+      "model_final_tc_pct": 97.187,
+      "deeptpi_final_tc_pct": 91.700,
+      "gap_vs_deeptpi_pp": 5.487,
+      "delta_tc_pct": 5.057
+    },
+    {
+      "id": "D5",
+      "circuit": "i2c",
+      "benchmark_id": "epfl__random_control__i2c__i2c",
+      "budget": 34,
+      "baseline_tc_pct": 94.900,
+      "model_final_tc_pct": 96.907,
+      "deeptpi_final_tc_pct": 86.110,
+      "gap_vs_deeptpi_pp": 10.797,
+      "delta_tc_pct": 2.007
+    },
+    {
+      "id": "D6",
+      "circuit": "max",
+      "benchmark_id": "epfl__arithmetic__max__max",
+      "budget": 94,
+      "baseline_tc_pct": 59.796,
+      "model_final_tc_pct": 79.916,
+      "deeptpi_final_tc_pct": 52.650,
+      "gap_vs_deeptpi_pp": 27.266,
+      "delta_tc_pct": 20.120
+    },
+    {
+      "id": "D7",
+      "circuit": "b17_C",
+      "benchmark_id": "iscas99__b17",
+      "budget": 994,
+      "baseline_tc_pct": 85.623,
+      "model_final_tc_pct": 89.869,
+      "deeptpi_final_tc_pct": 86.840,
+      "gap_vs_deeptpi_pp": 3.029,
+      "delta_tc_pct": 4.246
+    },
+    {
+      "id": "D8",
+      "circuit": "mem_ctrl",
+      "benchmark_id": "openabcd__mem_ctrl_orig",
+      "budget": 1273,
+      "baseline_tc_pct": 65.823,
+      "model_final_tc_pct": 74.852,
+      "deeptpi_final_tc_pct": 69.950,
+      "gap_vs_deeptpi_pp": 4.902,
+      "delta_tc_pct": 9.029
+    }
+  ],
+  "result_files": {
+    "summary_tsv": "autoresearch/improve-260706-0959/eval8_final_heldout_oldbudget/summary.tsv",
+    "final_tc_comparison_tsv": "autoresearch/improve-260706-0959/eval8_final_heldout_oldbudget/comparison_final_tc_vs_deeptpi.tsv"
+  },
+  "reproduce_command": "cd /data4/pengqingsong/DFT/TPI-my.3 && CONFIRM_EVAL8_HELDOUT=1 PRIOR_MODE=old MODEL_FILTER=q_lcb GPUS_CSV=0,1,2,3 MAX_PARALLEL=2 FORCE=1 bash autoresearch/improve-260706-0959/run_eval8_final_heldout_parallel.sh"
+}

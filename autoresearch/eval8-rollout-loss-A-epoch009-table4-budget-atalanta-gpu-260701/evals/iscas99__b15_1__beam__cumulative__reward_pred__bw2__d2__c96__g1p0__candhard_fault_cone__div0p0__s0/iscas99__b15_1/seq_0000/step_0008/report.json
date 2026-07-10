@@ -1,0 +1,89 @@
+{
+  "benchmark_id": "iscas99__b15_1",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "iscas99__b15_1",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 20466,
+    "effective_pattern_count": 815,
+    "fault_coverage": 0.8802599999999999,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 2784
+    },
+    "hard_fault_count": 2784,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.8802599999999999,
+    "total_faults": 23250,
+    "undetected_fault_count": 2784,
+    "undetected_input_edge_fault_count": 2,
+    "undetected_node_count": 2764,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/undetected_nodes.csv",
+    "undetected_output_fault_count": 2782,
+    "undetected_sa0_count": 190,
+    "undetected_sa1_count": 2594,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/eval8-rollout-loss-A-epoch009-table4-budget-atalanta-gpu-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/iscas99__b15_1/seq_0000/step_0008/inserted.bench",
+  "inserted_bench_sha256": "25b4128dbe87c4a6f4fda5e0e065ce6e18c0198257b642c983c19ee9751a64a3",
+  "inserted_count": 8,
+  "insertion_sequence": [
+    {
+      "candidate_id": 19717,
+      "net": "__buf_split_6556",
+      "score": 0.4128873646259308,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 19719,
+      "net": "__buf_split_6557",
+      "score": 0.3844054639339447,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20852,
+      "net": "__buf_split_6836",
+      "score": 0.37477177381515503,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20853,
+      "net": "N26657",
+      "score": 0.3782746195793152,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20055,
+      "net": "__buf_split_6633",
+      "score": 0.38057973980903625,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20056,
+      "net": "N26672",
+      "score": 0.3834298551082611,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20043,
+      "net": "__buf_split_6627",
+      "score": 0.38509833812713623,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 20850,
+      "net": "__buf_split_6835",
+      "score": 0.3920525312423706,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b15_C.bench",
+  "source_bench_sha256": "3e2646ef1fda8ac89ea99bfaef525127d0df0b46b7263d1e7be204bfd1eb2df0",
+  "status": "ok"
+}

@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "iscas99__b21",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "iscas99__b21",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 43207,
+    "effective_pattern_count": 1601,
+    "fault_coverage": 0.89693,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 4965
+    },
+    "hard_fault_count": 4965,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.89693,
+    "total_faults": 48172,
+    "undetected_fault_count": 4965,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 4727,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 4965,
+    "undetected_sa0_count": 295,
+    "undetected_sa1_count": 4670,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b21/evals/iscas99__b21/heuristic_recall_pool/N6551__observe/iscas99__b21/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "7b6fd1d92c2ae49018e81c8770b035324b2091e111f145cfc814b706272fa1c8",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 5542,
+      "net": "N6551",
+      "score": 0.4079241454601288,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/b21_C.bench",
+  "source_bench_sha256": "6b727bfab8e03647b5764c4d3aeb2495ce6c856d87d574a8da133d2eed6626b7",
+  "status": "ok"
+}

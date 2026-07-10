@@ -1,0 +1,989 @@
+[q_rank_v1 gpu6] [2026-07-04T17:12:06+08:00] train_start name=q_rank_v1 gpu=6 config=configs/planner_aligned_q_rank_v1.json
+[q_rank_v1 gpu6] [train] disabling pattern loss
+[q_rank_v1 gpu6] [train] note: delta_test_coverage is retained as a weak objective; the main hard-fault target is hard_reduction
+[q_rank_v1 gpu6] [train] q_oracle enabled groups=180 score_field=q_pred lambda_q_value=0.2 lambda_q_rank=1.0 lambda_candidate=0.5 pairwise_mode=best_vs_hard_topk
+[q_rank_v1 gpu6] [train] rows=100000 train_rows=83440 val_rows=16560 train_samples=16688 val_samples=3312 rollout_training=True feature_dim=38 relation_dim=12 cache_samples=False sample_cache_max_entries=unlimited
+[q_rank_v1 gpu6] [train-progress] epoch=1 [------------------------] 1/800   0.1% loss=0.24886 jepa=1.00843 hard=0.42148 hard_red=0.00161 oracle=2.33169 rank=0.69269 value=0.75325 cand=2.97670 pairs=148.0
+[q_rank_v1 gpu6] [train-progress] epoch=1 [------------------------] 25/800   3.1% loss=0.21090 jepa=0.63932 hard=0.99337 hard_red=0.03938 oracle=2.31693 rank=0.65527 value=0.53539 cand=3.10917 pairs=137.6
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#-----------------------] 50/800   6.2% loss=0.22623 jepa=0.47290 hard=0.98207 hard_red=0.03700 oracle=2.29635 rank=0.63520 value=0.51724 cand=3.11539 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=1 [##----------------------] 75/800   9.4% loss=0.19837 jepa=0.41844 hard=0.96652 hard_red=0.03411 oracle=2.25272 rank=0.59753 value=0.52731 cand=3.09947 pairs=135.9
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###---------------------] 100/800  12.5% loss=0.18940 jepa=0.38940 hard=0.96767 hard_red=0.03804 oracle=2.20530 rank=0.56239 value=0.51335 cand=3.08048 pairs=135.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###---------------------] 125/800  15.6% loss=0.17108 jepa=0.36514 hard=0.96062 hard_red=0.03422 oracle=2.18105 rank=0.54385 value=0.51504 cand=3.06838 pairs=135.8
+[q_rank_v1 gpu6] [train-progress] epoch=1 [####--------------------] 150/800  18.8% loss=0.16183 jepa=0.34938 hard=0.95102 hard_red=0.03293 oracle=2.14758 rank=0.51491 value=0.52483 cand=3.05540 pairs=136.9
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#####-------------------] 175/800  21.9% loss=0.16667 jepa=0.33887 hard=0.94098 hard_red=0.03378 oracle=2.11888 rank=0.49346 value=0.54193 cand=3.03407 pairs=138.4
+[q_rank_v1 gpu6] [train-progress] epoch=1 [######------------------] 200/800  25.0% loss=0.16414 jepa=0.32911 hard=0.93597 hard_red=0.03547 oracle=2.09215 rank=0.47712 value=0.56504 cand=3.00404 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [######------------------] 225/800  28.1% loss=0.15910 jepa=0.31656 hard=0.94349 hard_red=0.03539 oracle=2.06532 rank=0.45679 value=0.57455 cand=2.98723 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#######-----------------] 250/800  31.2% loss=0.15691 jepa=0.31035 hard=0.94424 hard_red=0.03469 oracle=2.03621 rank=0.43990 value=0.58403 cand=2.95901 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [########----------------] 275/800  34.4% loss=0.15914 jepa=0.30479 hard=0.94243 hard_red=0.03557 oracle=2.01293 rank=0.42442 value=0.58475 cand=2.94312 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#########---------------] 300/800  37.5% loss=0.15744 jepa=0.29823 hard=0.93966 hard_red=0.03392 oracle=1.98495 rank=0.40684 value=0.57714 cand=2.92536 pairs=138.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#########---------------] 325/800  40.6% loss=0.16626 jepa=0.29738 hard=0.94403 hard_red=0.03732 oracle=1.96120 rank=0.39262 value=0.58041 cand=2.90499 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=1 [##########--------------] 350/800  43.8% loss=0.16538 jepa=0.29381 hard=0.93518 hard_red=0.03749 oracle=1.94360 rank=0.38171 value=0.57415 cand=2.89412 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###########-------------] 375/800  46.9% loss=0.16424 jepa=0.29207 hard=0.94107 hard_red=0.03767 oracle=1.92147 rank=0.36943 value=0.56725 cand=2.87719 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=1 [############------------] 400/800  50.0% loss=0.16262 jepa=0.28830 hard=0.93871 hard_red=0.03660 oracle=1.90813 rank=0.36051 value=0.56630 cand=2.86874 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=1 [############------------] 425/800  53.1% loss=0.16729 jepa=0.28711 hard=0.93081 hard_red=0.03623 oracle=1.89487 rank=0.35139 value=0.56474 cand=2.86107 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#############-----------] 450/800  56.2% loss=0.16616 jepa=0.28560 hard=0.92649 hard_red=0.03504 oracle=1.87744 rank=0.34108 value=0.56494 cand=2.84674 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [##############----------] 475/800  59.4% loss=0.16403 jepa=0.28395 hard=0.92875 hard_red=0.03436 oracle=1.86011 rank=0.33100 value=0.56390 cand=2.83267 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###############---------] 500/800  62.5% loss=0.16623 jepa=0.28199 hard=0.92865 hard_red=0.03495 oracle=1.84843 rank=0.32308 value=0.56753 cand=2.82368 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###############---------] 525/800  65.6% loss=0.16275 jepa=0.27867 hard=0.93737 hard_red=0.03344 oracle=1.83458 rank=0.31445 value=0.56834 cand=2.81293 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [################--------] 550/800  68.8% loss=0.16430 jepa=0.27570 hard=0.93829 hard_red=0.03286 oracle=1.82534 rank=0.30813 value=0.57032 cand=2.80630 pairs=140.8
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#################-------] 575/800  71.9% loss=0.16180 jepa=0.27281 hard=0.93856 hard_red=0.03218 oracle=1.81539 rank=0.30099 value=0.56695 cand=2.80200 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=1 [##################------] 600/800  75.0% loss=0.15926 jepa=0.27102 hard=0.94206 hard_red=0.03203 oracle=1.80419 rank=0.29340 value=0.56542 cand=2.79543 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=1 [##################------] 625/800  78.1% loss=0.15816 jepa=0.26987 hard=0.94365 hard_red=0.03234 oracle=1.79202 rank=0.28611 value=0.56415 cand=2.78617 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [###################-----] 650/800  81.2% loss=0.15591 jepa=0.26818 hard=0.94268 hard_red=0.03245 oracle=1.78140 rank=0.27928 value=0.56255 cand=2.77922 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [####################----] 675/800  84.4% loss=0.15541 jepa=0.26920 hard=0.93819 hard_red=0.03242 oracle=1.77094 rank=0.27356 value=0.56207 cand=2.76992 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#####################---] 700/800  87.5% loss=0.15312 jepa=0.26695 hard=0.94213 hard_red=0.03220 oracle=1.76097 rank=0.26737 value=0.56128 cand=2.76268 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#####################---] 725/800  90.6% loss=0.15187 jepa=0.26471 hard=0.94263 hard_red=0.03179 oracle=1.75145 rank=0.26141 value=0.55663 cand=2.75744 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=1 [######################--] 750/800  93.8% loss=0.15166 jepa=0.26288 hard=0.94114 hard_red=0.03129 oracle=1.74190 rank=0.25591 value=0.55603 cand=2.74956 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=1 [#######################-] 775/800  96.9% loss=0.15029 jepa=0.26173 hard=0.94093 hard_red=0.03161 oracle=1.73453 rank=0.25124 value=0.55453 cand=2.74477 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=1 [########################] 800/800 100.0% loss=0.15029 jepa=0.26030 hard=0.94104 hard_red=0.03231 oracle=1.72686 rank=0.24623 value=0.55366 cand=2.73979 pairs=140.2
+[q_rank_v1 gpu6] [train] epoch=1 horizon=1 train_loss=0.150289 val_loss=0.200100 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=2 [------------------------] 1/800   0.1% loss=0.18186 jepa=0.23815 hard=0.26799 hard_red=0.00095 oracle=1.59425 rank=0.08282 value=0.94282 cand=2.64573 pairs=187.0
+[q_rank_v1 gpu6] [train-progress] epoch=2 [------------------------] 25/800   3.1% loss=0.12820 jepa=0.26056 hard=0.71622 hard_red=0.02442 oracle=1.52456 rank=0.10983 value=0.49357 cand=2.63205 pairs=134.9
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#-----------------------] 50/800   6.2% loss=0.12863 jepa=0.25570 hard=0.74601 hard_red=0.03240 oracle=1.50395 rank=0.10046 value=0.49192 cand=2.61021 pairs=132.9
+[q_rank_v1 gpu6] [train-progress] epoch=2 [##----------------------] 75/800   9.4% loss=0.15940 jepa=0.26134 hard=0.79158 hard_red=0.02842 oracle=1.51296 rank=0.09719 value=0.46731 cand=2.64461 pairs=134.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###---------------------] 100/800  12.5% loss=0.15987 jepa=0.25925 hard=0.83173 hard_red=0.02972 oracle=1.49140 rank=0.09267 value=0.47134 cand=2.60892 pairs=134.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###---------------------] 125/800  15.6% loss=0.16302 jepa=0.25764 hard=0.82694 hard_red=0.02782 oracle=1.47360 rank=0.08610 value=0.49472 cand=2.57710 pairs=136.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [####--------------------] 150/800  18.8% loss=0.15747 jepa=0.26168 hard=0.85596 hard_red=0.02981 oracle=1.47225 rank=0.08677 value=0.48586 cand=2.57662 pairs=136.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#####-------------------] 175/800  21.9% loss=0.17706 jepa=0.26135 hard=0.87278 hard_red=0.03034 oracle=1.45481 rank=0.08341 value=0.49503 cand=2.54477 pairs=138.1
+[q_rank_v1 gpu6] [train-progress] epoch=2 [######------------------] 200/800  25.0% loss=0.16985 jepa=0.26258 hard=0.86288 hard_red=0.02918 oracle=1.44481 rank=0.08162 value=0.48938 cand=2.53061 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=2 [######------------------] 225/800  28.1% loss=0.16312 jepa=0.26073 hard=0.86621 hard_red=0.02800 oracle=1.44473 rank=0.07996 value=0.49346 cand=2.53215 pairs=138.2
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#######-----------------] 250/800  31.2% loss=0.16138 jepa=0.26021 hard=0.87903 hard_red=0.02835 oracle=1.43702 rank=0.07939 value=0.49075 cand=2.51896 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=2 [########----------------] 275/800  34.4% loss=0.16196 jepa=0.25848 hard=0.88017 hard_red=0.02872 oracle=1.42963 rank=0.07845 value=0.48640 cand=2.50781 pairs=138.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#########---------------] 300/800  37.5% loss=0.16105 jepa=0.26127 hard=0.88493 hard_red=0.02922 oracle=1.42420 rank=0.07731 value=0.48649 cand=2.49919 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#########---------------] 325/800  40.6% loss=0.16419 jepa=0.26299 hard=0.87626 hard_red=0.02868 oracle=1.41948 rank=0.07721 value=0.48657 cand=2.48991 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [##########--------------] 350/800  43.8% loss=0.16124 jepa=0.26181 hard=0.86828 hard_red=0.02756 oracle=1.42075 rank=0.07699 value=0.48402 cand=2.49391 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###########-------------] 375/800  46.9% loss=0.16199 jepa=0.26328 hard=0.86659 hard_red=0.02706 oracle=1.42315 rank=0.07727 value=0.48272 cand=2.49865 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=2 [############------------] 400/800  50.0% loss=0.16359 jepa=0.26150 hard=0.87327 hard_red=0.02813 oracle=1.42019 rank=0.07623 value=0.47749 cand=2.49693 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=2 [############------------] 425/800  53.1% loss=0.15977 jepa=0.25921 hard=0.88137 hard_red=0.02816 oracle=1.41766 rank=0.07507 value=0.47514 cand=2.49512 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#############-----------] 450/800  56.2% loss=0.15927 jepa=0.26036 hard=0.87698 hard_red=0.02861 oracle=1.41396 rank=0.07449 value=0.47050 cand=2.49073 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=2 [##############----------] 475/800  59.4% loss=0.15703 jepa=0.25845 hard=0.87760 hard_red=0.02886 oracle=1.40901 rank=0.07340 value=0.46538 cand=2.48505 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###############---------] 500/800  62.5% loss=0.15812 jepa=0.25857 hard=0.87697 hard_red=0.02909 oracle=1.40692 rank=0.07271 value=0.46234 cand=2.48349 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###############---------] 525/800  65.6% loss=0.15738 jepa=0.25775 hard=0.88157 hard_red=0.02835 oracle=1.40668 rank=0.07281 value=0.46058 cand=2.48351 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [################--------] 550/800  68.8% loss=0.15647 jepa=0.25823 hard=0.87880 hard_red=0.02831 oracle=1.40381 rank=0.07231 value=0.45982 cand=2.47907 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#################-------] 575/800  71.9% loss=0.16053 jepa=0.25974 hard=0.88021 hard_red=0.02918 oracle=1.40136 rank=0.07163 value=0.46084 cand=2.47511 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=2 [##################------] 600/800  75.0% loss=0.16215 jepa=0.25920 hard=0.88250 hard_red=0.03001 oracle=1.39619 rank=0.07108 value=0.46204 cand=2.46540 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=2 [##################------] 625/800  78.1% loss=0.16072 jepa=0.25835 hard=0.88135 hard_red=0.02992 oracle=1.39315 rank=0.07056 value=0.46010 cand=2.46113 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=2 [###################-----] 650/800  81.2% loss=0.16055 jepa=0.25808 hard=0.88018 hard_red=0.03041 oracle=1.39285 rank=0.06996 value=0.45636 cand=2.46323 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [####################----] 675/800  84.4% loss=0.15888 jepa=0.25770 hard=0.87628 hard_red=0.03029 oracle=1.39250 rank=0.06950 value=0.45524 cand=2.46391 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#####################---] 700/800  87.5% loss=0.15876 jepa=0.25908 hard=0.87810 hard_red=0.02988 oracle=1.39145 rank=0.06886 value=0.45406 cand=2.46356 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#####################---] 725/800  90.6% loss=0.16185 jepa=0.26993 hard=0.87748 hard_red=0.02985 oracle=1.38779 rank=0.06815 value=0.45325 cand=2.45799 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=2 [######################--] 750/800  93.8% loss=0.16628 jepa=0.27051 hard=0.87498 hard_red=0.03015 oracle=1.38486 rank=0.06806 value=0.45360 cand=2.45217 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [#######################-] 775/800  96.9% loss=0.16723 jepa=0.27150 hard=0.87588 hard_red=0.03009 oracle=1.38412 rank=0.06767 value=0.45424 cand=2.45119 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=2 [########################] 800/800 100.0% loss=0.16672 jepa=0.27059 hard=0.87918 hard_red=0.02980 oracle=1.38118 rank=0.06737 value=0.45202 cand=2.44681 pairs=140.2
+[q_rank_v1 gpu6] [train] epoch=2 horizon=2 train_loss=0.166722 val_loss=0.218570 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=3 [------------------------] 1/800   0.1% loss=0.24142 jepa=0.22819 hard=0.15431 hard_red=0.10353 oracle=1.54582 rank=0.05208 value=0.25528 cand=2.88537 pairs=132.0
+[q_rank_v1 gpu6] [train-progress] epoch=3 [------------------------] 25/800   3.1% loss=0.15537 jepa=0.23870 hard=0.83568 hard_red=0.02156 oracle=1.33435 rank=0.04852 value=0.45693 cand=2.38889 pairs=134.4
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#-----------------------] 50/800   6.2% loss=0.14788 jepa=0.24365 hard=0.84085 hard_red=0.03206 oracle=1.38388 rank=0.05289 value=0.42408 cand=2.49237 pairs=137.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [##----------------------] 75/800   9.4% loss=0.14498 jepa=0.24523 hard=0.84702 hard_red=0.02994 oracle=1.35664 rank=0.05153 value=0.41490 cand=2.44427 pairs=141.5
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###---------------------] 100/800  12.5% loss=0.14478 jepa=0.24898 hard=0.84064 hard_red=0.03140 oracle=1.35186 rank=0.05240 value=0.43383 cand=2.42539 pairs=142.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###---------------------] 125/800  15.6% loss=0.15678 jepa=0.25045 hard=0.83532 hard_red=0.02919 oracle=1.34282 rank=0.04923 value=0.43643 cand=2.41262 pairs=140.8
+[q_rank_v1 gpu6] [train-progress] epoch=3 [####--------------------] 150/800  18.8% loss=0.15865 jepa=0.24817 hard=0.83468 hard_red=0.03141 oracle=1.33973 rank=0.05087 value=0.43489 cand=2.40376 pairs=142.3
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#####-------------------] 175/800  21.9% loss=0.15260 jepa=0.24543 hard=0.83203 hard_red=0.03025 oracle=1.33046 rank=0.04989 value=0.42844 cand=2.38975 pairs=143.3
+[q_rank_v1 gpu6] [train-progress] epoch=3 [######------------------] 200/800  25.0% loss=0.14795 jepa=0.24163 hard=0.84801 hard_red=0.03035 oracle=1.32411 rank=0.04892 value=0.42326 cand=2.38108 pairs=143.8
+[q_rank_v1 gpu6] [train-progress] epoch=3 [######------------------] 225/800  28.1% loss=0.15453 jepa=0.23980 hard=0.84694 hard_red=0.03019 oracle=1.32412 rank=0.04883 value=0.41514 cand=2.38451 pairs=143.7
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#######-----------------] 250/800  31.2% loss=0.15147 jepa=0.23827 hard=0.85143 hard_red=0.02976 oracle=1.31740 rank=0.04913 value=0.40898 cand=2.37295 pairs=143.8
+[q_rank_v1 gpu6] [train-progress] epoch=3 [########----------------] 275/800  34.4% loss=0.15446 jepa=0.24332 hard=0.85500 hard_red=0.03168 oracle=1.31660 rank=0.04899 value=0.40814 cand=2.37196 pairs=143.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#########---------------] 300/800  37.5% loss=0.15794 jepa=0.24617 hard=0.86027 hard_red=0.03451 oracle=1.31441 rank=0.04868 value=0.40227 cand=2.37056 pairs=142.7
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#########---------------] 325/800  40.6% loss=0.15646 jepa=0.25297 hard=0.86105 hard_red=0.03306 oracle=1.31349 rank=0.04840 value=0.40042 cand=2.37001 pairs=142.9
+[q_rank_v1 gpu6] [train-progress] epoch=3 [##########--------------] 350/800  43.8% loss=0.15294 jepa=0.25054 hard=0.85834 hard_red=0.03195 oracle=1.31569 rank=0.04854 value=0.39847 cand=2.37491 pairs=143.3
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###########-------------] 375/800  46.9% loss=0.14963 jepa=0.24876 hard=0.86507 hard_red=0.03123 oracle=1.31468 rank=0.04799 value=0.39163 cand=2.37672 pairs=143.0
+[q_rank_v1 gpu6] [train-progress] epoch=3 [############------------] 400/800  50.0% loss=0.15039 jepa=0.24755 hard=0.86354 hard_red=0.03148 oracle=1.31526 rank=0.04822 value=0.39083 cand=2.37774 pairs=142.5
+[q_rank_v1 gpu6] [train-progress] epoch=3 [############------------] 425/800  53.1% loss=0.14944 jepa=0.24899 hard=0.86567 hard_red=0.03087 oracle=1.31664 rank=0.04827 value=0.39151 cand=2.38013 pairs=142.2
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#############-----------] 450/800  56.2% loss=0.15141 jepa=0.25073 hard=0.86173 hard_red=0.03089 oracle=1.31650 rank=0.04836 value=0.39233 cand=2.37934 pairs=142.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [##############----------] 475/800  59.4% loss=0.14909 jepa=0.24969 hard=0.86640 hard_red=0.03055 oracle=1.31479 rank=0.04803 value=0.39375 cand=2.37601 pairs=142.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###############---------] 500/800  62.5% loss=0.14759 jepa=0.24894 hard=0.86231 hard_red=0.02991 oracle=1.31320 rank=0.04774 value=0.39236 cand=2.37398 pairs=142.5
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###############---------] 525/800  65.6% loss=0.14712 jepa=0.24842 hard=0.86321 hard_red=0.03030 oracle=1.31168 rank=0.04774 value=0.38978 cand=2.37198 pairs=142.4
+[q_rank_v1 gpu6] [train-progress] epoch=3 [################--------] 550/800  68.8% loss=0.14873 jepa=0.24793 hard=0.86868 hard_red=0.03025 oracle=1.31249 rank=0.04762 value=0.38672 cand=2.37506 pairs=142.6
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#################-------] 575/800  71.9% loss=0.14817 jepa=0.24638 hard=0.86537 hard_red=0.03019 oracle=1.30962 rank=0.04699 value=0.38417 cand=2.37160 pairs=142.9
+[q_rank_v1 gpu6] [train-progress] epoch=3 [##################------] 600/800  75.0% loss=0.14959 jepa=0.24620 hard=0.86181 hard_red=0.02954 oracle=1.30866 rank=0.04693 value=0.38214 cand=2.37060 pairs=142.9
+[q_rank_v1 gpu6] [train-progress] epoch=3 [##################------] 625/800  78.1% loss=0.14886 jepa=0.24546 hard=0.86152 hard_red=0.02964 oracle=1.30626 rank=0.04668 value=0.38100 cand=2.36676 pairs=143.1
+[q_rank_v1 gpu6] [train-progress] epoch=3 [###################-----] 650/800  81.2% loss=0.14974 jepa=0.24453 hard=0.86085 hard_red=0.03017 oracle=1.30686 rank=0.04683 value=0.37735 cand=2.36912 pairs=142.9
+[q_rank_v1 gpu6] [train-progress] epoch=3 [####################----] 675/800  84.4% loss=0.15258 jepa=0.24610 hard=0.86055 hard_red=0.02941 oracle=1.30643 rank=0.04651 value=0.37641 cand=2.36927 pairs=143.2
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#####################---] 700/800  87.5% loss=0.15102 jepa=0.24528 hard=0.85657 hard_red=0.02927 oracle=1.30658 rank=0.04637 value=0.37598 cand=2.37004 pairs=143.2
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#####################---] 725/800  90.6% loss=0.15137 jepa=0.24999 hard=0.85778 hard_red=0.02898 oracle=1.30392 rank=0.04624 value=0.37527 cand=2.36526 pairs=143.0
+[q_rank_v1 gpu6] [train-progress] epoch=3 [######################--] 750/800  93.8% loss=0.15505 jepa=0.25102 hard=0.85879 hard_red=0.02876 oracle=1.30224 rank=0.04629 value=0.37659 cand=2.36126 pairs=143.2
+[q_rank_v1 gpu6] [train-progress] epoch=3 [#######################-] 775/800  96.9% loss=0.15708 jepa=0.25183 hard=0.86006 hard_red=0.02942 oracle=1.30134 rank=0.04593 value=0.37487 cand=2.36088 pairs=143.2
+[q_rank_v1 gpu6] [train-progress] epoch=3 [########################] 800/800 100.0% loss=0.15565 jepa=0.25110 hard=0.85697 hard_red=0.02924 oracle=1.29998 rank=0.04579 value=0.37327 cand=2.35906 pairs=143.2
+[q_rank_v1 gpu6] [train] epoch=3 horizon=2 train_loss=0.155654 val_loss=0.268436 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=4 [------------------------] 1/800   0.1% loss=0.08339 jepa=0.26604 hard=1.08467 hard_red=0.00073 oracle=1.25964 rank=0.03969 value=0.50213 cand=2.23905 pairs=163.0
+[q_rank_v1 gpu6] [train-progress] epoch=4 [------------------------] 25/800   3.1% loss=0.23790 jepa=0.35244 hard=0.87926 hard_red=0.02120 oracle=1.29210 rank=0.04151 value=0.33526 cand=2.36707 pairs=142.5
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#-----------------------] 50/800   6.2% loss=0.22828 jepa=0.32109 hard=0.84416 hard_red=0.02397 oracle=1.24498 rank=0.03829 value=0.34478 cand=2.27546 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=4 [##----------------------] 75/800   9.4% loss=0.20517 jepa=0.32356 hard=0.85028 hard_red=0.01934 oracle=1.24759 rank=0.03782 value=0.32713 cand=2.28869 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###---------------------] 100/800  12.5% loss=0.20944 jepa=0.30852 hard=0.87414 hard_red=0.01943 oracle=1.24724 rank=0.03934 value=0.32429 cand=2.28609 pairs=138.2
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###---------------------] 125/800  15.6% loss=0.19164 jepa=0.29207 hard=0.89955 hard_red=0.01914 oracle=1.24546 rank=0.03837 value=0.31327 cand=2.28887 pairs=136.9
+[q_rank_v1 gpu6] [train-progress] epoch=4 [####--------------------] 150/800  18.8% loss=0.18108 jepa=0.28464 hard=0.90378 hard_red=0.02042 oracle=1.26518 rank=0.03877 value=0.31858 cand=2.32540 pairs=137.8
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#####-------------------] 175/800  21.9% loss=0.17896 jepa=0.28424 hard=0.89760 hard_red=0.02021 oracle=1.25499 rank=0.03781 value=0.31991 cand=2.30640 pairs=137.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [######------------------] 200/800  25.0% loss=0.16866 jepa=0.27824 hard=0.90541 hard_red=0.01967 oracle=1.25544 rank=0.03768 value=0.31625 cand=2.30902 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [######------------------] 225/800  28.1% loss=0.17865 jepa=0.27913 hard=0.91486 hard_red=0.02137 oracle=1.26147 rank=0.03745 value=0.31665 cand=2.32138 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#######-----------------] 250/800  31.2% loss=0.17259 jepa=0.27718 hard=0.90556 hard_red=0.02371 oracle=1.25913 rank=0.03735 value=0.31618 cand=2.31709 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=4 [########----------------] 275/800  34.4% loss=0.17638 jepa=0.27686 hard=0.90450 hard_red=0.02650 oracle=1.25749 rank=0.03746 value=0.31629 cand=2.31355 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#########---------------] 300/800  37.5% loss=0.18123 jepa=0.27832 hard=0.90382 hard_red=0.02780 oracle=1.26015 rank=0.03701 value=0.31101 cand=2.32189 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#########---------------] 325/800  40.6% loss=0.18031 jepa=0.27896 hard=0.90333 hard_red=0.02815 oracle=1.26310 rank=0.03696 value=0.30572 cand=2.32999 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=4 [##########--------------] 350/800  43.8% loss=0.17942 jepa=0.27854 hard=0.90254 hard_red=0.02807 oracle=1.26095 rank=0.03726 value=0.30965 cand=2.32352 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###########-------------] 375/800  46.9% loss=0.18180 jepa=0.27754 hard=0.90063 hard_red=0.02856 oracle=1.25944 rank=0.03746 value=0.30953 cand=2.32015 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=4 [############------------] 400/800  50.0% loss=0.18396 jepa=0.27673 hard=0.89858 hard_red=0.03030 oracle=1.25820 rank=0.03726 value=0.30848 cand=2.31850 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=4 [############------------] 425/800  53.1% loss=0.18526 jepa=0.27716 hard=0.89468 hard_red=0.03011 oracle=1.25937 rank=0.03764 value=0.30888 cand=2.31990 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#############-----------] 450/800  56.2% loss=0.18609 jepa=0.27830 hard=0.88505 hard_red=0.02910 oracle=1.26022 rank=0.03785 value=0.31174 cand=2.32004 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=4 [##############----------] 475/800  59.4% loss=0.18820 jepa=0.27855 hard=0.88359 hard_red=0.02892 oracle=1.26133 rank=0.03794 value=0.31082 cand=2.32245 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###############---------] 500/800  62.5% loss=0.18753 jepa=0.28018 hard=0.87996 hard_red=0.02853 oracle=1.26128 rank=0.03823 value=0.30884 cand=2.32257 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###############---------] 525/800  65.6% loss=0.18563 jepa=0.28025 hard=0.88180 hard_red=0.02826 oracle=1.25731 rank=0.03783 value=0.30829 cand=2.31564 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=4 [################--------] 550/800  68.8% loss=0.18505 jepa=0.28218 hard=0.88210 hard_red=0.02797 oracle=1.25334 rank=0.03776 value=0.30726 cand=2.30826 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#################-------] 575/800  71.9% loss=0.18272 jepa=0.28065 hard=0.88044 hard_red=0.02743 oracle=1.25284 rank=0.03733 value=0.30652 cand=2.30841 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=4 [##################------] 600/800  75.0% loss=0.18488 jepa=0.28226 hard=0.87764 hard_red=0.02777 oracle=1.25082 rank=0.03709 value=0.30734 cand=2.30451 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=4 [##################------] 625/800  78.1% loss=0.18504 jepa=0.28476 hard=0.88067 hard_red=0.02760 oracle=1.25261 rank=0.03686 value=0.30534 cand=2.30938 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=4 [###################-----] 650/800  81.2% loss=0.18311 jepa=0.28481 hard=0.88091 hard_red=0.02751 oracle=1.24978 rank=0.03669 value=0.30508 cand=2.30414 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=4 [####################----] 675/800  84.4% loss=0.18161 jepa=0.28450 hard=0.87773 hard_red=0.02687 oracle=1.25350 rank=0.03698 value=0.30501 cand=2.31103 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#####################---] 700/800  87.5% loss=0.18115 jepa=0.28525 hard=0.87927 hard_red=0.02713 oracle=1.25334 rank=0.03694 value=0.30263 cand=2.31175 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#####################---] 725/800  90.6% loss=0.17988 jepa=0.28486 hard=0.87478 hard_red=0.02652 oracle=1.25273 rank=0.03677 value=0.30267 cand=2.31085 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=4 [######################--] 750/800  93.8% loss=0.17918 jepa=0.28504 hard=0.88044 hard_red=0.02709 oracle=1.25120 rank=0.03649 value=0.30386 cand=2.30787 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=4 [#######################-] 775/800  96.9% loss=0.17831 jepa=0.28410 hard=0.88106 hard_red=0.02707 oracle=1.25209 rank=0.03638 value=0.30348 cand=2.31003 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=4 [########################] 800/800 100.0% loss=0.17754 jepa=0.28293 hard=0.88264 hard_red=0.02693 oracle=1.25005 rank=0.03614 value=0.30249 cand=2.30683 pairs=139.4
+[q_rank_v1 gpu6] [train] epoch=4 horizon=3 train_loss=0.177544 val_loss=0.252179 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=5 [------------------------] 1/800   0.1% loss=0.08856 jepa=0.25893 hard=0.22665 hard_red=0.00041 oracle=0.93825 rank=0.01456 value=0.41443 cand=1.68161 pairs=146.0
+[q_rank_v1 gpu6] [train-progress] epoch=5 [------------------------] 25/800   3.1% loss=0.16900 jepa=0.27862 hard=0.78009 hard_red=0.02243 oracle=1.25757 rank=0.03601 value=0.33309 cand=2.30989 pairs=137.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#-----------------------] 50/800   6.2% loss=0.20977 jepa=0.35610 hard=0.79538 hard_red=0.02599 oracle=1.27607 rank=0.03102 value=0.29774 cand=2.37100 pairs=143.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [##----------------------] 75/800   9.4% loss=0.18765 jepa=0.32491 hard=0.84870 hard_red=0.02385 oracle=1.23348 rank=0.02984 value=0.28967 cand=2.29140 pairs=142.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###---------------------] 100/800  12.5% loss=0.18743 jepa=0.30806 hard=0.84502 hard_red=0.02386 oracle=1.21508 rank=0.02960 value=0.29043 cand=2.25479 pairs=141.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###---------------------] 125/800  15.6% loss=0.17938 jepa=0.29895 hard=0.84616 hard_red=0.02327 oracle=1.22398 rank=0.02993 value=0.29253 cand=2.27107 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=5 [####--------------------] 150/800  18.8% loss=0.16998 jepa=0.29026 hard=0.84872 hard_red=0.02255 oracle=1.21008 rank=0.02928 value=0.28898 cand=2.24601 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#####-------------------] 175/800  21.9% loss=0.16683 jepa=0.28703 hard=0.84401 hard_red=0.02410 oracle=1.21521 rank=0.03035 value=0.29198 cand=2.25292 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [######------------------] 200/800  25.0% loss=0.16699 jepa=0.28486 hard=0.84606 hard_red=0.02393 oracle=1.21403 rank=0.03017 value=0.28693 cand=2.25295 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [######------------------] 225/800  28.1% loss=0.16095 jepa=0.28084 hard=0.85949 hard_red=0.02273 oracle=1.22371 rank=0.03070 value=0.28051 cand=2.27380 pairs=141.0
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#######-----------------] 250/800  31.2% loss=0.15896 jepa=0.27838 hard=0.84442 hard_red=0.02285 oracle=1.22048 rank=0.03125 value=0.28251 cand=2.26546 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=5 [########----------------] 275/800  34.4% loss=0.16639 jepa=0.27918 hard=0.85169 hard_red=0.02526 oracle=1.22364 rank=0.03145 value=0.28292 cand=2.27120 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#########---------------] 300/800  37.5% loss=0.16520 jepa=0.27890 hard=0.86420 hard_red=0.02666 oracle=1.22361 rank=0.03166 value=0.28151 cand=2.27131 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#########---------------] 325/800  40.6% loss=0.16294 jepa=0.27719 hard=0.87291 hard_red=0.02692 oracle=1.22234 rank=0.03163 value=0.28022 cand=2.26933 pairs=140.9
+[q_rank_v1 gpu6] [train-progress] epoch=5 [##########--------------] 350/800  43.8% loss=0.17024 jepa=0.28594 hard=0.87110 hard_red=0.02713 oracle=1.22623 rank=0.03201 value=0.28049 cand=2.27625 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###########-------------] 375/800  46.9% loss=0.16988 jepa=0.28904 hard=0.87127 hard_red=0.02697 oracle=1.22885 rank=0.03189 value=0.27724 cand=2.28303 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=5 [############------------] 400/800  50.0% loss=0.16807 jepa=0.28763 hard=0.86350 hard_red=0.02679 oracle=1.22809 rank=0.03232 value=0.27406 cand=2.28192 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=5 [############------------] 425/800  53.1% loss=0.16835 jepa=0.28760 hard=0.86494 hard_red=0.02652 oracle=1.22655 rank=0.03227 value=0.27727 cand=2.27765 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#############-----------] 450/800  56.2% loss=0.16522 jepa=0.28527 hard=0.86719 hard_red=0.02574 oracle=1.22485 rank=0.03230 value=0.27657 cand=2.27446 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=5 [##############----------] 475/800  59.4% loss=0.16934 jepa=0.28570 hard=0.86122 hard_red=0.02581 oracle=1.22662 rank=0.03212 value=0.27389 cand=2.27945 pairs=140.5
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###############---------] 500/800  62.5% loss=0.16834 jepa=0.28437 hard=0.85687 hard_red=0.02524 oracle=1.22620 rank=0.03208 value=0.27374 cand=2.27875 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###############---------] 525/800  65.6% loss=0.16637 jepa=0.28247 hard=0.85401 hard_red=0.02469 oracle=1.22531 rank=0.03204 value=0.27240 cand=2.27758 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=5 [################--------] 550/800  68.8% loss=0.16803 jepa=0.28144 hard=0.85328 hard_red=0.02533 oracle=1.22013 rank=0.03162 value=0.27467 cand=2.26715 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#################-------] 575/800  71.9% loss=0.16747 jepa=0.28131 hard=0.85359 hard_red=0.02546 oracle=1.21841 rank=0.03144 value=0.27367 cand=2.26448 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=5 [##################------] 600/800  75.0% loss=0.16864 jepa=0.28744 hard=0.85676 hard_red=0.02533 oracle=1.21801 rank=0.03139 value=0.27329 cand=2.26392 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=5 [##################------] 625/800  78.1% loss=0.16904 jepa=0.28645 hard=0.85564 hard_red=0.02504 oracle=1.21834 rank=0.03128 value=0.27347 cand=2.26474 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=5 [###################-----] 650/800  81.2% loss=0.17570 jepa=0.29053 hard=0.85167 hard_red=0.02589 oracle=1.22131 rank=0.03141 value=0.27396 cand=2.27021 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=5 [####################----] 675/800  84.4% loss=0.17546 jepa=0.28948 hard=0.85250 hard_red=0.02624 oracle=1.21796 rank=0.03122 value=0.27450 cand=2.26368 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#####################---] 700/800  87.5% loss=0.17275 jepa=0.28795 hard=0.85565 hard_red=0.02589 oracle=1.21674 rank=0.03114 value=0.27468 cand=2.26134 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#####################---] 725/800  90.6% loss=0.17166 jepa=0.28706 hard=0.85469 hard_red=0.02600 oracle=1.21698 rank=0.03118 value=0.27434 cand=2.26186 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=5 [######################--] 750/800  93.8% loss=0.17074 jepa=0.28672 hard=0.85424 hard_red=0.02578 oracle=1.21854 rank=0.03108 value=0.27233 cand=2.26597 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=5 [#######################-] 775/800  96.9% loss=0.17107 jepa=0.28571 hard=0.85329 hard_red=0.02580 oracle=1.21964 rank=0.03123 value=0.27133 cand=2.26829 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=5 [########################] 800/800 100.0% loss=0.16988 jepa=0.28451 hard=0.85484 hard_red=0.02566 oracle=1.21674 rank=0.03103 value=0.27140 cand=2.26286 pairs=139.7
+[q_rank_v1 gpu6] [train] epoch=5 horizon=3 train_loss=0.169882 val_loss=0.246690 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=6 [------------------------] 1/800   0.1% loss=0.09579 jepa=0.28552 hard=1.16914 hard_red=0.00178 oracle=1.24913 rank=0.04013 value=0.26794 cand=2.31083 pairs=129.0
+[q_rank_v1 gpu6] [train-progress] epoch=6 [------------------------] 25/800   3.1% loss=0.17701 jepa=0.28422 hard=0.83517 hard_red=0.02483 oracle=1.22682 rank=0.02792 value=0.21643 cand=2.31122 pairs=130.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#-----------------------] 50/800   6.2% loss=0.16803 jepa=0.28521 hard=0.88994 hard_red=0.02518 oracle=1.21740 rank=0.02974 value=0.24119 cand=2.27883 pairs=133.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [##----------------------] 75/800   9.4% loss=0.18594 jepa=0.29032 hard=0.87874 hard_red=0.02959 oracle=1.20352 rank=0.03008 value=0.26968 cand=2.23900 pairs=136.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###---------------------] 100/800  12.5% loss=0.17267 jepa=0.28979 hard=0.88046 hard_red=0.02846 oracle=1.21509 rank=0.03143 value=0.25381 cand=2.26579 pairs=136.8
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###---------------------] 125/800  15.6% loss=0.16647 jepa=0.28533 hard=0.86967 hard_red=0.02891 oracle=1.21237 rank=0.03036 value=0.25393 cand=2.26246 pairs=136.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [####--------------------] 150/800  18.8% loss=0.16865 jepa=0.28365 hard=0.89022 hard_red=0.02927 oracle=1.19323 rank=0.02979 value=0.25095 cand=2.22650 pairs=138.2
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#####-------------------] 175/800  21.9% loss=0.16517 jepa=0.28411 hard=0.89316 hard_red=0.02892 oracle=1.19412 rank=0.02966 value=0.24857 cand=2.22950 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [######------------------] 200/800  25.0% loss=0.16494 jepa=0.28687 hard=0.87613 hard_red=0.02761 oracle=1.19650 rank=0.02939 value=0.24519 cand=2.23614 pairs=138.7
+[q_rank_v1 gpu6] [train-progress] epoch=6 [######------------------] 225/800  28.1% loss=0.16682 jepa=0.28631 hard=0.87749 hard_red=0.02728 oracle=1.19751 rank=0.02923 value=0.24636 cand=2.23802 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#######-----------------] 250/800  31.2% loss=0.16777 jepa=0.29166 hard=0.88059 hard_red=0.02713 oracle=1.20562 rank=0.02936 value=0.24757 cand=2.25351 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=6 [########----------------] 275/800  34.4% loss=0.16888 jepa=0.29272 hard=0.87783 hard_red=0.02668 oracle=1.20538 rank=0.02917 value=0.24615 cand=2.25397 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#########---------------] 300/800  37.5% loss=0.17159 jepa=0.29788 hard=0.86657 hard_red=0.02713 oracle=1.20785 rank=0.02920 value=0.24777 cand=2.25818 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#########---------------] 325/800  40.6% loss=0.17370 jepa=0.29813 hard=0.86397 hard_red=0.02649 oracle=1.20781 rank=0.02882 value=0.24759 cand=2.25894 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=6 [##########--------------] 350/800  43.8% loss=0.17958 jepa=0.29887 hard=0.86086 hard_red=0.02655 oracle=1.21266 rank=0.02888 value=0.24645 cand=2.26899 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###########-------------] 375/800  46.9% loss=0.17869 jepa=0.29765 hard=0.86696 hard_red=0.02752 oracle=1.21586 rank=0.02963 value=0.24564 cand=2.27420 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=6 [############------------] 400/800  50.0% loss=0.17751 jepa=0.29710 hard=0.86381 hard_red=0.02744 oracle=1.21593 rank=0.02943 value=0.24796 cand=2.27382 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=6 [############------------] 425/800  53.1% loss=0.18203 jepa=0.29762 hard=0.86272 hard_red=0.02759 oracle=1.21531 rank=0.02941 value=0.24600 cand=2.27340 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#############-----------] 450/800  56.2% loss=0.18563 jepa=0.29950 hard=0.85843 hard_red=0.02787 oracle=1.21549 rank=0.02930 value=0.24648 cand=2.27379 pairs=138.4
+[q_rank_v1 gpu6] [train-progress] epoch=6 [##############----------] 475/800  59.4% loss=0.18593 jepa=0.29876 hard=0.85124 hard_red=0.02785 oracle=1.21247 rank=0.02925 value=0.24558 cand=2.26822 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###############---------] 500/800  62.5% loss=0.18525 jepa=0.29845 hard=0.84856 hard_red=0.02759 oracle=1.21379 rank=0.02919 value=0.24707 cand=2.27037 pairs=138.9
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###############---------] 525/800  65.6% loss=0.18346 jepa=0.29744 hard=0.84885 hard_red=0.02776 oracle=1.21151 rank=0.02894 value=0.24648 cand=2.26654 pairs=138.9
+[q_rank_v1 gpu6] [train-progress] epoch=6 [################--------] 550/800  68.8% loss=0.18280 jepa=0.29723 hard=0.84274 hard_red=0.02771 oracle=1.21276 rank=0.02890 value=0.24495 cand=2.26974 pairs=138.9
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#################-------] 575/800  71.9% loss=0.18209 jepa=0.29556 hard=0.84027 hard_red=0.02717 oracle=1.21245 rank=0.02881 value=0.24351 cand=2.26988 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=6 [##################------] 600/800  75.0% loss=0.18227 jepa=0.29522 hard=0.83947 hard_red=0.02718 oracle=1.21312 rank=0.02873 value=0.24237 cand=2.27184 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [##################------] 625/800  78.1% loss=0.18208 jepa=0.29500 hard=0.83450 hard_red=0.02673 oracle=1.21116 rank=0.02860 value=0.24284 cand=2.26798 pairs=138.4
+[q_rank_v1 gpu6] [train-progress] epoch=6 [###################-----] 650/800  81.2% loss=0.18250 jepa=0.29589 hard=0.82923 hard_red=0.02657 oracle=1.20869 rank=0.02845 value=0.24169 cand=2.26380 pairs=138.7
+[q_rank_v1 gpu6] [train-progress] epoch=6 [####################----] 675/800  84.4% loss=0.18349 jepa=0.29657 hard=0.83132 hard_red=0.02621 oracle=1.20963 rank=0.02846 value=0.24120 cand=2.26587 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#####################---] 700/800  87.5% loss=0.18179 jepa=0.29547 hard=0.83547 hard_red=0.02646 oracle=1.20849 rank=0.02834 value=0.24085 cand=2.26397 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#####################---] 725/800  90.6% loss=0.18088 jepa=0.29552 hard=0.83471 hard_red=0.02621 oracle=1.21019 rank=0.02825 value=0.23862 cand=2.26844 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=6 [######################--] 750/800  93.8% loss=0.18285 jepa=0.29517 hard=0.83545 hard_red=0.02687 oracle=1.21097 rank=0.02821 value=0.23797 cand=2.27033 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=6 [#######################-] 775/800  96.9% loss=0.18140 jepa=0.29512 hard=0.84188 hard_red=0.02713 oracle=1.21020 rank=0.02799 value=0.23803 cand=2.26921 pairs=138.7
+[q_rank_v1 gpu6] [train-progress] epoch=6 [########################] 800/800 100.0% loss=0.17911 jepa=0.29433 hard=0.83953 hard_red=0.02690 oracle=1.20748 rank=0.02785 value=0.23636 cand=2.26472 pairs=138.9
+[q_rank_v1 gpu6] [train] epoch=6 horizon=4 train_loss=0.179115 val_loss=0.290922 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=7 [------------------------] 1/800   0.1% loss=0.10833 jepa=0.25946 hard=0.49318 hard_red=0.01407 oracle=1.26452 rank=0.01335 value=0.21092 cand=2.41797 pairs=122.0
+[q_rank_v1 gpu6] [train-progress] epoch=7 [------------------------] 25/800   3.1% loss=0.13867 jepa=0.28228 hard=0.80660 hard_red=0.01171 oracle=1.21451 rank=0.02565 value=0.27071 cand=2.26943 pairs=135.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#-----------------------] 50/800   6.2% loss=0.19176 jepa=0.30419 hard=0.81956 hard_red=0.01533 oracle=1.18416 rank=0.02572 value=0.24876 cand=2.21738 pairs=132.5
+[q_rank_v1 gpu6] [train-progress] epoch=7 [##----------------------] 75/800   9.4% loss=0.17414 jepa=0.30217 hard=0.82956 hard_red=0.01558 oracle=1.18201 rank=0.02563 value=0.24081 cand=2.21644 pairs=137.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###---------------------] 100/800  12.5% loss=0.18366 jepa=0.29612 hard=0.81593 hard_red=0.02703 oracle=1.18840 rank=0.02544 value=0.23792 cand=2.23074 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###---------------------] 125/800  15.6% loss=0.18723 jepa=0.29833 hard=0.83684 hard_red=0.02681 oracle=1.19051 rank=0.02555 value=0.23045 cand=2.23773 pairs=138.2
+[q_rank_v1 gpu6] [train-progress] epoch=7 [####--------------------] 150/800  18.8% loss=0.18511 jepa=0.30496 hard=0.82937 hard_red=0.02395 oracle=1.18784 rank=0.02626 value=0.23489 cand=2.22919 pairs=138.9
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#####-------------------] 175/800  21.9% loss=0.17919 jepa=0.29987 hard=0.81539 hard_red=0.02321 oracle=1.17920 rank=0.02630 value=0.23826 cand=2.21050 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [######------------------] 200/800  25.0% loss=0.18026 jepa=0.29760 hard=0.81060 hard_red=0.02470 oracle=1.18178 rank=0.02642 value=0.23990 cand=2.21477 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=7 [######------------------] 225/800  28.1% loss=0.17418 jepa=0.29533 hard=0.81415 hard_red=0.02351 oracle=1.18384 rank=0.02646 value=0.23864 cand=2.21930 pairs=137.8
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#######-----------------] 250/800  31.2% loss=0.16899 jepa=0.29210 hard=0.82668 hard_red=0.02309 oracle=1.18408 rank=0.02669 value=0.23752 cand=2.21977 pairs=137.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [########----------------] 275/800  34.4% loss=0.16592 jepa=0.28985 hard=0.82961 hard_red=0.02298 oracle=1.17714 rank=0.02629 value=0.23500 cand=2.20771 pairs=137.5
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#########---------------] 300/800  37.5% loss=0.16621 jepa=0.28865 hard=0.84069 hard_red=0.02305 oracle=1.18128 rank=0.02638 value=0.23258 cand=2.21675 pairs=137.8
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#########---------------] 325/800  40.6% loss=0.17359 jepa=0.28877 hard=0.84304 hard_red=0.02508 oracle=1.18036 rank=0.02626 value=0.23241 cand=2.21524 pairs=138.0
+[q_rank_v1 gpu6] [train-progress] epoch=7 [##########--------------] 350/800  43.8% loss=0.17093 jepa=0.28828 hard=0.84386 hard_red=0.02519 oracle=1.18414 rank=0.02617 value=0.23191 cand=2.22318 pairs=138.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###########-------------] 375/800  46.9% loss=0.17165 jepa=0.28706 hard=0.84375 hard_red=0.02531 oracle=1.18572 rank=0.02629 value=0.22916 cand=2.22719 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [############------------] 400/800  50.0% loss=0.17820 jepa=0.28907 hard=0.84239 hard_red=0.02477 oracle=1.18174 rank=0.02610 value=0.22761 cand=2.22023 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=7 [############------------] 425/800  53.1% loss=0.17811 jepa=0.28747 hard=0.84264 hard_red=0.02444 oracle=1.18162 rank=0.02601 value=0.22728 cand=2.22032 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#############-----------] 450/800  56.2% loss=0.17616 jepa=0.28552 hard=0.84402 hard_red=0.02411 oracle=1.18354 rank=0.02574 value=0.22582 cand=2.22528 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [##############----------] 475/800  59.4% loss=0.17428 jepa=0.28553 hard=0.84805 hard_red=0.02402 oracle=1.18042 rank=0.02571 value=0.22424 cand=2.21973 pairs=138.6
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###############---------] 500/800  62.5% loss=0.18602 jepa=0.31427 hard=0.84475 hard_red=0.02444 oracle=1.18122 rank=0.02580 value=0.22344 cand=2.22146 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###############---------] 525/800  65.6% loss=0.18288 jepa=0.31169 hard=0.84900 hard_red=0.02494 oracle=1.18399 rank=0.02585 value=0.22229 cand=2.22737 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=7 [################--------] 550/800  68.8% loss=0.18131 jepa=0.30932 hard=0.84793 hard_red=0.02475 oracle=1.18700 rank=0.02590 value=0.22138 cand=2.23364 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#################-------] 575/800  71.9% loss=0.18258 jepa=0.30860 hard=0.84443 hard_red=0.02533 oracle=1.18521 rank=0.02576 value=0.22132 cand=2.23038 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=7 [##################------] 600/800  75.0% loss=0.18088 jepa=0.30744 hard=0.84438 hard_red=0.02506 oracle=1.18323 rank=0.02595 value=0.22219 cand=2.22569 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=7 [##################------] 625/800  78.1% loss=0.17832 jepa=0.30545 hard=0.84360 hard_red=0.02514 oracle=1.18363 rank=0.02584 value=0.22205 cand=2.22675 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [###################-----] 650/800  81.2% loss=0.17739 jepa=0.30360 hard=0.84428 hard_red=0.02495 oracle=1.18452 rank=0.02591 value=0.22038 cand=2.22906 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [####################----] 675/800  84.4% loss=0.17737 jepa=0.30271 hard=0.84217 hard_red=0.02482 oracle=1.18426 rank=0.02591 value=0.21910 cand=2.22906 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#####################---] 700/800  87.5% loss=0.17724 jepa=0.30288 hard=0.84001 hard_red=0.02519 oracle=1.18326 rank=0.02586 value=0.21994 cand=2.22682 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#####################---] 725/800  90.6% loss=0.18028 jepa=0.30222 hard=0.83771 hard_red=0.02543 oracle=1.18267 rank=0.02590 value=0.22002 cand=2.22553 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=7 [######################--] 750/800  93.8% loss=0.18145 jepa=0.30393 hard=0.83569 hard_red=0.02527 oracle=1.18265 rank=0.02612 value=0.21995 cand=2.22509 pairs=140.4
+[q_rank_v1 gpu6] [train-progress] epoch=7 [#######################-] 775/800  96.9% loss=0.18197 jepa=0.30330 hard=0.83073 hard_red=0.02518 oracle=1.18125 rank=0.02599 value=0.22034 cand=2.22238 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=7 [########################] 800/800 100.0% loss=0.18213 jepa=0.30381 hard=0.83139 hard_red=0.02535 oracle=1.18194 rank=0.02584 value=0.22164 cand=2.22355 pairs=140.2
+[q_rank_v1 gpu6] [train] epoch=7 horizon=4 train_loss=0.182128 val_loss=0.287067 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=8 [------------------------] 1/800   0.1% loss=0.13396 jepa=0.25878 hard=0.48985 hard_red=0.00251 oracle=0.90458 rank=0.04434 value=0.35165 cand=1.57982 pairs=177.0
+[q_rank_v1 gpu6] [train-progress] epoch=8 [------------------------] 25/800   3.1% loss=0.29750 jepa=0.37612 hard=0.80973 hard_red=0.02583 oracle=1.09093 rank=0.02479 value=0.24208 cand=2.03544 pairs=143.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#-----------------------] 50/800   6.2% loss=0.27128 jepa=0.35269 hard=0.74985 hard_red=0.02361 oracle=1.13050 rank=0.02595 value=0.22226 cand=2.12020 pairs=143.9
+[q_rank_v1 gpu6] [train-progress] epoch=8 [##----------------------] 75/800   9.4% loss=0.24922 jepa=0.32573 hard=0.84962 hard_red=0.02609 oracle=1.13471 rank=0.02524 value=0.21671 cand=2.13225 pairs=142.6
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###---------------------] 100/800  12.5% loss=0.21817 jepa=0.30979 hard=0.83515 hard_red=0.02359 oracle=1.14186 rank=0.02563 value=0.21653 cand=2.14585 pairs=142.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###---------------------] 125/800  15.6% loss=0.20543 jepa=0.30362 hard=0.83109 hard_red=0.02220 oracle=1.15749 rank=0.02584 value=0.21106 cand=2.17887 pairs=141.2
+[q_rank_v1 gpu6] [train-progress] epoch=8 [####--------------------] 150/800  18.8% loss=0.19788 jepa=0.29932 hard=0.82258 hard_red=0.02218 oracle=1.17105 rank=0.02584 value=0.21120 cand=2.20594 pairs=141.5
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#####-------------------] 175/800  21.9% loss=0.19848 jepa=0.30712 hard=0.83056 hard_red=0.02312 oracle=1.17811 rank=0.02571 value=0.20839 cand=2.22144 pairs=141.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [######------------------] 200/800  25.0% loss=0.19692 jepa=0.30596 hard=0.83554 hard_red=0.02306 oracle=1.18052 rank=0.02558 value=0.20589 cand=2.22752 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=8 [######------------------] 225/800  28.1% loss=0.19175 jepa=0.30652 hard=0.84186 hard_red=0.02321 oracle=1.17974 rank=0.02593 value=0.20469 cand=2.22575 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#######-----------------] 250/800  31.2% loss=0.19204 jepa=0.30550 hard=0.83461 hard_red=0.02322 oracle=1.17549 rank=0.02584 value=0.21039 cand=2.21515 pairs=140.8
+[q_rank_v1 gpu6] [train-progress] epoch=8 [########----------------] 275/800  34.4% loss=0.18973 jepa=0.30598 hard=0.82895 hard_red=0.02343 oracle=1.17520 rank=0.02560 value=0.20864 cand=2.21575 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#########---------------] 300/800  37.5% loss=0.18525 jepa=0.30353 hard=0.82938 hard_red=0.02259 oracle=1.17685 rank=0.02575 value=0.20785 cand=2.21907 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#########---------------] 325/800  40.6% loss=0.18930 jepa=0.30157 hard=0.82724 hard_red=0.02245 oracle=1.17502 rank=0.02557 value=0.20715 cand=2.21604 pairs=140.2
+[q_rank_v1 gpu6] [train-progress] epoch=8 [##########--------------] 350/800  43.8% loss=0.19550 jepa=0.30574 hard=0.82713 hard_red=0.02302 oracle=1.17555 rank=0.02561 value=0.20716 cand=2.21701 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###########-------------] 375/800  46.9% loss=0.19526 jepa=0.30931 hard=0.82497 hard_red=0.02295 oracle=1.17998 rank=0.02568 value=0.20674 cand=2.22589 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=8 [############------------] 400/800  50.0% loss=0.20259 jepa=0.31662 hard=0.82413 hard_red=0.02337 oracle=1.18095 rank=0.02554 value=0.20572 cand=2.22852 pairs=138.8
+[q_rank_v1 gpu6] [train-progress] epoch=8 [############------------] 425/800  53.1% loss=0.19831 jepa=0.31504 hard=0.82741 hard_red=0.02319 oracle=1.18387 rank=0.02525 value=0.20572 cand=2.23495 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#############-----------] 450/800  56.2% loss=0.20096 jepa=0.31515 hard=0.82007 hard_red=0.02326 oracle=1.18344 rank=0.02533 value=0.20532 cand=2.23409 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=8 [##############----------] 475/800  59.4% loss=0.20521 jepa=0.31613 hard=0.81661 hard_red=0.02350 oracle=1.18054 rank=0.02524 value=0.20665 cand=2.22796 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###############---------] 500/800  62.5% loss=0.20724 jepa=0.31607 hard=0.81255 hard_red=0.02392 oracle=1.17844 rank=0.02501 value=0.20678 cand=2.22414 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###############---------] 525/800  65.6% loss=0.20324 jepa=0.31535 hard=0.81020 hard_red=0.02416 oracle=1.18045 rank=0.02494 value=0.20597 cand=2.22864 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [################--------] 550/800  68.8% loss=0.20008 jepa=0.31452 hard=0.81489 hard_red=0.02392 oracle=1.17943 rank=0.02510 value=0.20622 cand=2.22618 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#################-------] 575/800  71.9% loss=0.19948 jepa=0.31374 hard=0.81309 hard_red=0.02328 oracle=1.17925 rank=0.02502 value=0.20570 cand=2.22619 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=8 [##################------] 600/800  75.0% loss=0.20057 jepa=0.31375 hard=0.81486 hard_red=0.02356 oracle=1.18029 rank=0.02516 value=0.20613 cand=2.22782 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [##################------] 625/800  78.1% loss=0.20237 jepa=0.31360 hard=0.81404 hard_red=0.02340 oracle=1.18011 rank=0.02519 value=0.20581 cand=2.22753 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=8 [###################-----] 650/800  81.2% loss=0.19960 jepa=0.31342 hard=0.81211 hard_red=0.02295 oracle=1.18118 rank=0.02528 value=0.20497 cand=2.22981 pairs=139.0
+[q_rank_v1 gpu6] [train-progress] epoch=8 [####################----] 675/800  84.4% loss=0.20040 jepa=0.31473 hard=0.81078 hard_red=0.02322 oracle=1.17792 rank=0.02510 value=0.20518 cand=2.22357 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#####################---] 700/800  87.5% loss=0.19839 jepa=0.31391 hard=0.81411 hard_red=0.02300 oracle=1.17623 rank=0.02503 value=0.20508 cand=2.22037 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#####################---] 725/800  90.6% loss=0.19591 jepa=0.31299 hard=0.81374 hard_red=0.02289 oracle=1.17843 rank=0.02497 value=0.20490 cand=2.22496 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=8 [######################--] 750/800  93.8% loss=0.19539 jepa=0.31233 hard=0.81128 hard_red=0.02290 oracle=1.17733 rank=0.02499 value=0.20566 cand=2.22241 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=8 [#######################-] 775/800  96.9% loss=0.19517 jepa=0.31225 hard=0.81163 hard_red=0.02304 oracle=1.17710 rank=0.02502 value=0.20590 cand=2.22179 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=8 [########################] 800/800 100.0% loss=0.19479 jepa=0.31229 hard=0.81335 hard_red=0.02307 oracle=1.17866 rank=0.02509 value=0.20601 cand=2.22474 pairs=139.5
+[q_rank_v1 gpu6] [train] epoch=8 horizon=5 train_loss=0.194794 val_loss=0.359133 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=9 [------------------------] 1/800   0.1% loss=0.07537 jepa=0.23862 hard=1.12235 hard_red=0.00042 oracle=1.16912 rank=0.01433 value=0.21217 cand=2.22471 pairs=208.0
+[q_rank_v1 gpu6] [train-progress] epoch=9 [------------------------] 25/800   3.1% loss=0.20571 jepa=0.30593 hard=0.77029 hard_red=0.03331 oracle=1.21244 rank=0.02309 value=0.17445 cand=2.30892 pairs=134.7
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#-----------------------] 50/800   6.2% loss=0.17161 jepa=0.29520 hard=0.82559 hard_red=0.02563 oracle=1.22725 rank=0.02511 value=0.17216 cand=2.33542 pairs=131.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [##----------------------] 75/800   9.4% loss=0.16280 jepa=0.29175 hard=0.83827 hard_red=0.02090 oracle=1.21238 rank=0.02389 value=0.17907 cand=2.30535 pairs=137.2
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###---------------------] 100/800  12.5% loss=0.16692 jepa=0.30268 hard=0.82206 hard_red=0.02252 oracle=1.19514 rank=0.02419 value=0.17971 cand=2.27000 pairs=138.3
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###---------------------] 125/800  15.6% loss=0.17744 jepa=0.30513 hard=0.82298 hard_red=0.02260 oracle=1.17534 rank=0.02326 value=0.18533 cand=2.23004 pairs=138.3
+[q_rank_v1 gpu6] [train-progress] epoch=9 [####--------------------] 150/800  18.8% loss=0.18028 jepa=0.30228 hard=0.83644 hard_red=0.02539 oracle=1.17043 rank=0.02337 value=0.18670 cand=2.21943 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#####-------------------] 175/800  21.9% loss=0.18052 jepa=0.30198 hard=0.83885 hard_red=0.02522 oracle=1.17791 rank=0.02363 value=0.19038 cand=2.23239 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=9 [######------------------] 200/800  25.0% loss=0.19289 jepa=0.31092 hard=0.82542 hard_red=0.02547 oracle=1.18579 rank=0.02367 value=0.19124 cand=2.24775 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=9 [######------------------] 225/800  28.1% loss=0.18504 jepa=0.30804 hard=0.82259 hard_red=0.02493 oracle=1.18594 rank=0.02376 value=0.19236 cand=2.24743 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#######-----------------] 250/800  31.2% loss=0.18040 jepa=0.30691 hard=0.82129 hard_red=0.02473 oracle=1.17879 rank=0.02382 value=0.19267 cand=2.23287 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=9 [########----------------] 275/800  34.4% loss=0.18046 jepa=0.30992 hard=0.82015 hard_red=0.02547 oracle=1.17717 rank=0.02361 value=0.19332 cand=2.22980 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#########---------------] 300/800  37.5% loss=0.18456 jepa=0.30857 hard=0.82043 hard_red=0.02574 oracle=1.17731 rank=0.02345 value=0.19475 cand=2.22984 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#########---------------] 325/800  40.6% loss=0.18304 jepa=0.30997 hard=0.82513 hard_red=0.02520 oracle=1.17517 rank=0.02349 value=0.19680 cand=2.22465 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [##########--------------] 350/800  43.8% loss=0.18383 jepa=0.31125 hard=0.81410 hard_red=0.02446 oracle=1.17283 rank=0.02343 value=0.19691 cand=2.22002 pairs=139.1
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###########-------------] 375/800  46.9% loss=0.18729 jepa=0.31402 hard=0.80848 hard_red=0.02528 oracle=1.17924 rank=0.02358 value=0.19712 cand=2.23246 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [############------------] 400/800  50.0% loss=0.18662 jepa=0.31562 hard=0.81296 hard_red=0.02466 oracle=1.17391 rank=0.02333 value=0.19631 cand=2.22265 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [############------------] 425/800  53.1% loss=0.18577 jepa=0.31625 hard=0.80972 hard_red=0.02434 oracle=1.17593 rank=0.02330 value=0.19522 cand=2.22717 pairs=139.0
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#############-----------] 450/800  56.2% loss=0.18907 jepa=0.31579 hard=0.81526 hard_red=0.02416 oracle=1.17508 rank=0.02323 value=0.19533 cand=2.22557 pairs=139.2
+[q_rank_v1 gpu6] [train-progress] epoch=9 [##############----------] 475/800  59.4% loss=0.18547 jepa=0.31343 hard=0.81811 hard_red=0.02367 oracle=1.17030 rank=0.02305 value=0.19482 cand=2.21658 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###############---------] 500/800  62.5% loss=0.18823 jepa=0.31407 hard=0.82040 hard_red=0.02374 oracle=1.16985 rank=0.02331 value=0.19510 cand=2.21504 pairs=139.5
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###############---------] 525/800  65.6% loss=0.19076 jepa=0.31380 hard=0.82070 hard_red=0.02378 oracle=1.17002 rank=0.02315 value=0.19583 cand=2.21541 pairs=139.3
+[q_rank_v1 gpu6] [train-progress] epoch=9 [################--------] 550/800  68.8% loss=0.19466 jepa=0.31595 hard=0.82024 hard_red=0.02427 oracle=1.17295 rank=0.02326 value=0.19464 cand=2.22152 pairs=139.4
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#################-------] 575/800  71.9% loss=0.19745 jepa=0.31956 hard=0.82216 hard_red=0.02424 oracle=1.17197 rank=0.02341 value=0.19478 cand=2.21922 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=9 [##################------] 600/800  75.0% loss=0.19895 jepa=0.31850 hard=0.81728 hard_red=0.02471 oracle=1.17124 rank=0.02348 value=0.19439 cand=2.21776 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=9 [##################------] 625/800  78.1% loss=0.19758 jepa=0.31686 hard=0.81733 hard_red=0.02467 oracle=1.17231 rank=0.02342 value=0.19389 cand=2.22022 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=9 [###################-----] 650/800  81.2% loss=0.19876 jepa=0.31636 hard=0.81360 hard_red=0.02485 oracle=1.17116 rank=0.02344 value=0.19371 cand=2.21795 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=9 [####################----] 675/800  84.4% loss=0.19559 jepa=0.31507 hard=0.81753 hard_red=0.02444 oracle=1.16955 rank=0.02367 value=0.19320 cand=2.21449 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#####################---] 700/800  87.5% loss=0.19372 jepa=0.31374 hard=0.82172 hard_red=0.02497 oracle=1.17056 rank=0.02366 value=0.19303 cand=2.21659 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#####################---] 725/800  90.6% loss=0.19476 jepa=0.31595 hard=0.82025 hard_red=0.02487 oracle=1.17102 rank=0.02379 value=0.19343 cand=2.21708 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=9 [######################--] 750/800  93.8% loss=0.19509 jepa=0.31568 hard=0.82032 hard_red=0.02497 oracle=1.16979 rank=0.02370 value=0.19336 cand=2.21483 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=9 [#######################-] 775/800  96.9% loss=0.19413 jepa=0.31495 hard=0.81924 hard_red=0.02508 oracle=1.16951 rank=0.02366 value=0.19303 cand=2.21448 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=9 [########################] 800/800 100.0% loss=0.19386 jepa=0.31427 hard=0.81807 hard_red=0.02500 oracle=1.16852 rank=0.02367 value=0.19276 cand=2.21259 pairs=139.9
+[q_rank_v1 gpu6] [train] epoch=9 horizon=5 train_loss=0.193855 val_loss=0.310302 train_steps=800
+[q_rank_v1 gpu6] [train-progress] epoch=10 [------------------------] 1/800   0.1% loss=0.13825 jepa=0.26538 hard=0.90598 hard_red=0.06545 oracle=1.03958 rank=0.01496 value=0.14462 cand=1.99139 pairs=199.0
+[q_rank_v1 gpu6] [train-progress] epoch=10 [------------------------] 25/800   3.1% loss=0.27820 jepa=0.32746 hard=0.64011 hard_red=0.01818 oracle=1.13525 rank=0.02501 value=0.20133 cand=2.13994 pairs=135.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#-----------------------] 50/800   6.2% loss=0.22209 jepa=0.33497 hard=0.74700 hard_red=0.02169 oracle=1.14039 rank=0.02285 value=0.19330 cand=2.15775 pairs=137.2
+[q_rank_v1 gpu6] [train-progress] epoch=10 [##----------------------] 75/800   9.4% loss=0.24521 jepa=0.33979 hard=0.73685 hard_red=0.02425 oracle=1.13883 rank=0.02260 value=0.19197 cand=2.15566 pairs=137.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###---------------------] 100/800  12.5% loss=0.22483 jepa=0.32798 hard=0.75997 hard_red=0.02518 oracle=1.14601 rank=0.02311 value=0.19243 cand=2.16883 pairs=136.2
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###---------------------] 125/800  15.6% loss=0.21444 jepa=0.31902 hard=0.76955 hard_red=0.02683 oracle=1.15654 rank=0.02440 value=0.18969 cand=2.18841 pairs=136.9
+[q_rank_v1 gpu6] [train-progress] epoch=10 [####--------------------] 150/800  18.8% loss=0.20699 jepa=0.31022 hard=0.78819 hard_red=0.02660 oracle=1.16169 rank=0.02457 value=0.18618 cand=2.19975 pairs=138.5
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#####-------------------] 175/800  21.9% loss=0.19960 jepa=0.30671 hard=0.79390 hard_red=0.02760 oracle=1.15166 rank=0.02361 value=0.18886 cand=2.18055 pairs=139.7
+[q_rank_v1 gpu6] [train-progress] epoch=10 [######------------------] 200/800  25.0% loss=0.19918 jepa=0.30930 hard=0.78068 hard_red=0.02715 oracle=1.15782 rank=0.02355 value=0.18810 cand=2.19329 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [######------------------] 225/800  28.1% loss=0.19630 jepa=0.30701 hard=0.79582 hard_red=0.02716 oracle=1.16764 rank=0.02381 value=0.18616 cand=2.21319 pairs=140.8
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#######-----------------] 250/800  31.2% loss=0.19081 jepa=0.30452 hard=0.79560 hard_red=0.02582 oracle=1.16634 rank=0.02336 value=0.18568 cand=2.21169 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=10 [########----------------] 275/800  34.4% loss=0.19800 jepa=0.30761 hard=0.79904 hard_red=0.02665 oracle=1.16948 rank=0.02359 value=0.18556 cand=2.21756 pairs=140.1
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#########---------------] 300/800  37.5% loss=0.19362 jepa=0.30443 hard=0.79873 hard_red=0.02614 oracle=1.17258 rank=0.02353 value=0.18512 cand=2.22404 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#########---------------] 325/800  40.6% loss=0.19156 jepa=0.30371 hard=0.80569 hard_red=0.02641 oracle=1.17123 rank=0.02355 value=0.18444 cand=2.22159 pairs=139.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [##########--------------] 350/800  43.8% loss=0.19490 jepa=0.30303 hard=0.80598 hard_red=0.02604 oracle=1.17358 rank=0.02376 value=0.18428 cand=2.22593 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###########-------------] 375/800  46.9% loss=0.20076 jepa=0.30694 hard=0.80457 hard_red=0.02632 oracle=1.17122 rank=0.02360 value=0.18738 cand=2.22030 pairs=139.9
+[q_rank_v1 gpu6] [train-progress] epoch=10 [############------------] 400/800  50.0% loss=0.19875 jepa=0.30598 hard=0.79711 hard_red=0.02612 oracle=1.17125 rank=0.02350 value=0.18862 cand=2.22005 pairs=140.0
+[q_rank_v1 gpu6] [train-progress] epoch=10 [############------------] 425/800  53.1% loss=0.19533 jepa=0.30503 hard=0.79892 hard_red=0.02547 oracle=1.16783 rank=0.02353 value=0.18961 cand=2.21276 pairs=139.8
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#############-----------] 450/800  56.2% loss=0.19171 jepa=0.30304 hard=0.80254 hard_red=0.02523 oracle=1.16586 rank=0.02328 value=0.18907 cand=2.20952 pairs=140.3
+[q_rank_v1 gpu6] [train-progress] epoch=10 [##############----------] 475/800  59.4% loss=0.19150 jepa=0.30275 hard=0.80520 hard_red=0.02556 oracle=1.16700 rank=0.02315 value=0.18821 cand=2.21242 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###############---------] 500/800  62.5% loss=0.19186 jepa=0.30178 hard=0.80507 hard_red=0.02596 oracle=1.16740 rank=0.02315 value=0.18791 cand=2.21333 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###############---------] 525/800  65.6% loss=0.19026 jepa=0.30060 hard=0.80659 hard_red=0.02591 oracle=1.16807 rank=0.02309 value=0.18769 cand=2.21488 pairs=140.9
+[q_rank_v1 gpu6] [train-progress] epoch=10 [################--------] 550/800  68.8% loss=0.19011 jepa=0.30346 hard=0.80988 hard_red=0.02649 oracle=1.17264 rank=0.02316 value=0.18644 cand=2.22438 pairs=141.3
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#################-------] 575/800  71.9% loss=0.18779 jepa=0.30248 hard=0.81250 hard_red=0.02641 oracle=1.17305 rank=0.02321 value=0.18656 cand=2.22504 pairs=140.7
+[q_rank_v1 gpu6] [train-progress] epoch=10 [##################------] 600/800  75.0% loss=0.18515 jepa=0.30069 hard=0.81414 hard_red=0.02601 oracle=1.17239 rank=0.02313 value=0.18614 cand=2.22407 pairs=140.6
+[q_rank_v1 gpu6] [train-progress] epoch=10 [##################------] 625/800  78.1% loss=0.18776 jepa=0.29922 hard=0.81471 hard_red=0.02571 oracle=1.17130 rank=0.02314 value=0.18620 cand=2.22185 pairs=141.2
+[q_rank_v1 gpu6] [train-progress] epoch=10 [###################-----] 650/800  81.2% loss=0.18604 jepa=0.29820 hard=0.81543 hard_red=0.02584 oracle=1.16810 rank=0.02301 value=0.18592 cand=2.21581 pairs=141.1
+[q_rank_v1 gpu6] [train-progress] epoch=10 [####################----] 675/800  84.4% loss=0.18759 jepa=0.29911 hard=0.81619 hard_red=0.02562 oracle=1.16660 rank=0.02298 value=0.18628 cand=2.21273 pairs=141.0
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#####################---] 700/800  87.5% loss=0.18639 jepa=0.29806 hard=0.81447 hard_red=0.02563 oracle=1.16487 rank=0.02292 value=0.18614 cand=2.20943 pairs=141.0
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#####################---] 725/800  90.6% loss=0.18488 jepa=0.29754 hard=0.81737 hard_red=0.02556 oracle=1.16416 rank=0.02281 value=0.18656 cand=2.20809 pairs=141.3
+[q_rank_v1 gpu6] [train-progress] epoch=10 [######################--] 750/800  93.8% loss=0.18545 jepa=0.29756 hard=0.81747 hard_red=0.02584 oracle=1.16140 rank=0.02276 value=0.18693 cand=2.20251 pairs=140.9
+[q_rank_v1 gpu6] [train-progress] epoch=10 [#######################-] 775/800  96.9% loss=0.18450 jepa=0.29695 hard=0.81407 hard_red=0.02609 oracle=1.16024 rank=0.02262 value=0.18701 cand=2.20043 pairs=141.2
+[q_rank_v1 gpu6] [train-progress] epoch=10 [########################] 800/800 100.0% loss=0.18485 jepa=0.29802 hard=0.81330 hard_red=0.02615 oracle=1.16210 rank=0.02263 value=0.18666 cand=2.20428 pairs=141.0
+[q_rank_v1 gpu6] [train] epoch=10 horizon=5 train_loss=0.184850 val_loss=0.333900 train_steps=800
+[q_rank_v1 gpu6] [2026-07-04T21:54:09+08:00] train_done name=q_rank_v1 checkpoint=runs/planner_aligned_q_rank_v1/best_final_horizon.pt
+[q_rank_v1 gpu6] [gmean] 2026-07-04T21:54:09 out_dir=autoresearch/improve-260704-1656/planner_aligned_variants/gates/q_rank_v1
+[q_rank_v1 gpu6] [gmean] 2026-07-04T21:54:09 budgets=iscas99__b21:628
+[q_rank_v1 gpu6] [gmean] 2026-07-04T21:54:09 variant_start id=greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0
+[q_rank_v1 gpu6] [gmean] 2026-07-04T21:54:09 [1/1] plan_start benchmark=iscas99__b21 budget=628 planner=greedy score=q_pred
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=1 node=__buf_split_17488 type=observe q_pred=2.906876 sequence=2.906876
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=2 node=__buf_split_22535 type=observe q_pred=1.810699 sequence=4.717575
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=3 node=__buf_split_19035 type=observe q_pred=1.854977 sequence=6.572552
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=4 node=__buf_split_15725 type=observe q_pred=1.619551 sequence=8.192104
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=5 node=__buf_split_23178 type=observe q_pred=1.436224 sequence=9.628328
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=6 node=__buf_split_18675 type=observe q_pred=1.551814 sequence=11.180142
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=7 node=N6591 type=observe q_pred=1.897825 sequence=13.077967
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=8 node=N18332 type=observe q_pred=1.712007 sequence=14.789974
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=9 node=__buf_split_15465 type=observe q_pred=1.579335 sequence=16.369309
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=10 node=__buf_split_13742 type=observe q_pred=1.592814 sequence=17.962123
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=11 node=__buf_split_22180 type=observe q_pred=1.649197 sequence=19.611320
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=12 node=N48468 type=observe q_pred=1.851577 sequence=21.462897
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=13 node=N42300 type=observe q_pred=1.870719 sequence=23.333617
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=14 node=N8687 type=observe q_pred=1.800419 sequence=25.134036
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=15 node=N8682 type=observe q_pred=1.838991 sequence=26.973027
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=16 node=N8677 type=observe q_pred=1.922135 sequence=28.895162
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=17 node=N8672 type=observe q_pred=1.993913 sequence=30.889076
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=18 node=N8662 type=observe q_pred=1.998322 sequence=32.887397
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=19 node=N22470 type=observe q_pred=2.035447 sequence=34.922845
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=20 node=N22482 type=observe q_pred=2.079844 sequence=37.002689
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=21 node=N8667 type=observe q_pred=2.130737 sequence=39.133426
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=22 node=N22458 type=observe q_pred=2.164820 sequence=41.298246
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=23 node=N22420 type=observe q_pred=2.188990 sequence=43.487236
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=24 node=__buf_split_19584 type=observe q_pred=2.397294 sequence=45.884530
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=25 node=N22433 type=observe q_pred=2.201524 sequence=48.086054
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=26 node=N22419 type=observe q_pred=2.186988 sequence=50.273042
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=27 node=N22469 type=observe q_pred=2.204542 sequence=52.477584
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=28 node=N22432 type=observe q_pred=2.229580 sequence=54.707164
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=29 node=N22481 type=observe q_pred=2.237512 sequence=56.944676
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=30 node=N22446 type=observe q_pred=2.236455 sequence=59.181131
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=31 node=N22457 type=observe q_pred=2.258752 sequence=61.439883
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=32 node=N22445 type=observe q_pred=2.263512 sequence=63.703395
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=33 node=N14471 type=observe q_pred=2.258873 sequence=65.962268
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=34 node=N826 type=observe q_pred=2.255969 sequence=68.218237
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=35 node=N4083 type=observe q_pred=2.260162 sequence=70.478399
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=36 node=N1437 type=observe q_pred=2.275817 sequence=72.754217
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=37 node=N1442 type=observe q_pred=2.295367 sequence=75.049583
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=38 node=N21039 type=observe q_pred=2.333025 sequence=77.382609
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=39 node=N21048 type=observe q_pred=2.355844 sequence=79.738453
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=40 node=N21038 type=observe q_pred=2.393703 sequence=82.132156
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=41 node=N21047 type=observe q_pred=2.404768 sequence=84.536924
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=42 node=N4692 type=observe q_pred=2.383130 sequence=86.920054
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=43 node=N4687 type=observe q_pred=2.393202 sequence=89.313256
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=44 node=N21946 type=observe q_pred=2.421041 sequence=91.734297
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=45 node=N21937 type=observe q_pred=2.431461 sequence=94.165758
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=46 node=N21945 type=observe q_pred=2.449548 sequence=96.615306
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=47 node=N21936 type=observe q_pred=2.457762 sequence=99.073068
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=48 node=N4683 type=observe q_pred=2.474203 sequence=101.547271
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=49 node=N4684 type=observe q_pred=2.482788 sequence=104.030059
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=50 node=N4685 type=observe q_pred=2.498526 sequence=106.528585
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=51 node=N4688 type=observe q_pred=2.497705 sequence=109.026290
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=52 node=N4689 type=observe q_pred=2.504230 sequence=111.530520
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=53 node=N4690 type=observe q_pred=2.518264 sequence=114.048784
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=54 node=N38578 type=observe q_pred=2.409639 sequence=116.458423
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=55 node=N1433 type=observe q_pred=2.518269 sequence=118.976692
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=56 node=N1434 type=observe q_pred=2.524808 sequence=121.501500
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=57 node=N1435 type=observe q_pred=2.538851 sequence=124.040350
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=58 node=N1438 type=observe q_pred=2.530661 sequence=126.571011
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=59 node=N1439 type=observe q_pred=2.533723 sequence=129.104734
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=60 node=N1440 type=observe q_pred=2.556915 sequence=131.661649
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=61 node=N38608 type=observe q_pred=2.437990 sequence=134.099639
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=62 node=N38515 type=observe q_pred=2.443333 sequence=136.542972
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=63 node=N38449 type=observe q_pred=2.443354 sequence=138.986326
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=64 node=N38548 type=observe q_pred=2.470112 sequence=141.456438
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=65 node=N38524 type=observe q_pred=2.465681 sequence=143.922119
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=66 node=N4490 type=observe q_pred=2.813069 sequence=146.735188
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=67 node=N38500 type=observe q_pred=2.418003 sequence=149.153191
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=68 node=N38458 type=observe q_pred=2.476813 sequence=151.630003
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=69 node=N8692 type=observe q_pred=2.506859 sequence=154.136863
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=70 node=__buf_split_19583 type=observe q_pred=2.525800 sequence=156.662662
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=71 node=N1241 type=observe q_pred=2.915338 sequence=159.578000
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=72 node=N29800 type=observe q_pred=2.488966 sequence=162.066966
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=73 node=N23208 type=observe q_pred=2.486488 sequence=164.553454
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=74 node=N22605 type=observe q_pred=2.509341 sequence=167.062796
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=75 node=N38470 type=observe q_pred=2.550290 sequence=169.613085
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=76 node=N14782 type=observe q_pred=2.532407 sequence=172.145492
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=77 node=N8745 type=observe q_pred=2.540781 sequence=174.686274
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=78 node=N38491 type=observe q_pred=2.537266 sequence=177.223540
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=79 node=N38593 type=observe q_pred=2.539596 sequence=179.763137
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=80 node=N38623 type=observe q_pred=2.546591 sequence=182.309727
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=81 node=N38581 type=observe q_pred=2.583509 sequence=184.893236
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=82 node=N38533 type=observe q_pred=2.555682 sequence=187.448918
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=83 node=N38596 type=observe q_pred=2.562794 sequence=190.011712
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=84 node=N38563 type=observe q_pred=2.543157 sequence=192.554870
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=85 node=N38611 type=observe q_pred=2.589513 sequence=195.144382
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=86 node=N38467 type=observe q_pred=2.555229 sequence=197.699612
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=87 node=N38626 type=observe q_pred=2.581263 sequence=200.280874
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=88 node=N29819 type=observe q_pred=2.413547 sequence=202.694422
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=89 node=N27267 type=observe q_pred=2.337065 sequence=205.031486
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=90 node=N26421 type=observe q_pred=2.283512 sequence=207.314998
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=91 node=N38536 type=observe q_pred=2.462089 sequence=209.777087
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=92 node=N24081 type=observe q_pred=2.281596 sequence=212.058684
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=93 node=N38551 type=observe q_pred=2.429661 sequence=214.488344
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=94 node=N24931 type=observe q_pred=2.285512 sequence=216.773856
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=95 node=N38566 type=observe q_pred=2.433715 sequence=219.207571
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=96 node=N14728 type=observe q_pred=2.498910 sequence=221.706481
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=97 node=N29757 type=observe q_pred=2.321094 sequence=224.027575
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=98 node=N857 type=observe q_pred=2.273370 sequence=226.300945
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=99 node=N4112 type=observe q_pred=2.237045 sequence=228.537990
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=100 node=N42299 type=observe q_pred=2.177653 sequence=230.715643
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=101 node=__buf_split_10165 type=observe q_pred=2.144063 sequence=232.859706
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=102 node=__buf_split_10166 type=observe q_pred=2.117741 sequence=234.977447
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=103 node=__buf_split_12981 type=observe q_pred=2.108891 sequence=237.086338
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=104 node=__buf_split_21265 type=observe q_pred=2.106302 sequence=239.192640
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=105 node=N23249 type=observe q_pred=2.145326 sequence=241.337966
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=106 node=N23254 type=observe q_pred=2.146845 sequence=243.484811
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=107 node=__buf_split_23229 type=observe q_pred=2.108302 sequence=245.593113
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=108 node=__buf_split_21124 type=observe q_pred=2.096801 sequence=247.689914
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=109 node=N22899 type=observe q_pred=2.130169 sequence=249.820082
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=110 node=N23403 type=observe q_pred=2.129090 sequence=251.949173
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=111 node=__buf_split_23018 type=observe q_pred=2.100211 sequence=254.049384
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=112 node=N32458 type=observe q_pred=2.114093 sequence=256.163477
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=113 node=__buf_split_23258 type=observe q_pred=2.092622 sequence=258.256098
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=114 node=__buf_split_23424 type=observe q_pred=2.088429 sequence=260.344527
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=115 node=__buf_split_23511 type=observe q_pred=2.094453 sequence=262.438980
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=116 node=__buf_split_20573 type=observe q_pred=2.093610 sequence=264.532590
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=117 node=__buf_split_21523 type=observe q_pred=2.102352 sequence=266.634941
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=118 node=__buf_split_19508 type=observe q_pred=2.110162 sequence=268.745103
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=119 node=__buf_split_20144 type=observe q_pred=2.115390 sequence=270.860493
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=120 node=N29794 type=observe q_pred=2.121829 sequence=272.982322
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=121 node=__buf_split_20612 type=observe q_pred=2.123592 sequence=275.105914
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=122 node=__buf_split_23135 type=observe q_pred=2.118134 sequence=277.224048
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=123 node=__buf_split_19548 type=observe q_pred=2.114894 sequence=279.338942
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=124 node=__buf_split_12655 type=observe q_pred=2.117225 sequence=281.456167
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=125 node=__buf_split_12657 type=observe q_pred=2.120969 sequence=283.577136
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=126 node=__buf_split_12659 type=observe q_pred=2.124603 sequence=285.701739
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=127 node=__buf_split_12661 type=observe q_pred=2.127662 sequence=287.829401
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=128 node=__buf_split_17966 type=observe q_pred=2.130650 sequence=289.960051
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=129 node=__buf_split_12665 type=observe q_pred=2.133950 sequence=292.094002
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=130 node=__buf_split_13786 type=observe q_pred=2.136040 sequence=294.230042
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=131 node=__buf_split_13788 type=observe q_pred=2.136856 sequence=296.366899
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=132 node=__buf_split_13790 type=observe q_pred=2.137213 sequence=298.504111
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=133 node=__buf_split_13792 type=observe q_pred=2.137731 sequence=300.641842
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=134 node=__buf_split_15487 type=observe q_pred=2.138106 sequence=302.779948
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=135 node=__buf_split_15489 type=observe q_pred=2.138535 sequence=304.918484
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=136 node=__buf_split_16011 type=observe q_pred=2.138906 sequence=307.057389
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=137 node=__buf_split_16862 type=observe q_pred=2.138725 sequence=309.196115
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=138 node=__buf_split_17459 type=observe q_pred=2.137864 sequence=311.333978
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=139 node=__buf_split_17935 type=observe q_pred=2.137136 sequence=313.471114
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=140 node=__buf_split_18475 type=observe q_pred=2.136471 sequence=315.607584
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=141 node=__buf_split_19007 type=observe q_pred=2.135804 sequence=317.743388
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=142 node=N34896 type=observe q_pred=2.171316 sequence=319.914704
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=143 node=N31493 type=observe q_pred=2.163491 sequence=322.078196
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=144 node=N31517 type=observe q_pred=2.145670 sequence=324.223866
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=145 node=N22897 type=observe q_pred=2.452880 sequence=326.676746
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=146 node=__buf_split_12663 type=observe q_pred=2.196291 sequence=328.873037
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=147 node=N34909 type=observe q_pred=2.177049 sequence=331.050086
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=148 node=N32472 type=observe q_pred=2.160153 sequence=333.210240
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=149 node=N32555 type=observe q_pred=2.139121 sequence=335.349361
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=150 node=__buf_split_22495 type=observe q_pred=2.097543 sequence=337.446904
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=151 node=__buf_split_15851 type=observe q_pred=2.082808 sequence=339.529712
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=152 node=N22976 type=observe q_pred=2.093773 sequence=341.623485
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=153 node=N34910 type=observe q_pred=2.085253 sequence=343.708737
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=154 node=N48467 type=observe q_pred=2.058853 sequence=345.767590
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=155 node=__buf_split_12980 type=observe q_pred=2.057145 sequence=347.824735
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=156 node=N42301 type=observe q_pred=2.047601 sequence=349.872337
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=157 node=__buf_split_10167 type=observe q_pred=2.059552 sequence=351.931888
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=158 node=N38590 type=observe q_pred=2.154992 sequence=354.086881
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=159 node=__buf_split_21547 type=observe q_pred=2.138121 sequence=356.225002
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=160 node=__buf_split_22954 type=observe q_pred=2.142118 sequence=358.367120
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=161 node=__buf_split_23426 type=observe q_pred=2.141233 sequence=360.508353
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=162 node=__buf_split_22500 type=observe q_pred=2.140808 sequence=362.649161
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=163 node=__buf_split_13427 type=observe q_pred=2.137837 sequence=364.786998
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=164 node=__buf_split_22916 type=observe q_pred=2.141495 sequence=366.928492
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=165 node=__buf_split_20069 type=observe q_pred=2.137516 sequence=369.066008
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=166 node=__buf_split_21994 type=observe q_pred=2.144713 sequence=371.210722
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=167 node=__buf_split_21088 type=observe q_pred=2.148471 sequence=373.359193
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=168 node=__buf_split_23133 type=observe q_pred=2.145147 sequence=375.504340
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=169 node=N48469 type=observe q_pred=2.143039 sequence=377.647378
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=170 node=__buf_split_12982 type=observe q_pred=2.147735 sequence=379.795113
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=171 node=__buf_split_14447 type=observe q_pred=2.136945 sequence=381.932058
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=172 node=__buf_split_13429 type=observe q_pred=2.129116 sequence=384.061174
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=173 node=__buf_split_13433 type=observe q_pred=2.121608 sequence=386.182782
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=174 node=__buf_split_16603 type=observe q_pred=2.114264 sequence=388.297046
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=175 node=__buf_split_17230 type=observe q_pred=2.107396 sequence=390.404442
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=176 node=__buf_split_15624 type=observe q_pred=2.101285 sequence=392.505726
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=177 node=__buf_split_15622 type=observe q_pred=2.095952 sequence=394.601678
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=178 node=__buf_split_15620 type=observe q_pred=2.091583 sequence=396.693261
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=179 node=__buf_split_17754 type=observe q_pred=2.087805 sequence=398.781066
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=180 node=__buf_split_18257 type=observe q_pred=2.084838 sequence=400.865904
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=181 node=__buf_split_13435 type=observe q_pred=2.082844 sequence=402.948747
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=182 node=__buf_split_13423 type=observe q_pred=2.081480 sequence=405.030227
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=183 node=__buf_split_14449 type=observe q_pred=2.080645 sequence=407.110872
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=184 node=__buf_split_13576 type=observe q_pred=2.089748 sequence=409.200620
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=185 node=__buf_split_13579 type=observe q_pred=2.099466 sequence=411.300085
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=186 node=__buf_split_13588 type=observe q_pred=2.108916 sequence=413.409002
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=187 node=__buf_split_13591 type=observe q_pred=2.117675 sequence=415.526677
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=188 node=__buf_split_14453 type=observe q_pred=2.116098 sequence=417.642775
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=189 node=__buf_split_14451 type=observe q_pred=2.112730 sequence=419.755505
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=190 node=__buf_split_13448 type=observe q_pred=2.118494 sequence=421.873999
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=191 node=__buf_split_13514 type=observe q_pred=2.124560 sequence=423.998559
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=192 node=__buf_split_13524 type=observe q_pred=2.130031 sequence=426.128590
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=193 node=__buf_split_23499 type=observe q_pred=2.134862 sequence=428.263453
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=194 node=__buf_split_23395 type=observe q_pred=2.137734 sequence=430.401187
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=195 node=__buf_split_13431 type=observe q_pred=2.131207 sequence=432.532394
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=196 node=__buf_split_12653 type=observe q_pred=2.087204 sequence=434.619599
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=197 node=__buf_split_17112 type=observe q_pred=2.126151 sequence=436.745750
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=198 node=N8815 type=observe q_pred=1.973577 sequence=438.719327
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=199 node=N38620 type=observe q_pred=2.250017 sequence=440.969344
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=200 node=N8644 type=observe q_pred=2.012227 sequence=442.981571
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=201 node=N14400 type=observe q_pred=1.932765 sequence=444.914336
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=202 node=N34078 type=observe q_pred=1.874346 sequence=446.788682
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=203 node=N29792 type=observe q_pred=1.834784 sequence=448.623466
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=204 node=N38638 type=observe q_pred=1.800908 sequence=450.424374
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=205 node=N38629 type=observe q_pred=1.770061 sequence=452.194435
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=206 node=N38599 type=observe q_pred=1.744281 sequence=453.938716
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=207 node=N38560 type=observe q_pred=2.155828 sequence=456.094543
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=208 node=N38614 type=observe q_pred=1.800037 sequence=457.894580
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=209 node=N58872 type=observe q_pred=4.092551 sequence=461.987131
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=210 node=__buf_split_13140 type=observe q_pred=2.066274 sequence=464.053406
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=211 node=__buf_split_23391 type=observe q_pred=2.219670 sequence=466.273075
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=212 node=N34014 type=observe q_pred=2.593375 sequence=468.866450
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=213 node=__buf_split_10123 type=observe q_pred=2.264485 sequence=471.130935
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=214 node=__buf_split_10126 type=observe q_pred=2.226802 sequence=473.357737
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=215 node=__buf_split_10129 type=observe q_pred=2.210625 sequence=475.568362
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=216 node=__buf_split_10132 type=observe q_pred=2.194594 sequence=477.762956
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=217 node=N34002 type=observe q_pred=2.583626 sequence=480.346582
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=218 node=N31506 type=observe q_pred=2.706242 sequence=483.052824
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=219 node=N31488 type=observe q_pred=2.774188 sequence=485.827011
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=220 node=N31512 type=observe q_pred=2.827049 sequence=488.654060
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=221 node=N31464 type=observe q_pred=2.868781 sequence=491.522841
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=222 node=N22895 type=observe q_pred=2.484467 sequence=494.007308
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=223 node=__buf_split_14323 type=observe q_pred=2.217976 sequence=496.225284
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=224 node=N22855 type=observe q_pred=2.295319 sequence=498.520603
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=225 node=__buf_split_13609 type=observe q_pred=2.272082 sequence=500.792685
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=226 node=N22972 type=observe q_pred=2.287719 sequence=503.080404
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=227 node=N32491 type=observe q_pred=2.609360 sequence=505.689764
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=228 node=N31454 type=observe q_pred=2.714404 sequence=508.404168
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=229 node=__buf_split_7278 type=observe q_pred=2.342687 sequence=510.746854
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=230 node=N34008 type=observe q_pred=2.691628 sequence=513.438482
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=231 node=N34020 type=observe q_pred=2.819165 sequence=516.257648
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=232 node=__buf_split_10435 type=observe q_pred=2.399500 sequence=518.657148
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=233 node=__buf_split_11592 type=observe q_pred=2.317950 sequence=520.975098
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=234 node=__buf_split_19975 type=observe q_pred=2.120629 sequence=523.095727
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=235 node=__buf_split_16442 type=observe q_pred=2.047070 sequence=525.142797
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=236 node=__buf_split_11598 type=observe q_pred=2.235955 sequence=527.378753
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=237 node=__buf_split_11985 type=observe q_pred=2.228132 sequence=529.606885
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=238 node=__buf_split_11987 type=observe q_pred=2.195552 sequence=531.802436
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=239 node=__buf_split_11989 type=observe q_pred=2.151983 sequence=533.954420
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=240 node=__buf_split_13763 type=observe q_pred=2.128664 sequence=536.083084
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=241 node=__buf_split_13765 type=observe q_pred=2.115812 sequence=538.198896
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=242 node=__buf_split_14419 type=observe q_pred=2.106386 sequence=540.305282
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=243 node=__buf_split_14421 type=observe q_pred=2.099738 sequence=542.405021
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=244 node=__buf_split_16003 type=observe q_pred=2.095395 sequence=544.500415
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=245 node=__buf_split_16854 type=observe q_pred=2.091881 sequence=546.592296
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=246 node=__buf_split_17452 type=observe q_pred=2.089931 sequence=548.682227
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=247 node=__buf_split_17927 type=observe q_pred=2.088547 sequence=550.770774
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=248 node=__buf_split_18467 type=observe q_pred=2.090258 sequence=552.861032
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=249 node=__buf_split_18777 type=observe q_pred=2.096986 sequence=554.958018
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=250 node=__buf_split_19300 type=observe q_pred=2.108666 sequence=557.066683
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=251 node=__buf_split_19501 type=observe q_pred=2.109216 sequence=559.175900
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=252 node=__buf_split_19870 type=observe q_pred=2.118297 sequence=561.294197
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=253 node=__buf_split_20397 type=observe q_pred=2.128412 sequence=563.422609
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=254 node=__buf_split_20915 type=observe q_pred=2.122050 sequence=565.544659
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=255 node=__buf_split_21331 type=observe q_pred=2.117337 sequence=567.661996
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=256 node=__buf_split_21757 type=observe q_pred=2.114585 sequence=569.776581
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=257 node=__buf_split_22280 type=observe q_pred=2.110896 sequence=571.887477
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=258 node=__buf_split_22723 type=observe q_pred=2.107121 sequence=573.994598
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=259 node=__buf_split_23115 type=observe q_pred=2.106042 sequence=576.100640
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=260 node=__buf_split_15821 type=observe q_pred=2.113170 sequence=578.213810
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=261 node=__buf_split_15823 type=observe q_pred=2.119813 sequence=580.333622
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=262 node=__buf_split_15825 type=observe q_pred=2.127872 sequence=582.461495
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=263 node=__buf_split_15827 type=observe q_pred=2.125023 sequence=584.586517
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=264 node=__buf_split_15829 type=observe q_pred=2.119364 sequence=586.705881
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=265 node=__buf_split_15831 type=observe q_pred=2.112885 sequence=588.818767
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=266 node=__buf_split_15833 type=observe q_pred=2.106727 sequence=590.925494
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=267 node=__buf_split_15835 type=observe q_pred=2.101291 sequence=593.026785
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=268 node=__buf_split_15837 type=observe q_pred=2.092162 sequence=595.118948
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=269 node=__buf_split_15839 type=observe q_pred=2.090018 sequence=597.208966
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=270 node=__buf_split_15841 type=observe q_pred=2.088371 sequence=599.297336
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=271 node=__buf_split_15843 type=observe q_pred=2.086920 sequence=601.384257
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=272 node=__buf_split_15845 type=observe q_pred=2.082436 sequence=603.466693
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=273 node=__buf_split_15847 type=observe q_pred=2.083602 sequence=605.550296
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=274 node=__buf_split_16607 type=observe q_pred=2.084521 sequence=607.634817
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=275 node=__buf_split_17234 type=observe q_pred=2.085494 sequence=609.720311
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=276 node=__buf_split_17758 type=observe q_pred=2.086995 sequence=611.807305
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=277 node=__buf_split_18261 type=observe q_pred=2.088253 sequence=613.895558
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=278 node=__buf_split_18781 type=observe q_pred=2.089541 sequence=615.985099
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=279 node=__buf_split_19304 type=observe q_pred=2.090784 sequence=618.075884
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=280 node=__buf_split_19874 type=observe q_pred=2.091353 sequence=620.167236
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=281 node=__buf_split_20401 type=observe q_pred=2.092242 sequence=622.259479
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=282 node=__buf_split_20919 type=observe q_pred=2.092662 sequence=624.352141
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=283 node=N31496 type=observe q_pred=2.514350 sequence=626.866491
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=284 node=__buf_split_13612 type=observe q_pred=2.241170 sequence=629.107661
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=285 node=N22979 type=observe q_pred=2.234224 sequence=631.341885
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=286 node=N32549 type=observe q_pred=2.224278 sequence=633.566163
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=287 node=N32570 type=observe q_pred=2.208715 sequence=635.774878
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=288 node=N23004 type=observe q_pred=2.188884 sequence=637.963762
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=289 node=__buf_split_15849 type=observe q_pred=2.134530 sequence=640.098292
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=290 node=__buf_split_11600 type=observe q_pred=2.123307 sequence=642.221599
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=291 node=__buf_split_11602 type=observe q_pred=2.115963 sequence=644.337562
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=292 node=__buf_split_11604 type=observe q_pred=2.118770 sequence=646.456333
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=293 node=__buf_split_11606 type=observe q_pred=2.120072 sequence=648.576404
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=294 node=__buf_split_11609 type=observe q_pred=2.117403 sequence=650.693807
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=295 node=__buf_split_11991 type=observe q_pred=2.116299 sequence=652.810107
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=296 node=__buf_split_11993 type=observe q_pred=2.115258 sequence=654.925364
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=297 node=__buf_split_11995 type=observe q_pred=2.104512 sequence=657.029877
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=298 node=__buf_split_13767 type=observe q_pred=2.103552 sequence=659.133428
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=299 node=__buf_split_13769 type=observe q_pred=2.103975 sequence=661.237403
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=300 node=__buf_split_14423 type=observe q_pred=2.104969 sequence=663.342372
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=301 node=__buf_split_14425 type=observe q_pred=2.105634 sequence=665.448006
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=302 node=__buf_split_15812 type=observe q_pred=2.106325 sequence=667.554331
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=303 node=__buf_split_16005 type=observe q_pred=2.106558 sequence=669.660889
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=304 node=__buf_split_16856 type=observe q_pred=2.106618 sequence=671.767508
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=305 node=__buf_split_17454 type=observe q_pred=2.105262 sequence=673.872769
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=306 node=__buf_split_17929 type=observe q_pred=2.105578 sequence=675.978348
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=307 node=__buf_split_18469 type=observe q_pred=2.105175 sequence=678.083523
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=308 node=__buf_split_14328 type=observe q_pred=1.921808 sequence=680.005330
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=309 node=__buf_split_19503 type=observe q_pred=2.111111 sequence=682.116441
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=310 node=__buf_split_14333 type=observe q_pred=1.934492 sequence=684.050933
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=311 node=__buf_split_20567 type=observe q_pred=2.134008 sequence=686.184941
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=312 node=__buf_split_21082 type=observe q_pred=2.097758 sequence=688.282699
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=313 node=__buf_split_21518 type=observe q_pred=2.128433 sequence=690.411132
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=314 node=__buf_split_21989 type=observe q_pred=2.160825 sequence=692.571958
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=315 node=__buf_split_22493 type=observe q_pred=2.189575 sequence=694.761533
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=316 node=__buf_split_22909 type=observe q_pred=2.205700 sequence=696.967234
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=317 node=__buf_split_23131 type=observe q_pred=2.186682 sequence=699.153915
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=318 node=__buf_split_23212 type=observe q_pred=2.209447 sequence=701.363362
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=319 node=__buf_split_23397 type=observe q_pred=2.234017 sequence=703.597379
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=320 node=__buf_split_12983 type=observe q_pred=2.244247 sequence=705.841625
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=321 node=N38482 type=observe q_pred=2.036174 sequence=707.877799
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=322 node=N38473 type=observe q_pred=1.969887 sequence=709.847687
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=323 node=N34098 type=observe q_pred=2.179610 sequence=712.027296
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=324 node=N14779 type=observe q_pred=2.192052 sequence=714.219348
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=325 node=N14780 type=observe q_pred=2.203551 sequence=716.422899
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=326 node=N14781 type=observe q_pred=2.307648 sequence=718.730548
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=327 node=N8742 type=observe q_pred=2.268943 sequence=720.999491
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=328 node=N8743 type=observe q_pred=2.268490 sequence=723.267981
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=329 node=N8744 type=observe q_pred=2.354096 sequence=725.622076
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=330 node=__buf_split_21819 type=observe q_pred=4.348728 sequence=729.970805
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=331 node=N14786 type=observe q_pred=2.584107 sequence=732.554912
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=332 node=N4686 type=observe q_pred=2.471451 sequence=735.026363
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=333 node=N4691 type=observe q_pred=2.419426 sequence=737.445789
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=334 node=N21930 type=observe q_pred=2.357924 sequence=739.803712
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=335 node=N21932 type=observe q_pred=2.299476 sequence=742.103188
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=336 node=N21934 type=observe q_pred=2.234533 sequence=744.337721
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=337 node=N21939 type=observe q_pred=2.192560 sequence=746.530281
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=338 node=N21941 type=observe q_pred=2.159599 sequence=748.689880
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=339 node=N21943 type=observe q_pred=2.134943 sequence=750.824823
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=340 node=N1436 type=observe q_pred=2.117939 sequence=752.942762
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=341 node=N1441 type=observe q_pred=2.107869 sequence=755.050631
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=342 node=N21032 type=observe q_pred=2.104324 sequence=757.154954
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=343 node=N21034 type=observe q_pred=2.105978 sequence=759.260932
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=344 node=N21036 type=observe q_pred=2.110897 sequence=761.371830
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=345 node=N21041 type=observe q_pred=2.118654 sequence=763.490484
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=346 node=N21043 type=observe q_pred=2.127302 sequence=765.617787
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=347 node=N21045 type=observe q_pred=2.136739 sequence=767.754526
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=348 node=N14789 type=observe q_pred=2.249807 sequence=770.004333
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=349 node=N8768 type=observe q_pred=2.301332 sequence=772.305665
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=350 node=__buf_split_3777 type=observe q_pred=2.237452 sequence=774.543117
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=351 node=__buf_split_3770 type=observe q_pred=2.210825 sequence=776.753941
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=352 node=__buf_split_3769 type=observe q_pred=2.189581 sequence=778.943523
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=353 node=N58871 type=observe q_pred=4.414557 sequence=783.358080
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=354 node=__buf_split_3768 type=observe q_pred=2.532986 sequence=785.891066
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=355 node=__buf_split_18359 type=observe q_pred=2.447077 sequence=788.338143
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=356 node=__buf_split_3776 type=observe q_pred=2.378815 sequence=790.716958
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=357 node=N14784 type=observe q_pred=2.665037 sequence=793.381995
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=358 node=__buf_split_12988 type=observe q_pred=2.352515 sequence=795.734511
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=359 node=__buf_split_14455 type=observe q_pred=2.294486 sequence=798.028996
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=360 node=__buf_split_14457 type=observe q_pred=2.241737 sequence=800.270733
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=361 node=__buf_split_14459 type=observe q_pred=2.188459 sequence=802.459192
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=362 node=__buf_split_14461 type=observe q_pred=2.154005 sequence=804.613197
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=363 node=__buf_split_11596 type=observe q_pred=1.836542 sequence=806.449739
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=364 node=__buf_split_20063 type=observe q_pred=1.854550 sequence=808.304289
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=365 node=__buf_split_15632 type=observe q_pred=2.122221 sequence=810.426510
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=366 node=__buf_split_18323 type=observe q_pred=1.909966 sequence=812.336476
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=367 node=__buf_split_18333 type=observe q_pred=1.882511 sequence=814.218987
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=368 node=__buf_split_19001 type=observe q_pred=1.882148 sequence=816.101135
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=369 node=__buf_split_15730 type=observe q_pred=1.882626 sequence=817.983762
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=370 node=__buf_split_13517 type=observe q_pred=1.897015 sequence=819.880777
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=371 node=__buf_split_14338 type=observe q_pred=1.908572 sequence=821.789349
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=372 node=__buf_split_23546 type=observe q_pred=1.915154 sequence=823.704504
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=373 node=__buf_split_19872 type=observe q_pred=2.185929 sequence=825.890432
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=374 node=__buf_split_20061 type=observe q_pred=2.210225 sequence=828.100658
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=375 node=__buf_split_20399 type=observe q_pred=2.202749 sequence=830.303407
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=376 node=__buf_split_20565 type=observe q_pred=2.191375 sequence=832.494781
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=377 node=__buf_split_20917 type=observe q_pred=2.127472 sequence=834.622253
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=378 node=__buf_split_21080 type=observe q_pred=2.180059 sequence=836.802312
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=379 node=__buf_split_21333 type=observe q_pred=2.133888 sequence=838.936200
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=380 node=__buf_split_21516 type=observe q_pred=2.180037 sequence=841.116237
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=381 node=__buf_split_21759 type=observe q_pred=2.144359 sequence=843.260596
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=382 node=__buf_split_21987 type=observe q_pred=2.175729 sequence=845.436325
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=383 node=__buf_split_22282 type=observe q_pred=2.157181 sequence=847.593506
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=384 node=__buf_split_22491 type=observe q_pred=2.186556 sequence=849.780061
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=385 node=__buf_split_22725 type=observe q_pred=2.172391 sequence=851.952452
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=386 node=__buf_split_22907 type=observe q_pred=2.198238 sequence=854.150690
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=387 node=__buf_split_23129 type=observe q_pred=2.182256 sequence=856.332945
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=388 node=__buf_split_23210 type=observe q_pred=2.163618 sequence=858.496563
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=389 node=__buf_split_23393 type=observe q_pred=2.148089 sequence=860.644652
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=390 node=__buf_split_20986 type=observe q_pred=2.146718 sequence=862.791369
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=391 node=__buf_split_12990 type=observe q_pred=2.148886 sequence=864.940256
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=392 node=N31556 type=observe q_pred=2.495908 sequence=867.436163
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=393 node=N31471 type=observe q_pred=2.616809 sequence=870.052972
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=394 node=N31548 type=observe q_pred=2.694050 sequence=872.747023
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=395 node=N14760 type=observe q_pred=2.220013 sequence=874.967036
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=396 node=__buf_split_21818 type=observe q_pred=4.465867 sequence=879.432903
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=397 node=__buf_split_11492 type=observe q_pred=2.410315 sequence=881.843218
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=398 node=N34935 type=observe q_pred=2.958149 sequence=884.801367
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=399 node=__buf_split_11594 type=observe q_pred=2.512971 sequence=887.314338
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=400 node=__buf_split_9595 type=observe q_pred=2.383332 sequence=889.697670
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=401 node=__buf_split_9639 type=observe q_pred=2.318657 sequence=892.016328
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=402 node=__buf_split_12978 type=observe q_pred=2.275964 sequence=894.292292
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=403 node=__buf_split_10440 type=observe q_pred=2.243320 sequence=896.535612
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=404 node=__buf_split_15699 type=observe q_pred=2.213474 sequence=898.749086
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=405 node=__buf_split_16015 type=observe q_pred=2.185383 sequence=900.934468
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=406 node=__buf_split_16660 type=observe q_pred=2.165518 sequence=903.099986
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=407 node=__buf_split_14498 type=observe q_pred=2.149381 sequence=905.249368
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=408 node=__buf_split_17278 type=observe q_pred=2.138510 sequence=907.387878
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=409 node=__buf_split_16866 type=observe q_pred=2.126571 sequence=909.514449
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=410 node=__buf_split_17813 type=observe q_pred=2.120263 sequence=911.634712
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=411 node=__buf_split_17939 type=observe q_pred=2.116482 sequence=913.751194
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=412 node=__buf_split_18268 type=observe q_pred=2.113668 sequence=915.864861
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=413 node=__buf_split_18481 type=observe q_pred=2.113215 sequence=917.978077
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=414 node=__buf_split_18784 type=observe q_pred=2.114214 sequence=920.092291
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=415 node=__buf_split_19011 type=observe q_pred=2.115371 sequence=922.207661
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=416 node=__buf_split_19309 type=observe q_pred=2.117883 sequence=924.325544
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=417 node=__buf_split_19512 type=observe q_pred=2.121240 sequence=926.446784
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=418 node=__buf_split_19879 type=observe q_pred=2.121891 sequence=928.568675
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=419 node=__buf_split_17465 type=observe q_pred=2.125704 sequence=930.694379
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=420 node=__buf_split_20404 type=observe q_pred=2.127888 sequence=932.822267
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=421 node=__buf_split_20577 type=observe q_pred=2.130967 sequence=934.953235
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=422 node=__buf_split_20077 type=observe q_pred=2.133232 sequence=937.086467
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=423 node=__buf_split_20926 type=observe q_pred=2.135093 sequence=939.221560
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=424 node=__buf_split_21092 type=observe q_pred=2.136453 sequence=941.358013
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=425 node=__buf_split_21213 type=observe q_pred=2.138602 sequence=943.496616
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=426 node=__buf_split_21527 type=observe q_pred=2.140291 sequence=945.636907
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=427 node=N22850 type=observe q_pred=2.181907 sequence=947.818814
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=428 node=N31541 type=observe q_pred=2.530670 sequence=950.349484
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=429 node=N31508 type=observe q_pred=2.647552 sequence=952.997036
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=430 node=__buf_split_9599 type=observe q_pred=2.317718 sequence=955.314754
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=431 node=__buf_split_9607 type=observe q_pred=2.252865 sequence=957.567619
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=432 node=__buf_split_9611 type=observe q_pred=2.223726 sequence=959.791345
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=433 node=__buf_split_20587 type=observe q_pred=2.204994 sequence=961.996339
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=434 node=__buf_split_9615 type=observe q_pred=2.190640 sequence=964.186979
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=435 node=__buf_split_9619 type=observe q_pred=2.178411 sequence=966.365390
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=436 node=__buf_split_9632 type=observe q_pred=2.168554 sequence=968.533944
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=437 node=__buf_split_14464 type=observe q_pred=2.160050 sequence=970.693994
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=438 node=__buf_split_14467 type=observe q_pred=2.154165 sequence=972.848159
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=439 node=__buf_split_14470 type=observe q_pred=2.149710 sequence=974.997869
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=440 node=__buf_split_14473 type=observe q_pred=2.146487 sequence=977.144355
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=441 node=__buf_split_14476 type=observe q_pred=2.140806 sequence=979.285161
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=442 node=__buf_split_14479 type=observe q_pred=2.140187 sequence=981.425348
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=443 node=__buf_split_14482 type=observe q_pred=2.140007 sequence=983.565356
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=444 node=__buf_split_14501 type=observe q_pred=2.139999 sequence=985.705355
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=445 node=__buf_split_14504 type=observe q_pred=2.140136 sequence=987.845491
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=446 node=__buf_split_14507 type=observe q_pred=2.140265 sequence=989.985756
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=447 node=__buf_split_14510 type=observe q_pred=2.140726 sequence=992.126482
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=448 node=__buf_split_14513 type=observe q_pred=2.141335 sequence=994.267816
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=449 node=__buf_split_14516 type=observe q_pred=2.141706 sequence=996.409523
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=450 node=__buf_split_14519 type=observe q_pred=2.142393 sequence=998.551916
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=451 node=N31552 type=observe q_pred=2.556319 sequence=1001.108235
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=452 node=N34026 type=observe q_pred=2.683014 sequence=1003.791248
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=453 node=N31484 type=observe q_pred=2.746298 sequence=1006.537546
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=454 node=N31499 type=observe q_pred=2.807097 sequence=1009.344643
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=455 node=N31494 type=observe q_pred=2.849649 sequence=1012.194292
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=456 node=N31554 type=observe q_pred=2.879567 sequence=1015.073859
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=457 node=__buf_split_9643 type=observe q_pred=2.472547 sequence=1017.546406
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=458 node=N31546 type=observe q_pred=2.779625 sequence=1020.326032
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=459 node=__buf_split_23117 type=observe q_pred=2.347214 sequence=1022.673246
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=460 node=N31505 type=observe q_pred=2.700400 sequence=1025.373646
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=461 node=N31457 type=observe q_pred=2.787252 sequence=1028.160897
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=462 node=__buf_split_12992 type=observe q_pred=2.438711 sequence=1030.599608
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=463 node=N31463 type=observe q_pred=2.731793 sequence=1033.331401
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=464 node=N31469 type=observe q_pred=2.801973 sequence=1036.133374
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=465 node=N31533 type=observe q_pred=2.845256 sequence=1038.978629
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=466 node=__buf_split_14491 type=observe q_pred=2.468004 sequence=1041.446633
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=467 node=__buf_split_14492 type=observe q_pred=2.366559 sequence=1043.813192
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=468 node=__buf_split_14494 type=observe q_pred=2.306700 sequence=1046.119891
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=469 node=__buf_split_14495 type=observe q_pred=2.260314 sequence=1048.380205
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=470 node=__buf_split_14521 type=observe q_pred=2.224955 sequence=1050.605160
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=471 node=__buf_split_14522 type=observe q_pred=2.198373 sequence=1052.803533
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=472 node=N31574 type=observe q_pred=2.590928 sequence=1055.394461
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=473 node=N31518 type=observe q_pred=2.699791 sequence=1058.094252
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=474 node=N34911 type=observe q_pred=2.764417 sequence=1060.858670
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=475 node=N34928 type=observe q_pred=2.814808 sequence=1063.673478
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=476 node=N8811 type=observe q_pred=2.282159 sequence=1065.955636
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=477 node=N5773 type=observe q_pred=2.306194 sequence=1068.261830
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=478 node=N2566 type=observe q_pred=2.267166 sequence=1070.528997
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=479 node=N22426 type=observe q_pred=2.178159 sequence=1072.707156
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=480 node=N22429 type=observe q_pred=2.192122 sequence=1074.899278
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=481 node=N22410 type=observe q_pred=2.216126 sequence=1077.115404
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=482 node=N22413 type=observe q_pred=2.240608 sequence=1079.356012
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=483 node=N22416 type=observe q_pred=2.262580 sequence=1081.618592
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=484 node=N22423 type=observe q_pred=2.283448 sequence=1083.902040
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=485 node=__buf_split_4147 type=observe q_pred=2.302828 sequence=1086.204867
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=486 node=N22461 type=observe q_pred=2.320363 sequence=1088.525230
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=487 node=N22466 type=observe q_pred=2.330184 sequence=1090.855415
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=488 node=N22473 type=observe q_pred=2.337834 sequence=1093.193248
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=489 node=N22478 type=observe q_pred=2.344551 sequence=1095.537800
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=490 node=N22436 type=observe q_pred=2.350823 sequence=1097.888622
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=491 node=N22439 type=observe q_pred=2.356494 sequence=1100.245116
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=492 node=N22442 type=observe q_pred=2.360456 sequence=1102.605572
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=493 node=N22449 type=observe q_pred=2.362939 sequence=1104.968511
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=494 node=N22454 type=observe q_pred=2.365541 sequence=1107.334052
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=495 node=N34149 type=observe q_pred=2.358801 sequence=1109.692853
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=496 node=N22485 type=observe q_pred=2.338136 sequence=1112.030989
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=497 node=N21929 type=observe q_pred=2.316567 sequence=1114.347556
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=498 node=N21931 type=observe q_pred=2.302273 sequence=1116.649829
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=499 node=N21933 type=observe q_pred=2.295587 sequence=1118.945416
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=500 node=N21935 type=observe q_pred=2.290831 sequence=1121.236247
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=501 node=N21938 type=observe q_pred=2.288603 sequence=1123.524850
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=502 node=N21940 type=observe q_pred=2.288004 sequence=1125.812854
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=503 node=N21942 type=observe q_pred=2.288754 sequence=1128.101608
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=504 node=N21944 type=observe q_pred=2.290018 sequence=1130.391626
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=505 node=N21031 type=observe q_pred=2.291198 sequence=1132.682825
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=506 node=N21033 type=observe q_pred=2.291727 sequence=1134.974552
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=507 node=N21035 type=observe q_pred=2.291534 sequence=1137.266085
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=508 node=N21037 type=observe q_pred=2.291363 sequence=1139.557449
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=509 node=N21040 type=observe q_pred=2.291336 sequence=1141.848785
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=510 node=N21042 type=observe q_pred=2.290666 sequence=1144.139451
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=511 node=N21044 type=observe q_pred=2.289641 sequence=1146.429093
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=512 node=N21046 type=observe q_pred=2.288352 sequence=1148.717445
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=513 node=__buf_split_18330 type=observe q_pred=2.020272 sequence=1150.737716
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=514 node=__buf_split_17587 type=observe q_pred=1.975620 sequence=1152.713336
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=515 node=N31453 type=observe q_pred=2.241408 sequence=1154.954744
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=516 node=__buf_split_12994 type=observe q_pred=2.233364 sequence=1157.188107
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=517 node=__buf_split_12996 type=observe q_pred=2.198452 sequence=1159.386559
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=518 node=__buf_split_12999 type=observe q_pred=2.171157 sequence=1161.557716
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=519 node=N22974 type=observe q_pred=2.196910 sequence=1163.754626
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=520 node=__buf_split_23337 type=observe q_pred=2.160022 sequence=1165.914648
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=521 node=__buf_split_23340 type=observe q_pred=2.141881 sequence=1168.056528
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=522 node=N31466 type=observe q_pred=2.468917 sequence=1170.525445
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=523 node=__buf_split_9525 type=observe q_pred=2.249682 sequence=1172.775127
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=524 node=N23245 type=observe q_pred=2.250841 sequence=1175.025968
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=525 node=N31578 type=observe q_pred=2.536033 sequence=1177.562001
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=526 node=N31478 type=observe q_pred=2.641507 sequence=1180.203508
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=527 node=__buf_split_15802 type=observe q_pred=2.358509 sequence=1182.562017
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=528 node=__buf_split_12620 type=observe q_pred=2.297911 sequence=1184.859928
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=529 node=__buf_split_14411 type=observe q_pred=2.265414 sequence=1187.125343
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=530 node=__buf_split_15805 type=observe q_pred=2.234238 sequence=1189.359581
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=531 node=__buf_split_21930 type=observe q_pred=2.214255 sequence=1191.573836
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=532 node=N31577 type=observe q_pred=2.587986 sequence=1194.161822
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=533 node=__buf_split_12633 type=observe q_pred=2.313664 sequence=1196.475486
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=534 node=__buf_split_14414 type=observe q_pred=2.254750 sequence=1198.730236
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=535 node=N33996 type=observe q_pred=2.276279 sequence=1201.006514
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=536 node=__buf_split_15787 type=observe q_pred=2.220285 sequence=1203.226799
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=537 node=__buf_split_15808 type=observe q_pred=2.187675 sequence=1205.414474
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=538 node=__buf_split_12539 type=observe q_pred=2.173758 sequence=1207.588232
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=539 node=__buf_split_12646 type=observe q_pred=2.163267 sequence=1209.751499
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=540 node=__buf_split_14376 type=observe q_pred=2.159762 sequence=1211.911261
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=541 node=__buf_split_14417 type=observe q_pred=2.155667 sequence=1214.066928
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=542 node=N36747 type=observe q_pred=2.548290 sequence=1216.615219
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=543 node=__buf_split_6369 type=observe q_pred=2.276209 sequence=1218.891428
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=544 node=N36723 type=observe q_pred=2.264969 sequence=1221.156397
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=545 node=__buf_split_20114 type=observe q_pred=2.165604 sequence=1223.322000
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=546 node=N34203 type=observe q_pred=2.248081 sequence=1225.570082
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=547 node=N34940 type=observe q_pred=2.517398 sequence=1228.087480
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=548 node=__buf_split_16073 type=observe q_pred=2.283968 sequence=1230.371448
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=549 node=N34919 type=observe q_pred=2.581271 sequence=1232.952719
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=550 node=N22852 type=observe q_pred=2.366727 sequence=1235.319446
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=551 node=N32466 type=observe q_pred=2.612844 sequence=1237.932290
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=552 node=N23256 type=observe q_pred=2.394262 sequence=1240.326551
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=553 node=N32556 type=observe q_pred=2.344963 sequence=1242.671515
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=554 node=N32571 type=observe q_pred=2.313717 sequence=1244.985231
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=555 node=N32591 type=observe q_pred=2.284589 sequence=1247.269820
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=556 node=N34171 type=observe q_pred=2.259948 sequence=1249.529767
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=557 node=__buf_split_7134 type=observe q_pred=4.052707 sequence=1253.582474
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=558 node=N34209 type=observe q_pred=2.366336 sequence=1255.948810
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=559 node=N31014 type=observe q_pred=2.294436 sequence=1258.243246
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=560 node=N23251 type=observe q_pred=2.675491 sequence=1260.918737
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=561 node=N34184 type=observe q_pred=2.327968 sequence=1263.246704
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=562 node=N34220 type=observe q_pred=2.668441 sequence=1265.915145
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=563 node=__buf_split_7811 type=observe q_pred=2.294737 sequence=1268.209882
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=564 node=__buf_split_7847 type=observe q_pred=2.253031 sequence=1270.462913
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=565 node=__buf_split_7853 type=observe q_pred=2.230283 sequence=1272.693196
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=566 node=__buf_split_7884 type=observe q_pred=2.209776 sequence=1274.902973
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=567 node=__buf_split_7886 type=observe q_pred=2.186971 sequence=1277.089943
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=568 node=__buf_split_7889 type=observe q_pred=2.164849 sequence=1279.254792
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=569 node=__buf_split_8573 type=observe q_pred=2.145402 sequence=1281.400195
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=570 node=__buf_split_8575 type=observe q_pred=2.128620 sequence=1283.528815
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=571 node=__buf_split_8579 type=observe q_pred=2.113703 sequence=1285.642518
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=572 node=__buf_split_8895 type=observe q_pred=2.102091 sequence=1287.744608
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=573 node=__buf_split_8897 type=observe q_pred=2.092911 sequence=1289.837519
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=574 node=__buf_split_8901 type=observe q_pred=2.085804 sequence=1291.923323
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=575 node=__buf_split_9955 type=observe q_pred=2.081682 sequence=1294.005005
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=576 node=__buf_split_9957 type=observe q_pred=2.078975 sequence=1296.083980
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=577 node=__buf_split_9961 type=observe q_pred=2.077823 sequence=1298.161804
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=578 node=__buf_split_10003 type=observe q_pred=2.076662 sequence=1300.238466
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=579 node=__buf_split_10005 type=observe q_pred=2.076899 sequence=1302.315365
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=580 node=__buf_split_10009 type=observe q_pred=2.076686 sequence=1304.392051
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=581 node=__buf_split_10062 type=observe q_pred=2.078358 sequence=1306.470410
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=582 node=__buf_split_10064 type=observe q_pred=2.078927 sequence=1308.549336
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=583 node=__buf_split_10068 type=observe q_pred=2.080715 sequence=1310.630052
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=584 node=__buf_split_10088 type=observe q_pred=2.082706 sequence=1312.712757
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=585 node=__buf_split_12261 type=observe q_pred=2.084207 sequence=1314.796965
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=586 node=__buf_split_12263 type=observe q_pred=2.086890 sequence=1316.883855
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=587 node=__buf_split_12267 type=observe q_pred=2.089142 sequence=1318.972997
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=588 node=__buf_split_12308 type=observe q_pred=2.090428 sequence=1321.063425
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=589 node=__buf_split_12310 type=observe q_pred=2.092795 sequence=1323.156220
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=590 node=__buf_split_12315 type=observe q_pred=2.094492 sequence=1325.250712
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=591 node=__buf_split_12360 type=observe q_pred=2.095971 sequence=1327.346683
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=592 node=__buf_split_12362 type=observe q_pred=2.097202 sequence=1329.443885
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=593 node=__buf_split_12366 type=observe q_pred=2.097813 sequence=1331.541698
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=594 node=__buf_split_12411 type=observe q_pred=2.098310 sequence=1333.640008
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=595 node=__buf_split_12413 type=observe q_pred=2.097507 sequence=1335.737515
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=596 node=__buf_split_12414 type=observe q_pred=2.097990 sequence=1337.835505
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=597 node=__buf_split_12416 type=observe q_pred=2.098187 sequence=1339.933692
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=598 node=__buf_split_14117 type=observe q_pred=2.098469 sequence=1342.032160
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=599 node=__buf_split_14119 type=observe q_pred=2.098174 sequence=1344.130335
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=600 node=__buf_split_14121 type=observe q_pred=2.098446 sequence=1346.228781
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=601 node=__buf_split_14123 type=observe q_pred=2.097599 sequence=1348.326380
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=602 node=__buf_split_14168 type=observe q_pred=2.098232 sequence=1350.424612
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=603 node=__buf_split_14170 type=observe q_pred=2.098932 sequence=1352.523543
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=604 node=__buf_split_14172 type=observe q_pred=2.098171 sequence=1354.621714
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=605 node=__buf_split_14175 type=observe q_pred=2.098610 sequence=1356.720325
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=606 node=__buf_split_14198 type=observe q_pred=2.098999 sequence=1358.819324
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=607 node=__buf_split_14220 type=observe q_pred=2.099461 sequence=1360.918785
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=608 node=__buf_split_14222 type=observe q_pred=2.098711 sequence=1363.017496
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=609 node=__buf_split_14224 type=observe q_pred=2.099261 sequence=1365.116757
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=610 node=__buf_split_14226 type=observe q_pred=2.099601 sequence=1367.216358
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=611 node=__buf_split_14246 type=observe q_pred=2.099885 sequence=1369.316243
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=612 node=__buf_split_14267 type=observe q_pred=2.099055 sequence=1371.415298
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=613 node=__buf_split_14269 type=observe q_pred=2.099874 sequence=1373.515172
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=614 node=__buf_split_14271 type=observe q_pred=2.100276 sequence=1375.615448
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=615 node=__buf_split_14273 type=observe q_pred=2.100435 sequence=1377.715883
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=616 node=__buf_split_15644 type=observe q_pred=2.100543 sequence=1379.816427
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=617 node=__buf_split_15646 type=observe q_pred=2.099097 sequence=1381.915523
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=618 node=__buf_split_15648 type=observe q_pred=2.099215 sequence=1384.014738
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=619 node=__buf_split_15650 type=observe q_pred=2.098772 sequence=1386.113510
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=620 node=__buf_split_16616 type=observe q_pred=2.098187 sequence=1388.211697
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=621 node=__buf_split_16618 type=observe q_pred=2.097588 sequence=1390.309285
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=622 node=__buf_split_16620 type=observe q_pred=2.095492 sequence=1392.404777
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=623 node=__buf_split_16623 type=observe q_pred=2.095625 sequence=1394.500402
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=624 node=__buf_split_16643 type=observe q_pred=2.095999 sequence=1396.596401
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=625 node=__buf_split_17243 type=observe q_pred=2.096710 sequence=1398.693112
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=626 node=__buf_split_17245 type=observe q_pred=2.097440 sequence=1400.790552
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=627 node=__buf_split_17247 type=observe q_pred=2.097234 sequence=1402.887786
+[q_rank_v1 gpu6] [plan iscas99__b21] [plan] step=628 node=__buf_split_17249 type=observe q_pred=2.098174 sequence=1404.985961
+[q_rank_v1 gpu6] [plan iscas99__b21] saved=autoresearch/improve-260704-1656/planner_aligned_variants/gates/q_rank_v1/plans/iscas99__b21__greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0.csv
+[q_rank_v1 gpu6] [gmean] 2026-07-04T22:22:45 [1/1] plan_done benchmark=iscas99__b21 plan_sec=1716.151 plan_csv=autoresearch/improve-260704-1656/planner_aligned_variants/gates/q_rank_v1/plans/iscas99__b21__greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0.csv
+[q_rank_v1 gpu6] [gmean] 2026-07-04T22:22:45 [1/1] eval_start benchmark=iscas99__b21 backend=atalanta-bist patterns=300000
+[q_rank_v1 gpu6] [eval iscas99__b21] {
+[q_rank_v1 gpu6] [eval iscas99__b21]   "records": 2,
+[q_rank_v1 gpu6] [eval iscas99__b21]   "labels_csv": "autoresearch/improve-260704-1656/planner_aligned_variants/gates/q_rank_v1/evals/iscas99__b21__greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0/labels.csv",
+[q_rank_v1 gpu6] [eval iscas99__b21]   "summary_json": "autoresearch/improve-260704-1656/planner_aligned_variants/gates/q_rank_v1/evals/iscas99__b21__greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0/summary.json"
+[q_rank_v1 gpu6] [eval iscas99__b21] }
+[q_rank_v1 gpu6] [gmean] 2026-07-04T22:22:59 [1/1] eval_done benchmark=iscas99__b21 delta_tc=0.06590999999999991 plan_sec=1716.151 eval_sec=13.865 total_sec=1730.041
+[q_rank_v1 gpu6] [gmean] 2026-07-04T22:22:59 variant_done id=greedy__cumulative__q_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0 status=ok macro=0.06590999999999991 positives=1 negatives=0 elapsed=1730.042
+[q_rank_v1 gpu6] [2026-07-04T22:22:59+08:00] gate_done name=q_rank_v1

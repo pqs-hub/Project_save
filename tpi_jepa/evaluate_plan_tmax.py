@@ -176,6 +176,15 @@ def _write_outputs(out_dir: Path, rows: list[dict[str, Any]]) -> None:
     (out_dir / "summary.json").write_text(json.dumps(compact, indent=2, ensure_ascii=False) + "\n")
 
 
+def _write_step_training_data(out_dir: Path, rows: list[dict[str, Any]]) -> None:
+    """Persist non-baseline step labels as a training-data friendly JSONL."""
+    with (out_dir / "step_training_labels.jsonl").open("w") as f:
+        for row in rows:
+            if int(row.get("step") or 0) <= 0:
+                continue
+            f.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+
+
 def evaluate_plan(
     *,
     benchmark_id: str,
@@ -190,7 +199,11 @@ def evaluate_plan(
     force: bool,
     dry_run: bool,
     cleanup_workdir: bool,
+    eval_step_mode: str = "all",
+    save_step_training_data: bool = False,
 ) -> list[dict[str, Any]]:
+    if eval_step_mode not in {"all", "final"}:
+        raise ValueError(f"unsupported eval_step_mode={eval_step_mode!r}; expected 'all' or 'final'")
     bench_path = find_bench_path(benchmark_id)
     plan_rows = _read_plan(plan_csv)
     candidate_count, candidate_ids = _candidate_ids_by_net(bench_path)
@@ -242,6 +255,62 @@ def evaluate_plan(
         cleanup_work_dir(baseline_dir)
 
     selected: list[SelectedPoint] = []
+    if eval_step_mode == "final":
+        for plan_row in plan_rows:
+            selected.append(_point_from_plan_row(plan_row, candidate_ids))
+        step = len(plan_rows)
+        plan_row = plan_rows[-1] if plan_rows else None
+        work_dir = out_dir / benchmark_id / f"seq_{sequence_id:04d}" / f"step_{step:04d}"
+        started = time.time()
+        error = None
+        try:
+            report = evaluate_points(
+                circuit_path=bench_path,
+                benchmark_id=benchmark_id,
+                selected=selected.copy(),
+                work_dir=work_dir,
+                patterns=patterns,
+                backend=backend,
+                tmax_bin=tmax_bin,
+                atalanta_bin=atalanta_bin,
+                timeout_sec=timeout_sec,
+                seed=seed,
+                force=force,
+                dry_run=dry_run,
+            )
+        except Exception as exc:
+            error = str(exc)
+            report = {"status": "error", "fault_report": None}
+        record = make_record(
+            benchmark_id=benchmark_id,
+            sequence_id=sequence_id,
+            step=step,
+            seed=seed,
+            patterns=patterns,
+            candidate_count=candidate_count,
+            selected=selected.copy(),
+            report=report,
+            baseline_report=baseline_report,
+            work_dir=work_dir,
+            error=error,
+        )
+        payload = _record_dict(
+            record,
+            plan_csv=plan_csv,
+            plan_row=plan_row,
+            elapsed=time.time() - started,
+            report=report,
+        )
+        work_dir.mkdir(parents=True, exist_ok=True)
+        (work_dir / "label.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+        rows.append(payload)
+        if cleanup_workdir:
+            cleanup_work_dir(work_dir)
+        _write_outputs(out_dir, rows)
+        if save_step_training_data:
+            _write_step_training_data(out_dir, rows)
+        return rows
+
     for step, plan_row in enumerate(plan_rows, start=1):
         selected.append(_point_from_plan_row(plan_row, candidate_ids))
         work_dir = out_dir / benchmark_id / f"seq_{sequence_id:04d}" / f"step_{step:04d}"
@@ -292,6 +361,8 @@ def evaluate_plan(
             cleanup_work_dir(work_dir)
 
     _write_outputs(out_dir, rows)
+    if save_step_training_data:
+        _write_step_training_data(out_dir, rows)
     return rows
 
 
@@ -306,12 +377,26 @@ def main() -> None:
     parser.add_argument("--tmax-bin", default="/data3/pengqingsong/synopsys/txs/O-2018.06-SP1/bin/tmax")
     parser.add_argument(
         "--atalanta-bin",
-        default="/data3/pengqingsong/DFT/DeepTPI-project/external/DeepTPI/src/external/Atalanta_BIST/atalanta",
+        default=str(
+            Path(os.environ.get("DFT_ROOT", "/data4/pengqingsong/DFT"))
+            / "tool/atalanta_bist_with_ufaults/atalanta"
+        ),
     )
     parser.add_argument("--timeout-sec", type=int, default=7200)
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--cleanup-workdir", action="store_true")
+    parser.add_argument(
+        "--eval-step-mode",
+        choices=["final", "all"],
+        default="final",
+        help="Use 'final' for baseline+final TC only, or 'all' to evaluate every intermediate insertion step.",
+    )
+    parser.add_argument(
+        "--save-step-training-data",
+        action="store_true",
+        help="Write step_training_labels.jsonl with non-baseline step records. Use with --eval-step-mode all for dense labels.",
+    )
     args = parser.parse_args()
 
     rows = evaluate_plan(
@@ -327,6 +412,8 @@ def main() -> None:
         force=args.force,
         dry_run=args.dry_run,
         cleanup_workdir=args.cleanup_workdir,
+        eval_step_mode=args.eval_step_mode,
+        save_step_training_data=args.save_step_training_data,
     )
     print(
         json.dumps(

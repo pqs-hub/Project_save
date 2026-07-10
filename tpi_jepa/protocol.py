@@ -34,10 +34,15 @@ def eval_benchmarks_from_protocol(path: str | Path | None, include_auxiliary: bo
         raise FileNotFoundError(f"Evaluation protocol not found: {protocol_path}")
     protocol = json.loads(protocol_path.read_text())
     excluded = parse_benchmark_list(protocol.get("benchmarks"))
-    excluded.update(parse_benchmark_list(protocol.get("benchmark_aliases")))
+    aliases = protocol.get("benchmark_aliases")
+    excluded.update(parse_benchmark_list(aliases))
+    if isinstance(aliases, dict):
+        excluded.update(parse_benchmark_list(aliases.keys()))
     for row in protocol.get("table_rows", []):
         if isinstance(row, dict) and row.get("benchmark_id"):
             excluded.add(str(row["benchmark_id"]).strip())
+        if isinstance(row, dict) and row.get("circuit"):
+            excluded.add(str(row["circuit"]).strip())
     if include_auxiliary:
         excluded.update(parse_benchmark_list(protocol.get("safety_benchmark")))
         excluded.update(parse_benchmark_list(protocol.get("development_benchmark")))
