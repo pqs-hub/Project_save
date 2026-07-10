@@ -1,0 +1,46 @@
+{
+  "activation_priors": null,
+  "backend": "atalanta-bist",
+  "benchmarks": [
+    "iscas99__b20"
+  ],
+  "candidate_strategies": [
+    "heuristic_recall_pool"
+  ],
+  "checkpoint": "runs/rollout_loss_A_reward_only/epoch_009.pt",
+  "generated_at": "2026-07-03T14:53:03",
+  "max_candidates": 96,
+  "oracle_top_m": 5,
+  "outputs": {
+    "oracle_actions": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/oracle_actions.tsv",
+    "oracle_groups": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/oracle_groups.tsv",
+    "prediction_metrics": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/prediction_metrics.tsv",
+    "rank_metrics": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/rank_metrics.tsv",
+    "reward_accuracy": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/reward_accuracy.tsv",
+    "state_summary": "autoresearch/exact-rank-table2-hybrid-k96-realfault-300k-260703-142737/iscas99__b20/state_summary.tsv"
+  },
+  "patterns": 300000,
+  "real_fault_priors": "autoresearch/eval8-real-priors-budget5-v1/real_fault_priors.csv",
+  "records": {
+    "evaluated_oracle_actions": 96,
+    "oracle_actions": 96,
+    "oracle_groups": 1,
+    "prediction_metrics": 1,
+    "rank_metrics": 6,
+    "reused_oracle_actions": 0,
+    "state_summary": 1
+  },
+  "reward_accuracy": null,
+  "score_fields": [
+    "reward_pred"
+  ],
+  "script": "scripts/measure_world_model_precision.py",
+  "top_ks": [
+    1,
+    8,
+    16,
+    32,
+    48,
+    96
+  ]
+}

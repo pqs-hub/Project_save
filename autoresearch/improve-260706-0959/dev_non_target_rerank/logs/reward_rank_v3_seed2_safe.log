@@ -1,0 +1,21 @@
+[2026-07-07T01:09:20+08:00] start name=reward_rank_v3_seed2_safe dev=subckt_0001 gpu=1 score=reward_pred
+[gmean] 2026-07-07T01:09:20 out_dir=autoresearch/improve-260706-0959/dev_non_target_rerank/reward_rank_v3_seed2_safe
+[gmean] 2026-07-07T01:09:20 budgets=subckt_0001:5
+[gmean] 2026-07-07T01:09:20 variant_start id=greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0
+[gmean] 2026-07-07T01:09:20 [1/1] plan_start benchmark=subckt_0001 budget=5 planner=greedy score=reward_pred
+[plan subckt_0001] [plan] step=1 node=new_n5934 type=observe reward_pred=11.687576 sequence=11.687576
+[plan subckt_0001] [plan] step=2 node=new_n5932 type=observe reward_pred=13.288329 sequence=24.975905
+[plan subckt_0001] [plan] step=3 node=new_n5930 type=observe reward_pred=14.789208 sequence=39.765114
+[plan subckt_0001] [plan] step=4 node=__aig_and_11380 type=observe reward_pred=16.514364 sequence=56.279478
+[plan subckt_0001] [plan] step=5 node=__aig_and_11374 type=observe reward_pred=18.303375 sequence=74.582853
+[plan subckt_0001] saved=autoresearch/improve-260706-0959/dev_non_target_rerank/reward_rank_v3_seed2_safe/plans/subckt_0001__greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0.csv
+[gmean] 2026-07-07T01:09:31 [1/1] plan_done benchmark=subckt_0001 plan_sec=11.086 plan_csv=autoresearch/improve-260706-0959/dev_non_target_rerank/reward_rank_v3_seed2_safe/plans/subckt_0001__greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0.csv
+[gmean] 2026-07-07T01:09:31 [1/1] eval_start benchmark=subckt_0001 backend=atalanta-bist patterns=300000
+[eval subckt_0001] {
+[eval subckt_0001]   "records": 2,
+[eval subckt_0001]   "labels_csv": "autoresearch/improve-260706-0959/dev_non_target_rerank/reward_rank_v3_seed2_safe/evals/subckt_0001__greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0/labels.csv",
+[eval subckt_0001]   "summary_json": "autoresearch/improve-260706-0959/dev_non_target_rerank/reward_rank_v3_seed2_safe/evals/subckt_0001__greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0/summary.json"
+[eval subckt_0001] }
+[gmean] 2026-07-07T01:09:31 [1/1] eval_done benchmark=subckt_0001 delta_tc=0.07016999999999995 plan_sec=11.086 eval_sec=0.2 total_sec=11.288
+[gmean] 2026-07-07T01:09:31 variant_done id=greedy__cumulative__reward_pred__bw1__d1__c96__g1p0__candheuristic_recall_pool__div0p0__s0 status=ok macro=0.07016999999999995 positives=1 negatives=0 elapsed=11.288
+[2026-07-07T01:09:31+08:00] done name=reward_rank_v3_seed2_safe

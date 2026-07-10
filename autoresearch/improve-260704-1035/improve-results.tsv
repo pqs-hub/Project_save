@@ -1,0 +1,7 @@
+# metric_direction: higher_is_better
+iteration	timestamp	category	research_question	status	source	insight_problem	insight_mechanism	confidence	classification
+1	2026-07-04T10:35:00+08:00	ICP challenges	Which trained prediction heads are actually weak?	complete	validation accuracy run	hard node labels are high-recall but low-precision	Add brier/soft-F1/rank pressure and lower ASL positive bias	HIGH	new
+2	2026-07-04T10:35:00+08:00	Competitor gaps	Which current training targets waste capacity?	complete	config/code scan	Delta SCOAP has negligible useful sign target	Disable lambda_delta_scoap and stop reporting it	HIGH	new
+3	2026-07-04T10:35:00+08:00	UX & experience	How should improvements be measured reproducibly?	complete	codebase scan	Accuracy metrics were temporary shell snippets	Add trained-head accuracy evaluator with TSV/JSON output	HIGH	new
+4	2026-07-04T10:35:00+08:00	Market trends	What is the safest first training move?	complete	experiment history	oracle finetune harmed transfer when dynamics changed	Retune existing supervised heads before architecture changes	MEDIUM	new
+5	2026-07-04T10:35:00+08:00	Revenue & growth	What produces fastest useful iteration?	complete	run constraints	Long training should be user-started, not implicit	Provide live-output train/eval script and per-job logs	HIGH	new

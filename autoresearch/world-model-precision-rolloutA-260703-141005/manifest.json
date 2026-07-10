@@ -1,0 +1,57 @@
+{
+  "activation_priors": null,
+  "backend": "atalanta-bist",
+  "benchmarks": [
+    "iscas99__b15_1",
+    "iscas99__b20",
+    "iscas99__b21",
+    "iscas99__b22",
+    "epfl__random_control__i2c__i2c",
+    "epfl__arithmetic__max__max",
+    "iscas99__b17",
+    "openabcd__mem_ctrl_orig"
+  ],
+  "candidate_strategies": [
+    "heuristic_recall_pool"
+  ],
+  "checkpoint": "runs/rollout_loss_A_reward_only/epoch_009.pt",
+  "generated_at": "2026-07-03T14:12:26",
+  "max_candidates": 96,
+  "oracle_top_m": 5,
+  "outputs": {
+    "oracle_actions": "autoresearch/world-model-precision-rolloutA-260703-141005/oracle_actions.tsv",
+    "oracle_groups": "autoresearch/world-model-precision-rolloutA-260703-141005/oracle_groups.tsv",
+    "prediction_metrics": "autoresearch/world-model-precision-rolloutA-260703-141005/prediction_metrics.tsv",
+    "rank_metrics": "autoresearch/world-model-precision-rolloutA-260703-141005/rank_metrics.tsv",
+    "reward_accuracy": "autoresearch/world-model-precision-rolloutA-260703-141005/reward_accuracy.tsv",
+    "state_summary": "autoresearch/world-model-precision-rolloutA-260703-141005/state_summary.tsv"
+  },
+  "patterns": 300000,
+  "real_fault_priors": "autoresearch/eval8-real-priors-budget5-v1/real_fault_priors.csv",
+  "records": {},
+  "reward_accuracy": {
+    "hard_reduction_mae": 0.07206687440723651,
+    "hard_reduction_sign_acc": 0.211181640625,
+    "mean_baseline_mae": 1.1021602466013931,
+    "reward_corr": 0.29510585653287846,
+    "reward_mae": 0.9811020878289582,
+    "reward_pred_mean": 0.14025885459341225,
+    "reward_rmse": 1.6178034516184154,
+    "reward_sign_acc": 0.628662109375,
+    "reward_target_mean": 0.6992119119265681,
+    "samples": 4096,
+    "split": "val"
+  },
+  "score_fields": [
+    "reward_pred"
+  ],
+  "script": "scripts/measure_world_model_precision.py",
+  "top_ks": [
+    1,
+    8,
+    16,
+    32,
+    48,
+    96
+  ]
+}

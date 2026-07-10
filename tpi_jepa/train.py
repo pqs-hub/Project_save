@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
-from collections import defaultdict
+from collections import Counter, defaultdict
 import json
 import math
 from pathlib import Path
@@ -28,7 +28,7 @@ from .graph import build_graph
 from .labels import find_bench_path, load_labels
 from .model import TPIWorldModel, update_ema
 from .plan import set_real_fault_context
-from .protocol import excluded_benchmarks_from_config, filter_rows_by_excluded_benchmarks
+from .protocol import excluded_benchmarks_from_config, filter_rows_by_excluded_benchmarks, parse_benchmark_list
 
 
 REGION_START = SCOAP_END
@@ -62,17 +62,37 @@ def _oracle_group_key(row: dict[str, Any]) -> tuple[str, str, str]:
     )
 
 
-def load_oracle_groups(path: str | Path, max_actions_per_group: int | None = None) -> list[list[dict[str, str]]]:
-    """Load backend-labeled oracle action groups for ranking supervision."""
+def _load_oracle_groups_one(
+    path: str | Path,
+    max_actions_per_group: int | None = None,
+    forbidden_benchmarks: set[str] | None = None,
+) -> list[list[dict[str, str]]]:
+    """Load one backend-labeled oracle action file for ranking supervision."""
 
+    forbidden = forbidden_benchmarks or set()
     grouped: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+    skipped_forbidden: Counter[str] = Counter()
     for row in _read_tsv(path):
+        benchmark_id = str(row.get("benchmark_id", "")).strip()
+        if benchmark_id in forbidden:
+            skipped_forbidden[benchmark_id] += 1
+            continue
         if row.get("state_id") != "initial":
             raise ValueError("main training oracle ranking currently supports only state_id=initial")
         delta = _safe_float(row.get("oracle_delta_tc"))
         if not math.isfinite(delta):
             continue
         grouped[_oracle_group_key(row)].append(row)
+
+    if skipped_forbidden:
+        preview = ",".join(f"{bid}:{count}" for bid, count in skipped_forbidden.most_common(8))
+        if len(skipped_forbidden) > 8:
+            preview += f",...(+{len(skipped_forbidden) - 8})"
+        print(
+            f"[train] oracle skipped forbidden rows path={path} "
+            f"rows={sum(skipped_forbidden.values())} benchmarks={preview}",
+            flush=True,
+        )
 
     groups: list[list[dict[str, str]]] = []
     for _, group in sorted(grouped.items()):
@@ -82,8 +102,39 @@ def load_oracle_groups(path: str | Path, max_actions_per_group: int | None = Non
         if group:
             groups.append(group)
     if not groups:
-        raise ValueError(f"no oracle groups with finite actions in {path}")
+        raise ValueError(f"no oracle groups with finite actions in {path} after forbidden-benchmark filtering")
     return groups
+
+
+def load_oracle_groups(
+    path: Any,
+    max_actions_per_group: int | None = None,
+    forbidden_benchmarks: set[str] | None = None,
+) -> list[list[dict[str, str]]]:
+    """Load one or more oracle action files.
+
+    Configs may pass a single TSV path, a list of paths, or a list of objects
+    like {"path": "...", "repeat": 4}. Repeating a file repeats its groups in
+    the sampler, which is useful for small non-target auxiliary sets.
+    """
+
+    if isinstance(path, (list, tuple)):
+        groups: list[list[dict[str, str]]] = []
+        for item in path:
+            repeat = 1
+            item_path: Any = item
+            if isinstance(item, dict):
+                item_path = item.get("path")
+                repeat = max(1, int(item.get("repeat", 1) or 1))
+            if not item_path:
+                raise ValueError(f"invalid oracle_actions entry: {item!r}")
+            item_groups = _load_oracle_groups_one(item_path, max_actions_per_group, forbidden_benchmarks)
+            for _ in range(repeat):
+                groups.extend(item_groups)
+        if not groups:
+            raise ValueError(f"no oracle groups with finite actions in {path!r}")
+        return groups
+    return _load_oracle_groups_one(path, max_actions_per_group, forbidden_benchmarks)
 
 
 def load_config(path: str | Path) -> dict:
@@ -756,7 +807,21 @@ def _oracle_pairwise_rank_loss(
                 for neg_idx in hard_pool
                 if neg_idx != pos_idx and float((targets[pos_idx] - targets[neg_idx]).detach().cpu().item()) >= min_delta_value
             ]
-            if not negs:
+            if mode == "best_vs_hard_topk" and max_pairs > 0:
+                per_positive_limit = max(1, int(max_pairs) // pos_count)
+                if len(negs) < per_positive_limit:
+                    seen = set(negs)
+                    for neg_idx in pred_order:
+                        if neg_idx == pos_idx or neg_idx in seen:
+                            continue
+                        diff = float((targets[pos_idx] - targets[neg_idx]).detach().cpu().item())
+                        if diff < min_delta_value:
+                            continue
+                        negs.append(neg_idx)
+                        seen.add(neg_idx)
+                        if len(negs) >= per_positive_limit:
+                            break
+            elif not negs:
                 negs = [
                     neg_idx
                     for neg_idx in pred_order
@@ -820,6 +885,24 @@ def _q_candidate_weight(config: dict, epoch: int) -> float:
     return _oracle_ramped_weight(config, epoch, float(config.get("lambda_candidate", 0.0)))
 
 
+def _q_ndcg_weight(config: dict, epoch: int) -> float:
+    """Return top-heavy NDCG-style list loss weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_ndcg_rank", 0.0)))
+
+
+def _q_conservative_weight(config: dict, epoch: int) -> float:
+    """Return conservative score penalty weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_conservative_q", 0.0)))
+
+
+def _q_context_weight(config: dict, epoch: int) -> float:
+    """Return candidate-context relative-shape loss weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_context_rank", 0.0)))
+
+
 def _oracle_candidate_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
     """Listwise candidate loss that pushes probability mass toward high-delta-TC actions."""
 
@@ -828,6 +911,77 @@ def _oracle_candidate_loss(preds: torch.Tensor, targets: torch.Tensor, config: d
     target_prob = torch.softmax(targets.detach() / target_temp, dim=0)
     pred_log_prob = torch.log_softmax(preds / pred_temp, dim=0)
     return -(target_prob * pred_log_prob).sum()
+
+
+def _oracle_topk_ndcg_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
+    """Top-heavy list loss that concentrates supervision on oracle top-k actions."""
+
+    if preds.numel() < 2:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device)
+    k = min(max(1, int(config.get("oracle_ndcg_k", 8) or 8)), preds.numel())
+    target_temp = max(1e-6, float(config.get("oracle_ndcg_target_temperature", 0.5)))
+    pred_temp = max(1e-6, float(config.get("oracle_ndcg_pred_temperature", 1.0)))
+    top_idx = torch.argsort(targets.detach(), descending=True)[:k]
+    top_targets = targets.detach()[top_idx]
+    rank_positions = torch.arange(k, dtype=preds.dtype, device=preds.device)
+    discounts = 1.0 / torch.log2(rank_positions + 2.0)
+    target_prob = torch.softmax(top_targets / target_temp, dim=0) * discounts
+    target_prob = target_prob / target_prob.sum().clamp_min(1e-12)
+    pred_log_prob = torch.log_softmax(preds / pred_temp, dim=0)
+    return -(target_prob * pred_log_prob[top_idx]).sum()
+
+
+def _oracle_conservative_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
+    """CQL-style penalty that discourages high scores on non-oracle-top actions."""
+
+    if preds.numel() < 2:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device)
+    pos_k = min(max(1, int(config.get("oracle_conservative_positive_topk", 1) or 1)), preds.numel() - 1)
+    order = torch.argsort(targets.detach(), descending=True)
+    pos_idx = order[:pos_k]
+    neg_idx = order[pos_k:]
+    if neg_idx.numel() == 0:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device)
+    hard_topk = int(config.get("oracle_conservative_hard_negative_topk", 0) or 0)
+    if hard_topk > 0 and neg_idx.numel() > hard_topk:
+        neg_order = torch.argsort(preds.detach()[neg_idx], descending=True)[:hard_topk]
+        neg_idx = neg_idx[neg_order]
+    temp = max(1e-6, float(config.get("oracle_conservative_temperature", 1.0)))
+    margin = float(config.get("oracle_conservative_margin", 0.0))
+    pos_ref = preds[pos_idx].mean()
+    neg_scores = preds[neg_idx]
+    neg_lse = temp * torch.logsumexp(neg_scores / temp, dim=0)
+    if bool(config.get("oracle_conservative_normalize", True)):
+        neg_lse = neg_lse - temp * math.log(max(1, int(neg_scores.numel())))
+    return F.softplus(neg_lse - pos_ref + margin)
+
+
+def _standardize_oracle_vector(values: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
+    """Normalize one candidate pool to relative advantages."""
+
+    centered = values - values.mean()
+    scale = centered.pow(2).mean().sqrt()
+    return centered / scale.clamp_min(eps)
+
+
+def _oracle_context_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
+    """Align normalized score shape with normalized oracle delta-TC within a candidate pool."""
+
+    if preds.numel() < 2:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device)
+    pred_temp = max(1e-6, float(config.get("oracle_context_pred_temperature", 1.0)))
+    target_temp = max(1e-6, float(config.get("oracle_context_target_temperature", 1.0)))
+    pred_z = _standardize_oracle_vector(preds / pred_temp)
+    target_z = _standardize_oracle_vector(targets.detach() / target_temp)
+    elements = F.smooth_l1_loss(pred_z, target_z, reduction="none")
+    top_weight = max(0.0, min(1.0, float(config.get("oracle_context_top_weight", 0.0))))
+    if top_weight <= 0.0:
+        return elements.mean()
+    weight_temp = max(1e-6, float(config.get("oracle_context_weight_temperature", 0.5)))
+    target_prob = torch.softmax(targets.detach() / weight_temp, dim=0)
+    uniform = torch.full_like(target_prob, 1.0 / float(target_prob.numel()))
+    weights = (1.0 - top_weight) * uniform + top_weight * target_prob
+    return (weights * elements).sum()
 
 
 def train_oracle_ranking_step(
@@ -845,15 +999,22 @@ def train_oracle_ranking_step(
     rank_weight = _q_rank_weight(config, epoch)
     value_weight = _q_value_weight(config, epoch)
     candidate_weight = _q_candidate_weight(config, epoch)
-    if max(rank_weight, value_weight, candidate_weight) <= 0.0 or not oracle_groups:
+    ndcg_weight = _q_ndcg_weight(config, epoch)
+    conservative_weight = _q_conservative_weight(config, epoch)
+    context_weight = _q_context_weight(config, epoch)
+    oracle_weight = max(rank_weight, value_weight, candidate_weight, ndcg_weight, conservative_weight, context_weight)
+    if oracle_weight <= 0.0 or not oracle_groups:
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
             "oracle_value_loss": 0.0,
             "oracle_candidate_loss": 0.0,
+            "oracle_ndcg_loss": 0.0,
+            "oracle_conservative_loss": 0.0,
+            "oracle_context_loss": 0.0,
             "oracle_pairs": 0.0,
             "oracle_groups": 0.0,
-            "oracle_weight": max(rank_weight, value_weight, candidate_weight),
+            "oracle_weight": oracle_weight,
         }
     group_count = max(1, int(config.get("oracle_batch_groups", 1) or 1))
     if len(oracle_groups) <= group_count:
@@ -872,6 +1033,9 @@ def train_oracle_ranking_step(
     rank_losses: list[torch.Tensor] = []
     value_losses: list[torch.Tensor] = []
     candidate_losses: list[torch.Tensor] = []
+    ndcg_losses: list[torch.Tensor] = []
+    conservative_losses: list[torch.Tensor] = []
+    context_losses: list[torch.Tensor] = []
     pair_total = 0
     for group in groups:
         scores = _predict_oracle_group_scores(model, config, group, graph_cache, base_cache, device)
@@ -899,22 +1063,48 @@ def train_oracle_ranking_step(
             value_losses.append(F.smooth_l1_loss(preds, targets))
         if candidate_weight > 0.0 and preds.numel() >= 2:
             candidate_losses.append(_oracle_candidate_loss(preds, targets, config))
+        if ndcg_weight > 0.0 and preds.numel() >= 2:
+            ndcg_losses.append(_oracle_topk_ndcg_loss(preds, targets, config))
+        if conservative_weight > 0.0 and preds.numel() >= 2:
+            conservative_losses.append(_oracle_conservative_loss(preds, targets, config))
+        if context_weight > 0.0 and preds.numel() >= 2:
+            context_losses.append(_oracle_context_loss(preds, targets, config))
 
-    if not rank_losses and not value_losses and not candidate_losses:
+    if (
+        not rank_losses
+        and not value_losses
+        and not candidate_losses
+        and not ndcg_losses
+        and not conservative_losses
+        and not context_losses
+    ):
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
             "oracle_value_loss": 0.0,
             "oracle_candidate_loss": 0.0,
+            "oracle_ndcg_loss": 0.0,
+            "oracle_conservative_loss": 0.0,
+            "oracle_context_loss": 0.0,
             "oracle_pairs": 0.0,
             "oracle_groups": float(len(groups)),
-            "oracle_weight": max(rank_weight, value_weight, candidate_weight),
+            "oracle_weight": oracle_weight,
         }
     zero = torch.zeros((), dtype=torch.float32, device=device)
     rank_loss = torch.stack(rank_losses).mean() if rank_losses else zero
     value_loss = torch.stack(value_losses).mean() if value_losses else zero
     candidate_loss = torch.stack(candidate_losses).mean() if candidate_losses else zero
-    loss = rank_weight * rank_loss + value_weight * value_loss + candidate_weight * candidate_loss
+    ndcg_loss = torch.stack(ndcg_losses).mean() if ndcg_losses else zero
+    conservative_loss = torch.stack(conservative_losses).mean() if conservative_losses else zero
+    context_loss = torch.stack(context_losses).mean() if context_losses else zero
+    loss = (
+        rank_weight * rank_loss
+        + value_weight * value_loss
+        + candidate_weight * candidate_loss
+        + ndcg_weight * ndcg_loss
+        + conservative_weight * conservative_loss
+        + context_weight * context_loss
+    )
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
     torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -925,9 +1115,21 @@ def train_oracle_ranking_step(
         "oracle_rank_loss": float(rank_loss.detach().cpu().item()),
         "oracle_value_loss": float(value_loss.detach().cpu().item()),
         "oracle_candidate_loss": float(candidate_loss.detach().cpu().item()),
+        "oracle_ndcg_loss": float(ndcg_loss.detach().cpu().item()),
+        "oracle_conservative_loss": float(conservative_loss.detach().cpu().item()),
+        "oracle_context_loss": float(context_loss.detach().cpu().item()),
         "oracle_pairs": float(pair_total),
-        "oracle_groups": float(max(len(rank_losses), len(value_losses), len(candidate_losses))),
-        "oracle_weight": max(rank_weight, value_weight, candidate_weight),
+        "oracle_groups": float(
+            max(
+                len(rank_losses),
+                len(value_losses),
+                len(candidate_losses),
+                len(ndcg_losses),
+                len(conservative_losses),
+                len(context_losses),
+            )
+        ),
+        "oracle_weight": oracle_weight,
     }
 
 
@@ -1032,6 +1234,9 @@ def _train_progress_line(
                 f"rank={_avg_metric(totals, 'oracle_rank_loss', step, oracle_steps):.5f}",
                 f"value={_avg_metric(totals, 'oracle_value_loss', step, oracle_steps):.5f}",
                 f"cand={_avg_metric(totals, 'oracle_candidate_loss', step, oracle_steps):.5f}",
+                f"ndcg={_avg_metric(totals, 'oracle_ndcg_loss', step, oracle_steps):.5f}",
+                f"cql={_avg_metric(totals, 'oracle_conservative_loss', step, oracle_steps):.5f}",
+                f"ctx={_avg_metric(totals, 'oracle_context_loss', step, oracle_steps):.5f}",
                 f"pairs={_avg_metric(totals, 'oracle_pairs', step, oracle_steps):.1f}",
             ]
         )
@@ -1151,6 +1356,21 @@ def main() -> None:
     config.setdefault("lambda_q_value", config.get("lambda_oracle_value", 0.0))
     config.setdefault("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))
     config.setdefault("lambda_candidate", 0.0)
+    config.setdefault("lambda_ndcg_rank", 0.0)
+    config.setdefault("oracle_ndcg_k", 8)
+    config.setdefault("oracle_ndcg_target_temperature", 0.5)
+    config.setdefault("oracle_ndcg_pred_temperature", 1.0)
+    config.setdefault("lambda_conservative_q", 0.0)
+    config.setdefault("oracle_conservative_positive_topk", 1)
+    config.setdefault("oracle_conservative_hard_negative_topk", 0)
+    config.setdefault("oracle_conservative_temperature", 1.0)
+    config.setdefault("oracle_conservative_margin", 0.0)
+    config.setdefault("oracle_conservative_normalize", True)
+    config.setdefault("lambda_context_rank", 0.0)
+    config.setdefault("oracle_context_pred_temperature", 1.0)
+    config.setdefault("oracle_context_target_temperature", 1.0)
+    config.setdefault("oracle_context_top_weight", 0.0)
+    config.setdefault("oracle_context_weight_temperature", 0.5)
     config.setdefault("oracle_ranking_score_field", "q_pred")
     config.setdefault("candidate_target_temperature", 1.0)
     config.setdefault("candidate_pred_temperature", 1.0)
@@ -1190,13 +1410,19 @@ def main() -> None:
             float(config.get("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))),
             float(config.get("lambda_q_value", config.get("lambda_oracle_value", 0.0))),
             float(config.get("lambda_candidate", 0.0)),
+            float(config.get("lambda_ndcg_rank", 0.0)),
+            float(config.get("lambda_conservative_q", 0.0)),
+            float(config.get("lambda_context_rank", 0.0)),
         )
         > 0.0
     )
     if oracle_enabled:
+        oracle_forbidden = set(excluded)
+        oracle_forbidden.update(parse_benchmark_list(config.get("oracle_forbidden_benchmarks")))
         oracle_groups = load_oracle_groups(
             config["oracle_actions"],
             max_actions_per_group=int(config.get("oracle_max_actions_per_group", 0)) or None,
+            forbidden_benchmarks=oracle_forbidden,
         )
         print(
             f"[train] q_oracle enabled groups={len(oracle_groups)} "
@@ -1204,7 +1430,11 @@ def main() -> None:
             f"lambda_q_value={float(config['lambda_q_value'])} "
             f"lambda_q_rank={float(config['lambda_q_rank'])} "
             f"lambda_candidate={float(config['lambda_candidate'])} "
-            f"pairwise_mode={config['oracle_pairwise_mode']}"
+            f"lambda_ndcg_rank={float(config['lambda_ndcg_rank'])} "
+            f"lambda_conservative_q={float(config['lambda_conservative_q'])} "
+            f"lambda_context_rank={float(config['lambda_context_rank'])} "
+            f"pairwise_mode={config['oracle_pairwise_mode']} "
+            f"forbidden_benchmarks={len(oracle_forbidden)}"
         )
 
     rollout_training = bool(config.get("rollout_training", True))
