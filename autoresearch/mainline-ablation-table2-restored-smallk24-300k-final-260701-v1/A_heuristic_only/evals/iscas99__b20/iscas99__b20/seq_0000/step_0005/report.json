@@ -1,0 +1,71 @@
+{
+  "benchmark_id": "iscas99__b20",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "iscas99__b20",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 43011,
+    "effective_pattern_count": 1555,
+    "fault_coverage": 0.9077500000000001,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 4371
+    },
+    "hard_fault_count": 4371,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.9077500000000001,
+    "total_faults": 47382,
+    "undetected_fault_count": 4371,
+    "undetected_input_edge_fault_count": 0,
+    "undetected_node_count": 4175,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/undetected_nodes.csv",
+    "undetected_output_fault_count": 4371,
+    "undetected_sa0_count": 243,
+    "undetected_sa1_count": 4128,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/mainline-ablation-table2-restored-smallk24-300k-final-260701-v1/A_heuristic_only/evals/iscas99__b20/iscas99__b20/seq_0000/step_0005/inserted.bench",
+  "inserted_bench_sha256": "c280a1bc7f046c1cd78ee4c177fcc71155f9acd600e564b5a99aa12e02313f82",
+  "inserted_count": 5,
+  "insertion_sequence": [
+    {
+      "candidate_id": 58540,
+      "net": "N59569",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 58541,
+      "net": "N59570",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 58542,
+      "net": "N59571",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 25001,
+      "net": "N26030",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 9979,
+      "net": "N11008",
+      "score": null,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/b20_C.bench",
+  "source_bench_sha256": "77b97a45c42ec3036a1963b581acbd0239260712d52f3ff285cbc5688f692efe",
+  "status": "ok"
+}

@@ -1,0 +1,55 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1795, in <module>
+    main()
+    ~~~~^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1723, in main
+    rows = beam_rollout_plan(
+        model,
+    ...<19 lines>...
+        k_plan,
+    )
+  File "/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1446, in beam_rollout_plan
+    beams = _expand_beam_paths(
+        model,
+    ...<18 lines>...
+        k_plan,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1345, in _expand_beam_paths
+    recalled = _stage_candidate_recall(
+        graph, selected_so_far, recall_limit, candidate_strategy, candidate_cache_dir, candidate_sample_seed
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 1223, in _stage_candidate_recall
+    return enumerate_candidates(
+        graph,
+    ...<4 lines>...
+        candidate_sample_seed=candidate_sample_seed,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 200, in enumerate_candidates
+    return _recall_pool_candidate_slice(
+        graph,
+    ...<4 lines>...
+        activation_prior_path,
+    )
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 272, in _recall_pool_candidate_slice
+    ranked_lists[base_strategy] = _diversity_candidate_list(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        graph,
+        ^^^^^^
+    ...<3 lines>...
+        activation_prior_path,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 364, in _diversity_candidate_list
+    if not _is_far_enough(graph, node_id, selected_nodes, min_distance):
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 887, in _is_far_enough
+    distance = _local_distance_between(graph, node_id, selected, max_depth=min_distance)
+  File "/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py", line 876, in _local_distance_between
+    seen.add(nxt)
+    ~~~~~~~~^^^^^
+KeyboardInterrupt

@@ -1,0 +1,47 @@
+{
+  "benchmark_id": "epfl__random_control__i2c__i2c",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__random_control__i2c__i2c",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 3349,
+    "effective_pattern_count": 328,
+    "fault_coverage": 0.86897,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 505
+    },
+    "hard_fault_count": 505,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.86897,
+    "total_faults": 3854,
+    "undetected_fault_count": 505,
+    "undetected_input_edge_fault_count": 183,
+    "undetected_node_count": 442,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/undetected_nodes.csv",
+    "undetected_output_fault_count": 322,
+    "undetected_sa0_count": 44,
+    "undetected_sa1_count": 461,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/eval8-rollout-loss-A-epoch009-budget5-atalanta-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cone__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0001/inserted.bench",
+  "inserted_bench_sha256": "4d0a1c047214080deb6ef0b3e482437e5348a86fe03efe489f1e79ede4723a83",
+  "inserted_count": 1,
+  "insertion_sequence": [
+    {
+      "candidate_id": 33,
+      "net": "new_n324",
+      "score": 0.32689914107322693,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data3/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/epfl__random_control__i2c__i2c.bench",
+  "source_bench_sha256": "7c062d5c67f41487d866e4af2fa895c5b63eb54925eedb2fc550a0df8cd7408a",
+  "status": "ok"
+}
