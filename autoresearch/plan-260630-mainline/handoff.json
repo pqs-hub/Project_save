@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "objective": "Converge project to heuristic candidate generation, world-model scoring, small-K rollout planner, and eval8 validation.",
+  "scope": "heuristic_recall_pool + staged K planner + simplified world-model config + eval8/ablation scripts",
+  "primary_files": [
+    "tpi_jepa/plan.py",
+    "scripts/run_gmean_sweep.py",
+    "configs/mainline_world_model_simplified.json",
+    "scripts/run_eval8_hard_fault_cone_budget5.sh",
+    "scripts/run_mainline_ablation_eval8.sh"
+  ],
+  "verify": [
+    "python -m py_compile tpi_jepa/plan.py scripts/run_gmean_sweep.py",
+    "python -m json.tool configs/mainline_world_model_simplified.json",
+    "bash -n scripts/run_mainline_ablation_eval8.sh scripts/run_eval8_hard_fault_cone_budget5.sh"
+  ],
+  "next_commands": [
+    "python -m tpi_jepa.train --config configs/mainline_world_model_simplified.json",
+    "CHECKPOINT=runs/mainline_world_model_simplified/best.pt bash scripts/run_eval8_hard_fault_cone_budget5.sh",
+    "CHECKPOINT=runs/mainline_world_model_simplified/best.pt bash scripts/run_mainline_ablation_eval8.sh"
+  ]
+}

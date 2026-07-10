@@ -22,6 +22,16 @@ BENCH_ROOTS = [
     LOWTC_LABEL_ROOT / "subcircuits",
     DEFAULT_DFT_ROOT / "Dataset/deeptpi_official_aig_bench_standard",
 ]
+BENCHMARK_ID_ALIASES = {
+    "iscas99__b15_1": "b15_C",
+    "iscas99__b17": "b17_C",
+    "iscas99__b20": "b20_C",
+    "iscas99__b21": "b21_C",
+    "iscas99__b22": "b22_C",
+    "epfl__random_control__i2c__i2c": "i2c_aig",
+    "epfl__arithmetic__max__max": "max_aig",
+    "openabcd__mem_ctrl_orig": "mem_ctrl_aig",
+}
 RAW_TO_ACTION = {"CP0": "control0", "CP1": "control1", "OP": "observe"}
 
 
@@ -179,10 +189,15 @@ def _previous_state_path(path: Path | None, step: int) -> Path | None:
 def find_bench_path(benchmark_id: str) -> Path:
     """Find the original BENCH file for one benchmark id."""
 
+    stems = [benchmark_id]
+    alias = BENCHMARK_ID_ALIASES.get(benchmark_id)
+    if alias and alias not in stems:
+        stems.append(alias)
     for root in BENCH_ROOTS:
-        path = root / f"{benchmark_id}.bench"
-        if path.exists():
-            return path
+        for stem in stems:
+            path = root / f"{stem}.bench"
+            if path.exists():
+                return path
     raise FileNotFoundError(f"Cannot find BENCH for benchmark_id={benchmark_id!r}")
 
 

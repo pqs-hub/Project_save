@@ -1,0 +1,321 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	k_recall	k_model	k_plan	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	candidate_sample_seed	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	elapsed_sec	error
+2026-07-01T09:48:37	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	iscas99__b15_1	12992	floor1pct	129	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/iscas99__b15_1__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/iscas99__b15_1__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.458	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:39	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	iscas99__b20	20172	floor1pct	201	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/iscas99__b20__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/iscas99__b20__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.39	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:40	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	iscas99__b21	20517	floor1pct	205	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/iscas99__b21__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/iscas99__b21__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.632	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:42	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	iscas99__b22	29897	floor1pct	298	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/iscas99__b22__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/iscas99__b22__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.339	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:43	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	epfl__random_control__i2c__i2c	1791	floor1pct	17	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.35	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:44	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	epfl__arithmetic__max__max	4352	floor1pct	43	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/epfl__arithmetic__max__max__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.35	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:46	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	iscas99__b17	32192	floor1pct	321	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/iscas99__b17__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/iscas99__b17__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.63	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-01T09:48:47	beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	plan_error	openabcd__mem_ctrl_orig	29814	floor1pct	298	beam	cumulative	reward_pred	4	5	96				1.0	hard_fault_cone	0.0	4	0	300000	2026										autoresearch/eval8-rollout-loss-A-epoch009-260701/plans/openabcd__mem_ctrl_orig__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0.csv	autoresearch/eval8-rollout-loss-A-epoch009-260701/evals/openabcd__mem_ctrl_orig__beam__cumulative__reward_pred__bw4__d5__c96__g1p0__candhard_fault_cone__div0p0__s0	1.468	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1795, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1697, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 146, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."

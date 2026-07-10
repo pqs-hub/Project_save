@@ -79,7 +79,7 @@ def row_for(rows: list[dict[str, str]], checkpoint: str, score_field: str) -> di
     return {}
 
 
-def verdict(row: dict[str, Any]) -> tuple[str, str]:
+def verdict(row: dict[str, Any], promote_label: str = "PROMOTE_Q_V1") -> tuple[str, str]:
     if row["variant"] in {"incumbent", "B_oracle_0p05"}:
         return "BASELINE", ""
     reasons = []
@@ -93,10 +93,10 @@ def verdict(row: dict[str, Any]) -> tuple[str, str]:
         reasons.append("transfer_regret_worse_than_incumbent")
     if row["transfer_spearman"] < 0.20:
         reasons.append("transfer_spearman_below_0p20")
-    return ("PROMOTE_Q_V1", "") if not reasons else ("REJECT", ",".join(reasons))
+    return (promote_label, "") if not reasons else ("REJECT", ",".join(reasons))
 
 
-def summarize(variant: str, out_dir: Path) -> list[dict[str, Any]]:
+def summarize(variant: str, out_dir: Path, promote_label: str = "PROMOTE_Q_V1") -> list[dict[str, Any]]:
     expanded = read_tsv(out_dir / "gates" / variant / "expanded_val" / "oracle_action_value_summary.tsv")
     transfer = read_tsv(out_dir / "gates" / variant / "transfer" / "oracle_action_value_summary.tsv")
     specs = [
@@ -120,14 +120,14 @@ def summarize(variant: str, out_dir: Path) -> list[dict[str, Any]]:
             "transfer_top1_real_delta": f(trow, "mean_top1_real_delta_tc"),
             "transfer_top1_regret": f(trow, "mean_top1_regret"),
         }
-        row["verdict"], row["reasons"] = verdict(row)
+        row["verdict"], row["reasons"] = verdict(row, promote_label)
         rows.append(row)
     return rows
 
 
-def write_report(variant: str, rows: list[dict[str, Any]], out_dir: Path) -> None:
+def write_report(variant: str, rows: list[dict[str, Any]], out_dir: Path, report_prefix: str = "Q-v1") -> None:
     lines = [
-        f"# Q-v1 Train/Eval Result: {variant}",
+        f"# {report_prefix} Train/Eval Result: {variant}",
         "",
         f"generated_at: `{datetime.now().isoformat(timespec='seconds')}`",
         "",
@@ -152,6 +152,8 @@ def main() -> None:
     parser.add_argument("--plan-device", default="cuda")
     parser.add_argument("--skip-train", action="store_true")
     parser.add_argument("--force-gates", action="store_true")
+    parser.add_argument("--promote-label", default="PROMOTE_Q_V1")
+    parser.add_argument("--report-prefix", default="Q-v1")
     args = parser.parse_args()
 
     config_path = Path(args.config)
@@ -202,9 +204,9 @@ def main() -> None:
             ]
         )
 
-    rows = summarize(args.variant, args.out_dir)
+    rows = summarize(args.variant, args.out_dir, args.promote_label)
     write_tsv(args.out_dir / "summaries" / f"{args.variant}_summary.tsv", rows, SUMMARY_FIELDS)
-    write_report(args.variant, rows, args.out_dir)
+    write_report(args.variant, rows, args.out_dir, args.report_prefix)
     handoff = {
         "status": "completed",
         "variant": args.variant,
@@ -212,7 +214,7 @@ def main() -> None:
         "checkpoint": str(checkpoint),
         "summary": str(args.out_dir / "summaries" / f"{args.variant}_summary.tsv"),
         "report": str(args.out_dir / "summaries" / f"{args.variant}_report.md"),
-        "promoted": [row["variant"] for row in rows if row["verdict"] == "PROMOTE_Q_V1"],
+        "promoted": [row["variant"] for row in rows if row["verdict"] == args.promote_label],
     }
     write_json(args.out_dir / "summaries" / f"{args.variant}_handoff.json", handoff)
     print(json.dumps(handoff, indent=2), flush=True)

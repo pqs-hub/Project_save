@@ -1,0 +1,245 @@
+{
+  "benchmark_id": "epfl__random_control__i2c__i2c",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "epfl__random_control__i2c__i2c",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 3160,
+    "effective_pattern_count": 268,
+    "fault_coverage": 0.95123,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 162
+    },
+    "hard_fault_count": 162,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.95123,
+    "total_faults": 3322,
+    "undetected_fault_count": 162,
+    "undetected_input_edge_fault_count": 7,
+    "undetected_node_count": 158,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/undetected_nodes.csv",
+    "undetected_output_fault_count": 155,
+    "undetected_sa0_count": 16,
+    "undetected_sa1_count": 146,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/eval8-restored-table2-ablation-hardcluster96-300k-parallel-260702-094815/epfl__random_control__i2c__i2c/C_depth2_rollout/evals/epfl__random_control__i2c__i2c__beam__cumulative__reward_pred__bw2__d2__c96__g1p0__candhard_fault_cluster__div0p0__s0/epfl__random_control__i2c__i2c/seq_0000/step_0034/inserted.bench",
+  "inserted_bench_sha256": "a269a1b2cf387a6d4d9d3f3cce6b79eb74f5eff4c0e84397a39798a06008edd4",
+  "inserted_count": 34,
+  "insertion_sequence": [
+    {
+      "candidate_id": -1,
+      "net": "N508",
+      "score": 0.37667182087898254,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 486,
+      "net": "N640",
+      "score": 0.3562624454498291,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 352,
+      "net": "N494",
+      "score": 0.332063764333725,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 357,
+      "net": "N500",
+      "score": 0.3154640197753906,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 324,
+      "net": "N464",
+      "score": 0.3053024411201477,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 17,
+      "net": "N153",
+      "score": 0.3203558027744293,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 181,
+      "net": "N318",
+      "score": 0.31597864627838135,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 15,
+      "net": "N151",
+      "score": 0.3123151659965515,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 184,
+      "net": "N321",
+      "score": 0.30803847312927246,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 429,
+      "net": "N579",
+      "score": 0.3039933443069458,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 148,
+      "net": "N285",
+      "score": 0.16029508411884308,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 213,
+      "net": "N351",
+      "score": 0.1320616751909256,
+      "type": "OP"
+    },
+    {
+      "candidate_id": -1,
+      "net": "N473",
+      "score": 0.1301489770412445,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": -1,
+      "net": "N378",
+      "score": 0.12246131896972656,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 484,
+      "net": "N638",
+      "score": 0.11853921413421631,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 189,
+      "net": "N326",
+      "score": 0.11539122462272644,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 488,
+      "net": "N642",
+      "score": 0.11422371864318848,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 327,
+      "net": "N467",
+      "score": 0.11653915047645569,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 354,
+      "net": "N496",
+      "score": 0.11961038410663605,
+      "type": "OP"
+    },
+    {
+      "candidate_id": -1,
+      "net": "N582",
+      "score": 0.12207280099391937,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 431,
+      "net": "N581",
+      "score": 0.12573501467704773,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 427,
+      "net": "N577",
+      "score": 0.1277727335691452,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 173,
+      "net": "N310",
+      "score": 0.1302081048488617,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 238,
+      "net": "N376",
+      "score": 0.15330253541469574,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 210,
+      "net": "N348",
+      "score": 0.16582675278186798,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 409,
+      "net": "N557",
+      "score": 0.18109488487243652,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 186,
+      "net": "N323",
+      "score": 0.19894343614578247,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 335,
+      "net": "N476",
+      "score": 0.2058652639389038,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 401,
+      "net": "N548",
+      "score": 0.20835594832897186,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 2741,
+      "net": "N3004",
+      "score": 0.21120396256446838,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 217,
+      "net": "N355",
+      "score": 0.21285200119018555,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 499,
+      "net": "N655",
+      "score": 0.21413594484329224,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 344,
+      "net": "N486",
+      "score": 0.21564613282680511,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 204,
+      "net": "N342",
+      "score": 0.21616283059120178,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/i2c_aig.bench",
+  "source_bench_sha256": "5f6e7c11191e0d11b1961c9313419347e11027a9410f622917553fd60997b647",
+  "status": "ok"
+}

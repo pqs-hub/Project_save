@@ -1,6 +1,7 @@
 {
   "name": "coverage_only_fixed_v3_table8",
-  "description": "Fixed 8-circuit evaluation protocol matching the user-provided benchmark table.",
+  "description": "Strict fixed 8-circuit evaluation protocol matching the restored DeepTPI Table-II circuits and #TP budgets.",
+  "bench_root": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench",
   "benchmarks": [
     "iscas99__b15_1",
     "iscas99__b20",
@@ -21,6 +22,57 @@
     "b17_C": "iscas99__b17",
     "mem_ctrl": "openabcd__mem_ctrl_orig"
   },
+  "strict_benchmark_budgets": true,
+  "benchmark_budgets": {
+    "iscas99__b15_1": {
+      "logic_gates": 27353,
+      "table_gates": 27838,
+      "pis": 485,
+      "budget": 278
+    },
+    "iscas99__b20": {
+      "logic_gates": 61145,
+      "table_gates": 61667,
+      "pis": 522,
+      "budget": 616
+    },
+    "iscas99__b21": {
+      "logic_gates": 62295,
+      "table_gates": 62817,
+      "pis": 522,
+      "budget": 628
+    },
+    "iscas99__b22": {
+      "logic_gates": 90738,
+      "table_gates": 91505,
+      "pis": 767,
+      "budget": 915
+    },
+    "epfl__random_control__i2c__i2c": {
+      "logic_gates": 3264,
+      "table_gates": 3400,
+      "pis": 136,
+      "budget": 34
+    },
+    "epfl__arithmetic__max__max": {
+      "logic_gates": 8927,
+      "table_gates": 9439,
+      "pis": 512,
+      "budget": 94
+    },
+    "iscas99__b17": {
+      "logic_gates": 98014,
+      "table_gates": 99466,
+      "pis": 1452,
+      "budget": 994
+    },
+    "openabcd__mem_ctrl_orig": {
+      "logic_gates": 126325,
+      "table_gates": 127353,
+      "pis": 1028,
+      "budget": 1273
+    }
+  },
   "table_rows": [
     {"id": "D1", "circuit": "b15_C", "benchmark_id": "iscas99__b15_1", "paper_reference_tc": 0.9061},
     {"id": "D2", "circuit": "b20_C", "benchmark_id": "iscas99__b20", "paper_reference_tc": 0.9060},
@@ -33,12 +85,15 @@
   ],
   "patterns": 300000,
   "seed": 2026,
+  "eval_backend": "atalanta-bist",
+  "atalanta_bin": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta",
+  "eval_step_mode": "final",
   "budget_mode": "floor1pct",
   "fixed_budget": null,
   "max_tp_ratio": 0.01,
-  "tp_budget_rule": "budget = max(1, floor(logic_gate_count * 0.01)); never exceed one percent of logic gates.",
+  "tp_budget_rule": "Strict: use benchmark_budgets from restored DeepTPI Table-II #TPs. Do not recompute #TPs from current parser gate counts for paper/Table-II comparisons.",
   "timeout_sec": 14400,
-  "safety_benchmark": "epfl__random_control__router__router",
+  "safety_benchmark": "subckt_0001",
   "safety_min_delta": -0.005,
   "primary_metric": "macro_mean_delta_tc",
   "selection_rule": [
@@ -58,13 +113,16 @@
     "per_benchmark_delta_fault_coverage",
     "elapsed_sec"
   ],
-  "development_benchmark": "iscas89__s838",
+  "development_benchmark": "subckt_0001",
   "notes": [
     "Use this protocol for final planner and method comparisons.",
-    "Training/framework sweeps may use a single development benchmark, but final claims should use this full protocol.",
-    "The TP budget uses floor rounding so it is capped at one percent of logic gates, with a minimum budget of one TPI.",
+    "BENCH files are loaded from autoresearch/deeptpi_table2_restored_bench to match the restored DeepTPI Table II circuits.",
+    "Training/framework sweeps may use the single local development benchmark subckt_0001, but final claims should use this full protocol.",
+    "The TP budget is the restored DeepTPI Table-II #TP value, equal to floor(table_gates / 100).",
+    "The logic_gates field excludes PIs; table_gates equals logic_gates + pis. This difference is intentional.",
     "This protocol follows the user-provided benchmark table.",
     "Baseline TC must be measured by the local TMAX flow on the local BENCH files; paper_reference_tc is only for traceability.",
-    "Local standardized BENCH files may have different gate counts from the table because they come from a different synthesis or mapping flow."
+    "Local standardized BENCH files may have different gate counts from the table because they come from a different synthesis or mapping flow.",
+    "For strict method comparisons, run_gmean_sweep should use this protocol or an equivalent explicit benchmark_budgets contract."
   ]
 }
