@@ -1,0 +1,43 @@
+[typed-round3/long32_return] [train] excluded_eval_benchmarks=b15_C,b17_C,b20_C,b21_C,b22_C,epfl__arithmetic__max__max,epfl__random_control__i2c__i2c,i2c,iscas99__b15_1,iscas99__b17,iscas99__b20,iscas99__b21,iscas99__b22,max,mem_ctrl,openabcd__mem_ctrl_orig,subckt_0001 removed_rows=0 remaining_rows=736
+[typed-round3/long32_return] [train] disabling pattern loss
+[typed-round3/long32_return] [train] oracle skipped forbidden rows path=autoresearch/oracle-balanced-negative-rich-260629-wide/balanced_train_oracle_actions.tsv rows=36 benchmarks=subckt_0001:36
+[typed-round3/long32_return] [train] q_oracle enabled groups=178 score_field=typed_marginal_pred lambda_q_value=0.08 lambda_q_rank=0.4 lambda_candidate=0.12 lambda_ndcg_rank=0.0 lambda_conservative_q=0.0 lambda_context_rank=0.15 pairwise_mode=best_vs_hard_topk forbidden_benchmarks=20
+[typed-round3/long32_return] [train] rows=736 train_rows=576 val_rows=160 train_samples=18 val_samples=5 rollout_training=True feature_dim=38 relation_dim=12 cache_samples=False sample_cache_max_entries=unlimited
+[typed-round3/long32_return] [train] initialized checkpoint=autoresearch/loop-260720-0945/model_training_round2/runs/typed_long/best_final_horizon.pt strict=True
+[typed-round3/long32_return] [train] trainable_modules=typed_utility_only trainable_parameters=19460/245830
+[typed-round3/long32_return] [train-progress] epoch=1 [#-----------------------] 1/18   5.6% loss=0.96273 jepa=0.23983 hard=0.08175 hard_red=0.00025 typed_m=0.48266 typed_ret=2.88733 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=1 [########################] 18/18 100.0% loss=0.40089 jepa=0.26516 hard=0.10439 hard_red=0.00798 typed_m=0.69867 typed_ret=0.87052 typed_sa=0.00000 oracle=0.00000 rank=0.00000 value=0.00000 cand=0.00000 ndcg=0.00000 cql=0.00000 ctx=0.00000 pairs=0.0
+[typed-round3/long32_return] [train] epoch=1 horizon=1 train_loss=0.400891 val_loss=0.170564 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=2 [#-----------------------] 1/18   5.6% loss=0.61976 jepa=0.26818 hard=0.06935 hard_red=0.00040 typed_m=0.62485 typed_ret=1.64930 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=2 [########################] 18/18 100.0% loss=0.41147 jepa=0.28515 hard=0.10610 hard_red=0.03173 typed_m=0.62845 typed_ret=0.95260 typed_sa=0.00000 oracle=0.11878 rank=0.08666 value=0.26515 cand=2.42824 ndcg=0.00000 cql=0.00000 ctx=0.06059 pairs=99.0
+[typed-round3/long32_return] [train] epoch=2 horizon=2 train_loss=0.411471 val_loss=0.052915 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=3 [#-----------------------] 1/18   5.6% loss=0.68725 jepa=0.43150 hard=0.15327 hard_red=0.07684 typed_m=0.56983 typed_ret=1.91093 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=3 [########################] 18/18 100.0% loss=0.76340 jepa=0.32770 hard=0.10787 hard_red=0.02655 typed_m=0.58646 typed_ret=2.15368 typed_sa=0.00000 oracle=0.27069 rank=0.13578 value=0.13097 cand=2.72465 ndcg=0.00000 cql=0.00000 ctx=0.09528 pairs=93.3
+[typed-round3/long32_return] [train] epoch=3 horizon=4 train_loss=0.763395 val_loss=0.277639 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=4 [#-----------------------] 1/18   5.6% loss=0.01998 jepa=0.26560 hard=0.09054 hard_red=0.03981 typed_m=0.00731 typed_ret=0.06171 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=4 [########################] 18/18 100.0% loss=1.56410 jepa=0.38183 hard=0.11017 hard_red=0.03312 typed_m=0.57126 typed_ret=4.83282 typed_sa=0.00000 oracle=0.33680 rank=0.09685 value=0.67080 cand=1.92526 ndcg=0.00000 cql=0.00000 ctx=0.08912 pairs=85.0
+[typed-round3/long32_return] [train] epoch=4 horizon=8 train_loss=1.564097 val_loss=2.360330 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=5 [#-----------------------] 1/18   5.6% loss=12.64940 jepa=0.59767 hard=0.14386 hard_red=0.02529 typed_m=3.16314 typed_ret=40.05589 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=5 [########################] 18/18 100.0% loss=5.01785 jepa=0.45776 hard=0.11555 hard_red=0.03456 typed_m=1.23119 typed_ret=15.90538 typed_sa=0.00000 oracle=0.37676 rank=0.08656 value=0.28384 cand=2.54317 ndcg=0.00000 cql=0.00000 ctx=0.09501 pairs=69.0
+[typed-round3/long32_return] [train] epoch=5 horizon=16 train_loss=5.017852 val_loss=6.848920 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=6 [#-----------------------] 1/18   5.6% loss=12.12732 jepa=0.66521 hard=0.18943 hard_red=0.04122 typed_m=2.71200 typed_ret=38.61639 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=6 [########################] 18/18 100.0% loss=14.63831 jepa=0.55791 hard=0.13093 hard_red=0.02065 typed_m=2.49157 typed_ret=47.13331 typed_sa=0.00000 oracle=0.26290 rank=0.05949 value=0.33643 cand=1.67336 ndcg=0.00000 cql=0.00000 ctx=0.07590 pairs=90.7
+[typed-round3/long32_return] [train] epoch=6 horizon=32 train_loss=14.638307 val_loss=18.031600 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=7 [#-----------------------] 1/18   5.6% loss=8.42958 jepa=0.46581 hard=0.11488 hard_red=0.01732 typed_m=1.17203 typed_ret=27.31724 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=7 [########################] 18/18 100.0% loss=14.56497 jepa=0.56215 hard=0.12841 hard_red=0.02063 typed_m=2.41681 typed_ret=46.93868 typed_sa=0.00000 oracle=0.30644 rank=0.07807 value=0.16019 cand=2.10979 ndcg=0.00000 cql=0.00000 ctx=0.06147 pairs=80.7
+[typed-round3/long32_return] [train] epoch=7 horizon=32 train_loss=14.564966 val_loss=17.926743 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=8 [#-----------------------] 1/18   5.6% loss=2.59413 jepa=0.68774 hard=0.17072 hard_red=0.03204 typed_m=1.34485 typed_ret=7.75054 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=8 [########################] 18/18 100.0% loss=14.53027 jepa=0.56148 hard=0.12936 hard_red=0.02137 typed_m=2.42459 typed_ret=46.81783 typed_sa=0.00000 oracle=0.39555 rank=0.09429 value=0.37453 cand=2.65484 ndcg=0.00000 cql=0.00000 ctx=0.06195 pairs=93.3
+[typed-round3/long32_return] [train] epoch=8 horizon=32 train_loss=14.530268 val_loss=17.824940 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=9 [#-----------------------] 1/18   5.6% loss=2.41681 jepa=0.68960 hard=0.17251 hard_red=0.03037 typed_m=1.12510 typed_ret=7.30596 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=9 [########################] 18/18 100.0% loss=14.41730 jepa=0.55972 hard=0.13177 hard_red=0.02086 typed_m=2.31509 typed_ret=46.51428 typed_sa=0.00000 oracle=0.34067 rank=0.04538 value=0.23427 cand=2.36904 ndcg=0.00000 cql=0.00000 ctx=0.12992 pairs=103.7
+[typed-round3/long32_return] [train] epoch=9 horizon=32 train_loss=14.417302 val_loss=17.729788 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=10 [#-----------------------] 1/18   5.6% loss=24.84121 jepa=0.67635 hard=0.20215 hard_red=0.03040 typed_m=4.63568 typed_ret=79.71356 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=10 [########################] 18/18 100.0% loss=14.39783 jepa=0.55989 hard=0.12910 hard_red=0.02034 typed_m=2.34203 typed_ret=46.43142 typed_sa=0.00000 oracle=0.41114 rank=0.09601 value=0.32560 cand=2.74943 ndcg=0.00000 cql=0.00000 ctx=0.11172 pairs=105.0
+[typed-round3/long32_return] [train] epoch=10 horizon=32 train_loss=14.397833 val_loss=17.639636 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=11 [#-----------------------] 1/18   5.6% loss=17.09163 jepa=0.71826 hard=0.16460 hard_red=0.01333 typed_m=2.53612 typed_ret=55.28136 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=11 [########################] 18/18 100.0% loss=14.26140 jepa=0.56260 hard=0.12887 hard_red=0.02064 typed_m=2.24842 typed_ret=46.03905 typed_sa=0.00000 oracle=0.32422 rank=0.04717 value=0.59348 cand=2.05003 ndcg=0.00000 cql=0.00000 ctx=0.07915 pairs=110.7
+[typed-round3/long32_return] [train] epoch=11 horizon=32 train_loss=14.261401 val_loss=17.543073 train_steps=18
+[typed-round3/long32_return] [train-progress] epoch=12 [#-----------------------] 1/18   5.6% loss=20.83768 jepa=0.55388 hard=0.10733 hard_red=0.00687 typed_m=3.54396 typed_ret=67.09630 typed_sa=0.00000
+[typed-round3/long32_return] [train-progress] epoch=12 [########################] 18/18 100.0% loss=14.25101 jepa=0.56300 hard=0.13205 hard_red=0.02082 typed_m=2.27816 typed_ret=45.98459 typed_sa=0.00000 oracle=0.40205 rank=0.05062 value=0.56894 cand=2.68526 ndcg=0.00000 cql=0.00000 ctx=0.09373 pairs=78.0
+[typed-round3/long32_return] [train] epoch=12 horizon=32 train_loss=14.251008 val_loss=17.414823 train_steps=18

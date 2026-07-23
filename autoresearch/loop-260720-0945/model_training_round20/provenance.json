@@ -1,0 +1,44 @@
+{
+  "round": 20,
+  "purpose": "expanded late-prefix hybrid pairwise/listwise within-type return ranking",
+  "selection_circuit": "b15_C only",
+  "validation_circuits": [
+    "b15_C",
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "b17_C"
+  ],
+  "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round8/runs/moe_joint_within/best_final_horizon.pt",
+  "target_circuits_in_training": false,
+  "expanded_late_oracle_states": 90,
+  "expanded_late_oracle_candidates": 1350,
+  "frozen_predictions": [
+    "typed_marginal_pred",
+    "typed_sa_reduction_pred",
+    "legacy world-model outputs"
+  ],
+  "variants": {
+    "return_pairwise_expanded": {
+      "lr": 5e-05,
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 1.0,
+      "lambda_ndcg_rank": 0.0,
+      "lambda_same_type_ndcg_rank": 0.0
+    },
+    "return_hybrid_listwise": {
+      "lr": 5e-05,
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 0.75,
+      "lambda_ndcg_rank": 0.25,
+      "lambda_same_type_ndcg_rank": 1.0
+    },
+    "return_top_listwise": {
+      "lr": 5e-05,
+      "lambda_q_rank": 0.1,
+      "lambda_same_type_rank": 0.25,
+      "lambda_ndcg_rank": 0.4,
+      "lambda_same_type_ndcg_rank": 1.5
+    }
+  }
+}

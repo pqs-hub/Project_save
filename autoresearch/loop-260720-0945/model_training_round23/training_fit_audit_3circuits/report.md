@@ -1,0 +1,8 @@
+# Prefix-oracle ranking audit
+
+This fixed-label diagnostic did not run ATPG and was not used for target-circuit selection.
+
+| checkpoint | score | groups | top-1 | type | within-type top-1 | regret (pp) | within regret | negative | Spearman | pairwise | same-type pairwise | CP0/CP1/OP |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| r21 | `typed_return_pred` | 15 | 13.333% | 53.333% | 13.333% | 0.0273 | 0.0359 | 46.667% | 0.3190 | 0.6618 | 0.5211 | 4/3/8 |
+| r23 | `typed_return_pred` | 15 | 20.000% | 60.000% | 20.000% | 0.0252 | 0.0359 | 46.667% | 0.3074 | 0.6628 | 0.5360 | 3/4/8 |
