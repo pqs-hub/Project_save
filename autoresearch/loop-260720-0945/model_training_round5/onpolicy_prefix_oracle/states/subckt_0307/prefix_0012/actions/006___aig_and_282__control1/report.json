@@ -1,0 +1,119 @@
+{
+  "benchmark_id": "subckt_0307",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "subckt_0307",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 636,
+    "effective_pattern_count": 45,
+    "fault_coverage": 0.9814799999999999,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 12
+    },
+    "hard_fault_count": 12,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.9814799999999999,
+    "total_faults": 648,
+    "undetected_fault_count": 12,
+    "undetected_input_edge_fault_count": 1,
+    "undetected_node_count": 12,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/undetected_nodes.csv",
+    "undetected_output_fault_count": 11,
+    "undetected_sa0_count": 0,
+    "undetected_sa1_count": 12,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0307/prefix_0012/actions/006___aig_and_282__control1/inserted.bench",
+  "inserted_bench_sha256": "caeb9e5c69fba0f08d7f900320cf4231920de2af3554b7abaa2e92a876f44cfd",
+  "inserted_count": 13,
+  "insertion_sequence": [
+    {
+      "candidate_id": 153,
+      "net": "__buf_split_360",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 365,
+      "net": "__aig_and_541",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 94,
+      "net": "__aig_and_173",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 271,
+      "net": "__buf_split_527",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 77,
+      "net": "U451",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 212,
+      "net": "__buf_split_428",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 70,
+      "net": "__buf_split_168",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 463,
+      "net": "R254_U87",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 308,
+      "net": "GT_80_U7",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 377,
+      "net": "__buf_split_749",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": -1,
+      "net": "U350",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 264,
+      "net": "__buf_split_524",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 163,
+      "net": "__aig_and_282",
+      "score": null,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0307.bench",
+  "source_bench_sha256": "be8a5b09a631a88bec1b0dc62fee8d8fa3a4ca8dd1439d9e9e155c2007e39e51",
+  "status": "ok"
+}

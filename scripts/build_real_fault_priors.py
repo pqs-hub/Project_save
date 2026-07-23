@@ -22,6 +22,22 @@ def _is_hard(row: dict[str, str]) -> bool:
     return (row.get("status") or "").strip().upper() in HARD_STATUSES
 
 
+def _fault_polarity(row: dict[str, str]) -> str | None:
+    """Return the canonical stuck-at polarity when the fault report exposes it."""
+
+    text = (row.get("fault_type") or "").strip().lower().replace("-", "")
+    if text in {"sa0", "stuckat0", "stuck0"}:
+        return "sa0"
+    if text in {"sa1", "stuckat1", "stuck1"}:
+        return "sa1"
+    sa_value = (row.get("sa_value") or "").strip().lower()
+    if sa_value in {"0", "sa0"}:
+        return "sa0"
+    if sa_value in {"1", "sa1"}:
+        return "sa1"
+    return None
+
+
 def _labels_files(paths: list[Path]) -> list[Path]:
     files: list[Path] = []
     for path in paths:
@@ -69,35 +85,56 @@ def _update_aggregate(
                     "net": net,
                     "fault_count": 0,
                     "hard_fault_count": 0,
+                    "sa0_fault_count": 0,
+                    "sa1_fault_count": 0,
+                    "sa0_hard_fault_count": 0,
+                    "sa1_hard_fault_count": 0,
                     "status_counts": Counter(),
                     "source_fault_csvs": set(),
                     "source_labels": set(),
                 },
             )
             item["fault_count"] += 1
-            item["hard_fault_count"] += int(_is_hard(row))
+            is_hard = _is_hard(row)
+            item["hard_fault_count"] += int(is_hard)
+            polarity = _fault_polarity(row)
+            if polarity is not None:
+                item[f"{polarity}_fault_count"] += 1
+                item[f"{polarity}_hard_fault_count"] += int(is_hard)
             item["status_counts"][(row.get("status") or "").strip().upper()] += 1
             item["source_fault_csvs"].add(str(fault_csv))
             item["source_labels"].add(str(source_label))
 
 
-def build_priors(labels_files: list[Path]) -> list[dict[str, Any]]:
+def _selected_label_rows(labels_csv: Path, *, last_row_only: bool) -> list[dict[str, str]]:
+    with labels_csv.open(newline="") as f:
+        rows = [dict(row) for row in csv.DictReader(f)]
+    if not last_row_only:
+        return rows
+    non_baseline = [row for row in rows if int(row.get("step") or 0) > 0]
+    return non_baseline[-1:] if non_baseline else rows[-1:]
+
+
+def build_priors(labels_files: list[Path], *, last_row_only: bool = False) -> list[dict[str, Any]]:
     agg: dict[tuple[str, str], dict[str, Any]] = {}
     for labels_csv in labels_files:
-        with labels_csv.open(newline="") as f:
-            for row in csv.DictReader(f):
-                benchmark_id = (row.get("benchmark_id") or "").strip()
-                if not benchmark_id:
-                    continue
-                fault_csv = _resolve_csv(row, labels_csv)
-                if fault_csv is None:
-                    continue
-                _update_aggregate(agg, benchmark_id=benchmark_id, fault_csv=fault_csv, source_label=labels_csv)
+        for row in _selected_label_rows(labels_csv, last_row_only=last_row_only):
+            benchmark_id = (row.get("benchmark_id") or "").strip()
+            if not benchmark_id:
+                continue
+            fault_csv = _resolve_csv(row, labels_csv)
+            if fault_csv is None:
+                continue
+            _update_aggregate(agg, benchmark_id=benchmark_id, fault_csv=fault_csv, source_label=labels_csv)
 
     rows: list[dict[str, Any]] = []
     for item in agg.values():
         fault_count = int(item["fault_count"])
         hard_count = int(item["hard_fault_count"])
+        sa0_count = int(item["sa0_fault_count"])
+        sa1_count = int(item["sa1_fault_count"])
+        sa0_hard_count = int(item["sa0_hard_fault_count"])
+        sa1_hard_count = int(item["sa1_hard_fault_count"])
         rows.append(
             {
                 "benchmark_id": item["benchmark_id"],
@@ -105,6 +142,12 @@ def build_priors(labels_files: list[Path]) -> list[dict[str, Any]]:
                 "fault_count": fault_count,
                 "hard_fault_count": hard_count,
                 "hard_fault_ratio": (hard_count / fault_count) if fault_count else 0.0,
+                "sa0_fault_count": sa0_count,
+                "sa1_fault_count": sa1_count,
+                "sa0_hard_fault_count": sa0_hard_count,
+                "sa1_hard_fault_count": sa1_hard_count,
+                "sa0_hard_fault_ratio": (sa0_hard_count / sa0_count) if sa0_count else 0.0,
+                "sa1_hard_fault_ratio": (sa1_hard_count / sa1_count) if sa1_count else 0.0,
                 "status_counts": dict(sorted(item["status_counts"].items())),
                 "source_fault_csv_count": len(item["source_fault_csvs"]),
                 "source_label_count": len(item["source_labels"]),
@@ -121,6 +164,12 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "fault_count",
         "hard_fault_count",
         "hard_fault_ratio",
+        "sa0_fault_count",
+        "sa1_fault_count",
+        "sa0_hard_fault_count",
+        "sa1_hard_fault_count",
+        "sa0_hard_fault_ratio",
+        "sa1_hard_fault_ratio",
         "status_counts",
         "source_fault_csv_count",
         "source_label_count",
@@ -137,14 +186,29 @@ def main() -> None:
     parser.add_argument("paths", nargs="+", type=Path, help="labels.csv files or directories containing evaluator outputs.")
     parser.add_argument("--out-json", type=Path, required=True)
     parser.add_argument("--out-csv", type=Path, required=True)
+    parser.add_argument(
+        "--last-row-only",
+        action="store_true",
+        help="Build a residual prior from only the last non-baseline row of each labels.csv.",
+    )
     args = parser.parse_args()
 
     labels_files = _labels_files(args.paths)
-    rows = build_priors(labels_files)
+    rows = build_priors(labels_files, last_row_only=args.last_row_only)
     args.out_json.parent.mkdir(parents=True, exist_ok=True)
     args.out_json.write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n")
     write_csv(args.out_csv, rows)
-    print(json.dumps({"labels_files": len(labels_files), "prior_rows": len(rows), "out_json": str(args.out_json)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "labels_files": len(labels_files),
+                "last_row_only": args.last_row_only,
+                "prior_rows": len(rows),
+                "out_json": str(args.out_json),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
