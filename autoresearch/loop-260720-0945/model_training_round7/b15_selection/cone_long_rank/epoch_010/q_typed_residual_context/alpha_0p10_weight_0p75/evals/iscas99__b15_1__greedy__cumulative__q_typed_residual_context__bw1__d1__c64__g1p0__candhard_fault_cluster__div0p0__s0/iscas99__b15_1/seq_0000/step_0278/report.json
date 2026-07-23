@@ -1,0 +1,1709 @@
+{
+  "benchmark_id": "iscas99__b15_1",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "iscas99__b15_1",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 22489,
+    "effective_pattern_count": 959,
+    "fault_coverage": 0.93994,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 1437
+    },
+    "hard_fault_count": 1437,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.93994,
+    "total_faults": 23926,
+    "undetected_fault_count": 1437,
+    "undetected_input_edge_fault_count": 37,
+    "undetected_node_count": 1405,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/undetected_nodes.csv",
+    "undetected_output_fault_count": 1400,
+    "undetected_sa0_count": 120,
+    "undetected_sa1_count": 1317,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/loop-260720-0945/model_training_round7/b15_selection/cone_long_rank/epoch_010/q_typed_residual_context/alpha_0p10_weight_0p75/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c64__g1p0__candhard_fault_cluster__div0p0__s0/iscas99__b15_1/seq_0000/step_0278/inserted.bench",
+  "inserted_bench_sha256": "aaeb89c9d1e02e75bf515e6b5fd5677eb231cd7087d1398c3821771f578636d9",
+  "inserted_count": 278,
+  "insertion_sequence": [
+    {
+      "candidate_id": 192,
+      "net": "N677",
+      "score": 1.1168162822723389,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1221,
+      "net": "N2155",
+      "score": 1.457592248916626,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 17,
+      "net": "N502",
+      "score": 1.1366417407989502,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 277,
+      "net": "N762",
+      "score": 0.911552369594574,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2808,
+      "net": "N3742",
+      "score": 0.7222740650177002,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2710,
+      "net": "N3644",
+      "score": 0.7473889589309692,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2788,
+      "net": "N3722",
+      "score": 0.5422580242156982,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 72,
+      "net": "N557",
+      "score": 0.5727113485336304,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 23,
+      "net": "N508",
+      "score": 0.42623767256736755,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4209,
+      "net": "N5143",
+      "score": 0.2662334144115448,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 95,
+      "net": "N580",
+      "score": 0.3013637363910675,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 79,
+      "net": "N564",
+      "score": 0.36839964985847473,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3586,
+      "net": "N4520",
+      "score": 0.3059178292751312,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 1148,
+      "net": "N2082",
+      "score": 0.2448676973581314,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 11,
+      "net": "N496",
+      "score": 0.30134573578834534,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6577,
+      "net": "N7511",
+      "score": 0.28336185216903687,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 653,
+      "net": "N1564",
+      "score": 0.25445619225502014,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4269,
+      "net": "N5203",
+      "score": 0.23730845749378204,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1167,
+      "net": "N2101",
+      "score": 0.16915050148963928,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 919,
+      "net": "N1853",
+      "score": 0.1487194150686264,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 461,
+      "net": "N1372",
+      "score": 0.14809124171733856,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 621,
+      "net": "N1532",
+      "score": 0.14977259933948517,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 926,
+      "net": "N1860",
+      "score": 0.10787946730852127,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 97,
+      "net": "N582",
+      "score": -0.01866188272833824,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6582,
+      "net": "N7516",
+      "score": 0.0014398442581295967,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 281,
+      "net": "N766",
+      "score": -0.09393007308244705,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4789,
+      "net": "N5723",
+      "score": -0.08353704959154129,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 526,
+      "net": "N1437",
+      "score": -0.10793914645910263,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 98,
+      "net": "N583",
+      "score": -0.16841991245746613,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3743,
+      "net": "N4677",
+      "score": 0.17337533831596375,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3729,
+      "net": "N4663",
+      "score": 0.32528695464134216,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3715,
+      "net": "N4649",
+      "score": 0.396131306886673,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6477,
+      "net": "N7411",
+      "score": 0.12603841722011566,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6479,
+      "net": "N7413",
+      "score": 0.15554608404636383,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3701,
+      "net": "N4635",
+      "score": 0.36602872610092163,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 228,
+      "net": "N713",
+      "score": 0.5434964895248413,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3722,
+      "net": "N4656",
+      "score": 0.4875224530696869,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 5603,
+      "net": "N6537",
+      "score": 0.7364745140075684,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3736,
+      "net": "N4670",
+      "score": 0.521881639957428,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 7536,
+      "net": "N8470",
+      "score": 0.5439401268959045,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 239,
+      "net": "N724",
+      "score": 0.5403215289115906,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3750,
+      "net": "N4684",
+      "score": 0.5111446380615234,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2977,
+      "net": "N3911",
+      "score": 0.3364318311214447,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2970,
+      "net": "N3904",
+      "score": 0.24758458137512207,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3757,
+      "net": "N4691",
+      "score": 0.3791009187698364,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2963,
+      "net": "N3897",
+      "score": 0.26809611916542053,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3771,
+      "net": "N4705",
+      "score": 0.36851778626441956,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3764,
+      "net": "N4698",
+      "score": 0.4041439890861511,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2928,
+      "net": "N3862",
+      "score": 0.3384956121444702,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3778,
+      "net": "N4712",
+      "score": 0.38969770073890686,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3782,
+      "net": "N4716",
+      "score": 0.40917301177978516,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2921,
+      "net": "N3855",
+      "score": 0.3678378164768219,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6537,
+      "net": "N7471",
+      "score": 0.3159945011138916,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2914,
+      "net": "N3848",
+      "score": 0.3114711046218872,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2893,
+      "net": "N3827",
+      "score": 0.31165143847465515,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2886,
+      "net": "N3820",
+      "score": 0.3045192360877991,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2879,
+      "net": "N3813",
+      "score": 0.2959609925746918,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2865,
+      "net": "N3799",
+      "score": 0.2883957624435425,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2858,
+      "net": "N3792",
+      "score": 0.29226186871528625,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2851,
+      "net": "N3785",
+      "score": 0.3044731616973877,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2955,
+      "net": "N3889",
+      "score": 0.3120972514152527,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2822,
+      "net": "N3756",
+      "score": 0.30636832118034363,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2948,
+      "net": "N3882",
+      "score": 0.2997627556324005,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2871,
+      "net": "N3805",
+      "score": 0.2938096523284912,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3672,
+      "net": "N4606",
+      "score": 0.28297075629234314,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 1149,
+      "net": "N2083",
+      "score": 0.23691777884960175,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6572,
+      "net": "N7506",
+      "score": 0.4189464747905731,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3651,
+      "net": "N4585",
+      "score": 0.3164327144622803,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 1416,
+      "net": "N2350",
+      "score": 0.2975843548774719,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2906,
+      "net": "N3840",
+      "score": 0.24122756719589233,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6788,
+      "net": "N7722",
+      "score": 0.24034593999385834,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3644,
+      "net": "N4578",
+      "score": 0.23608556389808655,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 628,
+      "net": "N1539",
+      "score": 0.2297666221857071,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6790,
+      "net": "N7724",
+      "score": 0.16100460290908813,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 34,
+      "net": "N519",
+      "score": 0.20633943378925323,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 19,
+      "net": "N504",
+      "score": 0.1964389830827713,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 414,
+      "net": "N899",
+      "score": 0.1843557506799698,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 28,
+      "net": "N513",
+      "score": 0.18918251991271973,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 35,
+      "net": "N520",
+      "score": 0.19411489367485046,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4300,
+      "net": "N5234",
+      "score": 0.1962665319442749,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 31,
+      "net": "N516",
+      "score": 0.28942063450813293,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1110,
+      "net": "N2044",
+      "score": 0.19623316824436188,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6436,
+      "net": "N7370",
+      "score": 0.07404933124780655,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2969,
+      "net": "N3903",
+      "score": 0.1304442137479782,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 219,
+      "net": "N704",
+      "score": 0.4205426275730133,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6791,
+      "net": "N7725",
+      "score": 0.20191892981529236,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6789,
+      "net": "N7723",
+      "score": 0.1182432547211647,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 70,
+      "net": "N555",
+      "score": 0.2411240190267563,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1108,
+      "net": "N2042",
+      "score": 0.1388755887746811,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6603,
+      "net": "N7537",
+      "score": -0.03865384683012962,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6598,
+      "net": "N7532",
+      "score": -0.0695529505610466,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 71,
+      "net": "N556",
+      "score": 0.16609548032283783,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6600,
+      "net": "N7534",
+      "score": -0.02088087424635887,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6601,
+      "net": "N7535",
+      "score": -0.07859479635953903,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6487,
+      "net": "N7421",
+      "score": -0.02160867676138878,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2962,
+      "net": "N3896",
+      "score": 0.030529450625181198,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3630,
+      "net": "N4564",
+      "score": 0.03596028313040733,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6938,
+      "net": "N7872",
+      "score": 0.04114071652293205,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1172,
+      "net": "N2106",
+      "score": 0.4278629720211029,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3623,
+      "net": "N4557",
+      "score": 0.2297152876853943,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2767,
+      "net": "N3701",
+      "score": 0.17860357463359833,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6802,
+      "net": "N7736",
+      "score": 0.19353795051574707,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 129,
+      "net": "N614",
+      "score": 0.13229617476463318,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6886,
+      "net": "N7820",
+      "score": 0.0925929918885231,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6912,
+      "net": "N7846",
+      "score": 0.3779989778995514,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6474,
+      "net": "N7408",
+      "score": 0.25806769728660583,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6607,
+      "net": "N7541",
+      "score": 0.16379974782466888,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6654,
+      "net": "N7588",
+      "score": 0.015065108425915241,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2747,
+      "net": "N3681",
+      "score": 0.06389167159795761,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6801,
+      "net": "N7735",
+      "score": 0.07646622508764267,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 1646,
+      "net": "N2580",
+      "score": 0.05835070088505745,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 25,
+      "net": "N510",
+      "score": 0.30776694416999817,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 93,
+      "net": "N578",
+      "score": 0.3958253562450409,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 125,
+      "net": "N610",
+      "score": 0.12864409387111664,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6799,
+      "net": "N7733",
+      "score": 0.03088345006108284,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6584,
+      "net": "N7518",
+      "score": -0.02322665974497795,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 300,
+      "net": "N785",
+      "score": -0.08359064906835556,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6798,
+      "net": "N7732",
+      "score": -0.13007202744483948,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 153,
+      "net": "N638",
+      "score": -0.08504295349121094,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 135,
+      "net": "N620",
+      "score": -0.027483265846967697,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6797,
+      "net": "N7731",
+      "score": -0.08312112838029861,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 149,
+      "net": "N634",
+      "score": -0.022439461201429367,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2246,
+      "net": "N3180",
+      "score": 0.02001183107495308,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6796,
+      "net": "N7730",
+      "score": -0.036547791212797165,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2476,
+      "net": "N3410",
+      "score": 0.04909702017903328,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6795,
+      "net": "N7729",
+      "score": -0.035855483263731,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6794,
+      "net": "N7728",
+      "score": -0.08239448815584183,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 6793,
+      "net": "N7727",
+      "score": -0.10683004558086395,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 160,
+      "net": "N645",
+      "score": -0.031224068254232407,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6490,
+      "net": "N7424",
+      "score": -0.03191814944148064,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1106,
+      "net": "N2040",
+      "score": 0.026535827666521072,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 151,
+      "net": "N636",
+      "score": -0.01828644797205925,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6792,
+      "net": "N7726",
+      "score": -0.07635940611362457,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 145,
+      "net": "N630",
+      "score": -0.028501596301794052,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6919,
+      "net": "N7853",
+      "score": -0.050905343145132065,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 131,
+      "net": "N616",
+      "score": -0.04351181909441948,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 157,
+      "net": "N642",
+      "score": -0.03458062931895256,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6913,
+      "net": "N7847",
+      "score": -0.05245281383395195,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2361,
+      "net": "N3295",
+      "score": -0.016124408692121506,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6918,
+      "net": "N7852",
+      "score": -0.06636825948953629,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 164,
+      "net": "N649",
+      "score": -0.010305176489055157,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 162,
+      "net": "N647",
+      "score": -0.03282837197184563,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6920,
+      "net": "N7854",
+      "score": -0.05224500223994255,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 673,
+      "net": "N1607",
+      "score": -0.03389584645628929,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 668,
+      "net": "N1586",
+      "score": 0.03108092024922371,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 500,
+      "net": "N1411",
+      "score": -0.026651840656995773,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 2591,
+      "net": "N3525",
+      "score": -0.008186588995158672,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2533,
+      "net": "N3467",
+      "score": 0.05058513954281807,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6800,
+      "net": "N7734",
+      "score": -0.05978996679186821,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 1718,
+      "net": "N2652",
+      "score": -0.01757575199007988,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1787,
+      "net": "N2721",
+      "score": 0.03985023871064186,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6531,
+      "net": "N7465",
+      "score": -0.008604536764323711,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1960,
+      "net": "N2894",
+      "score": -0.07410106062889099,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6014,
+      "net": "N6948",
+      "score": -0.05842365697026253,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 143,
+      "net": "N628",
+      "score": -0.04718823358416557,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 641,
+      "net": "N1552",
+      "score": 0.0530279316008091,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 209,
+      "net": "N694",
+      "score": 0.14858104288578033,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6451,
+      "net": "N7385",
+      "score": 0.017829690128564835,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 2018,
+      "net": "N2952",
+      "score": -0.026153091341257095,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1845,
+      "net": "N2779",
+      "score": 0.023364592343568802,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6566,
+      "net": "N7500",
+      "score": -0.09179072082042694,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6519,
+      "net": "N7453",
+      "score": -0.2532843053340912,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6690,
+      "net": "N7624",
+      "score": 0.06724707782268524,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6694,
+      "net": "N7628",
+      "score": 0.022972945123910904,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 237,
+      "net": "N722",
+      "score": 0.0835740864276886,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1219,
+      "net": "N2153",
+      "score": 0.09547873586416245,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5600,
+      "net": "N6534",
+      "score": -0.050719644874334335,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6548,
+      "net": "N7482",
+      "score": -0.1908208578824997,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1168,
+      "net": "N2102",
+      "score": -0.2718276083469391,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4933,
+      "net": "N5867",
+      "score": -0.25995153188705444,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4683,
+      "net": "N5617",
+      "score": -0.3105964958667755,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6655,
+      "net": "N7589",
+      "score": -0.33529236912727356,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 2133,
+      "net": "N3067",
+      "score": -0.493815153837204,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6468,
+      "net": "N7402",
+      "score": -0.31659838557243347,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1223,
+      "net": "N2157",
+      "score": -0.14300787448883057,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 2075,
+      "net": "N3009",
+      "score": -0.4020521342754364,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 1903,
+      "net": "N2837",
+      "score": -0.3584834039211273,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7855,
+      "net": "N8789",
+      "score": -0.28841760754585266,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7673,
+      "net": "N8607",
+      "score": -0.08115546405315399,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7856,
+      "net": "N8790",
+      "score": -0.13613297045230865,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 141,
+      "net": "N626",
+      "score": -0.17556069791316986,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7306,
+      "net": "N8240",
+      "score": -0.15986014902591705,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6680,
+      "net": "N7614",
+      "score": -0.02092999592423439,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 7305,
+      "net": "N8239",
+      "score": -0.09357084333896637,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 167,
+      "net": "N652",
+      "score": -0.05451912060379982,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7304,
+      "net": "N8238",
+      "score": -0.09396267682313919,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7303,
+      "net": "N8237",
+      "score": -0.07987984269857407,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 139,
+      "net": "N624",
+      "score": -0.13223177194595337,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 417,
+      "net": "N902",
+      "score": 0.10809581726789474,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3595,
+      "net": "N4529",
+      "score": 0.029648903757333755,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4693,
+      "net": "N5627",
+      "score": -0.04847368225455284,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4806,
+      "net": "N5740",
+      "score": -0.1918020099401474,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4943,
+      "net": "N5877",
+      "score": -0.10966973751783371,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 229,
+      "net": "N714",
+      "score": -0.04118941351771355,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 240,
+      "net": "N725",
+      "score": -0.004923279397189617,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1215,
+      "net": "N2149",
+      "score": 0.014387701638042927,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6502,
+      "net": "N7436",
+      "score": -0.1233154758810997,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5739,
+      "net": "N6673",
+      "score": -0.036140795797109604,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3587,
+      "net": "N4521",
+      "score": -0.11666249483823776,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 238,
+      "net": "N723",
+      "score": -0.07085976749658585,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 218,
+      "net": "N703",
+      "score": -0.02887515351176262,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 30,
+      "net": "N515",
+      "score": -0.09749602526426315,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4941,
+      "net": "N5875",
+      "score": -0.10850871354341507,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4422,
+      "net": "N5356",
+      "score": -0.23075748980045319,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 227,
+      "net": "N712",
+      "score": -0.050969045609235764,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5733,
+      "net": "N6667",
+      "score": 0.017442885786294937,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6505,
+      "net": "N7439",
+      "score": -0.12997879087924957,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6539,
+      "net": "N7473",
+      "score": -0.2587873637676239,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 7672,
+      "net": "N8606",
+      "score": -0.42635807394981384,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7671,
+      "net": "N8605",
+      "score": -0.3960627019405365,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7302,
+      "net": "N8236",
+      "score": -0.36662501096725464,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6471,
+      "net": "N7405",
+      "score": -0.20224405825138092,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4792,
+      "net": "N5726",
+      "score": -0.18782630562782288,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7301,
+      "net": "N8235",
+      "score": -0.23581849038600922,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 230,
+      "net": "N715",
+      "score": 0.12629130482673645,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5659,
+      "net": "N6593",
+      "score": -0.03462732210755348,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 3563,
+      "net": "N4497",
+      "score": 0.07397773861885071,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4539,
+      "net": "N5473",
+      "score": -0.05608261749148369,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 220,
+      "net": "N705",
+      "score": 0.09613364189863205,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 7300,
+      "net": "N8234",
+      "score": -0.14867635071277618,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7299,
+      "net": "N8233",
+      "score": -0.16168545186519623,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 6921,
+      "net": "N7855",
+      "score": -0.09414441138505936,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 7674,
+      "net": "N8608",
+      "score": -0.1689269244670868,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 7849,
+      "net": "N8783",
+      "score": -0.15341414511203766,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 4488,
+      "net": "N5422",
+      "score": -0.1195780411362648,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6467,
+      "net": "N7401",
+      "score": -0.23330973088741302,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5639,
+      "net": "N6573",
+      "score": -0.060437705367803574,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 194,
+      "net": "N679",
+      "score": 0.04848986491560936,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4522,
+      "net": "N5456",
+      "score": -0.15533803403377533,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4945,
+      "net": "N5879",
+      "score": -0.1355186551809311,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1424,
+      "net": "N2358",
+      "score": -0.3014262318611145,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 5809,
+      "net": "N6743",
+      "score": -0.35135698318481445,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 5647,
+      "net": "N6581",
+      "score": -0.11104889959096909,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 221,
+      "net": "N706",
+      "score": 0.03578284755349159,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3571,
+      "net": "N4505",
+      "score": -0.09633169323205948,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4505,
+      "net": "N5439",
+      "score": -0.23447321355342865,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4456,
+      "net": "N5390",
+      "score": -0.3031422197818756,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1217,
+      "net": "N2151",
+      "score": -0.19184063374996185,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5807,
+      "net": "N6741",
+      "score": -0.3938266932964325,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 5726,
+      "net": "N6660",
+      "score": -0.31104937195777893,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4268,
+      "net": "N5202",
+      "score": -0.2515956461429596,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 234,
+      "net": "N719",
+      "score": 0.0032238485291600227,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1017,
+      "net": "N1951",
+      "score": -0.2833590805530548,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6448,
+      "net": "N7382",
+      "score": -0.23672856390476227,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3579,
+      "net": "N4513",
+      "score": -0.1627802550792694,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3526,
+      "net": "N4460",
+      "score": -0.2071152776479721,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 4439,
+      "net": "N5373",
+      "score": -0.27995356917381287,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 940,
+      "net": "N1874",
+      "score": -0.17293912172317505,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 4400,
+      "net": "N5334",
+      "score": -0.15527133643627167,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 754,
+      "net": "N1688",
+      "score": -0.2942611277103424,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5722,
+      "net": "N6656",
+      "score": -0.2772785723209381,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 214,
+      "net": "N699",
+      "score": -0.022495891898870468,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 249,
+      "net": "N734",
+      "score": 0.02478799596428871,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6446,
+      "net": "N7380",
+      "score": -0.16612784564495087,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 671,
+      "net": "N1598",
+      "score": -0.3058852553367615,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3555,
+      "net": "N4489",
+      "score": -0.3084826171398163,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3487,
+      "net": "N4421",
+      "score": -0.35345223546028137,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3425,
+      "net": "N4359",
+      "score": -0.3791264593601227,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 5744,
+      "net": "N6678",
+      "score": -0.3671175539493561,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 440,
+      "net": "N1351",
+      "score": -0.19687427580356598,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 1225,
+      "net": "N2159",
+      "score": -0.4310768246650696,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 6449,
+      "net": "N7383",
+      "score": -0.313364177942276,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 201,
+      "net": "N686",
+      "score": -0.22525353729724884,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 244,
+      "net": "N729",
+      "score": -0.0008204309269785881,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 5724,
+      "net": "N6658",
+      "score": -0.29206034541130066,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 199,
+      "net": "N684",
+      "score": 0.0032941075041890144,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3603,
+      "net": "N4537",
+      "score": -0.07865232974290848,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 3598,
+      "net": "N4532",
+      "score": -0.19279293715953827,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3508,
+      "net": "N4442",
+      "score": -0.2609591782093048,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 46,
+      "net": "N531",
+      "score": -0.15906888246536255,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 48,
+      "net": "N533",
+      "score": -0.18906356394290924,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 50,
+      "net": "N535",
+      "score": -0.20550799369812012,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 52,
+      "net": "N537",
+      "score": -0.22247888147830963,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 54,
+      "net": "N539",
+      "score": -0.23517724871635437,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 56,
+      "net": "N541",
+      "score": -0.2537172734737396,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 58,
+      "net": "N543",
+      "score": -0.2763042151927948,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 60,
+      "net": "N545",
+      "score": -0.2953394651412964,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 204,
+      "net": "N689",
+      "score": -0.08773141354322433,
+      "type": "OP"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/deeptpi_table2_restored_bench/b15_C.bench",
+  "source_bench_sha256": "29a453bd9ec3934fea2a01dc42ab9ee2c54854ef6fcc2e7e3c264bd26f8eaa3c",
+  "status": "ok"
+}

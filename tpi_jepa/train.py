@@ -27,7 +27,7 @@ from .features import (
 from .graph import build_graph
 from .labels import find_bench_path, load_labels
 from .model import TPIWorldModel, update_ema
-from .plan import set_real_fault_context
+from .plan import _clip_latent_norms, set_real_fault_context
 from .protocol import excluded_benchmarks_from_config, filter_rows_by_excluded_benchmarks, parse_benchmark_list
 
 
@@ -62,6 +62,85 @@ def _oracle_group_key(row: dict[str, Any]) -> tuple[str, str, str]:
     )
 
 
+def _canonical_oracle_action_type(value: Any) -> str:
+    """Normalize backend and planner action names used in oracle prefixes."""
+
+    key = str(value or "").strip().lower()
+    aliases = {
+        "control0": "control0",
+        "cp0": "control0",
+        "control1": "control1",
+        "cp1": "control1",
+        "observe": "observe",
+        "op": "observe",
+    }
+    if key not in aliases:
+        raise ValueError(f"unsupported action type in oracle prefix: {value!r}")
+    return aliases[key]
+
+
+def _oracle_prefix_from_row(row: dict[str, Any]) -> list[tuple[str, str]]:
+    """Parse the action prefix shared by a counterfactual candidate group.
+
+    Non-initial states must carry ``state_actions`` as JSON;
+    ``prefix_sequence`` is accepted as a relabeler-compatible alias.  Each
+    action may be a ``{\"net\": ..., \"type\": ...}`` object or a two-item
+    ``[node, type]`` sequence.  Requiring an explicit prefix prevents two
+    different planner states from being silently merged under one state id.
+    """
+
+    raw = row.get("state_actions")
+    field = "state_actions"
+    if raw in (None, ""):
+        raw = row.get("prefix_sequence")
+        field = "prefix_sequence"
+    state_id = str(row.get("state_id", "")).strip()
+    if raw in (None, ""):
+        if state_id == "initial":
+            return []
+        raise ValueError(
+            f"oracle state_id={state_id!r} requires JSON state_actions; "
+            "prefix_sequence is accepted as a compatibility alias; "
+            "only state_id='initial' may omit it"
+        )
+    try:
+        parsed = json.loads(str(raw))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid oracle {field} JSON for state_id={state_id!r}") from exc
+    if not isinstance(parsed, list):
+        raise ValueError(f"oracle {field} must be a JSON list for state_id={state_id!r}")
+    actions: list[tuple[str, str]] = []
+    for index, item in enumerate(parsed):
+        if isinstance(item, dict):
+            node = item.get("net", item.get("node"))
+            action_type = item.get("type")
+        elif isinstance(item, (list, tuple)) and len(item) == 2:
+            node, action_type = item
+        else:
+            raise ValueError(
+                f"invalid oracle prefix action at index={index} state_id={state_id!r}: {item!r}"
+            )
+        node_text = str(node or "").strip()
+        if not node_text:
+            raise ValueError(f"empty oracle prefix node at index={index} state_id={state_id!r}")
+        actions.append((node_text, _canonical_oracle_action_type(action_type)))
+    return actions
+
+
+def _oracle_prefix_actions(group: list[dict[str, Any]]) -> list[tuple[str, str]]:
+    """Return and validate the one prefix shared by all candidates in a group."""
+
+    if not group:
+        return []
+    expected = _oracle_prefix_from_row(group[0])
+    for row in group[1:]:
+        current = _oracle_prefix_from_row(row)
+        if current != expected:
+            key = _oracle_group_key(group[0])
+            raise ValueError(f"oracle candidate group {key!r} contains inconsistent state-action prefixes")
+    return expected
+
+
 def _load_oracle_groups_one(
     path: str | Path,
     max_actions_per_group: int | None = None,
@@ -77,8 +156,6 @@ def _load_oracle_groups_one(
         if benchmark_id in forbidden:
             skipped_forbidden[benchmark_id] += 1
             continue
-        if row.get("state_id") != "initial":
-            raise ValueError("main training oracle ranking currently supports only state_id=initial")
         delta = _safe_float(row.get("oracle_delta_tc"))
         if not math.isfinite(delta):
             continue
@@ -100,6 +177,7 @@ def _load_oracle_groups_one(
         if max_actions_per_group is not None and max_actions_per_group > 0:
             group = group[:max_actions_per_group]
         if group:
+            _oracle_prefix_actions(group)
             groups.append(group)
     if not groups:
         raise ValueError(f"no oracle groups with finite actions in {path} after forbidden-benchmark filtering")
@@ -145,12 +223,11 @@ def load_config(path: str | Path) -> dict:
 
 
 def _device_from_config(config: dict) -> torch.device:
-    """Use configured device, falling back to CPU if CUDA is unavailable."""
+    """Use the configured device and refuse silent deep-learning CPU fallback."""
 
     requested = str(config.get("device", "cpu"))
     if requested.startswith("cuda") and not torch.cuda.is_available():
-        print("[train] warning: CUDA requested but unavailable; using CPU")
-        requested = "cpu"
+        raise RuntimeError("CUDA was requested for training but is unavailable")
     return torch.device(requested)
 
 
@@ -427,6 +504,21 @@ def compute_loss(batch: dict, model: TPIWorldModel, config: dict, pattern_enable
         pattern_loss = torch.zeros((), dtype=reward_loss.dtype, device=reward_loss.device)
     return_scale = float(config.get("return_scale", coverage_scale))
     return_loss = F.smooth_l1_loss(out["return_pred"], return_scale * batch["delta_fault_coverage"])
+    typed_marginal_loss = (
+        F.smooth_l1_loss(out["typed_marginal_pred"], reward_target)
+        if "typed_marginal_pred" in out
+        else reward_loss.new_zeros(())
+    )
+    typed_return_loss = (
+        F.smooth_l1_loss(out["typed_return_pred"], return_scale * batch["delta_fault_coverage"])
+        if "typed_return_pred" in out
+        else reward_loss.new_zeros(())
+    )
+    typed_sa_reduction_loss = (
+        F.smooth_l1_loss(out["typed_sa_reduction_pred"], batch["hard_reduction_target"][1:3])
+        if "typed_sa_reduction_pred" in out and _hard_reduction_mask(batch)
+        else reward_loss.new_zeros(())
+    )
     weighted_reward_loss = hard_weight * reward_loss
     weighted_return_loss = hard_weight * return_loss
     lambda_jepa = float(config["lambda_jepa"])
@@ -444,6 +536,9 @@ def compute_loss(batch: dict, model: TPIWorldModel, config: dict, pattern_enable
         + float(config["lambda_fc"]) * weighted_reward_loss
         + float(config["lambda_pattern"]) * pattern_loss
         + float(config.get("lambda_return", 0.0)) * weighted_return_loss
+        + float(config.get("lambda_typed_marginal", 0.0)) * hard_weight * typed_marginal_loss
+        + float(config.get("lambda_typed_return", 0.0)) * hard_weight * typed_return_loss
+        + float(config.get("lambda_typed_sa_reduction", 0.0)) * typed_sa_reduction_loss
     )
     metrics = {
         "loss": float(total.detach().cpu().item()),
@@ -460,6 +555,9 @@ def compute_loss(batch: dict, model: TPIWorldModel, config: dict, pattern_enable
         "reward_loss": float(reward_loss.detach().cpu().item()),
         "pattern_loss": float(pattern_loss.detach().cpu().item()),
         "return_loss": float(return_loss.detach().cpu().item()),
+        "typed_marginal_loss": float(typed_marginal_loss.detach().cpu().item()),
+        "typed_return_loss": float(typed_return_loss.detach().cpu().item()),
+        "typed_sa_reduction_loss": float(typed_sa_reduction_loss.detach().cpu().item()),
         "hard_weight": float(hard_weight.detach().cpu().item()),
     }
     return total, metrics
@@ -566,6 +664,9 @@ def compute_rollout_loss(
         "reward_loss": 0.0,
         "pattern_loss": 0.0,
         "return_loss": 0.0,
+        "typed_marginal_loss": 0.0,
+        "typed_return_loss": 0.0,
+        "typed_sa_reduction_loss": 0.0,
     }
     steps = min(int(horizon), len(batch["x_targets"]))
     coverage_scale = float(config.get("coverage_scale", 100.0))
@@ -579,6 +680,7 @@ def compute_rollout_loss(
             batch["action_node_ids"][step],
             batch["action_type_ids"][step],
             batch["relation_features"][step],
+            sequence_step=step,
         )
         with torch.no_grad():
             z_target = model.target_encoder(batch["x_targets"][step], edge_src, edge_dst, gate_type_ids)
@@ -609,6 +711,21 @@ def compute_rollout_loss(
         else:
             pattern_loss = torch.zeros((), dtype=reward_loss.dtype, device=reward_loss.device)
         return_loss = F.smooth_l1_loss(pred["return_pred"], return_targets[step])
+        typed_marginal_loss = (
+            F.smooth_l1_loss(pred["typed_marginal_pred"], reward_target)
+            if "typed_marginal_pred" in pred
+            else reward_loss.new_zeros(())
+        )
+        typed_return_loss = (
+            F.smooth_l1_loss(pred["typed_return_pred"], return_targets[step])
+            if "typed_return_pred" in pred
+            else reward_loss.new_zeros(())
+        )
+        typed_sa_reduction_loss = (
+            F.smooth_l1_loss(pred["typed_sa_reduction_pred"], batch["hard_reduction_targets"][step][1:3])
+            if "typed_sa_reduction_pred" in pred and bool(batch["has_hard_targets"][step].item())
+            else reward_loss.new_zeros(())
+        )
         weighted_reward_loss = hard_weight * reward_loss
         weighted_return_loss = hard_weight * return_loss
         step_loss = (
@@ -624,6 +741,9 @@ def compute_rollout_loss(
             + float(config["lambda_fc"]) * weighted_reward_loss
             + float(config["lambda_pattern"]) * pattern_loss
             + float(config.get("lambda_return", 0.0)) * weighted_return_loss
+            + float(config.get("lambda_typed_marginal", 0.0)) * hard_weight * typed_marginal_loss
+            + float(config.get("lambda_typed_return", 0.0)) * hard_weight * typed_return_loss
+            + float(config.get("lambda_typed_sa_reduction", 0.0)) * typed_sa_reduction_loss
         )
         total = total + step_loss
         z_state = pred["z_pred"]
@@ -642,6 +762,9 @@ def compute_rollout_loss(
         metric_totals["reward_loss"] += float(reward_loss.detach().cpu().item())
         metric_totals["pattern_loss"] += float(pattern_loss.detach().cpu().item())
         metric_totals["return_loss"] += float(return_loss.detach().cpu().item())
+        metric_totals["typed_marginal_loss"] += float(typed_marginal_loss.detach().cpu().item())
+        metric_totals["typed_return_loss"] += float(typed_return_loss.detach().cpu().item())
+        metric_totals["typed_sa_reduction_loss"] += float(typed_sa_reduction_loss.detach().cpu().item())
         metric_totals["hard_weight"] = metric_totals.get("hard_weight", 0.0) + float(hard_weight.detach().cpu().item())
 
     model.target_encoder.train(target_was_training)
@@ -656,11 +779,174 @@ def rollout_horizon_for_epoch(epoch: int, config: dict) -> int:
     """Curriculum: train one-step first, then gradually increase rollout depth."""
 
     max_horizon = max(1, int(config.get("rollout_max_horizon", 1)))
+    explicit_schedule = config.get("rollout_horizon_schedule")
+    if explicit_schedule:
+        if isinstance(explicit_schedule, str):
+            values = [int(value.strip()) for value in explicit_schedule.split(",") if value.strip()]
+        else:
+            values = [int(value) for value in explicit_schedule]
+        if not values or any(value <= 0 for value in values):
+            raise ValueError("rollout_horizon_schedule must contain positive integers")
+        return min(max_horizon, values[min(max(1, epoch) - 1, len(values) - 1)])
     start_epoch = max(1, int(config.get("rollout_start_epoch", 1)))
     increase_every = max(1, int(config.get("rollout_increase_every", 1)))
     if epoch < start_epoch:
         return 1
-    return min(max_horizon, 2 + (epoch - start_epoch) // increase_every)
+    start_horizon = max(2, int(config.get("rollout_start_horizon", 2)))
+    horizon_increment = max(1, int(config.get("rollout_horizon_increment", 1)))
+    increments = (epoch - start_epoch) // increase_every
+    return min(max_horizon, start_horizon + horizon_increment * increments)
+
+
+def initialize_from_checkpoint(
+    model: TPIWorldModel,
+    checkpoint_path: str | Path,
+    device: torch.device,
+    *,
+    feature_dim: int,
+    relation_dim: int,
+    strict: bool = True,
+) -> None:
+    """Initialize a training model from a shape-compatible planner checkpoint."""
+
+    checkpoint = torch.load(Path(checkpoint_path), map_location=device)
+    saved_feature_dim = int(checkpoint.get("feature_dim", feature_dim))
+    saved_relation_dim = int(checkpoint.get("relation_dim", relation_dim))
+    if saved_feature_dim != int(feature_dim):
+        raise ValueError(
+            f"init checkpoint feature_dim={saved_feature_dim} does not match dataset feature_dim={feature_dim}"
+        )
+    if saved_relation_dim != int(relation_dim):
+        raise ValueError(
+            f"init checkpoint relation_dim={saved_relation_dim} does not match dataset relation_dim={relation_dim}"
+        )
+    model.load_state_dict(checkpoint["model_state"], strict=strict)
+
+
+def configure_trainable_parameters(model: TPIWorldModel, mode: str = "all") -> list[torch.nn.Parameter]:
+    """Select which model parameters may change during a fine-tuning run."""
+
+    normalized = str(mode or "all").strip().lower()
+    if normalized == "all":
+        for parameter in model.parameters():
+            parameter.requires_grad_(True)
+    elif normalized in {"rollout_dynamics", "dynamics"}:
+        prefixes = ("action_encoder.", "dynamics.")
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefixes))
+    elif normalized in {"utility_posttrain", "world_model_posttrain"}:
+        prefixes = (
+            "action_encoder.",
+            "dynamics.",
+            "q_head.",
+            "q_node_head.",
+            "q_type_head.",
+            "reward_head.",
+            "return_head.",
+            "hard_reduction_head.",
+            "typed_utility_head.",
+            "typed_cone_utility_head.",
+        )
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefixes))
+    elif normalized in {"typed_utility_only", "typed_head_only"}:
+        # Keep the production encoder, dynamics, and legacy utility ordering
+        # bit-identical.  Real ATPG labels may only learn a bounded residual
+        # through the action-type-conditioned auxiliary head.
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(
+                name.startswith("typed_utility_head.")
+                or name.startswith("typed_cone_utility_head.")
+            )
+    elif normalized in {"typed_experts_only", "typed_moe_experts_only"}:
+        # Preserve the selected shared cone head exactly and learn only the
+        # zero-initialized type-gated residual experts.  This gives the new
+        # within-type ranking objective a bounded correction path instead of
+        # allowing it to erase an already validated b15 policy.
+        prefixes = (
+            "typed_cone_utility_head.expert_gate.",
+            "typed_cone_utility_head.type_experts.",
+        )
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefixes))
+    elif normalized in {"typed_horizon_only", "typed_horizon_experts_only"}:
+        # The inherited Round8 shared and type-expert paths stay bit-identical;
+        # only the new zero-initialized sequence-position experts can move.
+        prefix = "typed_cone_utility_head.horizon_experts."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {"typed_return_rank_only", "typed_return_adapter_only"}:
+        # Preserve every incumbent prediction except the isolated, initially
+        # zero return-ranking residual introduced for real-ATPG supervision.
+        prefix = "typed_cone_utility_head.return_rank_experts."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {
+        "typed_return_horizon_only",
+        "typed_horizon_return_only",
+        "typed_return_horizon_adapter_only",
+    }:
+        # Retain the learned return ranker exactly and learn only a bounded
+        # sequence-position correction from ultra-long real-ATPG prefixes.
+        prefix = "typed_cone_utility_head.horizon_return_rank_experts."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {
+        "typed_return_late_horizon_only",
+        "typed_late_horizon_return_only",
+        "typed_return_late_horizon_adapter_only",
+    }:
+        # Preserve every b15-selected parameter and train only the branch
+        # whose structural gate is zero through sequence step 277.
+        prefix = "typed_cone_utility_head.late_return_rank_experts."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {
+        "typed_return_late_type_only",
+        "typed_late_type_return_only",
+        "typed_return_late_type_adapter_only",
+    }:
+        # A tiny family-level adapter learns only CP0/CP1/OP phase shifts;
+        # inherited node ordering and every b15 prediction stay frozen.
+        prefix = "typed_cone_utility_head.late_type_calibrator."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {
+        "typed_return_late_control_only",
+        "typed_late_control_return_only",
+        "typed_return_late_control_adapter_only",
+    }:
+        # Learn only a shared CP0/CP1-vs-OP shift.  Polarity and node ranking
+        # remain exactly those of the inherited b15-selected model.
+        prefix = "typed_cone_utility_head.late_control_calibrator."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    elif normalized in {"typed_marginal_rank_only", "typed_marginal_adapter_only"}:
+        # Learn only the sequence-conditioned marginal-TC residual; the
+        # Round8 MoE and all other utility voters remain bit-identical.
+        prefix = "typed_cone_utility_head.marginal_rank_experts."
+        for name, parameter in model.named_parameters():
+            parameter.requires_grad_(name.startswith(prefix))
+    else:
+        raise ValueError(
+            f"unsupported trainable_modules={mode!r}; expected 'all', 'rollout_dynamics', "
+            "'utility_posttrain', 'typed_utility_only', 'typed_experts_only', "
+            "'typed_horizon_only', 'typed_return_rank_only', 'typed_return_horizon_only', "
+            "'typed_return_late_horizon_only', 'typed_return_late_type_only', "
+            "'typed_return_late_control_only', "
+            "or 'typed_marginal_rank_only'"
+        )
+    selected = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    if not selected:
+        raise ValueError(f"trainable_modules={mode!r} selected no parameters")
+    return selected
+
+
+def update_ema_if_encoder_trainable(model: TPIWorldModel, decay: float) -> None:
+    """Advance the JEPA target only when the online encoder is being optimized."""
+
+    if any(parameter.requires_grad for parameter in model.online_encoder.parameters()):
+        update_ema(model.target_encoder, model.online_encoder, decay)
 
 
 def _oracle_graph_and_base_for(
@@ -693,21 +979,58 @@ def _predict_oracle_group_scores(
     graph_cache: dict[str, Any],
     base_cache: dict[str, torch.Tensor],
     device: torch.device,
+    prefix_latent_cache: dict[tuple[str, tuple[tuple[str, str], ...]], torch.Tensor] | None = None,
 ) -> dict[str, torch.Tensor]:
-    """Score all candidate actions in one oracle group from the initial state."""
+    """Score candidate actions after replaying their shared planner prefix."""
 
     benchmark_id = str(group[0]["benchmark_id"])
     graph, base_features = _oracle_graph_and_base_for(benchmark_id, graph_cache, base_cache, config)
-    x_state = make_state_features(graph, [], base_features).to(device)
-    z_state = model.online_encoder(
-        x_state,
-        graph.edge_src.to(device),
-        graph.edge_dst.to(device),
-        graph.gate_type_ids.to(device),
-    )
     relation_mode = str(config.get("relation_mode", "basic"))
     relation_depth = int(config.get("relation_depth", 8))
     node_ids = {name: idx for idx, name in enumerate(graph.node_names)}
+    prefix = _oracle_prefix_actions(group)
+    prefix_key = (benchmark_id, tuple(prefix))
+    z_state = prefix_latent_cache.get(prefix_key) if prefix_latent_cache is not None else None
+    if z_state is None:
+        x_state = make_state_features(graph, [], base_features).to(device)
+        z_state = model.online_encoder(
+            x_state,
+            graph.edge_src.to(device),
+            graph.edge_dst.to(device),
+            graph.gate_type_ids.to(device),
+        )
+        latent_clip_ratio = float(config.get("oracle_latent_norm_clip_ratio", 0.0))
+        latent_norm_limit = None
+        if latent_clip_ratio > 0.0:
+            latent_norm_limit = float(z_state.norm(dim=1).median().item()) * latent_clip_ratio
+        if prefix:
+            # The prefix is context, not a second rollout-training objective.
+            # Stop gradients through it by default so long prefixes do not
+            # retain a large graph.  Candidate heads below remain trainable.
+            detach_prefix = bool(config.get("oracle_prefix_detach", True))
+            for prefix_step, (prefix_node, prefix_type) in enumerate(prefix):
+                if prefix_node not in node_ids:
+                    raise ValueError(f"prefix node {prefix_node!r} not found in {benchmark_id}")
+                prefix_node_id = node_ids[prefix_node]
+                relation = make_action_relation_features(
+                    graph,
+                    prefix_node_id,
+                    relation_mode,
+                    relation_depth,
+                ).to(device)
+                prefix_pred = model.predict_from_latent(
+                    z_state,
+                    prefix_node_id,
+                    action_type_to_id(prefix_type),
+                    relation,
+                    include_aux_heads=False,
+                    sequence_step=prefix_step,
+                )
+                z_state = _clip_latent_norms(prefix_pred["z_pred"], latent_norm_limit)
+                if detach_prefix:
+                    z_state = z_state.detach()
+        if prefix_latent_cache is not None:
+            prefix_latent_cache[prefix_key] = z_state.detach()
     coverage_scale = float(config.get("coverage_scale", 100.0))
     score_lists: dict[str, list[torch.Tensor]] = {
         "q_pred": [],
@@ -719,10 +1042,15 @@ def _predict_oracle_group_scores(
         "hybrid_pred": [],
         "derived_hard_reduction_total_pred": [],
         "derived_hard_reduction_hybrid_pred": [],
+        "typed_marginal_pred": [],
+        "typed_return_pred": [],
+        "typed_sa_reduction_total_pred": [],
+        "typed_sa0_reduction_pred": [],
+        "typed_sa1_reduction_pred": [],
     }
     for row in group:
         node = row["node"]
-        action_type = row["type"]
+        action_type = _canonical_oracle_action_type(row["type"])
         if node not in node_ids:
             raise ValueError(f"node {node!r} from oracle TSV not found in {benchmark_id}")
         action_node_id = node_ids[node]
@@ -733,6 +1061,7 @@ def _predict_oracle_group_scores(
             action_type_to_id(action_type),
             relation,
             include_aux_heads=False,
+            sequence_step=len(prefix),
         )
         q_pred = pred["q_pred"]
         reward_pred = pred["reward_pred"]
@@ -757,7 +1086,23 @@ def _predict_oracle_group_scores(
         score_lists["hybrid_pred"].append(return_pred + reward_pred + hard_reduction_total * coverage_scale)
         score_lists["derived_hard_reduction_total_pred"].append(derived_hard_reduction_total)
         score_lists["derived_hard_reduction_hybrid_pred"].append(derived_hard_reduction_total * coverage_scale)
-    return {field: torch.stack(values) for field, values in score_lists.items()}
+        typed_marginal = pred.get("typed_marginal_pred", reward_pred)
+        typed_return = pred.get("typed_return_pred", return_pred)
+        typed_sa = pred.get("typed_sa_reduction_pred")
+        if typed_sa is None:
+            typed_sa0 = hard_reduction_pred[1] if hard_reduction_pred.numel() > 1 else hard_reduction_total
+            typed_sa1 = hard_reduction_pred[2] if hard_reduction_pred.numel() > 2 else hard_reduction_total
+        else:
+            typed_sa = typed_sa.view(-1)
+            typed_sa0 = typed_sa[0]
+            typed_sa1 = typed_sa[1]
+        typed_sa_total = 0.5 * (typed_sa0 + typed_sa1)
+        score_lists["typed_marginal_pred"].append(typed_marginal)
+        score_lists["typed_return_pred"].append(typed_return)
+        score_lists["typed_sa_reduction_total_pred"].append(typed_sa_total)
+        score_lists["typed_sa0_reduction_pred"].append(typed_sa0)
+        score_lists["typed_sa1_reduction_pred"].append(typed_sa1)
+    return {field: torch.stack(values) for field, values in score_lists.items() if values}
 
 
 def _oracle_score(scores: dict[str, torch.Tensor], field: str) -> torch.Tensor:
@@ -839,6 +1184,53 @@ def _oracle_pairwise_rank_loss(
     return torch.stack(losses).mean(), len(pairs)
 
 
+def _oracle_same_type_rank_loss(
+    preds: torch.Tensor,
+    targets: torch.Tensor,
+    action_types: list[str],
+    min_delta: float,
+    temperature: float,
+    mode: str = "all",
+    hard_negative_topk: int = 0,
+    positive_topk: int = 1,
+    max_pairs: int = 0,
+) -> tuple[torch.Tensor, int]:
+    """Rank nodes inside each action type before aggregating pair losses.
+
+    Cross-type comparisons are already handled by the ordinary oracle loss.
+    This auxiliary term prevents those easier comparisons from overwhelming
+    the harder node-ordering signal once the policy has learned the right
+    CP0/CP1/OP family.
+    """
+
+    if len(action_types) != preds.numel():
+        raise ValueError("action_types length must match prediction count")
+    weighted_losses: list[torch.Tensor] = []
+    total_pairs = 0
+    canonical_types = [_canonical_oracle_action_type(value) for value in action_types]
+    for action_type in sorted(set(canonical_types)):
+        indices = [index for index, value in enumerate(canonical_types) if value == action_type]
+        if len(indices) < 2:
+            continue
+        index_tensor = torch.tensor(indices, dtype=torch.long, device=preds.device)
+        loss, pair_count = _oracle_pairwise_rank_loss(
+            preds.index_select(0, index_tensor),
+            targets.index_select(0, index_tensor),
+            min_delta,
+            temperature,
+            mode=mode,
+            hard_negative_topk=hard_negative_topk,
+            positive_topk=positive_topk,
+            max_pairs=max_pairs,
+        )
+        if pair_count > 0:
+            weighted_losses.append(loss * float(pair_count))
+            total_pairs += pair_count
+    if total_pairs == 0:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
+    return torch.stack(weighted_losses).sum() / float(total_pairs), total_pairs
+
+
 def _oracle_rank_weight(config: dict, epoch: int) -> float:
     """Return the current oracle weight after warmup and linear ramp."""
 
@@ -869,6 +1261,28 @@ def _q_rank_weight(config: dict, epoch: int) -> float:
     return _oracle_rank_weight(config, epoch)
 
 
+def _q_same_type_rank_weight(config: dict, epoch: int) -> float:
+    """Return the within-action-type node ranking weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_same_type_rank", 0.0)))
+
+
+def _aux_rank_weight(config: dict, epoch: int) -> float:
+    """Return the auxiliary score-head ranking weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_aux_rank", 0.0)))
+
+
+def _aux_same_type_rank_weight(config: dict, epoch: int) -> float:
+    """Return auxiliary within-type ranking weight for an independent voter."""
+
+    return _oracle_ramped_weight(
+        config,
+        epoch,
+        float(config.get("lambda_aux_same_type_rank", 0.0)),
+    )
+
+
 def _q_value_weight(config: dict, epoch: int) -> float:
     """Return Q value-regression weight."""
 
@@ -885,10 +1299,40 @@ def _q_candidate_weight(config: dict, epoch: int) -> float:
     return _oracle_ramped_weight(config, epoch, float(config.get("lambda_candidate", 0.0)))
 
 
+def _q_action_type_weight(config: dict, epoch: int) -> float:
+    """Return tie-aware CP0/CP1/OP listwise loss weight."""
+
+    return _oracle_ramped_weight(
+        config,
+        epoch,
+        float(config.get("lambda_action_type_rank", 0.0)),
+    )
+
+
+def _q_action_family_weight(config: dict, epoch: int) -> float:
+    """Return tie-aware Control-vs-Observe loss weight."""
+
+    return _oracle_ramped_weight(
+        config,
+        epoch,
+        float(config.get("lambda_action_family_rank", 0.0)),
+    )
+
+
 def _q_ndcg_weight(config: dict, epoch: int) -> float:
     """Return top-heavy NDCG-style list loss weight."""
 
     return _oracle_ramped_weight(config, epoch, float(config.get("lambda_ndcg_rank", 0.0)))
+
+
+def _q_same_type_ndcg_weight(config: dict, epoch: int) -> float:
+    """Return top-heavy list-ranking weight inside each action type."""
+
+    return _oracle_ramped_weight(
+        config,
+        epoch,
+        float(config.get("lambda_same_type_ndcg_rank", 0.0)),
+    )
 
 
 def _q_conservative_weight(config: dict, epoch: int) -> float:
@@ -903,6 +1347,48 @@ def _q_context_weight(config: dict, epoch: int) -> float:
     return _oracle_ramped_weight(config, epoch, float(config.get("lambda_context_rank", 0.0)))
 
 
+def _q_sa_value_weight(config: dict, epoch: int) -> float:
+    """Return prefix-oracle SA0/SA1 reduction regression weight."""
+
+    return _oracle_ramped_weight(config, epoch, float(config.get("lambda_oracle_sa_value", 0.0)))
+
+
+def _oracle_sa_reduction_targets(
+    group: list[dict[str, str]],
+    *,
+    dtype: torch.dtype,
+    device: torch.device,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Build normalized SA0/SA1 hard-fault reduction targets and validity mask."""
+
+    targets: list[list[float]] = []
+    masks: list[list[bool]] = []
+    for row in group:
+        row_targets: list[float] = []
+        row_masks: list[bool] = []
+        for suffix in ("sa0", "sa1"):
+            reduction = _safe_float(row.get(f"oracle_hard_reduction_{suffix}"))
+            prefix_count = _safe_float(row.get(f"prefix_undetected_{suffix}_count"))
+            # A polarity absent from the prefix fault set has no meaningful
+            # fractional-reduction target.  Treating its zero denominator as
+            # one turns fault-universe changes into a large, spurious label
+            # (especially for sparse SA0 states), so exclude it from the
+            # polarity loss instead.
+            valid = (
+                math.isfinite(reduction)
+                and math.isfinite(prefix_count)
+                and prefix_count > 0.0
+            )
+            row_targets.append(max(-1.0, min(1.0, reduction / prefix_count)) if valid else 0.0)
+            row_masks.append(valid)
+        targets.append(row_targets)
+        masks.append(row_masks)
+    return (
+        torch.tensor(targets, dtype=dtype, device=device),
+        torch.tensor(masks, dtype=torch.bool, device=device),
+    )
+
+
 def _oracle_candidate_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
     """Listwise candidate loss that pushes probability mass toward high-delta-TC actions."""
 
@@ -911,6 +1397,108 @@ def _oracle_candidate_loss(preds: torch.Tensor, targets: torch.Tensor, config: d
     target_prob = torch.softmax(targets.detach() / target_temp, dim=0)
     pred_log_prob = torch.log_softmax(preds / pred_temp, dim=0)
     return -(target_prob * pred_log_prob).sum()
+
+
+def _oracle_action_type_loss(
+    preds: torch.Tensor,
+    targets: torch.Tensor,
+    action_types: list[str],
+    config: dict,
+) -> tuple[torch.Tensor, int]:
+    """Tie-aware listwise loss over CP0, CP1, and OP families.
+
+    ATPG delta-TC labels are quantized by the finite fault universe, so several
+    candidate actions frequently share the exact best value.  Hard ``argmax``
+    type labels turn those ties into TSV-order noise.  Here each type is first
+    represented by its best real target and a smooth maximum of model scores;
+    a soft target distribution then preserves exact ties instead of inventing
+    a winner.  Log-mean-exp removes bias when type pools have different sizes.
+    """
+
+    if len(action_types) != preds.numel():
+        raise ValueError("action_types length must match prediction count")
+    canonical_types = [_canonical_oracle_action_type(value) for value in action_types]
+    unique_types = [
+        action_type
+        for action_type in ("control0", "control1", "observe")
+        if action_type in canonical_types
+    ]
+    if len(unique_types) < 2:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
+
+    aggregate_temp = max(
+        1e-6,
+        float(config.get("oracle_action_type_aggregate_temperature", 0.10)),
+    )
+    type_preds: list[torch.Tensor] = []
+    type_targets: list[torch.Tensor] = []
+    for action_type in unique_types:
+        indices = [index for index, value in enumerate(canonical_types) if value == action_type]
+        index_tensor = torch.tensor(indices, dtype=torch.long, device=preds.device)
+        family_preds = preds.index_select(0, index_tensor)
+        smooth_max = aggregate_temp * (
+            torch.logsumexp(family_preds / aggregate_temp, dim=0)
+            - math.log(len(indices))
+        )
+        type_preds.append(smooth_max)
+        type_targets.append(targets.index_select(0, index_tensor).max().detach())
+
+    pred_temp = max(1e-6, float(config.get("oracle_action_type_pred_temperature", 0.35)))
+    target_temp = max(1e-6, float(config.get("oracle_action_type_target_temperature", 0.025)))
+    pred_vector = torch.stack(type_preds)
+    target_vector = torch.stack(type_targets)
+    target_prob = torch.softmax(target_vector / target_temp, dim=0)
+    pred_log_prob = torch.log_softmax(pred_vector / pred_temp, dim=0)
+    return -(target_prob * pred_log_prob).sum(), len(unique_types)
+
+
+def _oracle_action_family_loss(
+    preds: torch.Tensor,
+    targets: torch.Tensor,
+    action_types: list[str],
+    config: dict,
+) -> tuple[torch.Tensor, int]:
+    """Tie-aware binary loss over Control (CP0/CP1) versus Observe.
+
+    CP0 and CP1 are intentionally pooled before both target and prediction
+    aggregation.  The objective can correct a late OP/control imbalance while
+    providing no incentive to overfit forcing polarity on a small circuit set.
+    """
+
+    if len(action_types) != preds.numel():
+        raise ValueError("action_types length must match prediction count")
+    canonical_types = [_canonical_oracle_action_type(value) for value in action_types]
+    family_indices = {
+        "control": [index for index, value in enumerate(canonical_types) if value != "observe"],
+        "observe": [index for index, value in enumerate(canonical_types) if value == "observe"],
+    }
+    if any(not indices for indices in family_indices.values()):
+        return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
+
+    aggregate_temp = max(
+        1e-6,
+        float(config.get("oracle_action_family_aggregate_temperature", 0.10)),
+    )
+    family_preds: list[torch.Tensor] = []
+    family_targets: list[torch.Tensor] = []
+    for family in ("control", "observe"):
+        indices = family_indices[family]
+        index_tensor = torch.tensor(indices, dtype=torch.long, device=preds.device)
+        selected_preds = preds.index_select(0, index_tensor)
+        family_preds.append(
+            aggregate_temp
+            * (
+                torch.logsumexp(selected_preds / aggregate_temp, dim=0)
+                - math.log(len(indices))
+            )
+        )
+        family_targets.append(targets.index_select(0, index_tensor).max().detach())
+
+    pred_temp = max(1e-6, float(config.get("oracle_action_family_pred_temperature", 0.35)))
+    target_temp = max(1e-6, float(config.get("oracle_action_family_target_temperature", 0.025)))
+    target_prob = torch.softmax(torch.stack(family_targets) / target_temp, dim=0)
+    pred_log_prob = torch.log_softmax(torch.stack(family_preds) / pred_temp, dim=0)
+    return -(target_prob * pred_log_prob).sum(), 2
 
 
 def _oracle_topk_ndcg_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
@@ -929,6 +1517,41 @@ def _oracle_topk_ndcg_loss(preds: torch.Tensor, targets: torch.Tensor, config: d
     target_prob = target_prob / target_prob.sum().clamp_min(1e-12)
     pred_log_prob = torch.log_softmax(preds / pred_temp, dim=0)
     return -(target_prob * pred_log_prob[top_idx]).sum()
+
+
+def _oracle_same_type_topk_ndcg_loss(
+    preds: torch.Tensor,
+    targets: torch.Tensor,
+    action_types: list[str],
+    config: dict,
+) -> tuple[torch.Tensor, int]:
+    """Apply the top-heavy list loss separately to CP0, CP1, and OP nodes.
+
+    Cross-type utility gaps are much easier than choosing the best node within
+    a type and can dominate a full candidate-list objective.  Equal weighting
+    across non-singleton type lists keeps the loss focused on the planner's
+    observed within-type ranking bottleneck.
+    """
+
+    if len(action_types) != preds.numel():
+        raise ValueError("action_types length must match prediction count")
+    canonical_types = [_canonical_oracle_action_type(value) for value in action_types]
+    losses: list[torch.Tensor] = []
+    for action_type in sorted(set(canonical_types)):
+        indices = [index for index, value in enumerate(canonical_types) if value == action_type]
+        if len(indices) < 2:
+            continue
+        index_tensor = torch.tensor(indices, dtype=torch.long, device=preds.device)
+        losses.append(
+            _oracle_topk_ndcg_loss(
+                preds.index_select(0, index_tensor),
+                targets.index_select(0, index_tensor),
+                config,
+            )
+        )
+    if not losses:
+        return torch.zeros((), dtype=preds.dtype, device=preds.device), 0
+    return torch.stack(losses).mean(), len(losses)
 
 
 def _oracle_conservative_loss(preds: torch.Tensor, targets: torch.Tensor, config: dict) -> torch.Tensor:
@@ -984,6 +1607,53 @@ def _oracle_context_loss(preds: torch.Tensor, targets: torch.Tensor, config: dic
     return (weights * elements).sum()
 
 
+def _oracle_best_action_type(group: list[dict[str, Any]]) -> str:
+    """Return the action type with the largest real delta-TC in one state."""
+
+    if not group:
+        raise ValueError("cannot classify an empty oracle group")
+    best = max(group, key=lambda row: _safe_float(row.get("oracle_delta_tc")))
+    return _canonical_oracle_action_type(best.get("type"))
+
+
+def _sample_oracle_groups(
+    oracle_groups: list[list[dict[str, Any]]],
+    group_count: int,
+    mode: str = "uniform",
+) -> list[list[dict[str, Any]]]:
+    """Sample state groups uniformly or balance their real best action type."""
+
+    count = min(len(oracle_groups), max(1, int(group_count)))
+    normalized = str(mode or "uniform").strip().lower()
+    if normalized in {"uniform", "random"}:
+        return random.sample(oracle_groups, k=count)
+    if normalized not in {"best_type_balanced", "type_balanced"}:
+        raise ValueError(f"unsupported oracle_group_sampling={mode!r}")
+
+    buckets: dict[str, list[list[dict[str, Any]]]] = defaultdict(list)
+    for group in oracle_groups:
+        buckets[_oracle_best_action_type(group)].append(group)
+    action_types = sorted(buckets)
+    random.shuffle(action_types)
+    shuffled = {key: random.sample(buckets[key], k=len(buckets[key])) for key in action_types}
+    offsets = {key: 0 for key in action_types}
+    selected: list[list[dict[str, Any]]] = []
+    while len(selected) < count:
+        advanced = False
+        for action_type in action_types:
+            offset = offsets[action_type]
+            if offset >= len(shuffled[action_type]):
+                continue
+            selected.append(shuffled[action_type][offset])
+            offsets[action_type] = offset + 1
+            advanced = True
+            if len(selected) == count:
+                break
+        if not advanced:
+            break
+    return selected
+
+
 def train_oracle_ranking_step(
     model: TPIWorldModel,
     oracle_groups: list[list[dict[str, str]]],
@@ -993,35 +1663,71 @@ def train_oracle_ranking_step(
     graph_cache: dict[str, Any],
     base_cache: dict[str, torch.Tensor],
     epoch: int,
+    prefix_latent_cache: dict[tuple[str, tuple[tuple[str, str], ...]], torch.Tensor] | None = None,
 ) -> dict[str, float]:
     """Run one auxiliary oracle pairwise-ranking optimizer step."""
 
     rank_weight = _q_rank_weight(config, epoch)
+    same_type_rank_weight = _q_same_type_rank_weight(config, epoch)
+    aux_rank_weight = _aux_rank_weight(config, epoch)
+    aux_same_type_rank_weight = _aux_same_type_rank_weight(config, epoch)
     value_weight = _q_value_weight(config, epoch)
     candidate_weight = _q_candidate_weight(config, epoch)
+    action_type_weight = _q_action_type_weight(config, epoch)
+    action_family_weight = _q_action_family_weight(config, epoch)
     ndcg_weight = _q_ndcg_weight(config, epoch)
+    same_type_ndcg_weight = _q_same_type_ndcg_weight(config, epoch)
     conservative_weight = _q_conservative_weight(config, epoch)
     context_weight = _q_context_weight(config, epoch)
-    oracle_weight = max(rank_weight, value_weight, candidate_weight, ndcg_weight, conservative_weight, context_weight)
+    sa_value_weight = _q_sa_value_weight(config, epoch)
+    oracle_weight = max(
+        rank_weight,
+        same_type_rank_weight,
+        aux_rank_weight,
+        aux_same_type_rank_weight,
+        value_weight,
+        candidate_weight,
+        action_type_weight,
+        action_family_weight,
+        ndcg_weight,
+        same_type_ndcg_weight,
+        conservative_weight,
+        context_weight,
+        sa_value_weight,
+    )
     if oracle_weight <= 0.0 or not oracle_groups:
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
+            "oracle_same_type_rank_loss": 0.0,
+            "oracle_aux_rank_loss": 0.0,
+            "oracle_aux_same_type_rank_loss": 0.0,
             "oracle_value_loss": 0.0,
             "oracle_candidate_loss": 0.0,
+            "oracle_action_type_loss": 0.0,
+            "oracle_action_family_loss": 0.0,
             "oracle_ndcg_loss": 0.0,
+            "oracle_same_type_ndcg_loss": 0.0,
             "oracle_conservative_loss": 0.0,
             "oracle_context_loss": 0.0,
+            "oracle_sa_value_loss": 0.0,
             "oracle_pairs": 0.0,
+            "oracle_same_type_pairs": 0.0,
+            "oracle_aux_pairs": 0.0,
+            "oracle_aux_same_type_pairs": 0.0,
+            "oracle_action_types": 0.0,
+            "oracle_action_families": 0.0,
             "oracle_groups": 0.0,
             "oracle_weight": oracle_weight,
         }
     group_count = max(1, int(config.get("oracle_batch_groups", 1) or 1))
-    if len(oracle_groups) <= group_count:
-        groups = random.sample(oracle_groups, k=len(oracle_groups))
-    else:
-        groups = random.sample(oracle_groups, k=group_count)
+    groups = _sample_oracle_groups(
+        oracle_groups,
+        group_count,
+        str(config.get("oracle_group_sampling", "uniform")),
+    )
     score_field = str(config.get("oracle_ranking_score_field", "q_pred"))
+    aux_score_field = str(config.get("oracle_aux_ranking_score_field", "typed_return_pred"))
     coverage_scale = float(config.get("coverage_scale", 100.0))
     min_delta = float(config.get("oracle_pairwise_min_delta", 0.001)) * coverage_scale
     temperature = float(config.get("oracle_pairwise_temperature", 1.0))
@@ -1031,15 +1737,46 @@ def train_oracle_ranking_step(
     max_pairs_per_group = int(config.get("oracle_max_pairs_per_group", 0) or 0)
 
     rank_losses: list[torch.Tensor] = []
+    same_type_rank_losses: list[torch.Tensor] = []
+    aux_rank_losses: list[torch.Tensor] = []
+    aux_same_type_rank_losses: list[torch.Tensor] = []
     value_losses: list[torch.Tensor] = []
     candidate_losses: list[torch.Tensor] = []
+    action_type_losses: list[torch.Tensor] = []
+    action_family_losses: list[torch.Tensor] = []
     ndcg_losses: list[torch.Tensor] = []
+    same_type_ndcg_losses: list[torch.Tensor] = []
     conservative_losses: list[torch.Tensor] = []
     context_losses: list[torch.Tensor] = []
+    sa_value_losses: list[torch.Tensor] = []
     pair_total = 0
+    same_type_pair_total = 0
+    aux_pair_total = 0
+    aux_same_type_pair_total = 0
+    action_type_total = 0
+    action_family_total = 0
     for group in groups:
-        scores = _predict_oracle_group_scores(model, config, group, graph_cache, base_cache, device)
+        if prefix_latent_cache is None:
+            scores = _predict_oracle_group_scores(
+                model,
+                config,
+                group,
+                graph_cache,
+                base_cache,
+                device,
+            )
+        else:
+            scores = _predict_oracle_group_scores(
+                model,
+                config,
+                group,
+                graph_cache,
+                base_cache,
+                device,
+                prefix_latent_cache,
+            )
         preds = _oracle_score(scores, score_field)
+        aux_preds = _oracle_score(scores, aux_score_field)
         targets = torch.tensor(
             [coverage_scale * _safe_float(row.get("oracle_delta_tc")) for row in group],
             dtype=preds.dtype,
@@ -1059,74 +1796,218 @@ def train_oracle_ranking_step(
             if pair_count > 0:
                 rank_losses.append(rank_loss)
                 pair_total += int(pair_count)
+        if same_type_rank_weight > 0.0:
+            same_type_loss, same_type_pair_count = _oracle_same_type_rank_loss(
+                preds,
+                targets,
+                [str(row.get("type") or "") for row in group],
+                min_delta,
+                temperature,
+                mode=pairwise_mode,
+                hard_negative_topk=hard_negative_topk,
+                positive_topk=positive_topk,
+                max_pairs=max_pairs_per_group,
+            )
+            if same_type_pair_count > 0:
+                same_type_rank_losses.append(same_type_loss)
+                same_type_pair_total += int(same_type_pair_count)
+        if aux_rank_weight > 0.0:
+            aux_rank_loss, aux_pair_count = _oracle_pairwise_rank_loss(
+                aux_preds,
+                targets,
+                min_delta,
+                temperature,
+                mode=pairwise_mode,
+                hard_negative_topk=hard_negative_topk,
+                positive_topk=positive_topk,
+                max_pairs=max_pairs_per_group,
+            )
+            if aux_pair_count > 0:
+                aux_rank_losses.append(aux_rank_loss)
+                aux_pair_total += int(aux_pair_count)
+        if aux_same_type_rank_weight > 0.0:
+            aux_same_type_loss, aux_same_type_pair_count = _oracle_same_type_rank_loss(
+                aux_preds,
+                targets,
+                [str(row.get("type") or "") for row in group],
+                min_delta,
+                temperature,
+                mode=pairwise_mode,
+                hard_negative_topk=hard_negative_topk,
+                positive_topk=positive_topk,
+                max_pairs=max_pairs_per_group,
+            )
+            if aux_same_type_pair_count > 0:
+                aux_same_type_rank_losses.append(aux_same_type_loss)
+                aux_same_type_pair_total += int(aux_same_type_pair_count)
         if value_weight > 0.0:
             value_losses.append(F.smooth_l1_loss(preds, targets))
         if candidate_weight > 0.0 and preds.numel() >= 2:
             candidate_losses.append(_oracle_candidate_loss(preds, targets, config))
+        if action_type_weight > 0.0 and preds.numel() >= 2:
+            action_type_loss, action_type_count = _oracle_action_type_loss(
+                preds,
+                targets,
+                [str(row.get("type") or "") for row in group],
+                config,
+            )
+            if action_type_count > 0:
+                action_type_losses.append(action_type_loss)
+                action_type_total += int(action_type_count)
+        if action_family_weight > 0.0 and preds.numel() >= 2:
+            action_family_loss, action_family_count = _oracle_action_family_loss(
+                preds,
+                targets,
+                [str(row.get("type") or "") for row in group],
+                config,
+            )
+            if action_family_count > 0:
+                action_family_losses.append(action_family_loss)
+                action_family_total += int(action_family_count)
         if ndcg_weight > 0.0 and preds.numel() >= 2:
             ndcg_losses.append(_oracle_topk_ndcg_loss(preds, targets, config))
+        if same_type_ndcg_weight > 0.0 and preds.numel() >= 2:
+            same_type_ndcg_loss, type_list_count = _oracle_same_type_topk_ndcg_loss(
+                preds,
+                targets,
+                [str(row.get("type") or "") for row in group],
+                config,
+            )
+            if type_list_count > 0:
+                same_type_ndcg_losses.append(same_type_ndcg_loss)
         if conservative_weight > 0.0 and preds.numel() >= 2:
             conservative_losses.append(_oracle_conservative_loss(preds, targets, config))
         if context_weight > 0.0 and preds.numel() >= 2:
             context_losses.append(_oracle_context_loss(preds, targets, config))
+        if sa_value_weight > 0.0:
+            sa_preds = torch.stack(
+                [scores["typed_sa0_reduction_pred"], scores["typed_sa1_reduction_pred"]],
+                dim=1,
+            )
+            sa_targets, sa_mask = _oracle_sa_reduction_targets(
+                group,
+                dtype=sa_preds.dtype,
+                device=device,
+            )
+            if bool(sa_mask.any().item()):
+                sa_elements = F.smooth_l1_loss(sa_preds, sa_targets, reduction="none")
+                sa_value_losses.append(sa_elements[sa_mask].mean())
 
     if (
         not rank_losses
+        and not same_type_rank_losses
+        and not aux_rank_losses
+        and not aux_same_type_rank_losses
         and not value_losses
         and not candidate_losses
+        and not action_type_losses
+        and not action_family_losses
         and not ndcg_losses
+        and not same_type_ndcg_losses
         and not conservative_losses
         and not context_losses
+        and not sa_value_losses
     ):
         return {
             "oracle_loss": 0.0,
             "oracle_rank_loss": 0.0,
+            "oracle_same_type_rank_loss": 0.0,
+            "oracle_aux_rank_loss": 0.0,
+            "oracle_aux_same_type_rank_loss": 0.0,
             "oracle_value_loss": 0.0,
             "oracle_candidate_loss": 0.0,
+            "oracle_action_type_loss": 0.0,
+            "oracle_action_family_loss": 0.0,
             "oracle_ndcg_loss": 0.0,
+            "oracle_same_type_ndcg_loss": 0.0,
             "oracle_conservative_loss": 0.0,
             "oracle_context_loss": 0.0,
+            "oracle_sa_value_loss": 0.0,
             "oracle_pairs": 0.0,
+            "oracle_same_type_pairs": 0.0,
+            "oracle_aux_pairs": 0.0,
+            "oracle_aux_same_type_pairs": 0.0,
+            "oracle_action_types": 0.0,
+            "oracle_action_families": 0.0,
             "oracle_groups": float(len(groups)),
             "oracle_weight": oracle_weight,
         }
     zero = torch.zeros((), dtype=torch.float32, device=device)
     rank_loss = torch.stack(rank_losses).mean() if rank_losses else zero
+    same_type_rank_loss = torch.stack(same_type_rank_losses).mean() if same_type_rank_losses else zero
+    aux_rank_loss = torch.stack(aux_rank_losses).mean() if aux_rank_losses else zero
+    aux_same_type_rank_loss = (
+        torch.stack(aux_same_type_rank_losses).mean() if aux_same_type_rank_losses else zero
+    )
     value_loss = torch.stack(value_losses).mean() if value_losses else zero
     candidate_loss = torch.stack(candidate_losses).mean() if candidate_losses else zero
+    action_type_loss = torch.stack(action_type_losses).mean() if action_type_losses else zero
+    action_family_loss = (
+        torch.stack(action_family_losses).mean() if action_family_losses else zero
+    )
     ndcg_loss = torch.stack(ndcg_losses).mean() if ndcg_losses else zero
+    same_type_ndcg_loss = (
+        torch.stack(same_type_ndcg_losses).mean() if same_type_ndcg_losses else zero
+    )
     conservative_loss = torch.stack(conservative_losses).mean() if conservative_losses else zero
     context_loss = torch.stack(context_losses).mean() if context_losses else zero
+    sa_value_loss = torch.stack(sa_value_losses).mean() if sa_value_losses else zero
     loss = (
         rank_weight * rank_loss
+        + same_type_rank_weight * same_type_rank_loss
+        + aux_rank_weight * aux_rank_loss
+        + aux_same_type_rank_weight * aux_same_type_rank_loss
         + value_weight * value_loss
         + candidate_weight * candidate_loss
+        + action_type_weight * action_type_loss
+        + action_family_weight * action_family_loss
         + ndcg_weight * ndcg_loss
+        + same_type_ndcg_weight * same_type_ndcg_loss
         + conservative_weight * conservative_loss
         + context_weight * context_loss
+        + sa_value_weight * sa_value_loss
     )
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
     torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
     optimizer.step()
-    update_ema(model.target_encoder, model.online_encoder, float(config["ema_decay"]))
+    update_ema_if_encoder_trainable(model, float(config["ema_decay"]))
     return {
         "oracle_loss": float(loss.detach().cpu().item()),
         "oracle_rank_loss": float(rank_loss.detach().cpu().item()),
+        "oracle_same_type_rank_loss": float(same_type_rank_loss.detach().cpu().item()),
+        "oracle_aux_rank_loss": float(aux_rank_loss.detach().cpu().item()),
+        "oracle_aux_same_type_rank_loss": float(aux_same_type_rank_loss.detach().cpu().item()),
         "oracle_value_loss": float(value_loss.detach().cpu().item()),
         "oracle_candidate_loss": float(candidate_loss.detach().cpu().item()),
+        "oracle_action_type_loss": float(action_type_loss.detach().cpu().item()),
+        "oracle_action_family_loss": float(action_family_loss.detach().cpu().item()),
         "oracle_ndcg_loss": float(ndcg_loss.detach().cpu().item()),
+        "oracle_same_type_ndcg_loss": float(same_type_ndcg_loss.detach().cpu().item()),
         "oracle_conservative_loss": float(conservative_loss.detach().cpu().item()),
         "oracle_context_loss": float(context_loss.detach().cpu().item()),
+        "oracle_sa_value_loss": float(sa_value_loss.detach().cpu().item()),
         "oracle_pairs": float(pair_total),
+        "oracle_same_type_pairs": float(same_type_pair_total),
+        "oracle_aux_pairs": float(aux_pair_total),
+        "oracle_aux_same_type_pairs": float(aux_same_type_pair_total),
+        "oracle_action_types": float(action_type_total),
+        "oracle_action_families": float(action_family_total),
         "oracle_groups": float(
             max(
                 len(rank_losses),
+                len(same_type_rank_losses),
+                len(aux_rank_losses),
+                len(aux_same_type_rank_losses),
                 len(value_losses),
                 len(candidate_losses),
+                len(action_type_losses),
+                len(action_family_losses),
                 len(ndcg_losses),
+                len(same_type_ndcg_losses),
                 len(conservative_losses),
                 len(context_losses),
+                len(sa_value_losses),
             )
         ),
         "oracle_weight": oracle_weight,
@@ -1146,6 +2027,9 @@ def train_one_epoch(
     oracle_groups: list[list[dict[str, str]]] | None = None,
     oracle_graph_cache: dict[str, Any] | None = None,
     oracle_base_cache: dict[str, torch.Tensor] | None = None,
+    oracle_prefix_latent_cache: (
+        dict[tuple[str, tuple[tuple[str, str], ...]], torch.Tensor] | None
+    ) = None,
 ) -> dict:
     """Train for one shuffled pass or until `max_steps` is reached."""
 
@@ -1172,7 +2056,7 @@ def train_one_epoch(
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
-        update_ema(model.target_encoder, model.online_encoder, float(config["ema_decay"]))
+        update_ema_if_encoder_trainable(model, float(config["ema_decay"]))
         for key, value in metrics.items():
             totals[key] = totals.get(key, 0.0) + value
         steps += 1
@@ -1186,6 +2070,7 @@ def train_one_epoch(
                 oracle_graph_cache,
                 oracle_base_cache,
                 epoch,
+                oracle_prefix_latent_cache,
             )
             oracle_steps += 1
             for key, value in oracle_metrics.items():
@@ -1227,14 +2112,28 @@ def _train_progress_line(
         f"hard={_avg_metric(totals, 'hard_bce_loss', step, oracle_steps):.5f}",
         f"hard_red={_avg_metric(totals, 'hard_reduction_loss', step, oracle_steps):.5f}",
     ]
+    if "typed_marginal_loss" in totals:
+        parts.extend(
+            [
+                f"typed_m={_avg_metric(totals, 'typed_marginal_loss', step, oracle_steps):.5f}",
+                f"typed_ret={_avg_metric(totals, 'typed_return_loss', step, oracle_steps):.5f}",
+                f"typed_sa={_avg_metric(totals, 'typed_sa_reduction_loss', step, oracle_steps):.5f}",
+            ]
+        )
     if oracle_steps > 0:
         parts.extend(
             [
                 f"oracle={_avg_metric(totals, 'oracle_loss', step, oracle_steps):.5f}",
                 f"rank={_avg_metric(totals, 'oracle_rank_loss', step, oracle_steps):.5f}",
+                f"same={_avg_metric(totals, 'oracle_same_type_rank_loss', step, oracle_steps):.5f}",
+                f"aux_rank={_avg_metric(totals, 'oracle_aux_rank_loss', step, oracle_steps):.5f}",
+                f"aux_same={_avg_metric(totals, 'oracle_aux_same_type_rank_loss', step, oracle_steps):.5f}",
                 f"value={_avg_metric(totals, 'oracle_value_loss', step, oracle_steps):.5f}",
                 f"cand={_avg_metric(totals, 'oracle_candidate_loss', step, oracle_steps):.5f}",
+                f"type={_avg_metric(totals, 'oracle_action_type_loss', step, oracle_steps):.5f}",
+                f"family={_avg_metric(totals, 'oracle_action_family_loss', step, oracle_steps):.5f}",
                 f"ndcg={_avg_metric(totals, 'oracle_ndcg_loss', step, oracle_steps):.5f}",
+                f"same_ndcg={_avg_metric(totals, 'oracle_same_type_ndcg_loss', step, oracle_steps):.5f}",
                 f"cql={_avg_metric(totals, 'oracle_conservative_loss', step, oracle_steps):.5f}",
                 f"ctx={_avg_metric(totals, 'oracle_context_loss', step, oracle_steps):.5f}",
                 f"pairs={_avg_metric(totals, 'oracle_pairs', step, oracle_steps):.1f}",
@@ -1346,6 +2245,10 @@ def main() -> None:
     config.setdefault("lambda_hard", 0.7)
     config.setdefault("lambda_hard_count", 0.1)
     config.setdefault("lambda_hard_reduction", 0.5)
+    config.setdefault("lambda_typed_marginal", 0.0)
+    config.setdefault("lambda_typed_return", 0.0)
+    config.setdefault("lambda_typed_sa_reduction", 0.0)
+    config.setdefault("utility_head_type", "legacy")
     config.setdefault("hard_pos_weight_max", 20.0)
     config.setdefault("hard_loss", "bce")
     config.setdefault("lambda_hard_rank", 0.0)
@@ -1355,8 +2258,20 @@ def main() -> None:
     config.setdefault("lambda_oracle_value", 0.0)
     config.setdefault("lambda_q_value", config.get("lambda_oracle_value", 0.0))
     config.setdefault("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))
+    config.setdefault("lambda_same_type_rank", 0.0)
+    config.setdefault("lambda_aux_rank", 0.0)
+    config.setdefault("lambda_aux_same_type_rank", 0.0)
     config.setdefault("lambda_candidate", 0.0)
+    config.setdefault("lambda_action_type_rank", 0.0)
+    config.setdefault("oracle_action_type_aggregate_temperature", 0.10)
+    config.setdefault("oracle_action_type_target_temperature", 0.025)
+    config.setdefault("oracle_action_type_pred_temperature", 0.35)
+    config.setdefault("lambda_action_family_rank", 0.0)
+    config.setdefault("oracle_action_family_aggregate_temperature", 0.10)
+    config.setdefault("oracle_action_family_target_temperature", 0.025)
+    config.setdefault("oracle_action_family_pred_temperature", 0.35)
     config.setdefault("lambda_ndcg_rank", 0.0)
+    config.setdefault("lambda_same_type_ndcg_rank", 0.0)
     config.setdefault("oracle_ndcg_k", 8)
     config.setdefault("oracle_ndcg_target_temperature", 0.5)
     config.setdefault("oracle_ndcg_pred_temperature", 1.0)
@@ -1372,10 +2287,12 @@ def main() -> None:
     config.setdefault("oracle_context_top_weight", 0.0)
     config.setdefault("oracle_context_weight_temperature", 0.5)
     config.setdefault("oracle_ranking_score_field", "q_pred")
+    config.setdefault("oracle_aux_ranking_score_field", "typed_return_pred")
     config.setdefault("candidate_target_temperature", 1.0)
     config.setdefault("candidate_pred_temperature", 1.0)
     config.setdefault("oracle_every_n_steps", 4)
     config.setdefault("oracle_batch_groups", 4)
+    config.setdefault("oracle_group_sampling", "uniform")
     config.setdefault("oracle_warmup_epochs", 1)
     config.setdefault("oracle_ramp_epochs", 2)
     config.setdefault("oracle_pairwise_min_delta", 0.001)
@@ -1384,6 +2301,7 @@ def main() -> None:
     config.setdefault("oracle_hard_negative_topk", 0)
     config.setdefault("oracle_positive_topk", 1)
     config.setdefault("oracle_max_pairs_per_group", 0)
+    config.setdefault("oracle_prefix_detach", True)
     config.setdefault("hard_soft_f1_eps", 1e-6)
     config.setdefault("hard_rank_margin", 0.2)
     config.setdefault("hard_negative_sample_ratio", 0)
@@ -1408,11 +2326,18 @@ def main() -> None:
         config.get("oracle_actions")
         and max(
             float(config.get("lambda_q_rank", config.get("lambda_oracle_rank", 0.0))),
+            float(config.get("lambda_same_type_rank", 0.0)),
+            float(config.get("lambda_aux_rank", 0.0)),
+            float(config.get("lambda_aux_same_type_rank", 0.0)),
             float(config.get("lambda_q_value", config.get("lambda_oracle_value", 0.0))),
             float(config.get("lambda_candidate", 0.0)),
+            float(config.get("lambda_action_type_rank", 0.0)),
+            float(config.get("lambda_action_family_rank", 0.0)),
             float(config.get("lambda_ndcg_rank", 0.0)),
+            float(config.get("lambda_same_type_ndcg_rank", 0.0)),
             float(config.get("lambda_conservative_q", 0.0)),
             float(config.get("lambda_context_rank", 0.0)),
+            float(config.get("lambda_oracle_sa_value", 0.0)),
         )
         > 0.0
     )
@@ -1427,12 +2352,21 @@ def main() -> None:
         print(
             f"[train] q_oracle enabled groups={len(oracle_groups)} "
             f"score_field={config['oracle_ranking_score_field']} "
+            f"aux_score_field={config['oracle_aux_ranking_score_field']} "
             f"lambda_q_value={float(config['lambda_q_value'])} "
             f"lambda_q_rank={float(config['lambda_q_rank'])} "
+            f"lambda_same_type_rank={float(config['lambda_same_type_rank'])} "
+            f"lambda_aux_rank={float(config['lambda_aux_rank'])} "
+            f"lambda_aux_same_type_rank={float(config['lambda_aux_same_type_rank'])} "
             f"lambda_candidate={float(config['lambda_candidate'])} "
+            f"lambda_action_type_rank={float(config['lambda_action_type_rank'])} "
+            f"lambda_action_family_rank={float(config['lambda_action_family_rank'])} "
             f"lambda_ndcg_rank={float(config['lambda_ndcg_rank'])} "
+            f"lambda_same_type_ndcg_rank={float(config['lambda_same_type_ndcg_rank'])} "
             f"lambda_conservative_q={float(config['lambda_conservative_q'])} "
             f"lambda_context_rank={float(config['lambda_context_rank'])} "
+            f"lambda_oracle_sa_value={float(config['lambda_oracle_sa_value'])} "
+            f"group_sampling={config['oracle_group_sampling']} "
             f"pairwise_mode={config['oracle_pairwise_mode']} "
             f"forbidden_benchmarks={len(oracle_forbidden)}"
         )
@@ -1520,10 +2454,45 @@ def main() -> None:
         encoder_type=str(config.get("encoder_type", "mean")),
         summary_mode=str(config.get("summary_mode", "global")),
         q_head_type=str(config.get("q_head_type", "summary")),
+        utility_head_type=str(config.get("utility_head_type", "legacy")),
     ).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=float(config["lr"]))
+    if config.get("init_checkpoint"):
+        initialize_from_checkpoint(
+            model,
+            config["init_checkpoint"],
+            device,
+            feature_dim=feature_dim,
+            relation_dim=relation_dim,
+            strict=bool(config.get("init_checkpoint_strict", True)),
+        )
+        print(
+            f"[train] initialized checkpoint={config['init_checkpoint']} "
+            f"strict={bool(config.get('init_checkpoint_strict', True))}"
+        )
+    trainable_parameters = configure_trainable_parameters(
+        model,
+        str(config.get("trainable_modules", "all")),
+    )
+    trainable_count = sum(parameter.numel() for parameter in trainable_parameters)
+    total_count = sum(parameter.numel() for parameter in model.parameters())
+    print(
+        f"[train] trainable_modules={config.get('trainable_modules', 'all')} "
+        f"trainable_parameters={trainable_count}/{total_count}"
+    )
+    optimizer = torch.optim.AdamW(trainable_parameters, lr=float(config["lr"]))
     oracle_graph_cache: dict[str, Any] = {}
     oracle_base_cache: dict[str, torch.Tensor] = {}
+    oracle_prefix_latent_cache = None
+    if bool(config.get("oracle_cache_prefix_latents", False)):
+        prefix_modules = (model.online_encoder, model.action_encoder, model.dynamics)
+        if any(parameter.requires_grad for module in prefix_modules for parameter in module.parameters()):
+            raise ValueError(
+                "oracle_cache_prefix_latents requires frozen online_encoder, action_encoder, and dynamics"
+            )
+        if float(config.get("dropout", 0.0)) != 0.0:
+            raise ValueError("oracle_cache_prefix_latents requires dropout=0 for exact replay caching")
+        oracle_prefix_latent_cache = {}
+        print("[train] oracle prefix-latent cache enabled", flush=True)
 
     history: list[dict] = []
     best_val = float("inf")
@@ -1548,6 +2517,7 @@ def main() -> None:
             oracle_groups=oracle_groups,
             oracle_graph_cache=oracle_graph_cache,
             oracle_base_cache=oracle_base_cache,
+            oracle_prefix_latent_cache=oracle_prefix_latent_cache,
         )
         val_metrics = evaluate(
             model,
