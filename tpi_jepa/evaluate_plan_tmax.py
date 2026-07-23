@@ -201,11 +201,16 @@ def evaluate_plan(
     cleanup_workdir: bool,
     eval_step_mode: str = "all",
     save_step_training_data: bool = False,
+    max_steps: int | None = None,
 ) -> list[dict[str, Any]]:
     if eval_step_mode not in {"all", "final"}:
         raise ValueError(f"unsupported eval_step_mode={eval_step_mode!r}; expected 'all' or 'final'")
     bench_path = find_bench_path(benchmark_id)
     plan_rows = _read_plan(plan_csv)
+    if max_steps is not None:
+        if max_steps < 0:
+            raise ValueError("max_steps must be non-negative")
+        plan_rows = plan_rows[:max_steps]
     candidate_count, candidate_ids = _candidate_ids_by_net(bench_path)
 
     sequence_id = 0
@@ -397,6 +402,12 @@ def main() -> None:
         action="store_true",
         help="Write step_training_labels.jsonl with non-baseline step records. Use with --eval-step-mode all for dense labels.",
     )
+    parser.add_argument(
+        "--max-steps",
+        type=int,
+        default=None,
+        help="Evaluate only the first N plan actions while retaining their cumulative prefix.",
+    )
     args = parser.parse_args()
 
     rows = evaluate_plan(
@@ -414,6 +425,7 @@ def main() -> None:
         cleanup_workdir=args.cleanup_workdir,
         eval_step_mode=args.eval_step_mode,
         save_step_training_data=args.save_step_training_data,
+        max_steps=args.max_steps,
     )
     print(
         json.dumps(

@@ -1,0 +1,17 @@
+# metric_direction: higher_is_better
+iteration	timestamp	commit	metric	delta	guard	guard-metric	status	description
+0	2026-07-18T03:00:00+08:00	-	-0.534000000	0.0	pass	b22+b17 exact legal	baseline	v5 q-context c48 seeds1024 no clipping
+1	2026-07-18T03:48:00+08:00	-	-0.380000000	0.154000000	pass	b22+b17 exact legal	keep	latent norm clip ratio 4
+2	2026-07-18T03:48:00+08:00	-	-0.390000000	-0.010000000	pass	b22+b17 exact legal	discard	hard seeds 1536
+3	2026-07-18T03:48:00+08:00	-	-0.524000000	-0.144000000	pass	b22+b17 exact legal	discard	hard seeds 2048
+4	2026-07-18T03:48:00+08:00	-	-0.749000000	-0.369000000	pass	b22+b17 exact legal	discard	latent norm clip ratio 2
+5	2026-07-18T03:48:00+08:00	-	-1.794000000	-1.414000000	pass	b22+b17 exact legal	discard	latent norm clip ratio 1
+6	2026-07-18T03:48:00+08:00	-	-2.667000000	-2.287000000	pass	b22+b17 exact legal	discard	hard-fault recall union c96
+7	2026-07-18T04:51:00+08:00	-	-1.521000000	-1.141000000	pass	b22+b17 exact legal	discard	four-model LCB with pool support
+8	2026-07-18T04:51:00+08:00	-	-1.582000000	-1.202000000	pass	b22+b17 exact legal	discard	four-model raw LCB alpha0.75
+9	2026-07-18T04:51:00+08:00	-	-1.870000000	-1.490000000	pass	b22+b17 exact legal	discard	four-model context-LCB blend
+10	2026-07-18T04:51:00+08:00	-	-2.169000000	-1.789000000	pass	b22+b17 exact legal	discard	three-model raw LCB alpha0.75
+11	2026-07-18T04:58:00+08:00	-	-2.955000000	-2.575000000	pass	b22+b17 exact legal	discard	recall union c48
+12	2026-07-18T04:58:00+08:00	-	-3.380000000	-3.000000000	pass	b22+b17 exact legal	discard	recall union c64
+13	2026-07-18T04:58:00+08:00	-	-2.742000000	-2.362000000	pass	b22+b17 exact legal	discard	recall union c80
+14	2026-07-18T04:58:00+08:00	-	-3.774000000	-3.394000000	pass	b22+b17 exact legal	discard	recall96 model48 staged pool
