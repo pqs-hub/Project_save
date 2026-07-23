@@ -1,0 +1,33 @@
+{
+  "round": 22,
+  "purpose": "top-action and cross-action-type hard-negative continuation",
+  "selection_circuit": "b15_C only",
+  "target_circuits_in_training": false,
+  "variants": {
+    "toptype_r21_hard": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round21/runs/horizon_r10_pairwise/epoch_010.pt",
+      "oracle_pairwise_mode": "best_vs_hard_topk"
+    },
+    "toptype_r21_all": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round21/runs/horizon_r10_pairwise/epoch_010.pt",
+      "oracle_pairwise_mode": "all"
+    },
+    "toptype_r10_hard": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round10/runs/return_within_lr5e4/epoch_008.pt",
+      "oracle_pairwise_mode": "best_vs_hard_topk"
+    }
+  },
+  "heldout_non_target_benchmarks": [
+    "subckt_0230",
+    "subckt_0360"
+  ],
+  "ultralong_repeat": 8,
+  "loss": {
+    "pairwise_mode": "best_vs_hard_topk",
+    "positive_topk": 2,
+    "lambda_q_rank": 1.5,
+    "lambda_same_type_rank": 0.1,
+    "lambda_candidate": 0.25,
+    "lambda_ndcg_rank": 0.25
+  }
+}
