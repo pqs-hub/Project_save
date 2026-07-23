@@ -186,6 +186,742 @@ class ResidualHardHead(nn.Module):
         return self.output(hidden)
 
 
+class TypedUtilityHead(nn.Module):
+    """Action-conditioned marginal, long-return, and SA0/SA1 utility heads.
+
+    The shared trunk sees the current action node, the predicted graph summary,
+    and an explicit action-type embedding.  A FiLM transform makes the three
+    action types use different affine views of the same structural context,
+    while the output heads retain separately supervised semantics.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        dropout: float = 0.1,
+    ):
+        super().__init__()
+        self.context = nn.Linear(summary_dim + latent_dim, latent_dim)
+        self.type_film = nn.Linear(action_type_dim, latent_dim * 2)
+        self.block = nn.Sequential(
+            nn.LayerNorm(latent_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(latent_dim, latent_dim),
+            nn.GELU(),
+        )
+        self.marginal = nn.Linear(latent_dim, 1)
+        self.long_return = nn.Linear(latent_dim, 1)
+        self.sa_reduction = nn.Linear(latent_dim, 2)
+
+    def _hidden(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+    ) -> torch.Tensor:
+        base = self.context(torch.cat([summary, action_node_z], dim=0))
+        scale, bias = self.type_film(action_type_z).chunk(2, dim=0)
+        conditioned = base * (1.0 + torch.tanh(scale)) + bias
+        return base + self.block(conditioned)
+
+    def _outputs(self, hidden: torch.Tensor) -> dict[str, torch.Tensor]:
+        return {
+            "typed_marginal_pred": self.marginal(hidden).view(()),
+            "typed_return_pred": self.long_return(hidden).view(()),
+            "typed_sa_reduction_pred": self.sa_reduction(hidden),
+        }
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        return self._outputs(self._hidden(summary, action_node_z, action_type_z))
+
+
+class TypedConeUtilityHead(TypedUtilityHead):
+    """Typed utility head augmented with explicit action-cone state/effect pools."""
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+    ):
+        super().__init__(summary_dim + cone_context_dim, latent_dim, action_type_dim, dropout)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        return super().forward(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+
+
+class TypedConeMoEUtilityHead(TypedConeUtilityHead):
+    """Cone utility head with zero-initialized type-gated residual experts.
+
+    The inherited shared path is checkpoint-compatible with
+    :class:`TypedConeUtilityHead`.  Three small experts specialize node ranking
+    for the action types while a gate derived from the frozen type embedding
+    mixes them.  Zero-initialized expert outputs make a migrated checkpoint
+    start exactly from the shared-head predictions instead of perturbing a
+    production policy before real-ATPG fine-tuning.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(summary_dim, latent_dim, action_type_dim, cone_context_dim, dropout)
+        expert_dim = max(8, latent_dim // 2)
+        self.expert_gate = nn.Linear(action_type_dim, num_experts, bias=False)
+        self.type_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim),
+                    nn.Linear(latent_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 4),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.type_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        outputs = self._outputs(hidden)
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        expert_values = torch.stack([expert(hidden) for expert in self.type_experts], dim=0)
+        residual = (gate.view(-1, 1) * expert_values).sum(dim=0)
+        return {
+            "typed_marginal_pred": outputs["typed_marginal_pred"] + residual[0],
+            "typed_return_pred": outputs["typed_return_pred"] + residual[1],
+            "typed_sa_reduction_pred": outputs["typed_sa_reduction_pred"] + residual[2:4],
+        }
+
+
+class TypedConeReturnRankMoEUtilityHead(TypedConeMoEUtilityHead):
+    """MoE utility head with an isolated return-ranking residual adapter.
+
+    The existing shared and type-expert paths are checkpoint-compatible with
+    :class:`TypedConeMoEUtilityHead`.  A second, zero-initialized expert bank
+    can therefore learn oracle ordering for ``typed_return_pred`` without
+    changing marginal-TC, SA-reduction, encoder, or dynamics predictions.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        expert_dim = max(8, latent_dim // 2)
+        self.return_rank_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim),
+                    nn.Linear(latent_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 1),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.return_rank_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        outputs = self._outputs(hidden)
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        type_values = torch.stack([expert(hidden) for expert in self.type_experts], dim=0)
+        type_residual = (gate.view(-1, 1) * type_values).sum(dim=0)
+        return_values = torch.stack(
+            [expert(hidden).reshape(()) for expert in self.return_rank_experts],
+            dim=0,
+        )
+        return_residual = (gate * return_values).sum()
+        return {
+            "typed_marginal_pred": outputs["typed_marginal_pred"] + type_residual[0],
+            "typed_return_pred": outputs["typed_return_pred"] + type_residual[1] + return_residual,
+            "typed_sa_reduction_pred": outputs["typed_sa_reduction_pred"] + type_residual[2:4],
+        }
+
+
+class TypedConeHorizonMoEUtilityHead(TypedConeMoEUtilityHead):
+    """MoE utility head with a zero-initialized sequence-position residual.
+
+    Long planner rollouts previously forced the typed head to infer the
+    sequence phase only from a recurrent latent that was trained mostly at
+    prefixes no longer than 127.  Bounded analytic step features give a small
+    expert branch direct access to the horizon while preserving an existing
+    ``typed_cone_moe`` checkpoint exactly at initialization.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        self.horizon_feature_dim = 4
+        expert_dim = max(8, latent_dim // 2)
+        self.horizon_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim + self.horizon_feature_dim),
+                    nn.Linear(latent_dim + self.horizon_feature_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 4),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.horizon_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    @staticmethod
+    def _horizon_features(
+        sequence_step: int | torch.Tensor,
+        *,
+        dtype: torch.dtype,
+        device: torch.device,
+    ) -> torch.Tensor:
+        step = torch.as_tensor(sequence_step, dtype=dtype, device=device).reshape(()).clamp_min(0.0)
+        log_denominator = torch.log(step.new_tensor(1025.0))
+        return torch.stack(
+            [
+                (torch.log1p(step) / log_denominator).clamp(0.0, 1.0),
+                torch.exp(-step / 64.0),
+                torch.exp(-step / 256.0),
+                (1.0 - torch.exp(-step / 128.0)).clamp(0.0, 1.0),
+            ]
+        )
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        outputs = self._outputs(hidden)
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        type_values = torch.stack([expert(hidden) for expert in self.type_experts], dim=0)
+        type_residual = (gate.view(-1, 1) * type_values).sum(dim=0)
+
+        horizon = self._horizon_features(
+            sequence_step,
+            dtype=hidden.dtype,
+            device=hidden.device,
+        )
+        horizon_input = torch.cat([hidden, horizon], dim=0)
+        horizon_values = torch.stack(
+            [expert(horizon_input) for expert in self.horizon_experts],
+            dim=0,
+        )
+        horizon_residual = (gate.view(-1, 1) * horizon_values).sum(dim=0)
+        residual = type_residual + horizon_residual
+        return {
+            "typed_marginal_pred": outputs["typed_marginal_pred"] + residual[0],
+            "typed_return_pred": outputs["typed_return_pred"] + residual[1],
+            "typed_sa_reduction_pred": outputs["typed_sa_reduction_pred"] + residual[2:4],
+        }
+
+
+class TypedConeReturnHorizonRankMoEUtilityHead(TypedConeReturnRankMoEUtilityHead):
+    """Return ranker with an isolated explicit long-horizon residual.
+
+    The inherited return adapter retains its learned node/type ordering.  A
+    second zero-initialized expert bank receives bounded sequence-position
+    features, so ultra-long ATPG labels can correct only the return score at
+    late planner states without perturbing any incumbent voter at migration.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        self.horizon_feature_dim = 4
+        expert_dim = max(8, latent_dim // 2)
+        self.horizon_return_rank_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim + self.horizon_feature_dim),
+                    nn.Linear(latent_dim + self.horizon_feature_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 1),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.horizon_return_rank_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        outputs = self._outputs(hidden)
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        type_values = torch.stack([expert(hidden) for expert in self.type_experts], dim=0)
+        type_residual = (gate.view(-1, 1) * type_values).sum(dim=0)
+        return_values = torch.stack(
+            [expert(hidden).reshape(()) for expert in self.return_rank_experts],
+            dim=0,
+        )
+        return_residual = (gate * return_values).sum()
+
+        horizon = TypedConeHorizonMoEUtilityHead._horizon_features(
+            sequence_step,
+            dtype=hidden.dtype,
+            device=hidden.device,
+        )
+        horizon_input = torch.cat([hidden, horizon], dim=0)
+        horizon_values = torch.stack(
+            [expert(horizon_input).reshape(()) for expert in self.horizon_return_rank_experts],
+            dim=0,
+        )
+        horizon_residual = (gate * horizon_values).sum()
+        return {
+            "typed_marginal_pred": outputs["typed_marginal_pred"] + type_residual[0],
+            "typed_return_pred": (
+                outputs["typed_return_pred"]
+                + type_residual[1]
+                + return_residual
+                + horizon_residual
+            ),
+            "typed_sa_reduction_pred": outputs["typed_sa_reduction_pred"] + type_residual[2:4],
+        }
+
+
+class TypedConeReturnLateHorizonRankMoEUtilityHead(TypedConeReturnHorizonRankMoEUtilityHead):
+    """A return residual that is structurally inactive through the b15 budget.
+
+    ``sequence_step`` is zero based in the planner, so the last action of the
+    278-point b15 protocol is scored at step 277.  The late branch is exactly
+    zero through that step and reaches full strength at the first ultra-long
+    supervision prefix (320).  This lets long-horizon ATPG labels change
+    b20/b21/b22/b17 behavior without perturbing the b15-selected incumbent.
+    """
+
+    late_start_step = 277.0
+    late_full_step = 320.0
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        expert_dim = max(8, latent_dim // 2)
+        self.late_return_rank_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim + self.horizon_feature_dim),
+                    nn.Linear(latent_dim + self.horizon_feature_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 1),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.late_return_rank_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    @classmethod
+    def _late_gate(
+        cls,
+        sequence_step: int | torch.Tensor,
+        *,
+        dtype: torch.dtype,
+        device: torch.device,
+    ) -> torch.Tensor:
+        step = torch.as_tensor(sequence_step, dtype=dtype, device=device).reshape(())
+        width = cls.late_full_step - cls.late_start_step
+        return ((step - cls.late_start_step) / width).clamp(0.0, 1.0)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        outputs = super().forward(
+            summary,
+            action_node_z,
+            action_type_z,
+            cone_context,
+            sequence_step=sequence_step,
+        )
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        horizon = TypedConeHorizonMoEUtilityHead._horizon_features(
+            sequence_step,
+            dtype=hidden.dtype,
+            device=hidden.device,
+        )
+        horizon_input = torch.cat([hidden, horizon], dim=0)
+        late_values = torch.stack(
+            [expert(horizon_input).reshape(()) for expert in self.late_return_rank_experts],
+            dim=0,
+        )
+        late_residual = (gate * late_values).sum()
+        late_gate = self._late_gate(
+            sequence_step,
+            dtype=hidden.dtype,
+            device=hidden.device,
+        )
+        return outputs | {
+            "typed_return_pred": outputs["typed_return_pred"] + late_gate * late_residual,
+        }
+
+
+class TypedConeReturnLateTypeRankMoEUtilityHead(TypedConeReturnHorizonRankMoEUtilityHead):
+    """Low-capacity late-horizon calibration of CP0/CP1/OP utility.
+
+    The adapter sees only the frozen action-type embedding and analytic horizon
+    features.  Consequently it can shift one action family relative to the
+    others, but cannot relearn (and overfit) node ordering inside a family.
+    Its last layer is zero initialized and the structural late gate is exactly
+    zero through b15's final action, preserving the selected b15 policy.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        adapter_input_dim = action_type_dim + self.horizon_feature_dim
+        adapter_hidden_dim = 8
+        self.late_type_calibrator = nn.Sequential(
+            nn.LayerNorm(adapter_input_dim),
+            nn.Linear(adapter_input_dim, adapter_hidden_dim),
+            nn.Tanh(),
+            nn.Linear(adapter_hidden_dim, 1),
+        )
+        nn.init.zeros_(self.late_type_calibrator[-1].weight)
+        nn.init.zeros_(self.late_type_calibrator[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        outputs = super().forward(
+            summary,
+            action_node_z,
+            action_type_z,
+            cone_context,
+            sequence_step=sequence_step,
+        )
+        horizon = TypedConeHorizonMoEUtilityHead._horizon_features(
+            sequence_step,
+            dtype=action_type_z.dtype,
+            device=action_type_z.device,
+        )
+        type_residual = self.late_type_calibrator(
+            torch.cat([action_type_z, horizon], dim=0)
+        ).reshape(())
+        late_gate = TypedConeReturnLateHorizonRankMoEUtilityHead._late_gate(
+            sequence_step,
+            dtype=action_type_z.dtype,
+            device=action_type_z.device,
+        )
+        return outputs | {
+            "typed_return_pred": outputs["typed_return_pred"] + late_gate * type_residual,
+        }
+
+
+class TypedConeReturnLateControlRankMoEUtilityHead(TypedConeReturnHorizonRankMoEUtilityHead):
+    """Late binary Control-vs-Observe calibration with preserved polarity.
+
+    Non-target oracle circuits agree much more strongly on whether a late test
+    point should be a control point than on whether its forcing polarity should
+    be CP0 or CP1.  This 25-parameter adapter therefore applies one identical
+    horizon-dependent shift to both control types and leaves OP at zero.  It
+    cannot alter node ordering or the incumbent CP0/CP1 preference.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        hidden_dim = 4
+        self.late_control_calibrator = nn.Sequential(
+            nn.Linear(self.horizon_feature_dim, hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, 1),
+        )
+        nn.init.zeros_(self.late_control_calibrator[-1].weight)
+        nn.init.zeros_(self.late_control_calibrator[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+        action_type_id: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        outputs = super().forward(
+            summary,
+            action_node_z,
+            action_type_z,
+            cone_context,
+            sequence_step=sequence_step,
+        )
+        horizon = TypedConeHorizonMoEUtilityHead._horizon_features(
+            sequence_step,
+            dtype=action_type_z.dtype,
+            device=action_type_z.device,
+        )
+        control_residual = self.late_control_calibrator(horizon).reshape(())
+        type_id = torch.as_tensor(
+            action_type_id,
+            dtype=torch.long,
+            device=action_type_z.device,
+        ).reshape(())
+        # ActionEncoder uses 0=CP0, 1=CP1, 2=OP.
+        is_control = (type_id != 2).to(dtype=action_type_z.dtype)
+        late_gate = TypedConeReturnLateHorizonRankMoEUtilityHead._late_gate(
+            sequence_step,
+            dtype=action_type_z.dtype,
+            device=action_type_z.device,
+        )
+        return outputs | {
+            "typed_return_pred": (
+                outputs["typed_return_pred"]
+                + late_gate * is_control * control_residual
+            ),
+        }
+
+
+class TypedConeMarginalHorizonRankMoEUtilityHead(TypedConeMoEUtilityHead):
+    """Isolated horizon-aware oracle residual for marginal-TC ordering.
+
+    Unlike the Round9 joint horizon experts, this branch cannot alter return,
+    SA-reduction, shared typed utility, or legacy world-model predictions.  It
+    adds one zero-initialized scalar to ``typed_marginal_pred`` and receives
+    explicit sequence-position features for late-prefix supervision.
+    """
+
+    def __init__(
+        self,
+        summary_dim: int,
+        latent_dim: int,
+        action_type_dim: int,
+        cone_context_dim: int,
+        dropout: float = 0.1,
+        num_experts: int = 3,
+    ):
+        super().__init__(
+            summary_dim,
+            latent_dim,
+            action_type_dim,
+            cone_context_dim,
+            dropout,
+            num_experts,
+        )
+        self.horizon_feature_dim = 4
+        expert_dim = max(8, latent_dim // 2)
+        self.marginal_rank_experts = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.LayerNorm(latent_dim + self.horizon_feature_dim),
+                    nn.Linear(latent_dim + self.horizon_feature_dim, expert_dim),
+                    nn.GELU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(expert_dim, 1),
+                )
+                for _ in range(num_experts)
+            ]
+        )
+        for expert in self.marginal_rank_experts:
+            nn.init.zeros_(expert[-1].weight)
+            nn.init.zeros_(expert[-1].bias)
+
+    def forward(
+        self,
+        summary: torch.Tensor,
+        action_node_z: torch.Tensor,
+        action_type_z: torch.Tensor,
+        cone_context: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
+    ) -> dict[str, torch.Tensor]:
+        hidden = self._hidden(
+            torch.cat([summary, cone_context], dim=0),
+            action_node_z,
+            action_type_z,
+        )
+        outputs = self._outputs(hidden)
+        gate = torch.softmax(self.expert_gate(action_type_z), dim=0)
+        type_values = torch.stack([expert(hidden) for expert in self.type_experts], dim=0)
+        type_residual = (gate.view(-1, 1) * type_values).sum(dim=0)
+        horizon = TypedConeHorizonMoEUtilityHead._horizon_features(
+            sequence_step,
+            dtype=hidden.dtype,
+            device=hidden.device,
+        )
+        marginal_input = torch.cat([hidden, horizon], dim=0)
+        marginal_values = torch.stack(
+            [expert(marginal_input).reshape(()) for expert in self.marginal_rank_experts],
+            dim=0,
+        )
+        marginal_residual = (gate * marginal_values).sum()
+        return {
+            "typed_marginal_pred": outputs["typed_marginal_pred"] + type_residual[0] + marginal_residual,
+            "typed_return_pred": outputs["typed_return_pred"] + type_residual[1],
+            "typed_sa_reduction_pred": outputs["typed_sa_reduction_pred"] + type_residual[2:4],
+        }
+
+
 class TPIWorldModel(nn.Module):
     """JEPA-style world model with EMA target encoder and action heads."""
 
@@ -206,6 +942,7 @@ class TPIWorldModel(nn.Module):
         encoder_type: str = "mean",
         summary_mode: str = "global",
         q_head_type: str = "summary",
+        utility_head_type: str = "legacy",
     ):
         super().__init__()
         self.head_context = bool(head_context)
@@ -216,6 +953,7 @@ class TPIWorldModel(nn.Module):
         self.encoder_type = str(encoder_type or "mean").lower()
         self.summary_mode = str(summary_mode or "global").lower()
         self.q_head_type = str(q_head_type or "summary").lower()
+        self.utility_head_type = str(utility_head_type or "legacy").lower()
         self.online_encoder = NodeEncoder(
             feature_dim,
             latent_dim,
@@ -259,6 +997,90 @@ class TPIWorldModel(nn.Module):
             nn.ReLU(),
             nn.Linear(latent_dim, 3),
         )
+        self.typed_utility_head: TypedUtilityHead | None = None
+        self.typed_cone_utility_head: TypedConeUtilityHead | None = None
+        if self.utility_head_type in {"typed", "typed_film", "action_typed"}:
+            self.typed_utility_head = TypedUtilityHead(
+                summary_dim,
+                latent_dim,
+                action_type_dim,
+                dropout,
+            )
+        elif self.utility_head_type in {
+            "typed_cone",
+            "typed_cone_film",
+            "action_cone",
+            "typed_cone_moe",
+            "typed_cone_experts",
+            "typed_cone_return_rank_moe",
+            "typed_cone_dual_rank_moe",
+            "typed_cone_return_horizon_rank_moe",
+            "typed_cone_horizon_return_rank_moe",
+            "typed_cone_return_late_horizon_rank_moe",
+            "typed_cone_late_horizon_return_rank_moe",
+            "typed_cone_return_late_type_rank_moe",
+            "typed_cone_late_type_return_rank_moe",
+            "typed_cone_return_late_control_rank_moe",
+            "typed_cone_late_control_return_rank_moe",
+            "typed_cone_horizon_moe",
+            "typed_cone_horizon_experts",
+            "typed_cone_marginal_horizon_rank_moe",
+            "typed_cone_marginal_rank_moe",
+        }:
+            # Three relation pools (fanin, fanout, union), each represented by
+            # its current latent and predicted action effect, plus aggregate
+            # relation/topology features.
+            cone_context_dim = latent_dim * 6 + self.relation_dim
+            if self.utility_head_type in {
+                "typed_cone_return_late_control_rank_moe",
+                "typed_cone_late_control_return_rank_moe",
+            }:
+                head_cls = TypedConeReturnLateControlRankMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_return_late_type_rank_moe",
+                "typed_cone_late_type_return_rank_moe",
+            }:
+                head_cls = TypedConeReturnLateTypeRankMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_return_late_horizon_rank_moe",
+                "typed_cone_late_horizon_return_rank_moe",
+            }:
+                head_cls = TypedConeReturnLateHorizonRankMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_return_horizon_rank_moe",
+                "typed_cone_horizon_return_rank_moe",
+            }:
+                head_cls = TypedConeReturnHorizonRankMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_horizon_moe",
+                "typed_cone_horizon_experts",
+            }:
+                head_cls = TypedConeHorizonMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_marginal_horizon_rank_moe",
+                "typed_cone_marginal_rank_moe",
+            }:
+                head_cls = TypedConeMarginalHorizonRankMoEUtilityHead
+            elif self.utility_head_type in {
+                "typed_cone_return_rank_moe",
+                "typed_cone_dual_rank_moe",
+            }:
+                head_cls = TypedConeReturnRankMoEUtilityHead
+            elif self.utility_head_type in {"typed_cone_moe", "typed_cone_experts"}:
+                head_cls = TypedConeMoEUtilityHead
+            else:
+                head_cls = TypedConeUtilityHead
+            self.typed_cone_utility_head = head_cls(
+                summary_dim,
+                latent_dim,
+                action_type_dim,
+                cone_context_dim,
+                dropout,
+            )
+        elif self.utility_head_type in {"legacy", "none", "off"}:
+            pass
+        else:
+            raise ValueError(f"unsupported utility_head_type={utility_head_type!r}")
         self.scoap_head = nn.Sequential(nn.Linear(latent_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 3))
         self.delta_scoap_head = nn.Sequential(nn.Linear(latent_dim, latent_dim), nn.ReLU(), nn.Linear(latent_dim, 3))
         if self.hard_head_type in {"residual", "residual_context", "context"}:
@@ -313,6 +1135,36 @@ class TPIWorldModel(nn.Module):
             parts.extend([z[action_node_id], relation_features.mean(dim=0)])
         return torch.cat(parts, dim=0)
 
+    def _typed_cone_context(
+        self,
+        z_t: torch.Tensor,
+        z_pred: torch.Tensor,
+        relation_features: torch.Tensor,
+    ) -> torch.Tensor:
+        """Pool current state and predicted effect over action-centric cones."""
+
+        rel = relation_features.to(device=z_t.device, dtype=z_t.dtype)
+        if rel.shape[1] > 6:
+            fanin_weight = rel[:, 4]
+            fanout_weight = rel[:, 5]
+            cone_weight = rel[:, 6]
+        else:
+            fanin_weight = rel[:, 1]
+            fanout_weight = rel[:, 2]
+            cone_weight = (rel[:, 0] + rel[:, 1] + rel[:, 2]).clamp(max=1.0)
+
+        def weighted_mean(values: torch.Tensor, weights: torch.Tensor) -> torch.Tensor:
+            weights = weights.view(-1, 1).clamp_min(0.0)
+            return (values * weights).sum(dim=0) / weights.sum().clamp_min(1.0)
+
+        delta = z_pred - z_t
+        parts = []
+        for weights in (fanin_weight, fanout_weight, cone_weight):
+            parts.append(weighted_mean(z_t, weights))
+            parts.append(weighted_mean(delta, weights))
+        parts.append(rel.mean(dim=0))
+        return torch.cat(parts, dim=0)
+
     @staticmethod
     def _derived_hard_counts(hard_logits: torch.Tensor) -> torch.Tensor:
         """Return differentiable graph-level hard counts from node hard probabilities."""
@@ -336,6 +1188,7 @@ class TPIWorldModel(nn.Module):
         action_type_id: int | torch.Tensor,
         relation_features: torch.Tensor,
         include_aux_heads: bool = True,
+        sequence_step: int | torch.Tensor = 0,
     ) -> dict[str, torch.Tensor]:
         """Predict the next latent state from an already-encoded current state."""
 
@@ -383,6 +1236,53 @@ class TPIWorldModel(nn.Module):
             "derived_hard_count_post_pred": derived_post_counts,
             "derived_hard_reduction_pred": self._derived_hard_reduction(derived_pre_counts, derived_post_counts),
         }
+        if self.typed_utility_head is not None:
+            if not torch.is_tensor(action_type_id):
+                typed_action_id = torch.tensor(action_type_id, dtype=torch.long, device=z_t.device)
+            else:
+                typed_action_id = action_type_id.to(device=z_t.device, dtype=torch.long).view(())
+            out.update(
+                self.typed_utility_head(
+                    summary,
+                    z_t[action_node_id],
+                    self.action_encoder.type_emb(typed_action_id),
+                )
+            )
+        elif self.typed_cone_utility_head is not None:
+            if not torch.is_tensor(action_type_id):
+                typed_action_id = torch.tensor(action_type_id, dtype=torch.long, device=z_t.device)
+            else:
+                typed_action_id = action_type_id.to(device=z_t.device, dtype=torch.long).view(())
+            typed_args = (
+                summary,
+                z_t[action_node_id],
+                self.action_encoder.type_emb(typed_action_id),
+                self._typed_cone_context(z_t, z_pred, relation_features),
+            )
+            if isinstance(
+                self.typed_cone_utility_head,
+                TypedConeReturnLateControlRankMoEUtilityHead,
+            ):
+                out.update(
+                    self.typed_cone_utility_head(
+                        *typed_args,
+                        sequence_step=sequence_step,
+                        action_type_id=typed_action_id,
+                    )
+                )
+            elif isinstance(
+                self.typed_cone_utility_head,
+                (
+                    TypedConeHorizonMoEUtilityHead,
+                    TypedConeReturnHorizonRankMoEUtilityHead,
+                    TypedConeReturnLateHorizonRankMoEUtilityHead,
+                    TypedConeReturnLateTypeRankMoEUtilityHead,
+                    TypedConeMarginalHorizonRankMoEUtilityHead,
+                ),
+            ):
+                out.update(self.typed_cone_utility_head(*typed_args, sequence_step=sequence_step))
+            else:
+                out.update(self.typed_cone_utility_head(*typed_args))
         if include_aux_heads:
             out.update(
                 {
@@ -412,6 +1312,7 @@ class TPIWorldModel(nn.Module):
         action_node_id: int,
         action_type_id: int | torch.Tensor,
         relation_features: torch.Tensor,
+        sequence_step: int | torch.Tensor = 0,
     ) -> dict[str, torch.Tensor]:
         """Run one transition through the model."""
 
@@ -424,7 +1325,13 @@ class TPIWorldModel(nn.Module):
             self.target_encoder.eval()
             z_t1 = self.target_encoder(x_post, edge_src, edge_dst, gate_type_ids)
             self.target_encoder.train(target_was_training)
-        pred = self.predict_from_latent(z_t, action_node_id, action_type_id, relation_features)
+        pred = self.predict_from_latent(
+            z_t,
+            action_node_id,
+            action_type_id,
+            relation_features,
+            sequence_step=sequence_step,
+        )
         return {
             "z_t": z_t,
             "z_t1": z_t1,
