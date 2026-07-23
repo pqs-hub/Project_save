@@ -14,7 +14,12 @@ if str(REPO_ROOT) not in sys.path:
 from tpi_jepa.bench import parse_bench  # noqa: E402
 from tpi_jepa.graph import build_graph  # noqa: E402
 from tpi_jepa.labels import find_bench_path  # noqa: E402
-from tpi_jepa.plan import PLAN_FIELDNAMES, enumerate_candidates, hard_fault_cluster_lazy_sequence  # noqa: E402
+from tpi_jepa.plan import (  # noqa: E402
+    PLAN_FIELDNAMES,
+    enumerate_candidates,
+    hard_fault_cluster_lazy_sequence,
+    set_candidate_allowlist,
+)
 
 
 def main() -> None:
@@ -35,9 +40,11 @@ def main() -> None:
     parser.add_argument("--candidate-strategy", default="hard_fault_cone")
     parser.add_argument("--real-fault-priors", default=None)
     parser.add_argument("--activation-priors", default=None)
+    parser.add_argument("--candidate-allowlist", default=None)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
 
+    set_candidate_allowlist(args.candidate_allowlist)
     graph = build_graph(parse_bench(find_bench_path(args.benchmark_id)))
     recall_limit = args.max_candidates if args.max_candidates is not None else args.budget
     if args.iterative_first and args.candidate_strategy == "hard_fault_cluster":

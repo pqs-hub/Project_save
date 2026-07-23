@@ -1,0 +1,54 @@
+{
+  "round": 10,
+  "purpose": "isolated typed-return candidate ranking with real ATPG marginals",
+  "selection_circuit": "b15_C only",
+  "validation_circuits": [
+    "b15_C",
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "b17_C"
+  ],
+  "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round8/runs/moe_joint_within/best_final_horizon.pt",
+  "target_circuits_in_training": false,
+  "long_oracle_states": 116,
+  "late_oracle_states": 30,
+  "late_oracle_candidates": 270,
+  "frozen_predictions": [
+    "typed_marginal_pred",
+    "typed_sa_reduction_pred",
+    "legacy world-model outputs"
+  ],
+  "variants": {
+    "return_within_lr5e5": {
+      "lr": 5e-05,
+      "lambda_aux_rank": 0.0,
+      "lambda_aux_same_type_rank": 1.0
+    },
+    "return_within_lr1e4": {
+      "lr": 0.0001,
+      "lambda_aux_rank": 0.0,
+      "lambda_aux_same_type_rank": 1.0
+    },
+    "return_dual_lr5e5": {
+      "lr": 5e-05,
+      "lambda_aux_rank": 0.25,
+      "lambda_aux_same_type_rank": 1.0
+    },
+    "return_within_lr2e4": {
+      "lr": 0.0002,
+      "lambda_aux_rank": 0.0,
+      "lambda_aux_same_type_rank": 1.0
+    },
+    "return_within_lr5e4": {
+      "lr": 0.0005,
+      "lambda_aux_rank": 0.0,
+      "lambda_aux_same_type_rank": 1.0
+    },
+    "return_dual_lr2e4": {
+      "lr": 0.0002,
+      "lambda_aux_rank": 0.25,
+      "lambda_aux_same_type_rank": 1.0
+    }
+  }
+}

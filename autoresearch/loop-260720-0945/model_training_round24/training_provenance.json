@@ -1,0 +1,19 @@
+{
+  "round": 24,
+  "purpose": "tie-aware low-capacity late action-type calibration",
+  "selection_rule": "single predeclared epoch-8 checkpoint; b15 equality is mandatory",
+  "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round21/runs/horizon_r10_pairwise/epoch_010.pt",
+  "target_circuits_in_training": false,
+  "heldout_non_target_benchmarks": [
+    "subckt_0230",
+    "subckt_0360"
+  ],
+  "oracle_source": "autoresearch/loop-260720-0945/model_training_round21/ultralong_prefix_oracle/oracle_actions.tsv",
+  "label_rule": "softmax over per-type max delta-TC; exact ties remain soft ties",
+  "adapter_scope": "action type plus analytic horizon only; no node features",
+  "late_gate": {
+    "zero_through_sequence_step": 277,
+    "full_from_sequence_step": 320
+  },
+  "fixed_epoch": 8
+}
