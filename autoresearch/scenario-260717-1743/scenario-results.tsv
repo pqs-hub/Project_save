@@ -1,0 +1,37 @@
+iteration	timestamp	scenario	dimension	classification	severity	description
+1	2026-07-17T17:43:50+08:00	standard label-to-plan run	happy-path	new	low	131-subcircuit labels build rollout samples, train a CUDA checkpoint, plan and evaluate final TC.
+1	2026-07-17T17:43:50+08:00	fixed oracle rescoring	happy-path	new	low	Reuse one oracle_actions.tsv to compare checkpoints without backend resampling noise.
+1	2026-07-17T17:43:50+08:00	exact ITC99 planning	happy-path	new	low	Apply exact candidate allowlist before planning and audit all budgeted nodes as legal.
+2	2026-07-17T17:43:50+08:00	missing action node	validation	new	high	Label or allowlist node is absent from parsed graph; reject rather than silently substitute.
+2	2026-07-17T17:43:50+08:00	empty allowlist	validation	new	high	Candidate allowlist is empty; planner must fail before producing a zero-length success artifact.
+2	2026-07-17T17:43:50+08:00	budget exceeds legal unique nodes	validation	new	critical	Planner cannot meet strict budget without duplicates; report infeasible instead of changing budget.
+3	2026-07-17T17:43:50+08:00	held-out label leakage	permissions	new	critical	Final circuit or alias appears in training labels or oracle groups.
+3	2026-07-17T17:43:50+08:00	unapproved final-eight reuse	permissions	new	critical	Repeated planner tuning on final circuits converts them into a development set.
+3	2026-07-17T17:43:50+08:00	unapproved push or publish	permissions	new	high	Research artifacts are pushed without explicit user approval.
+4	2026-07-17T17:43:50+08:00	parallel result append	concurrency	new	high	Multiple GPU workers append the same TSV or update best.json concurrently.
+4	2026-07-17T17:43:50+08:00	planner cache cross-circuit reuse	concurrency	new	high	Global caches retain prior circuit nodes or priors when switching benchmarks.
+4	2026-07-17T17:43:50+08:00	checkpoint overwrite	concurrency	new	medium	Two training variants share run_dir and overwrite latest.pt/history.csv.
+5	2026-07-17T17:43:50+08:00	latent drift at long horizon	state	new	high	Predicted z is fed back for hundreds of greedy steps although training horizon is at most five.
+5	2026-07-17T17:43:50+08:00	proxy state mismatch	state	new	high	Feature SCOAP update says a state improved while the real patched netlist behaves differently.
+5	2026-07-17T17:43:50+08:00	stale candidate context	state	new	high	Candidate context or cluster data is not recomputed after selected actions change.
+6	2026-07-17T17:43:50+08:00	126k-node full circuit	scale	new	high	Per-candidate full-graph scoring times hundreds of steps becomes the dominant cost.
+6	2026-07-17T17:43:50+08:00	large candidate pool	scale	new	medium	Increasing recall from 48 to 192 changes runtime and pool-relative score calibration.
+6	2026-07-17T17:43:50+08:00	artifact-heavy repository	scale	new	medium	Unscoped test/file discovery scans hundreds of thousands of generated files.
+7	2026-07-17T17:43:50+08:00	backend timeout	failure	new	high	Atalanta/TMAX times out after plan generation; retain plan/log and mark result incomplete.
+7	2026-07-17T17:43:50+08:00	CUDA unavailable	failure	new	high	Training/planning must request GPU access, not silently fall back to CPU.
+7	2026-07-17T17:43:50+08:00	partial sweep retry	failure	new	medium	results.tsv contains failed rows plus successful retries; aggregation must filter status and deduplicate.
+8	2026-07-17T17:43:50+08:00	path-controlled output	security	new	medium	Untrusted output paths escape the intended project/artifact directory.
+8	2026-07-17T17:43:50+08:00	unsafe persisted command	security	new	high	Resume executes an unscreened command stored in state or handoff JSON.
+8	2026-07-17T17:43:50+08:00	secret copied into report	security	new	high	Generated docs include environment credentials or private URLs verbatim.
+9	2026-07-17T17:43:50+08:00	wrong source table	integration	new	critical	Comparison uses baseline/reference TC instead of DeepTPI final TC.
+9	2026-07-17T17:43:50+08:00	wrong source netlist version	integration	new	critical	EPFL PI/PO layout differs from the exact version used to build DeepTPI NPZ.
+9	2026-07-17T17:43:50+08:00	backend action mapping mismatch	integration	new	critical	Plan node/type converts to a different backend candidate or invalid test point.
+10	2026-07-17T17:43:50+08:00	legacy data path	data	new	high	Config points to absent /data3 labels while current data lives under /data4.
+10	2026-07-17T17:43:50+08:00	tied oracle targets	data	new	medium	Many equal ΔTC actions make pairwise rank count sparse or unstable.
+10	2026-07-17T17:43:50+08:00	negative-rich distribution shift	data	new	high	Oracle subset overrepresents negative actions and distorts deployment ranking.
+11	2026-07-17T17:43:50+08:00	ambiguous current best	ux	new	medium	Multiple current-best files use different baselines, legality rules or comparison columns.
+11	2026-07-17T17:43:50+08:00	long command without live logs	ux	new	medium	User cannot distinguish slow planner progress from a stalled job.
+11	2026-07-17T17:43:50+08:00	implicit config schema	ux	new	medium	Unknown or mistyped JSON fields silently fall back to defaults.
+12	2026-07-17T17:43:50+08:00	interrupted planner recovery	recovery	new	medium	Resume should reuse completed circuit outputs without accepting truncated plans.
+12	2026-07-17T17:43:50+08:00	failed candidate experiment rollback	recovery	new	medium	Discard code change without deleting user artifacts or unrelated dirty worktree changes.
+12	2026-07-17T17:43:50+08:00	backend workdir cleanup	recovery	new	high	Cleanup must not remove evidence before final labels and logs are durably written.

@@ -1,0 +1,138 @@
+{
+  "round": 21,
+  "purpose": "ultra-long real ATPG supervision for explicit horizon-aware return ranking",
+  "accepted_benchmarks": [
+    "subckt_0360",
+    "subckt_0266",
+    "subckt_0289",
+    "subckt_0347",
+    "subckt_0292",
+    "subckt_0020",
+    "subckt_0197",
+    "subckt_0116",
+    "subckt_0298",
+    "subckt_0309",
+    "subckt_0230"
+  ],
+  "excluded_benchmarks": [
+    "b15_C",
+    "b17_C",
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "epfl__arithmetic__max__max",
+    "epfl__random_control__i2c__i2c",
+    "i2c",
+    "iscas99__b15_1",
+    "iscas99__b17",
+    "iscas99__b20",
+    "iscas99__b21",
+    "iscas99__b22",
+    "max",
+    "mem_ctrl",
+    "openabcd__mem_ctrl_orig",
+    "subckt_0001"
+  ],
+  "eval_protocol": "configs/eval_protocol_coverage_only.json",
+  "source_labels": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/labels.csv",
+  "target_circuits_in_training": false,
+  "plan_budget": 768,
+  "prefix_steps": [
+    320,
+    448,
+    576,
+    704,
+    767
+  ],
+  "actions_per_prefix": 15,
+  "circuits": [
+    {
+      "benchmark_id": "subckt_0360",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0360.bench",
+      "graph_nodes": 986,
+      "candidate_count": 901,
+      "baseline_test_coverage": 0.6831699999999999,
+      "baseline_undetected_fault_count": 256
+    },
+    {
+      "benchmark_id": "subckt_0266",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0266.bench",
+      "graph_nodes": 1070,
+      "candidate_count": 867,
+      "baseline_test_coverage": 0.93499,
+      "baseline_undetected_fault_count": 55
+    },
+    {
+      "benchmark_id": "subckt_0289",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0289.bench",
+      "graph_nodes": 1109,
+      "candidate_count": 931,
+      "baseline_test_coverage": 0.95976,
+      "baseline_undetected_fault_count": 33
+    },
+    {
+      "benchmark_id": "subckt_0347",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0347.bench",
+      "graph_nodes": 939,
+      "candidate_count": 817,
+      "baseline_test_coverage": 0.9724200000000001,
+      "baseline_undetected_fault_count": 23
+    },
+    {
+      "benchmark_id": "subckt_0292",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0292.bench",
+      "graph_nodes": 1178,
+      "candidate_count": 991,
+      "baseline_test_coverage": 0.97288,
+      "baseline_undetected_fault_count": 23
+    },
+    {
+      "benchmark_id": "subckt_0020",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0020.bench",
+      "graph_nodes": 978,
+      "candidate_count": 810,
+      "baseline_test_coverage": 0.9737600000000001,
+      "baseline_undetected_fault_count": 19
+    },
+    {
+      "benchmark_id": "subckt_0197",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0197.bench",
+      "graph_nodes": 1005,
+      "candidate_count": 808,
+      "baseline_test_coverage": 0.9753700000000001,
+      "baseline_undetected_fault_count": 20
+    },
+    {
+      "benchmark_id": "subckt_0116",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0116.bench",
+      "graph_nodes": 1041,
+      "candidate_count": 832,
+      "baseline_test_coverage": 0.97578,
+      "baseline_undetected_fault_count": 25
+    },
+    {
+      "benchmark_id": "subckt_0298",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0298.bench",
+      "graph_nodes": 1031,
+      "candidate_count": 838,
+      "baseline_test_coverage": 0.97821,
+      "baseline_undetected_fault_count": 17
+    },
+    {
+      "benchmark_id": "subckt_0309",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0309.bench",
+      "graph_nodes": 1526,
+      "candidate_count": 1333,
+      "baseline_test_coverage": 0.97836,
+      "baseline_undetected_fault_count": 29
+    },
+    {
+      "benchmark_id": "subckt_0230",
+      "bench_path": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0230.bench",
+      "graph_nodes": 3117,
+      "candidate_count": 2891,
+      "baseline_test_coverage": 0.9784900000000001,
+      "baseline_undetected_fault_count": 45
+    }
+  ]
+}

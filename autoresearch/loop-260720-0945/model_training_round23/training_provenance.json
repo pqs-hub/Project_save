@@ -1,0 +1,18 @@
+{
+  "round": 23,
+  "purpose": "b15-invariant late-horizon top/action-type correction",
+  "selection_rule": "single predeclared epoch-8 checkpoint; b15 equality is mandatory",
+  "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round21/runs/horizon_r10_pairwise/epoch_010.pt",
+  "target_circuits_in_training": false,
+  "heldout_non_target_benchmarks": [
+    "subckt_0230",
+    "subckt_0360"
+  ],
+  "oracle_source": "autoresearch/loop-260720-0945/model_training_round21/ultralong_prefix_oracle/oracle_actions.tsv",
+  "late_gate": {
+    "zero_through_sequence_step": 277,
+    "full_from_sequence_step": 320
+  },
+  "trainable_branch": "late_return_rank_experts only",
+  "fixed_epoch": 8
+}
