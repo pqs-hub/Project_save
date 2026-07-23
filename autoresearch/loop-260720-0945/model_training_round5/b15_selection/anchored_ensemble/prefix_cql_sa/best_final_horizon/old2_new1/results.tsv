@@ -1,0 +1,42 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	k_recall	k_model	k_plan	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	candidate_sample_seed	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	prior_setup_elapsed_sec	plan_elapsed_sec	eval_elapsed_sec	elapsed_sec	error
+2026-07-21T05:06:57	greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	plan_error	iscas99__b15_1	27353	floor1pct	278	greedy	cumulative	q_typed_residual_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026										autoresearch/loop-260720-0945/model_training_round5/b15_selection/anchored_ensemble/prefix_cql_sa/best_final_horizon/old2_new1/plans/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/loop-260720-0945/model_training_round5/b15_selection/anchored_ensemble/prefix_cql_sa/best_final_horizon/old2_new1/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	290.011	0.0	290.011	"[plan] step=258 node=N4359 type=control0 q_typed_residual_context=6.929242 sequence=783.389998
+[plan] step=259 node=N4367 type=control0 q_typed_residual_context=7.019063 sequence=790.409061
+[plan] step=260 node=N6684 type=observe q_typed_residual_context=4.824276 sequence=795.233337
+[plan] step=261 node=N2255 type=observe q_typed_residual_context=6.736024 sequence=801.969362Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 3388, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 3383, in main
+    write_plan_csv(out, rows)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 3123, in write_plan_csv
+    writer.writerows(clean_rows)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/csv.py"", line 229, in writerows
+    return self.writer.writerows(map(self._dict_to_list, rowdicts))
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/csv.py"", line 221, in _dict_to_list
+    raise ValueError(""dict contains fields not in fieldnames: ""
+                     + "", "".join([repr(x) for x in wrong_fields]))
+ValueError: dict contains fields not in fieldnames: 'typed_sa_reduction_total_pred_mean', 'typed_sa_reduction_total_pred_std', 'typed_sa_reduction_total_pred_lcb'
+
+[plan] step=262 node=N2185 type=observe q_typed_residual_context=6.858733 sequence=808.828095
+[plan] step=263 node=N717 type=observe q_typed_residual_context=6.490837 sequence=815.318931
+[plan] step=264 node=N2203 type=observe q_typed_residual_context=4.923003 sequence=820.241934
+[plan] step=265 node=N733 type=observe q_typed_residual_context=4.017056 sequence=824.258991
+[plan] step=266 node=N2205 type=observe q_typed_residual_context=3.991247 sequence=828.250238
+[plan] step=267 node=N6562 type=observe q_typed_residual_context=2.608164 sequence=830.858402
+[plan] step=268 node=N735 type=observe q_typed_residual_context=4.502163 sequence=835.360565
+[plan] step=269 node=N2201 type=observe q_typed_residual_context=6.990745 sequence=842.351310
+[plan] step=270 node=N2226 type=observe q_typed_residual_context=6.987612 sequence=849.338923
+[plan] step=271 node=N652 type=control1 q_typed_residual_context=4.930003 sequence=854.268926
+[plan] step=272 node=N4532 type=control0 q_typed_residual_context=1.029474 sequence=855.298400
+[plan] step=273 node=N2212 type=observe q_typed_residual_context=7.091456 sequence=862.389855
+[plan] step=274 node=N8238 type=control1 q_typed_residual_context=5.532067 sequence=867.921923
+[plan] step=275 node=N6679 type=observe q_typed_residual_context=1.331459 sequence=869.253382
+[plan] step=276 node=N6956 type=control0 q_typed_residual_context=6.329724 sequence=875.583106
+[plan] step=277 node=N1348 type=observe q_typed_residual_context=7.211091 sequence=882.794197
+[plan] step=278 node=N8606 type=control1 q_typed_residual_context=2.654481 sequence=885.448678"
+2026-07-21T09:58:46	greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	ok	iscas99__b15_1	27353	floor1pct	278	greedy	cumulative	q_typed_residual_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026	-3.9357065223157406	56.25038471072912	0.5625038471072912	3.694628589786589	113963.93068679092	0.0	0.12157000000000018	0.12157000000000018	0	autoresearch/loop-260720-0945/model_training_round5/b15_selection/anchored_ensemble/prefix_cql_sa/best_final_horizon/old2_new1/plans/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/loop-260720-0945/model_training_round5/b15_selection/anchored_ensemble/prefix_cql_sa/best_final_horizon/old2_new1/evals/iscas99__b15_1__greedy__cumulative__q_typed_residual_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	295.373	7.262	302.657	

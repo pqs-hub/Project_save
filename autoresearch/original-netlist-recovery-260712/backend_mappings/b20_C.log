@@ -1,0 +1,39 @@
+{
+  "counts": {
+    "functional_ambiguous": 32412,
+    "functional_unique": 34080,
+    "inverted_ambiguous": 5960,
+    "inverted_unique": 8543,
+    "primary_input": 522,
+    "safe_insertable": 10626,
+    "synthetic_branch": 46320,
+    "unmapped": 3310
+  },
+  "deep_format": "bench",
+  "deep_gates": 84305,
+  "deep_inputs": 522,
+  "deep_outputs": 507,
+  "deep_path": "/data4/pengqingsong/DFT/Dataset/deeptpi_official_aig_bench_standard/b20_C.bench",
+  "functional_unique_rate": 0.40424648597354845,
+  "limitations": [
+    "simulation fingerprints are not a formal equivalence proof",
+    "BUFF nodes are conservatively rejected as synthetic fanout branches",
+    "ambiguous same-function source nets are not selected automatically",
+    "safe_insertable is disabled unless at least 90% of Deep outputs align with source outputs"
+  ],
+  "logic_alignment_verified": true,
+  "mapping_tsv": "autoresearch/original-netlist-recovery-260712/backend_mappings/b20_C/node_mapping.tsv",
+  "matched_deep_outputs": 507,
+  "method": "deterministic_bit_parallel_functional_fingerprint",
+  "output_alignment_rate": 1.0,
+  "patterns": 1024,
+  "safe_insertable_rate": 0.12604234624280886,
+  "safe_nodes": "autoresearch/original-netlist-recovery-260712/backend_mappings/b20_C/safe_deep_nodes.txt",
+  "seed": 2026,
+  "source_format": "bench",
+  "source_gates": 19682,
+  "source_inputs": 522,
+  "source_path": "autoresearch/original-netlist-recovery-260712/sources/b20_C.bench",
+  "status": "complete",
+  "version": "1"
+}
