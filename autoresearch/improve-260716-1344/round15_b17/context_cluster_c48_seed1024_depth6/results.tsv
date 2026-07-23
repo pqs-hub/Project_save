@@ -1,0 +1,42 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	k_recall	k_model	k_plan	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	candidate_sample_seed	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	prior_setup_elapsed_sec	plan_elapsed_sec	eval_elapsed_sec	elapsed_sec	error
+2026-07-17T16:14:36	greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	plan_error	iscas99__b17	98014	floor1pct	994	greedy	cumulative	q_pred_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026										autoresearch/improve-260716-1344/round15_b17/context_cluster_c48_seed1024_depth6/plans/iscas99__b17__greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/improve-260716-1344/round15_b17/context_cluster_c48_seed1024_depth6/evals/iscas99__b17__greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	2.201	0.0	2.201	"Traceback (most recent call last):
+  File ""<frozen runpy>"", line 198, in _run_module_as_main
+  File ""<frozen runpy>"", line 88, in _run_code
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 2922, in <module>
+    main()
+    ~~~~^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 2792, in main
+    model, config = load_checkpoint(args.checkpoint, device)
+                    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 217, in load_checkpoint
+    ckpt = torch.load(Path(path), map_location=device)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1462, in load
+    return _load(
+        opened_zipfile,
+    ...<3 lines>...
+        **pickle_load_args,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1964, in _load
+    result = unpickler.load()
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/_weights_only_unpickler.py"", line 512, in load
+    self.append(self.persistent_load(pid))
+                ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1928, in persistent_load
+    typed_storage = load_tensor(
+        dtype, nbytes, key, _maybe_decode_ascii(location)
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1900, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 1806, in restore_location
+    return default_restore_location(storage, str(map_location))
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 693, in default_restore_location
+    result = fn(storage, location)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 631, in _deserialize
+    device = _validate_device(location, backend_name)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/serialization.py"", line 600, in _validate_device
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU."
+2026-07-17T16:23:01	greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	ok	iscas99__b17	98014	floor1pct	994	greedy	cumulative	q_pred_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026	-496.4902802873403	198.99311000481248	1.9899311000481248	14.02330975420773	570199.130083189	0.0	0.053690000000000015	0.053690000000000015	0	autoresearch/improve-260716-1344/round15_b17/context_cluster_c48_seed1024_depth6/plans/iscas99__b17__greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/improve-260716-1344/round15_b17/context_cluster_c48_seed1024_depth6/evals/iscas99__b17__greedy__cumulative__q_pred_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	1554.052	74.505	1628.599	

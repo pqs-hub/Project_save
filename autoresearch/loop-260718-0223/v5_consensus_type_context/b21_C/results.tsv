@@ -1,0 +1,42 @@
+timestamp	variant_id	status	benchmark_id	logic_gates	budget_mode	budget	planner	beam_objective	score_field	beam_width	lookahead_depth	max_candidates	k_recall	k_model	k_plan	discount_gamma	candidate_strategy	candidate_diversity_penalty	candidate_diversity_depth	candidate_sample_seed	patterns	seed	plan_score_sum	plan_reward_sum	plan_fc_sum	plan_return_sum	plan_sequence_sum	plan_objective_sum	delta_test_coverage	delta_fault_coverage	delta_pattern_count	plan_csv	eval_dir	prior_setup_elapsed_sec	plan_elapsed_sec	eval_elapsed_sec	elapsed_sec	error
+2026-07-18T02:29:02	greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	plan_error	iscas99__b21	62295	floor1pct	628	greedy	cumulative	consensus_pred_type_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026										autoresearch/loop-260718-0223/v5_consensus_type_context/b21_C/plans/iscas99__b21__greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/loop-260718-0223/v5_consensus_type_context/b21_C/evals/iscas99__b21__greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	57.802	0.0	57.802	"candidate_diversity_depth,
+    )
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py"", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/plan.py"", line 1945, in score_candidate_from_latent
+    out = model.predict_from_latent(
+        z_state,
+    ...<3 lines>...
+        include_aux_heads=False,
+    )
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 368, in predict_from_latent
+    pre_hard_logits = self._hard_logits(z_t, relation_features)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 399, in _hard_logits
+    return self.hard_head(z, relation_features)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data4/pengqingsong/DFT/TPI-my.3/tpi_jepa/model.py"", line 185, in forward
+    hidden = base + self.gate(inputs) * self.block(base)
+                                        ~~~~~~~~~~^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/container.py"", line 250, in forward
+    input = module(input)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py"", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File ""/data1/pengqingsong/tools/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py"", line 734, in forward
+    return F.gelu(input, approximate=self.approximate)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 16.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 16.06 MiB is free. Process 644313 has 44.73 GiB memory in use. Process 672471 has 1.03 GiB memory in use. Including non-PyTorch memory, this process has 810.00 MiB memory in use. Process 672480 has 822.00 MiB memory in use. Of the allocated memory 291.62 MiB is allocated by PyTorch, and 16.38 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[plan] candidate_allowlist=autoresearch/original-netlist-recovery-260712/exact_itc99/b21_C/exact_candidate_nodes.txt nodes=19520"
+2026-07-18T02:47:42	greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	ok	iscas99__b21	62295	floor1pct	628	greedy	cumulative	consensus_pred_type_context	1	1	48				1.0	hard_fault_cluster	0.0	4	0	300000	2026	-104.11031666398048	96.12012521922588	0.9612012521922588	38.28712175041437	448048.6035524593	0.0	0.046659999999999924	0.046659999999999924	0	autoresearch/loop-260718-0223/v5_consensus_type_context/b21_C/plans/iscas99__b21__greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0.csv	autoresearch/loop-260718-0223/v5_consensus_type_context/b21_C/evals/iscas99__b21__greedy__cumulative__consensus_pred_type_context__bw1__d1__c48__g1p0__candhard_fault_cluster__div0p0__s0	0.0	631.13	10.82	641.962	
