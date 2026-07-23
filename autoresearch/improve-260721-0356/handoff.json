@@ -1,0 +1,37 @@
+{
+  "version": "2.1.0",
+  "source": "improve",
+  "timestamp": "2026-07-21T04:30:00+08:00",
+  "status": "RESEARCH_COMPLETE_IMPLEMENTATION_ACTIVE",
+  "results_tsv": "autoresearch/improve-260721-0356/improve-results.tsv",
+  "findings": [
+    {
+      "tier": "Must-have",
+      "confidence": "HIGH",
+      "problem": "Selected-only trajectories create off-policy long-sequence regressions and CP0 over-selection.",
+      "mechanism": "Balanced same-prefix 300k ATPG labels plus listwise typed-head training and a support-constrained residual.",
+      "prd_path": "autoresearch/improve-260721-0356/prd-prefix-counterfactual-safe-residual.md"
+    },
+    {
+      "tier": "Nice-to-have",
+      "confidence": "MEDIUM",
+      "problem": "Local GNN embeddings may miss long-range Boolean/subcircuit context.",
+      "mechanism": "DeepGate2/3-inspired functionality supervision and pooled global attention after policy supervision stabilizes.",
+      "prd_path": "autoresearch/improve-260721-0356/prd-prefix-counterfactual-safe-residual.md"
+    }
+  ],
+  "config": {
+    "goal": "One b15-selected exact-legal method beats DeepTPI final TC on b15, b20, b21, b22, and b17.",
+    "icp": "DFT/TPI researcher requiring legal, reproducible, cross-circuit generalization.",
+    "depth": "standard",
+    "categories_explored": [
+      "ICP challenges",
+      "Competitor gaps",
+      "Market trends",
+      "UX & experience",
+      "Revenue & growth"
+    ],
+    "insights_total": 15,
+    "prds_generated": 1
+  }
+}

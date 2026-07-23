@@ -1,0 +1,143 @@
+{
+  "benchmark_id": "subckt_0020",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "subckt_0020",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 300000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 754,
+    "effective_pattern_count": 56,
+    "fault_coverage": 0.9741599999999999,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 20
+    },
+    "hard_fault_count": 20,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 300000,
+    "random_pattern_budget": 300000,
+    "test_coverage": 0.9741599999999999,
+    "total_faults": 774,
+    "undetected_fault_count": 20,
+    "undetected_input_edge_fault_count": 3,
+    "undetected_node_count": 20,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/undetected_nodes.csv",
+    "undetected_output_fault_count": 17,
+    "undetected_sa0_count": 2,
+    "undetected_sa1_count": 18,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/loop-260720-0945/model_training_round5/onpolicy_prefix_oracle/states/subckt_0020/prefix_0016/actions/004___buf_split_7028__control1/inserted.bench",
+  "inserted_bench_sha256": "d0734c615e07221f24ab45f235872a95fffaf1eee51212f84b7e051bf667c16e",
+  "inserted_count": 17,
+  "insertion_sequence": [
+    {
+      "candidate_id": -1,
+      "net": "asqrt[35]",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 530,
+      "net": "__aig_and_12752",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 527,
+      "net": "__aig_and_12751",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 109,
+      "net": "new_n5205",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 367,
+      "net": "__aig_and_12668",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 431,
+      "net": "__aig_and_12701",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 196,
+      "net": "__aig_and_11859",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 271,
+      "net": "__aig_and_11896",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 635,
+      "net": "__aig_and_22962",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 396,
+      "net": "__aig_and_12683",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 180,
+      "net": "__aig_not_11851",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 536,
+      "net": "__buf_split_12751",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 284,
+      "net": "__aig_and_11907",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 493,
+      "net": "new_n5604",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 13,
+      "net": "__aig_not_8",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 3,
+      "net": "__aig_and_2",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 300,
+      "net": "__buf_split_7028",
+      "score": null,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0020.bench",
+  "source_bench_sha256": "57162ab6b098e041f54d1c7c567ef1d055739a4e28a44e027978b5c58366bc5d",
+  "status": "ok"
+}

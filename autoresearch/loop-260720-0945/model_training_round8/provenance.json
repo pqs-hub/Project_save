@@ -1,0 +1,40 @@
+{
+  "round": 8,
+  "purpose": "improve within-action-type node ordering",
+  "selection_circuit": "b15_C only",
+  "validation_circuits": [
+    "b15_C",
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "b17_C"
+  ],
+  "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round7/runs/cone_long_rank/best_final_horizon.pt",
+  "target_circuits_in_training": false,
+  "long_oracle_states": 116,
+  "long_oracle_candidates": 1044,
+  "variants": {
+    "moe_experts_within": {
+      "trainable_modules": "typed_experts_only",
+      "lr": 0.0001,
+      "lambda_typed_marginal": 0.2,
+      "lambda_typed_return": 0.02,
+      "lambda_q_value": 0.05,
+      "lambda_q_rank": 0.2,
+      "lambda_same_type_rank": 1.0,
+      "lambda_candidate": 0.05,
+      "lambda_context_rank": 0.05
+    },
+    "moe_joint_within": {
+      "trainable_modules": "typed_utility_only",
+      "lr": 5e-05,
+      "lambda_typed_marginal": 0.6,
+      "lambda_typed_return": 0.05,
+      "lambda_q_value": 0.1,
+      "lambda_q_rank": 0.5,
+      "lambda_same_type_rank": 0.8,
+      "lambda_candidate": 0.1,
+      "lambda_context_rank": 0.15
+    }
+  }
+}
