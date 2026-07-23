@@ -25,6 +25,7 @@ ACTION_MASK_DIM = len(ACTION_TYPES)
 SCOAP_START = len(GATE_TYPES) + STRUCTURAL_DIM
 SCOAP_END = SCOAP_START + SCOAP_DIM
 REAL_FAULT_FEATURE_DIM = 3
+TYPED_REAL_FAULT_FEATURE_DIM = 2
 ACTIVATION_FEATURE_DIM = 3
 
 
@@ -96,6 +97,53 @@ def make_real_fault_features(
         features[:, 1] = torch.log1p(features[:, 1]) / torch.log1p(features[:, 1].max())
     if features[:, 2].max() > 0:
         features[:, 2] = torch.log1p(features[:, 2]) / torch.log1p(features[:, 2].max())
+    return features.clamp(0.0, 1.0)
+
+
+@lru_cache(maxsize=8)
+def _load_typed_real_fault_priors(path_text: str) -> dict[str, dict[str, tuple[float, float]]]:
+    """Read optional SA0/SA1 hard-fault counts without changing model feature width."""
+
+    path = Path(path_text)
+    priors: dict[str, dict[str, tuple[float, float]]] = {}
+    if not path.exists():
+        raise FileNotFoundError(f"real fault prior file not found: {path}")
+    if path.suffix.lower() == ".json":
+        data = json.loads(path.read_text())
+        rows = data if isinstance(data, list) else data.get("rows", [])
+    else:
+        with path.open(newline="") as f:
+            rows = list(csv.DictReader(f))
+    for row in rows:
+        benchmark_id = str(row.get("benchmark_id", "")).strip()
+        net = str(row.get("net", "")).strip()
+        if not benchmark_id or not net:
+            continue
+        sa0 = float(row.get("sa0_hard_fault_count") or 0.0)
+        sa1 = float(row.get("sa1_hard_fault_count") or 0.0)
+        priors.setdefault(benchmark_id, {})[net] = (sa0, sa1)
+    return priors
+
+
+def make_typed_real_fault_features(
+    graph: GraphData,
+    benchmark_id: str | None,
+    real_fault_prior_path: str | Path | None,
+) -> torch.Tensor:
+    """Return normalized per-node hard SA0/SA1 counts for heuristic planning only."""
+
+    features = torch.zeros((graph.num_nodes, TYPED_REAL_FAULT_FEATURE_DIM), dtype=torch.float32)
+    if not benchmark_id or not real_fault_prior_path:
+        return features
+    priors = _load_typed_real_fault_priors(str(real_fault_prior_path)).get(str(benchmark_id), {})
+    if not priors:
+        return features
+    for idx, name in enumerate(graph.node_names):
+        features[idx] = torch.tensor(priors.get(name, (0.0, 0.0)), dtype=torch.float32)
+    for column in range(TYPED_REAL_FAULT_FEATURE_DIM):
+        maximum = features[:, column].max()
+        if maximum > 0:
+            features[:, column] = torch.log1p(features[:, column]) / torch.log1p(maximum)
     return features.clamp(0.0, 1.0)
 
 

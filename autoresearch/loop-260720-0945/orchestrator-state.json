@@ -1,0 +1,67 @@
+{
+  "version": "2.2.1",
+  "goal": "Retrain a TPI graph world model from real sampled-subcircuit Atalanta labels with candidate ranking, action-type/SA0-SA1 heads, and long-horizon marginal coverage prediction; select only on b15 and uniformly beat DeepTPI on all five exact-legal ITC99 circuits.",
+  "archetype": "optimize-metric",
+  "mode": "loop",
+  "terminal_choice": "stop_at_independently_verified",
+  "max_cycles": 50,
+  "cycle": 4,
+  "predicate": {
+    "command": "python scripts/check_deeptpi_goal.py <five-circuit-eval-root> --require-success",
+    "expected_stdout": "0.000000",
+    "expected_exit_code": 0
+  },
+  "metric": {
+    "name": "uniform_exact_deeptpi_units_remaining",
+    "direction": "lower_is_better",
+    "definition": "number of non-winning circuits plus summed TC deficit in percentage points; add 100 if uniform/exact audit fails"
+  },
+  "fairness": {
+    "selection_circuit": "b15_C only",
+    "budgets": {"b15_C": 278, "b20_C": 616, "b21_C": 628, "b22_C": 915, "b17_C": 994},
+    "patterns": 300000,
+    "seed": 2026,
+    "candidate_legality": "exact original gate-level netlist allowlist",
+    "uniform_checkpoint_head_planner": true,
+    "forbidden": ["per-circuit head selection", "ATPG suffix enumeration", "plan splicing", "action rewriting"]
+  },
+  "current_incumbent": {
+    "eval_root": "autoresearch/loop-260720-0945/typed_winner_round4_five",
+    "macro_tc_pct": 94.2602,
+    "beats_deeptpi": 3,
+    "units_remaining": 3.176
+  },
+  "pending_verify": false,
+  "units_remaining_history": [3.368, 3.869, 4.128, 3.896, 3.176],
+  "pipeline": [
+    {
+      "cycle": 1,
+      "eval_root": "autoresearch/loop-260720-0945/typed_winner_round1_five",
+      "units_remaining": 3.869,
+      "status": "discarded",
+      "reason": "b15-only winner improved macro TC but regressed exact-legal b22 and b17; worse strict metric than Round13"
+    },
+    {
+      "cycle": 2,
+      "eval_root": "autoresearch/loop-260720-0945/typed_winner_round2_five",
+      "units_remaining": 4.128,
+      "status": "discarded",
+      "reason": "Conservative typed-only residual selected only on b15 improved b15/b20 but regressed long-horizon b22/b17; worse strict metric than Round13"
+    },
+    {
+      "cycle": 3,
+      "eval_root": "autoresearch/loop-260720-0945/typed_winner_round3_five",
+      "units_remaining": 3.896,
+      "status": "discarded",
+      "reason": "Real 32-step typed-head training plus b15-selected trust decay recovered b22 partially but early off-policy reordering still regressed b22/b17; worse strict metric than Round13"
+    },
+    {
+      "cycle": 4,
+      "eval_root": "autoresearch/loop-260720-0945/typed_winner_round4_five",
+      "units_remaining": 3.176,
+      "status": "kept",
+      "reason": "On-policy real 32-step typed-head training selected only on b15 improves the strict metric over Round13; exact/uniform audit passes, but b22 and b17 remain below DeepTPI by 0.707pp and 0.469pp"
+    }
+  ],
+  "status": "ACTIVE"
+}

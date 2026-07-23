@@ -1,0 +1,7 @@
+# metric_direction: lower_is_better
+iteration	timestamp	checkpoint	units_remaining	b15_tc	beats	macro_tc	guard	status	description
+0	2026-07-20T09:45:00+08:00	runs/planner_aligned_q_rank_v5_context_safe/best_final_horizon.pt	3.368000	93.936	3	94.071	PASS	baseline	Round13 uniform exact-legal incumbent
+1	2026-07-20T16:38:21+08:00	autoresearch/loop-260720-0945/model_training_round1/runs/frozen_long/best_final_horizon.pt	3.869000	95.178	3	94.309	PASS	discarded	Typed long-return posttrain selected only on b15; improved b15/b20 but regressed b21/b22/b17
+2	2026-07-20T19:57:21+08:00	autoresearch/loop-260720-0945/model_training_round2/runs/typed_long/best_final_horizon.pt	4.128000	94.276	3	94.063	PASS	discarded	Typed-head-only conservative residual selected only on b15; improved b15/b20 but regressed long-horizon b22/b17
+3	2026-07-20T22:31:12+08:00	autoresearch/loop-260720-0945/model_training_round3/runs/long32_balanced/best_final_horizon.pt	3.896000	94.051	3	93.941	PASS	discarded	Real 32-step typed-head training with b15-selected 32-step trust decay; partially recovered b22 but early off-policy reordering still regressed b22/b17
+4	2026-07-21T00:34:51+08:00	autoresearch/loop-260720-0945/model_training_round4/runs/onpolicy_balanced/best_final_horizon.pt	3.176000	94.184	3	94.2602	PASS	kept	On-policy real 32-step Atalanta labels with typed-head-only training and b15-selected decay16; improves strict metric and becomes incumbent, with remaining deficits b22 0.707pp and b17 0.469pp
