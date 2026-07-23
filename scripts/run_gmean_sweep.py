@@ -518,6 +518,7 @@ def main() -> None:
     parser.add_argument("--candidate-diversity-penalties", default="0.0")
     parser.add_argument("--candidate-diversity-depths", default="4")
     parser.add_argument("--candidate-cache-dir", default=None)
+    parser.add_argument("--candidate-allowlist", default=None)
     parser.add_argument("--candidate-sample-seeds", default="0")
     parser.add_argument("--real-fault-priors", default=None)
     parser.add_argument("--candidate-real-fault-priors", default=None)
@@ -568,7 +569,42 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     results_path = out_dir / "results.tsv"
     grouped_path = out_dir / "grouped_results.tsv"
-    config = vars(args) | {"out_dir": str(out_dir), "started": stamp, "eval_protocol_loaded": protocol}
+    planner_environment = {
+        name: os.environ.get(name)
+        for name in (
+            "TPI_HARD_CLUSTER_MAX_HARD_NODES",
+            "TPI_HARD_CLUSTER_DEPTH",
+            "TPI_HARD_CLUSTER_POOL",
+            "TPI_LATENT_NORM_CLIP_RATIO",
+            "TPI_LATENT_REENCODE_INTERVAL",
+            "TPI_LATENT_REENCODE_BLEND",
+            "TPI_Q_CONTEXT_SUPPORT_ALPHA",
+            "TPI_Q_CONTEXT_DISAGREEMENT_BETA",
+            "TPI_TYPED_RESIDUAL_ALPHA",
+            "TPI_TYPED_RESIDUAL_CLIP",
+            "TPI_TYPED_RESIDUAL_DISAGREEMENT_BETA",
+            "TPI_TYPED_RESIDUAL_DECAY_STEPS",
+            "TPI_TYPED_TRUST_MIN_HEADS",
+            "TPI_TYPED_TRUST_CP0_MIN_HEADS",
+            "TPI_TYPED_TRUST_HEAD_MARGIN",
+            "TPI_TYPED_TRUST_ADVANTAGE_MARGIN",
+            "TPI_TYPED_RELIABLE_MARGINAL_WEIGHT",
+            "TPI_TYPED_RELIABLE_MIN_HEADS",
+            "TPI_TYPED_RELIABLE_CP0_MIN_HEADS",
+            "TPI_SCORE_QUANTIZATION",
+            "TPI_ADAPTIVE_BASE_CANDIDATES",
+            "TPI_ADAPTIVE_EXPANSION_MARGIN",
+            "TPI_ADAPTIVE_MARGIN_MODE",
+            "TPI_TORCH_DETERMINISTIC",
+            "TPI_PLAN_THREADS",
+        )
+    }
+    config = vars(args) | {
+        "out_dir": str(out_dir),
+        "started": stamp,
+        "eval_protocol_loaded": protocol,
+        "planner_environment": planner_environment,
+    }
     write_json(out_dir / "config.json", config)
     if protocol is not None:
         write_json(out_dir / "eval_protocol.json", protocol)
@@ -670,6 +706,8 @@ def main() -> None:
                 plan_cmd.extend(["--k-plan", str(variant["k_plan"])])
             if args.candidate_cache_dir:
                 plan_cmd.extend(["--candidate-cache-dir", args.candidate_cache_dir])
+            if args.candidate_allowlist:
+                plan_cmd.extend(["--candidate-allowlist", args.candidate_allowlist])
             plan_cmd.extend(["--candidate-sample-seed", str(variant["candidate_sample_seed"])])
             if args.real_fault_priors:
                 plan_cmd.extend(["--real-fault-priors", args.real_fault_priors])

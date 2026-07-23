@@ -1,0 +1,89 @@
+{
+  "benchmark_id": "subckt_0362",
+  "fault_report": {
+    "backend": "atalanta_bist",
+    "benchmark_id": "subckt_0362",
+    "command": "/data4/pengqingsong/DFT/tool/atalanta_bist_with_ufaults/atalanta -N -U undetected_faults.rpt -p 100000 -s 2026 -l atalanta.run.log -t atalanta.test netlist_full_scan.bench",
+    "detected_faults": 376,
+    "effective_pattern_count": 65,
+    "fault_coverage": 0.8785,
+    "fault_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/faults_undetected.csv",
+    "fault_list_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/faults.rpt",
+    "fault_model": "stuck_at",
+    "fault_status_counts": {
+      "undetected": 52
+    },
+    "hard_fault_count": 52,
+    "hard_fault_summary_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/hard_fault_summary.json",
+    "log_dir": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/atalanta_bist_logs",
+    "mock": false,
+    "pattern_count": 100000,
+    "random_pattern_budget": 100000,
+    "test_coverage": 0.8785,
+    "total_faults": 428,
+    "undetected_fault_count": 52,
+    "undetected_input_edge_fault_count": 9,
+    "undetected_node_count": 52,
+    "undetected_node_csv_path": "/data4/pengqingsong/DFT/TPI-my.3/autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/undetected_nodes.csv",
+    "undetected_output_fault_count": 43,
+    "undetected_sa0_count": 14,
+    "undetected_sa1_count": 38,
+    "vector_mode": "ATALANTA_BIST_RANDOM"
+  },
+  "inserted_bench": "autoresearch/loop-260720-0945/model_training_round3/long_real_labels_v2/sequences/subckt_0362/structural_subckt_0362_00/step_0008/inserted.bench",
+  "inserted_bench_sha256": "8b718eb24bbaf940edcc8f0eb7c471d1761d658e5a883916f01b951d60fdef28",
+  "inserted_count": 8,
+  "insertion_sequence": [
+    {
+      "candidate_id": -1,
+      "net": "new_n82076_",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 178,
+      "net": "new_n83301_",
+      "score": null,
+      "type": "CP0"
+    },
+    {
+      "candidate_id": 88,
+      "net": "new_n48567_",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 43,
+      "net": "__buf_split_13489",
+      "score": null,
+      "type": "OP"
+    },
+    {
+      "candidate_id": 84,
+      "net": "__buf_split_13984",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": 172,
+      "net": "__buf_split_37776",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": -1,
+      "net": "new_n83283_",
+      "score": null,
+      "type": "CP1"
+    },
+    {
+      "candidate_id": -1,
+      "net": "ys__n17526",
+      "score": null,
+      "type": "CP1"
+    }
+  ],
+  "source_bench": "/data4/pengqingsong/DFT/Dataset/atalanta_bist_lowtc_subckt_100k_labels/subcircuits/subckt_0362.bench",
+  "source_bench_sha256": "f087ff4271c59f03c88fb00afe370eda31e2a4f23fc30ed85475b2f699f3ee43",
+  "status": "ok"
+}

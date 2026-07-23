@@ -1,0 +1,15 @@
+{
+  "version": "2.1.0",
+  "source": "plan",
+  "timestamp": "2026-07-17T17:43:50+08:00",
+  "status": "COMPLETE",
+  "config": {
+    "goal": "exact-legal ITC99 final TC exceeds DeepTPI Table IV on all five circuits",
+    "metric": "-sum(deficits)+macro_tc/1000",
+    "direction": "higher_is_better",
+    "verify": "python scripts/score_exact_itc99_vs_deeptpi.py autoresearch/exact-itc99-current-best-q-lcb-260712/summary.json",
+    "guard": "PYTHONPATH=. pytest -q tests/test_candidate_context_scores.py tests/test_itc99_exact_mapping.py tests/test_score_exact_itc99_vs_deeptpi.py",
+    "success": "python scripts/score_exact_itc99_vs_deeptpi.py autoresearch/exact-itc99-current-best-q-lcb-260712/summary.json --check",
+    "iterations": 20
+  }
+}
