@@ -1,0 +1,84 @@
+{
+  "method": {
+    "candidate_prior_alpha": 0.0,
+    "candidate_strategy": "hard_fault_cluster",
+    "checkpoint": "autoresearch/loop-260720-0945/model_training_round8/runs/moe_joint_within/best_final_horizon.pt",
+    "extra_intermediate_fault_simulation": true,
+    "max_candidates": 72,
+    "patterns": 300000,
+    "prefix_state_mode": "replay",
+    "refresh_ratio_denominator": 278,
+    "refresh_ratio_numerator": 192,
+    "refresh_rounding": "floor",
+    "residual_prior_source": "intermediate_atpg_last_nonbaseline_row",
+    "score_field": "typed_return_pred",
+    "seed": 2026
+  },
+  "per_circuit": [
+    {
+      "baseline_test_coverage": 0.8176399999999999,
+      "benchmark_id": "iscas99__b15_1",
+      "budget": 278,
+      "circuit": "b15_C",
+      "delta_test_coverage": 0.1309300000000001,
+      "eval_dir": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b15_C/evals/final",
+      "final_test_coverage": 0.94857,
+      "legal_plan_nodes": 278,
+      "plan_csv": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b15_C/plans/iscas99__b15_1.csv",
+      "refresh_steps": 192,
+      "source_bench_sha256": "29a453bd9ec3934fea2a01dc42ab9ee2c54854ef6fcc2e7e3c264bd26f8eaa3c"
+    },
+    {
+      "baseline_test_coverage": 0.9075700000000001,
+      "benchmark_id": "iscas99__b20",
+      "budget": 616,
+      "circuit": "b20_C",
+      "delta_test_coverage": 0.042139999999999955,
+      "eval_dir": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b20_C/evals/final",
+      "final_test_coverage": 0.94971,
+      "legal_plan_nodes": 616,
+      "plan_csv": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b20_C/plans/iscas99__b20.csv",
+      "refresh_steps": 425,
+      "source_bench_sha256": "77b97a45c42ec3036a1963b581acbd0239260712d52f3ff285cbc5688f692efe"
+    },
+    {
+      "baseline_test_coverage": 0.8968200000000001,
+      "benchmark_id": "iscas99__b21",
+      "budget": 628,
+      "circuit": "b21_C",
+      "delta_test_coverage": 0.05770999999999993,
+      "eval_dir": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b21_C/evals/final",
+      "final_test_coverage": 0.95453,
+      "legal_plan_nodes": 628,
+      "plan_csv": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b21_C/plans/iscas99__b21.csv",
+      "refresh_steps": 433,
+      "source_bench_sha256": "6b727bfab8e03647b5764c4d3aeb2495ce6c856d87d574a8da133d2eed6626b7"
+    },
+    {
+      "baseline_test_coverage": 0.9213,
+      "benchmark_id": "iscas99__b22",
+      "budget": 915,
+      "circuit": "b22_C",
+      "delta_test_coverage": 0.04103000000000001,
+      "eval_dir": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b22_C/evals/final",
+      "final_test_coverage": 0.96233,
+      "legal_plan_nodes": 915,
+      "plan_csv": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b22_C/plans/iscas99__b22.csv",
+      "refresh_steps": 631,
+      "source_bench_sha256": "c530b8d8412fc7fd2bc74d969691df7f1e3fbc9f7471fd925b785c76618ad230"
+    },
+    {
+      "baseline_test_coverage": 0.85623,
+      "benchmark_id": "iscas99__b17",
+      "budget": 994,
+      "circuit": "b17_C",
+      "delta_test_coverage": 0.057659999999999934,
+      "eval_dir": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b17_C/evals/final",
+      "final_test_coverage": 0.91389,
+      "legal_plan_nodes": 994,
+      "plan_csv": "autoresearch/loop-260720-0945/typed_winner_round19_direct_return_five/b17_C/plans/iscas99__b17.csv",
+      "refresh_steps": 686,
+      "source_bench_sha256": "d79b56570fca51c41c7f98b55b0e030ee587fb4f6502f4386410e4000230f7e3"
+    }
+  ]
+}

@@ -85,7 +85,11 @@ def write_rows(path: Path, rows: list[dict[str, Any]]) -> None:
             f.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
 
-def load_sequences(labels: Path, max_sequences: int | None = None) -> dict[str, list[dict[str, str]]]:
+def load_sequences(
+    labels: Path,
+    max_sequences: int | None = None,
+    max_steps: int | None = None,
+) -> dict[str, list[dict[str, str]]]:
     grouped: dict[str, list[dict[str, str]]] = {}
     with labels.open(newline="") as f:
         for row in csv.DictReader(f):
@@ -95,6 +99,8 @@ def load_sequences(labels: Path, max_sequences: int | None = None) -> dict[str, 
             grouped.setdefault(key, []).append(row)
     for rows in grouped.values():
         rows.sort(key=lambda row: int(row.get("step") or 0))
+        if max_steps is not None and max_steps > 0:
+            del rows[max_steps:]
     items = sorted(grouped.items())
     if max_sequences is not None and max_sequences > 0:
         items = items[:max_sequences]
@@ -206,7 +212,7 @@ def relabel_one(args: argparse.Namespace, key: str, rows_in: list[dict[str, str]
     }
 
 
-def merge_labels(out_dir: Path) -> Path:
+def merge_labels(out_dir: Path, *, drop_partial_sequences: bool = False) -> Path:
     files = sorted(out_dir.glob("sequences/*/*/labels.csv"))
     rows: list[dict[str, str]] = []
     fieldnames: list[str] = []
@@ -216,7 +222,10 @@ def merge_labels(out_dir: Path) -> Path:
             for field in reader.fieldnames or []:
                 if field not in fieldnames:
                     fieldnames.append(field)
-            rows.extend(dict(row) for row in reader)
+            sequence_rows = [dict(row) for row in reader]
+            if drop_partial_sequences and any(row.get("status") != "ok" for row in sequence_rows):
+                continue
+            rows.extend(sequence_rows)
     merged = out_dir / "labels.csv"
     with merged.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -224,6 +233,13 @@ def merge_labels(out_dir: Path) -> Path:
         for row in rows:
             writer.writerow({field: row.get(field, "") for field in fieldnames})
     return merged
+
+
+def write_job_log(out_dir: Path, key: str, summary: dict[str, Any]) -> None:
+    safe_key = "".join(ch if ch.isalnum() or ch in {"_", "-", "."} else "_" for ch in key)
+    log_path = out_dir / "logs" / f"{safe_key}.json"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
 
 
 def main() -> None:
@@ -236,6 +252,12 @@ def main() -> None:
     parser.add_argument("--timeout-sec", type=int, default=14400)
     parser.add_argument("--parallel-jobs", type=int, default=4)
     parser.add_argument("--max-sequences", type=int, default=None)
+    parser.add_argument(
+        "--max-steps",
+        type=int,
+        default=None,
+        help="Keep at most this many cumulative prefix steps from each source sequence.",
+    )
     parser.add_argument("--tmax-bin", default="/data3/pengqingsong/synopsys/txs/O-2018.06-SP1/bin/tmax")
     parser.add_argument(
         "--atalanta-bin",
@@ -248,16 +270,22 @@ def main() -> None:
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--cleanup-workdir", action="store_true")
+    parser.add_argument(
+        "--drop-partial-sequences",
+        action="store_true",
+        help="Exclude an entire sequence from the merged labels if any prefix evaluation failed.",
+    )
     args = parser.parse_args()
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    sequences = load_sequences(args.labels, args.max_sequences)
+    sequences = load_sequences(args.labels, args.max_sequences, args.max_steps)
     manifest = {
         "labels": str(args.labels),
         "out_dir": str(args.out_dir),
         "backend": args.backend,
         "patterns": args.patterns,
         "sequence_count": len(sequences),
+        "max_steps": args.max_steps,
     }
     (args.out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
@@ -277,11 +305,13 @@ def main() -> None:
                     "error": str(exc),
                 }
             summaries.append(summary)
+            write_job_log(args.out_dir, key, summary)
             print(json.dumps(summary, sort_keys=True), flush=True)
             (args.out_dir / "collection_status.json").write_text(json.dumps(summaries, indent=2, sort_keys=True) + "\n")
 
-    merged = merge_labels(args.out_dir)
+    merged = merge_labels(args.out_dir, drop_partial_sequences=args.drop_partial_sequences)
     manifest["merged_labels"] = str(merged)
+    manifest["drop_partial_sequences"] = args.drop_partial_sequences
     manifest["summaries"] = summaries
     (args.out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     if any(row.get("status") == "error" for row in summaries):
