@@ -1,0 +1,62 @@
+{
+  "round": 21,
+  "purpose": "explicit-horizon isolated return ranking from real ATPG labels",
+  "selection_circuit": "b15_C only",
+  "validation_circuits": [
+    "b15_C",
+    "b20_C",
+    "b21_C",
+    "b22_C",
+    "b17_C"
+  ],
+  "target_circuits_in_training": false,
+  "heldout_non_target_benchmarks": [
+    "subckt_0360",
+    "subckt_0230"
+  ],
+  "ultralong_oracle_states": 55,
+  "ultralong_oracle_candidates": 825,
+  "trainable_branch": "horizon_return_rank_experts only",
+  "planner_replay_alignment": {
+    "prefix_state_mode": "replay",
+    "latent_norm_clip_ratio": 4.0,
+    "dropout": 0.0,
+    "prefix_latent_cache": "exact because encoder/action_encoder/dynamics are frozen"
+  },
+  "frozen_predictions": [
+    "incumbent return_rank_experts",
+    "typed_marginal_pred",
+    "typed_sa_reduction_pred",
+    "encoder and dynamics"
+  ],
+  "variants": {
+    "horizon_r8_pairwise": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round8/runs/moe_joint_within/best_final_horizon.pt",
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 1.0,
+      "lambda_ndcg_rank": 0.0,
+      "lambda_same_type_ndcg_rank": 0.0
+    },
+    "horizon_r8_hybrid": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round8/runs/moe_joint_within/best_final_horizon.pt",
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 0.75,
+      "lambda_ndcg_rank": 0.25,
+      "lambda_same_type_ndcg_rank": 1.0
+    },
+    "horizon_r10_pairwise": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round10/runs/return_within_lr5e4/epoch_008.pt",
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 1.0,
+      "lambda_ndcg_rank": 0.0,
+      "lambda_same_type_ndcg_rank": 0.0
+    },
+    "horizon_r10_hybrid": {
+      "init_checkpoint": "autoresearch/loop-260720-0945/model_training_round10/runs/return_within_lr5e4/epoch_008.pt",
+      "lambda_q_rank": 0.25,
+      "lambda_same_type_rank": 0.75,
+      "lambda_ndcg_rank": 0.25,
+      "lambda_same_type_ndcg_rank": 1.0
+    }
+  }
+}

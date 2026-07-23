@@ -1,0 +1,13 @@
+[prefix-audit] groups=55 checkpoints=2 include=* exclude=-
+[prefix-audit] start checkpoint=round8 index=1/2
+[prefix-audit] done checkpoint=round8 index=1/2
+[prefix-audit] start checkpoint=round10 index=2/2
+[prefix-audit] done checkpoint=round10 index=2/2
+# Prefix-oracle ranking audit
+
+This fixed-label diagnostic did not run ATPG and was not used for target-circuit selection.
+
+| checkpoint | score | groups | top-1 | type | within-type top-1 | regret (pp) | within regret | negative | Spearman | pairwise | same-type pairwise | CP0/CP1/OP |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| round8 | `typed_return_pred` | 55 | 12.727% | 70.909% | 12.727% | 0.0456 | 0.0294 | 34.545% | 0.3934 | 0.7020 | 0.5357 | 9/11/35 |
+| round10 | `typed_return_pred` | 55 | 18.182% | 65.455% | 20.000% | 0.0461 | 0.0326 | 36.364% | 0.3946 | 0.6867 | 0.5396 | 12/8/35 |
